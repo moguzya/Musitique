@@ -1,6 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Created by Osman Balci on 2021.4.4
+  - Copyright © 2021 Osman Balci. All rights reserved.
+  -->
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+  
+    <!-- This enables you to insert comments within a panel grid -->
+    <context-param>
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <!--
+    FacesServlet is a servlet that manages the request processing lifecycle for web
+    applications that are utilizing JavaServer Faces to construct the user interface.
+
+    The <load-on-startup> value 1 indicates that Faces Servlet must be loaded
+    (instantiated and have its init() called) on the startup of the Web application.
+    -->
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+  
+    <!--
+    If the runtime determines that the Faces Servlet must be
+    automatically mapped, it must be mapped to *.xhtml
+    -->
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+  
+    <!-- 
+    The session-timeout element defines the time in minutes after which the user's
+    session expires. If session-timeout is set to 0 or less, the user's session never expires.
+    -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+    
+    <!-- Show the sessionTimeout.xhtml page when ViewExpiredException occurs. -->
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/template/sessionTimeout.xhtml</location>
+    </error-page>
+  
+    <!-- Specify which file to show when the application is launched. -->
+    <welcome-file-list>
+        <welcome-file>index.xhtml</welcome-file>
+    </welcome-file-list>
+    
 </web-app>

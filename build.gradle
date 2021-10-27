@@ -4,30 +4,26 @@ plugins {
 }
 
 group 'edu.vt'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 repositories {
+    // Default Maven Central repository
     mavenCentral()
-}
 
-ext {
-    junitVersion = '5.7.1'
-}
-
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+    // flat filesystem directory containing the PrimeFaces JAR file
+    flatDir {
+        dirs '/src/main/webapp/WEB-INF/lib'
+    }
 }
 
 dependencies {
-    compileOnly('javax:javaee-api:8.0.1')
+    // Java EE 8 dependency
+    compileOnly group: 'javax', name: 'javaee-api', version: '8.0.1'
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
-}
+    // primefaces-10.0.6.jar is located in the flat filesystem directory defined above
+    // primefaces-10.0.6.jar provides UI components for JSF
+    compileOnly group: 'org.primefaces', name: 'primefaces', version: '10.0.6'
 
-test {
-    useJUnitPlatform()
+    // MySQL JDBC Connector to Java is configured in WildFly
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.26'
 }

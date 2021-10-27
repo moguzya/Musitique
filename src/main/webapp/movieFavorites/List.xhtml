@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Created by Osman Balci on 2021.5.19
+  - Copyright © 2021 Osman Balci. All rights reserved.
+  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+<!-- This page is constructed based on the siteTemplate -->
+<ui:composition template="/template/siteTemplate.xhtml">
+    <ui:define name="title">
+        <!-- Set the page title -->
+        <h:outputText value="Movies I Like" />
+    </ui:define>
+
+    <!-- Create the content for this page below -->
+    <ui:define name="editableContent">
+
+        <!-- In case of JSF validation error, set 'selected' to null in movieController -->
+        <c:if test="#{facesContext.validationFailed}">
+            ${movieController.unselect()}
+        </c:if>
+
+        <!-- Set 'selected' to null in movieController when the user refreshes / reloads this JSF page -->
+        <f:metadata>
+            <f:viewAction action="#{movieController.unselect()}" rendered="#{facesContext.postback}" />
+        </f:metadata>
+
+        <div align="center">
+            <h:form id="MovieListForm">
+                <p:panel header="List of Favorite Movies">
+                    <p:dataTable id="datalist"
+                                 value="#{movieController.listOfMovies}"
+                                 var="aMovie"
+                                 widgetVar="moviesDataTable"
+                                 selectionMode="single"
+                                 selection="#{movieController.selected}"
+                                 reflow="true"
+                                 showGridlines="true"
+                                 paginator="true"
+                                 rowKey="#{aMovie.id}"
+                                 rows="5"
+                                 rowsPerPageTemplate="5,10,15,20,30,40,50"
+                                 emptyMessage="No movie found for the search query entered!" >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton playButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton playButton deleteButton"/>
+
+                        <!--
+                        *************************
+                        *   Data Table Header   *
+                        *************************
+                        -->
+                        <f:facet name="header">
+                            <div align="center">
+                                <p:inputText id="globalFilter" onkeyup="PF('moviesDataTable').filter()" filterMatchMode="contains"
+                                             style="width: 250px"
+                                             placeholder="Enter Global Search Query" />
+                                &nbsp;
+                                <p:commandButton type="button" value="Clear All Filters" styleClass="ui-button-outlined"
+                                                 icon="fas fa-undo" onclick="PF('moviesDataTable').clearFilters()" />
+                            </div>
+                        </f:facet>
+
+                        <!--
+                        ********************
+                        *    Movie Title   *
+                        ********************
+                        -->
+                        <p:column headerText="Movie Title" sortBy="#{aMovie.title}"
+                                  filterBy="#{aMovie.title}" filterMatchMode="contains"
+                                  style="vertical-align: top">
+                            <h:outputText value="#{aMovie.title}"/>
+                        </p:column>
+
+                        <!--
+                        *******************************
+                        *   YouTube Thumbnail Image   *
+                        *******************************
+                        -->
+                        <p:column headerText="Thumbnail" style="width: 80px; text-align: center; vertical-align: top">
+                                <h:graphicImage value="https://i1.ytimg.com/vi/#{aMovie.youtubeTrailerId}/mqdefault.jpg" width="80px" />
+                        </p:column>
+
+                        <!--
+                        ********************
+                        *      Genres      *
+                        ********************
+                        -->
+                        <p:column headerText="Genres" sortBy="#{aMovie.genres}"
+                                  filterBy="#{aMovie.genres}" filterMatchMode="contains"
+                                  style="width: 150px; text-align: center; vertical-align: top">
+                            <h:outputText value="#{aMovie.genres}"/>
+                        </p:column>
+
+                        <!--
+                        ********************
+                        *   Release Date   *
+                        ********************
+                        -->
+                        <p:column headerText="Release Date" sortBy="#{aMovie.releaseDate}"
+                                  filterBy="#{aMovie.releaseDate}" filterMatchMode="contains"
+                                  style="width: 150px; text-align: center; vertical-align: top">
+                            <h:outputText value="#{aMovie.releaseDate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+                        <!--
+                        *******************
+                        *   Director(s)   *
+                        *******************
+                        -->
+                        <p:column headerText="Director(s)" sortBy="#{aMovie.director}"
+                                  filterBy="#{aMovie.director}" filterMatchMode="contains"
+                                  style="text-align: center; vertical-align: top">
+                            <h:outputText value="#{aMovie.director}"/>
+                        </p:column>
+
+                        <!--
+                        *******************
+                        *   Movie Stars   *
+                        *******************
+                        -->
+                        <p:column headerText="Top Stars" sortBy="#{aMovie.stars}"
+                                  filterBy="#{aMovie.stars}" filterMatchMode="contains"
+                                  style="text-align: center; vertical-align: top">
+                            <h:outputText value="#{aMovie.stars}"/>
+                        </p:column>
+
+                        <!--
+                        *******************
+                        *   MPAA Rating   *
+                        *******************
+                        -->
+                        <p:column headerText="Rating" sortBy="#{aMovie.filmRating}"
+                                  filterBy="#{aMovie.filmRating}" filterMatchMode="contains"
+                                  style="width: 100px; text-align: center; vertical-align: top">
+                            <h:outputText value="#{aMovie.filmRating}"/>
+                        </p:column>
+
+                        <!--
+                        *******************
+                        *  Percent Liked  *
+                        *******************
+                        -->
+                        <p:column headerText="% Liked" sortBy="#{aMovie.percentLiked}"
+                                  filterBy="#{aMovie.percentLiked}" filterMatchMode="contains"
+                                  style="width: 100px; text-align: center; vertical-align: top">
+                            <h:outputText value="#{aMovie.percentLiked}%" />
+                        </p:column>
+
+                        <br /><br />
+
+                        <!--
+                        *************************
+                        *   Data Table Footer   *
+                        *************************
+                        -->
+                        <f:facet name="footer">
+                            <div align="center">
+                                <!-- These command buttons require id since they are referenced to be activated or deactivated -->
+                                <p:commandButton id="createButton" value="Create" icon="fas fa-plus" styleClass="rounded-button"
+                                                 actionListener="#{movieController.prepareCreate()}"
+                                                 update=":MovieCreateForm" oncomplete="PF('MovieCreateDialog').show()"/>
+                                &nbsp;
+                                <p:commandButton id="viewButton" value="View" icon="fas fa-eye" styleClass="rounded-button"
+                                                 update=":MovieViewForm" oncomplete="PF('MovieViewDialog').show()"
+                                                 disabled="#{empty movieController.selected}"/>
+                                &nbsp;
+                                <p:commandButton id="editButton" value="Edit" icon="fas fa-edit" styleClass="rounded-button"
+                                                 update=":MovieEditForm" oncomplete="PF('MovieEditDialog').show()"
+                                                 disabled="#{empty movieController.selected}"/>
+                                &nbsp;
+                                <p:commandButton id="playButton" value="Play" icon="fas fa-play" styleClass="rounded-button"
+                                                 actionListener="#{movieController.setIdOfVideoToPlay(movieController.selected.youtubeTrailerId)}"
+                                                 update=":MovieTrailerPlayForm" oncomplete="PF('MovieTrailerPlayDialog').show()"
+                                                 disabled="#{empty movieController.selected}" />
+                                &nbsp;
+                                <!--
+                                update=":MovieTrailerPlayForm" is critically required to
+                                update the selected movie trailer in the Play dialog form.
+                                -->
+
+                                <!--
+                                ***************************************************
+                                Display a Confirmation dialog for the DELETE button
+                                ***************************************************
+                                -->
+                                <p:commandButton id="deleteButton" value="Delete" icon="fas fa-trash-alt" styleClass="rounded-button"
+                                                 actionListener="#{movieController.destroy}"
+                                                 update="datalist,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
+                                                 disabled="#{empty movieController.selected}">
+
+                                    <p:confirm header="Deletion Confirmation"
+                                               message="Are you sure you want to permanently delete the selected movie #{movieController.selected.title} from the database?" />
+                                </p:commandButton>
+
+                                <p:confirmDialog id="confirmDialogBox" global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                                    <div align="center">
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fas fa-window-close" />
+                                        &nbsp;
+                                        <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger" icon="fas fa-check-square" />
+                                    </div>
+                                </p:confirmDialog>
+                                <!--
+                                ************************************************
+                                End of Display of the DELETE Confirmation dialog
+                                ************************************************
+                                -->
+                            </div>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+        </div>
+
+        <!-- Clicking the Create button displays the included Create.xhtml file in a dialog box on top of this page. -->
+        <ui:include src="/movieFavorites/Create.xhtml"/>
+
+        <!-- Clicking the Edit button displays the included Edit.xhtml file in a dialog box on top of this page. -->
+        <ui:include src="/movieFavorites/Edit.xhtml"/>
+
+        <!-- Clicking the View button displays the included View.xhtml file in a dialog box on top of this page. -->
+        <ui:include src="/movieFavorites/View.xhtml"/>
+
+        <ui:include src="/movieTrailer/YouTubeVideoPlayer.xhtml"/>
+
+    </ui:define>
+
+</ui:composition>
+<!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>
