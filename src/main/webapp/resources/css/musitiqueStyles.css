@@ -13,7 +13,7 @@ body {
 .side-menu {
     width: 20%;
     max-width: 420px;
-    min-width: 00px;
+    min-width: 100px;
     display: table-cell;
     background-color: cyan;
 }
