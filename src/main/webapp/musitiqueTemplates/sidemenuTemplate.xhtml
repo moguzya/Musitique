@@ -9,9 +9,10 @@
 <ui:composition>
     <h:form>
         <div>
-            <p:graphicImage
-                    width="100%"
-                    url="https://www.udiscovermusic.com/wp-content/uploads/2017/03/Drake-More-Life-album-cover-web-optimised-820.jpg"/>
+            <h:panelGroup id="iframe-holder" layout="block">
+                <iframe src="#{spotifyPlayerController.embededURL}" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </h:panelGroup>
+
         </div>
         <div>
             <p:inputText style="width:100%" id="search" type="text" placeholder="Search"/>

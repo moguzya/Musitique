@@ -223,6 +223,17 @@
 
         </div>
 
+        <h:form>
+            <p:commandButton value="Update iframe"
+                             actionListener="#{spotifyPlayerController.updateURL('https://open.spotify.com/embed/track/70C4NyhjD5OZUMzvWZ3njJ?utm_source=generator')}" >
+                <f:ajax render=":iframe-holder"/>
+            </p:commandButton>
+        </h:form>
+
+
+
+
+
         <!-- Clicking the Create button displays the included Create.xhtml file in a dialog box on top of this page. -->
         <ui:include src="/movieFavorites/Create.xhtml"/>
 
@@ -235,6 +246,9 @@
         <ui:include src="/movieTrailer/YouTubeVideoPlayer.xhtml"/>
 
     </ui:define>
+
+
+
 
 </ui:composition>
 <!-- Do not enter tags after the composition line since they are ignored by JSF -->
