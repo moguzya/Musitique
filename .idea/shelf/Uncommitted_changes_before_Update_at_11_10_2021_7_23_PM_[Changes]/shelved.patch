@@ -1,0 +1,2118 @@
+Index: src/main/webapp/index.jsp
+===================================================================
+diff --git a/src/main/webapp/index.jsp b/src/main/webapp/index.jsp
+deleted file mode 100644
+--- a/src/main/webapp/index.jsp	(revision 28ad158af39139297c884f7b0af1b4d84725988c)
++++ /dev/null	(revision 28ad158af39139297c884f7b0af1b4d84725988c)
+@@ -1,13 +0,0 @@
+-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+-<!DOCTYPE html>
+-<html>
+-<head>
+-    <title>JSP - Hello World</title>
+-</head>
+-<body>
+-<h1><%= "Hello World!" %>
+-</h1>
+-<br/>
+-<a href="hello-servlet">Hello Servlet</a>
+-</body>
+-</html>
+\ No newline at end of file
+Index: src/main/webapp/template/headerTemplate.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/template/headerTemplate.xhtml b/src/main/webapp/template/headerTemplate.xhtml
+new file mode 100644
+--- /dev/null	(date 1636509195841)
++++ b/src/main/webapp/template/headerTemplate.xhtml	(date 1636509195841)
+@@ -0,0 +1,60 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
++        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"
++      xmlns:h="http://xmlns.jcp.org/jsf/html"
++      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
++      xmlns:p="http://primefaces.org/ui"
++      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
++<ui:composition>
++    <h:form>
++        <table border="0" cellspacing="0" cellpadding="10" width="100%">
++            <tr>
++                <td align="left" valign="middle" style="width:212px;">
++                    <h:link outcome="/index">
++                        <img src="#{resource['images:VideosLogo.png']}"
++                             style="height:64px; width:auto; float:left; padding-left:10px; border:none;"
++                             alt="Videos Logo"/>
++                    </h:link>
++
++                </td>
++                <td align="center" valign="middle">
++                    <span class="headerTitle">Welcome</span>
++                </td>
++                <td align="right" valign="middle" style="width:100px;">
++                    <div style="padding-right:10px">
++                        <p:commandButton id="dynaButton" value="Menu" type="button" icon="pi pi-bars"/>
++                        <p:menu overlay="true" trigger="dynaButton" my="left top" at="left bottom"
++                                style="white-space: nowrap;">
++                            <p:menuitem value="Home" outcome="/index" icon="fas fa-home"/>
++                            <c:if test="#{userController.isLoggedIn() == true}">
++                                <p:menuitem value="Lorem" outcome="/index" icon="fas fa-list"/>
++
++                                <p:menuitem outcome="/userAccount/Profile">
++                                    <p:graphicImage cache="false" styleClass="smallProfilePhoto"
++                                                    value="#{userController.userPhoto()}"/>
++                                    &nbsp;My Account
++                                </p:menuitem>
++
++                                <p:menuitem value="Sign Out" action="#{userController.logout()}"
++                                            icon="fas fa-sign-out-alt"/>
++                            </c:if>
++
++                            <!-- Menu Options IF No User is Signed In -->
++                            <c:if test="#{userController.isLoggedIn() == false}">
++                                <p:menuitem value="Sign In" outcome="/SignIn" icon="fas fa-sign-in-alt"/>
++                                <p:menuitem value="Create Account" outcome="/userAccount/CreateAccount"
++                                            icon="fas fa-user-plus"/>
++                            </c:if>
++                        </p:menu>
++                    </div>
++                </td>
++            </tr>
++        </table>
++    </h:form>
++
++
++</ui:composition>
++<!-- Do not enter tags before the composition line since they are ignored by JSF -->
++
++</html>
+Index: src/main/webapp/template/sessionTimeout.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/template/sessionTimeout.xhtml b/src/main/webapp/template/sessionTimeout.xhtml
+new file mode 100644
+--- /dev/null	(date 1636327817096)
++++ b/src/main/webapp/template/sessionTimeout.xhtml	(date 1636327817096)
+@@ -0,0 +1,33 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++  - Created by Osman Balci on 2021.5.22
++  - Copyright © 2021 Osman Balci. All rights reserved.
++  -->
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"   
++      xmlns:h="http://java.sun.com/jsf/html"
++      xmlns:ui="http://java.sun.com/jsf/facelets">
++
++    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
++
++    <!-- This page is constructed based on the siteTemplate -->
++    <ui:composition template="/template/siteTemplate.xhtml">
++        <ui:define name="title">
++            <!-- Set the page title -->
++            <h:outputText value="Session Expired" />
++        </ui:define>
++
++        <!-- Create the content for this page below -->
++        <ui:define name="editableContent">
++            <br/><br/><br/>
++            <div align="center">
++
++                <h1>Your Session has Expired!</h1>
++
++            </div>
++            <br/><br/><br/>
++        </ui:define>
++    </ui:composition>
++    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
++
++</html>
+Index: src/main/webapp/template/growlMessages.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/template/growlMessages.xhtml b/src/main/webapp/template/growlMessages.xhtml
+new file mode 100644
+--- /dev/null	(date 1636509081217)
++++ b/src/main/webapp/template/growlMessages.xhtml	(date 1636509081217)
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
++        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"
++      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
++      xmlns:p="http://primefaces.org/ui">
++
++<ui:composition>
++    <p:growl id="growlInfoMessage" severity="info" showDetail="true" life="5000"/>
++    <p:growl id="growlWarningMessage" severity="warn" showDetail="true" sticky="true"/>
++    <p:growl id="growlErrorMessage" severity="error" showDetail="false" life="10000"/>
++    <p:growl id="growlFatalMessage" severity="fatal" showDetail="true" life="10000"/>
++</ui:composition>
++</html>
+Index: src/main/webapp/template/footerTemplate.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/template/footerTemplate.xhtml b/src/main/webapp/template/footerTemplate.xhtml
+new file mode 100644
+--- /dev/null	(date 1636509078233)
++++ b/src/main/webapp/template/footerTemplate.xhtml	(date 1636509078233)
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
++        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"
++      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
++<ui:composition>
++
++</ui:composition>
++</html>
+\ No newline at end of file
+Index: src/main/webapp/userAccount/Profile.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/userAccount/Profile.xhtml b/src/main/webapp/userAccount/Profile.xhtml
+new file mode 100644
+--- /dev/null	(date 1636509277047)
++++ b/src/main/webapp/userAccount/Profile.xhtml	(date 1636509277047)
+@@ -0,0 +1,187 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
++        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"
++      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
++      xmlns:h="http://xmlns.jcp.org/jsf/html"
++      xmlns:p="http://primefaces.org/ui">
++<ui:composition template="/template/siteTemplate.xhtml">
++
++    <ui:define name="title">
++        <h:outputText value="My Account"/>
++    </ui:define>
++    <ui:define name="editableContent">
++
++        <h:form id="UserProfileForm">
++            <div style="padding-left: 20px">
++                <table width="100%" border="0" cellspacing="0" cellpadding="10">
++                    <tr>
++                        <td width="180" align="left" valign="middle" nowrap="nowrap">
++                            <ul class="verticalMenu">
++
++                                <li class="verticalMenuItem">
++                                    <h:link outcome="/index">
++                                        <i class="fas fa-home"/>&nbsp;Home
++                                    </h:link>
++                                </li>
++
++                                <li class="verticalMenuItem">
++                                    <h:link outcome="/userFile/ListUserFiles">
++                                        <i class="fas fa-file-alt"/>&nbsp;My Files
++                                    </h:link>
++                                </li>
++
++                                <li class="verticalMenuItem">
++                                    <h:link outcome="/userAccount/EditAccount">
++                                        <i class="fas fa-edit"/>&nbsp;Edit Profile
++                                    </h:link>
++                                </li>
++
++                                <li class="verticalMenuItem">
++                                    <h:link outcome="/userPhoto/ChangePhoto">
++                                        <i class="fas fa-camera"/>&nbsp;Change Photo
++                                    </h:link>
++                                </li>
++
++                                <li class="verticalMenuItem">
++                                    <h:link outcome="/userPasswordChange/EnterUsername">
++                                        <i class="fas fa-key"/>&nbsp;Change Password
++                                    </h:link>
++                                </li>
++
++                                <li class="verticalMenuItem">
++                                    <p:commandLink oncomplete="PF('SecurityQuestionDialog').show()"
++                                                   update=":SecurityQuestionForm">
++
++                                        <label style="font-size: 10pt;">
++                                            <i class="fas fa-trash-alt"/>&nbsp;Delete Account
++                                        </label>
++
++                                        <p:confirm header="Account Deletion Confirmation"
++                                                   message="Are you sure to permanently delete your account? This cannot be undone!"/>
++                                    </p:commandLink>
++                                    <p:confirmDialog id="confirmDialogBox" global="true" showEffect="fade"
++                                                     hideEffect="fade" responsive="true" width="350">
++                                        <div align="center">
++                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
++                                                             icon="fas fa-window-close"/>
++                                            &nbsp;
++                                            <p:commandButton value="Yes" type="button"
++                                                             class="ui-confirmdialog-yes ui-button-danger"
++                                                             icon="fas fa-check-square"/>
++                                        </div>
++                                    </p:confirmDialog>
++                                </li>
++
++                                <li class="verticalMenuItem">
++                                    <h:commandLink action="#{userController.logout()}">
++                                        <i class="fas fa-sign-out-alt"/>&nbsp;Sign Out
++                                    </h:commandLink>
++                                </li>
++                            </ul>
++                        </td>
++                        <td align="center" valign="top">
++                            <h1> #{userController.selected.firstName}&nbsp;#{userController.selected.lastName}'s Account Profile </h1>
++                            <p:graphicImage cache="false" styleClass="profilePhoto"
++                                            value="#{userController.userPhoto()}"/>
++                            <br/>
++                            <br/>
++                            <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2">
++
++                                <h:outputText value="First Name:"/>
++                                <h:outputText value="#{userController.selected.firstName}"/>
++
++                                <h:outputText value="Middle Name:"/>
++                                <h:outputText value="#{userController.selected.middleName}"/>
++
++                                <h:outputText value="Last Name:"/>
++                                <h:outputText value="#{userController.selected.lastName}"/>
++
++                                <h:outputText value="Address Line 1:"/>
++                                <h:outputText value="#{userController.selected.address1}"/>
++
++                                <h:outputText value="Address Line 2:"/>
++                                <h:outputText value="#{userController.selected.address2}"/>
++
++                                <h:outputText value="City:"/>
++                                <h:outputText value="#{userController.selected.city}"/>
++
++                                <h:outputText value="State:"/>
++                                <h:outputText value="#{userController.selected.state}"/>
++
++                                <h:outputText value="Zip Code"/>
++                                <h:outputText value="#{userController.selected.zipcode}"/>
++
++                                <h:outputText value="Email:"/>
++                                <h:outputText value="#{userController.selected.email}"/>
++
++                                <h:outputText value="Username:"/>
++                                <h:outputText value="#{userController.selected.username}"/>
++
++                            </p:panelGrid>
++                        </td>
++                    </tr>
++                </table>
++            </div>
++        </h:form>
++
++        <!--
++        =================================================================
++        Dialog for Security Question and Answer for User Account Deletion
++        =================================================================
++        -->
++        <p:dialog id="SecurityQuestionDlg" header="Security Question" widgetVar="SecurityQuestionDialog"
++                  modal="true" width="80%" position="center" appendTo="@(body)"
++                  showEffect="blind" hideEffect="fade" responsive="true">
++
++            <h:form id="SecurityQuestionForm">
++                <fieldset>
++                    <div style="margin-bottom:20px">
++                        <h:outputLabel for="answer" value="#{userController.getSelectedSecurityQuestion()}"/>
++                    </div>
++
++                    <div style="margin-bottom:10px">
++                        <p:inputText id="answer" value="#{userController.answerToSecurityQuestion}"
++                                     style="width: 290px" required="true"
++                                     requiredMessage="Please enter your answer to the security question!"/>
++                    </div>
++                    <br/>
++                    <div align="center">
++                        <!--
++                        ================================
++                        |         SUBMIT Button        |
++                        ================================
++                        -->
++                        <p:commandButton id="Submit" value="Submit" icon="fas fa-arrow-up" styleClass="rounded-button"
++                                         ajax="false" action="#{userController.securityAnswerSubmit()}"
++                                         update=":growlInfoMessage, :growlErrorMessage, :growlFatalMessage, :growlWarningMessage"
++                                         oncomplete="PF('SecurityQuestionDialog').hide()"/>
++                        &nbsp;
++                        <!--
++                        ================================
++                        |        CANCEL Button         |
++                        ================================
++
++                        JSF application lifecycle execute phase contains the following subphases:
++                        [See https://docs.oracle.com/javaee/6/tutorial/doc/bnaqq.html for detailed description]
++
++                            1. Restore View Phase
++                            2. Apply Request Values Phase
++                            3. Process Validations Phase
++                            4. Update Model Values Phase
++                            5. Invoke Application Phase
++                            6. Render Response Phase
++
++                        immediate="true" causes the execution of only the Apply Request Values Phase.
++                        Therefore, the <f:event> validation is not performed since the operation is cancelled.
++                        -->
++                        <p:commandButton id="cancel" value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined"
++                                         immediate="true" oncomplete="PF('SecurityQuestionDialog').hide()"/>
++                    </div>
++                    <br/>
++                </fieldset>
++            </h:form>
++        </p:dialog>
++    </ui:define>
++</ui:composition>
++</html>
+Index: src/main/webapp/template/contentTemplate.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/template/contentTemplate.xhtml b/src/main/webapp/template/contentTemplate.xhtml
+new file mode 100644
+--- /dev/null	(date 1636509078245)
++++ b/src/main/webapp/template/contentTemplate.xhtml	(date 1636509078245)
+@@ -0,0 +1,13 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
++    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"   
++      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
++      >
++    <ui:composition>
++        <h1>This is the default editable page content</h1>
++    </ui:composition>
++
++</html>
++
++
+Index: src/main/webapp/index.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/index.xhtml b/src/main/webapp/index.xhtml
+new file mode 100644
+--- /dev/null	(date 1636509000407)
++++ b/src/main/webapp/index.xhtml	(date 1636509000407)
+@@ -0,0 +1,16 @@
++<?xml version="1.0" encoding="UTF-8"?>
++
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"   
++      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
++      xmlns:p="http://primefaces.org/ui">
++
++    <ui:composition template="/template/siteTemplate.xhtml">
++
++        <ui:define name="editableContent">
++            <div align="center">
++
++            </div>
++        </ui:define>
++    </ui:composition>
++</html>
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id 'java'\r\n    id 'war'\r\n}\r\n\r\ngroup 'edu.vt'\r\nversion '1.0-SNAPSHOT'\r\n\r\nrepositories {\r\n    mavenCentral()\r\n}\r\n\r\next {\r\n    junitVersion = '5.7.1'\r\n}\r\n\r\nsourceCompatibility = '1.8'\r\ntargetCompatibility = '1.8'\r\n\r\ntasks.withType(JavaCompile) {\r\n    options.encoding = 'UTF-8'\r\n}\r\n\r\ndependencies {\r\n    compileOnly('javax:javaee-api:8.0.1')\r\n\r\n    testImplementation(\"org.junit.jupiter:junit-jupiter-api:${junitVersion}\")\r\n    testRuntimeOnly(\"org.junit.jupiter:junit-jupiter-engine:${junitVersion}\")\r\n}\r\n\r\ntest {\r\n    useJUnitPlatform()\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build.gradle b/build.gradle
+--- a/build.gradle	(revision 28ad158af39139297c884f7b0af1b4d84725988c)
++++ b/build.gradle	(date 1635292613731)
+@@ -4,7 +4,7 @@
+ }
+ 
+ group 'edu.vt'
+-version '1.0-SNAPSHOT'
++version '1.0'
+ 
+ repositories {
+     mavenCentral()
+Index: src/main/webapp/template/siteTemplate.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/template/siteTemplate.xhtml b/src/main/webapp/template/siteTemplate.xhtml
+new file mode 100644
+--- /dev/null	(date 1636590056831)
++++ b/src/main/webapp/template/siteTemplate.xhtml	(date 1636590056831)
+@@ -0,0 +1,51 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++  - Created by Osman Balci on 2021.5.22
++  - Copyright © 2021 Osman Balci. All rights reserved.
++  -->
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
++    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"   
++      xmlns:h="http://xmlns.jcp.org/jsf/html"
++      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
++    <h:head>
++        <title>
++            <ui:insert name="title">Companies</ui:insert>
++        </title>
++        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
++        <meta http-equiv="refresh" content="#{facesContext.externalContext.sessionMaxInactiveInterval};
++              url=#{request.contextPath}/template/sessionTimeout.xhtml"/>
++        <h:outputStylesheet library="css" name="siteStyles.css" />
++        <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" type="text/javascript"></script>
++
++        <link rel="shortcut icon" href="#{resource['images:favicon.ico']}" type="image/x-icon" />
++
++    </h:head>
++
++    <h:body>  
++        <div id="page">  
++
++            <div id="header">
++                <ui:insert name="header" >
++                    <ui:include src="headerTemplate.xhtml" />
++                </ui:insert>
++            </div>
++
++            <div id="editableContent">
++                <ui:insert name="growlMessages" >
++                    <ui:include src="growlMessages.xhtml" />
++                </ui:insert>
++                <ui:insert name="editableContent" >
++                    <ui:include src="contentTemplate.xhtml" />
++                </ui:insert>
++            </div>
++
++            <div id="footer">
++                <ui:insert name="footer" >
++                    <ui:include src="footerTemplate.xhtml" />
++                </ui:insert>
++            </div>
++
++        </div>
++    </h:body>
++</html>
+\ No newline at end of file
+Index: src/main/webapp/userPasswordChange/SecurityQuestion.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/userPasswordChange/SecurityQuestion.xhtml b/src/main/webapp/userPasswordChange/SecurityQuestion.xhtml
+new file mode 100644
+--- /dev/null	(date 1634422533108)
++++ b/src/main/webapp/userPasswordChange/SecurityQuestion.xhtml	(date 1634422533108)
+@@ -0,0 +1,59 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++  - Created by Osman Balci on 2021.7.15
++  - Copyright © 2021 Osman Balci. All rights reserved.
++  -->
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"
++      xmlns:h="http://java.sun.com/jsf/html"
++      xmlns:p="http://primefaces.org/ui"
++      xmlns:ui="http://java.sun.com/jsf/facelets">
++
++    <!-- This page is constructed based on the siteTemplate -->
++    <ui:composition template="/template/siteTemplate.xhtml">
++
++        <ui:define name="title">
++            <!-- Set the page title -->
++            <h:outputText value="Security Question" />
++        </ui:define>
++
++        <!-- Create the content for this page below -->
++        <ui:define name="editableContent">
++
++            <div align="center" style="width:50%; margin:0 auto;">
++                <h:form>
++                    <h1>Please Answer Your Security Question</h1>
++
++                    <!-- fieldset is an HTML tag that draws a box around the content enclosed within it -->
++                    <fieldset>
++                        <div style="margin-bottom:20px">
++                            <h:outputLabel for="answer" value="#{passwordResetManager.getSelectedSecurityQuestionForUsername()}" />
++                        </div>
++
++                        <div style="margin-bottom:10px">
++                            <p:inputText id="answer" value="#{passwordResetManager.answerToSecurityQuestion}" style="width: 290px"
++                                         required="true" requiredMessage="Please enter your answer to the security question!" />
++                        </div>
++
++                        <br/>
++                        <!--
++                        ================================
++                        |         SUBMIT Button        |
++                        ================================
++                        -->
++                        <p:commandButton id="submit" value="Submit" icon="fas fa-arrow-up" styleClass="rounded-button"
++                                         ajax="false" action="#{passwordResetManager.securityAnswerSubmit()}"/>
++                        &nbsp;
++                        <!--
++                        ================================
++                        |         CANCEL Button        |
++                        ================================
++                        -->
++                        <p:button outcome="/index" value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined" />
++                    </fieldset>
++                    <br/>                
++                </h:form>
++            </div>
++        </ui:define>
++    </ui:composition>
++</html>
+Index: src/main/webapp/userPasswordChange/EnterUsername.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/userPasswordChange/EnterUsername.xhtml b/src/main/webapp/userPasswordChange/EnterUsername.xhtml
+new file mode 100644
+--- /dev/null	(date 1634422533084)
++++ b/src/main/webapp/userPasswordChange/EnterUsername.xhtml	(date 1634422533084)
+@@ -0,0 +1,52 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++  - Created by Osman Balci on 2021.7.15
++  - Copyright © 2021 Osman Balci. All rights reserved.
++  -->
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"
++      xmlns:h="http://java.sun.com/jsf/html"
++      xmlns:p="http://primefaces.org/ui"
++      xmlns:ui="http://java.sun.com/jsf/facelets">
++
++    <!-- This page is constructed based on the siteTemplate -->
++    <ui:composition template="/template/siteTemplate.xhtml">
++
++        <ui:define name="title">
++            <!-- Set the page title -->
++            <h:outputText value="Password Recovery" />
++        </ui:define>
++
++        <!-- Create the content for this page below -->
++        <ui:define name="editableContent">
++            <div align="center" style="width:50%; margin:0 auto;">
++                <h:form id="EnterUsernameForm">
++                    <h1>Please Enter Your Username</h1>
++                    <!-- fieldset is an HTML tag that draws a box around the content enclosed within it -->
++                    <fieldset>
++                        <div style="margin-bottom: 5px">
++                            <p:inputText id="username" value="#{passwordResetManager.username}" style="width: 290px"
++                                         required="true" requiredMessage="Please enter your username!" />
++                        </div>
++                        <br/>
++                        <!--
++                        ================================
++                        |         SUBMIT Button        |
++                        ================================
++                        -->         
++                        <p:commandButton id="submit" value="Submit" icon="fas fa-arrow-up" styleClass="rounded-button"
++                                         ajax="false" action="#{passwordResetManager.usernameSubmit()}" />
++                        &nbsp;
++                        <!--
++                        ================================
++                        |         CANCEL Button        |
++                        ================================
++                        -->
++                        <p:button outcome="/userAccount/Profile" value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined" />
++                    </fieldset>  
++                    <br/>               
++                </h:form>
++            </div>
++        </ui:define>
++    </ui:composition>
++</html>
+Index: src/main/webapp/userPasswordChange/ResetPassword.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/userPasswordChange/ResetPassword.xhtml b/src/main/webapp/userPasswordChange/ResetPassword.xhtml
+new file mode 100644
+--- /dev/null	(date 1634422533133)
++++ b/src/main/webapp/userPasswordChange/ResetPassword.xhtml	(date 1634422533133)
+@@ -0,0 +1,73 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++  - Created by Osman Balci on 2021.7.15
++  - Copyright © 2021 Osman Balci. All rights reserved.
++  -->
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"
++      xmlns:h="http://java.sun.com/jsf/html"
++      xmlns:p="http://primefaces.org/ui"
++      xmlns:ui="http://java.sun.com/jsf/facelets"
++      xmlns:f="http://xmlns.jcp.org/jsf/core">
++
++    <!-- This page is constructed based on the siteTemplate -->
++    <ui:composition template="/template/siteTemplate.xhtml">
++
++        <ui:define name="title">
++            <!-- Set the page title -->
++            <h:outputText value="Reset Password" />
++        </ui:define>
++
++        <!-- Create the content for this page below -->
++        <ui:define name="editableContent">
++
++            <div align="center" style="width:50%; margin:0 auto;">
++                <h:form id="ResetPassword">
++                    <h1>Please Enter Your New Password</h1>
++                    <h:panelGrid columns="2" cellpadding="5" columnClasses="panelGridColumn1, panelGridColumn2">
++                        <p:outputLabel id="passwordEntry" value="Password:" for="newPassword" >
++                            &nbsp;<i class="fas fa-question-circle" />
++                            <!--
++                            When the user mouses over the icon, a tooltip is displayed
++                            to provide context-sensitive help information to the user.
++                            -->
++                            <p:tooltip for="passwordEntry" value="Enter 8 to 32 characters with at least 1: capital letter, lowercase letter, number, and special characters above the numbers on the keyboard."
++                                       showEffect="clip" hideEffect="explode" position="top" />
++                        </p:outputLabel> 
++                        
++                        <!-- feedback="true" displays password strength indicator -->
++                        <p:password id="newPassword" value="#{passwordResetManager.password}" feedback="true" 
++                                    required="true" label="Password" >
++                            <!-- 
++                            Execute the "validate" method in the "PasswordValidator.java" 
++                            class file to validate the password entered. 
++                            -->
++                            <f:validator validatorId="passwordValidator" />
++                        </p:password>
++
++                        <!-- p:password changes the characters typed to bullets to hide the password as it is typed -->
++                        <p:outputLabel for="newConfirmPassword" value="Confirm Password:" />
++                        <p:password id="newConfirmPassword" value="#{passwordResetManager.confirmPassword}" 
++                                    required="true" label="Confirm Password" />
++                    </h:panelGrid>
++                    <br/>
++                    <!--
++                    ================================
++                    |         SUBMIT Button        |
++                    ================================
++                    -->
++                    <p:commandButton id="submit" value="Submit" icon="fas fa-arrow-up" styleClass="rounded-button"
++                                     ajax="false" action="#{passwordResetManager.resetPassword()}"/>
++                    &nbsp;
++                    <!--
++                    ================================
++                    |         CANCEL Button        |
++                    ================================
++                    -->
++                    <p:button outcome="/index" value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined" />
++                    <br/><br/>
++                </h:form>
++            </div>
++        </ui:define>
++    </ui:composition>
++</html>
+Index: src/main/webapp/template/sidebarTemplate.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/template/sidebarTemplate.xhtml b/src/main/webapp/template/sidebarTemplate.xhtml
+new file mode 100644
+--- /dev/null	(date 1636509078233)
++++ b/src/main/webapp/template/sidebarTemplate.xhtml	(date 1636509078233)
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
++        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"
++      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
++<ui:composition>
++
++</ui:composition>
++</html>
+\ No newline at end of file
+Index: src/main/webapp/userPhoto/ChangePhoto.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/userPhoto/ChangePhoto.xhtml b/src/main/webapp/userPhoto/ChangePhoto.xhtml
+new file mode 100644
+--- /dev/null	(date 1634422532636)
++++ b/src/main/webapp/userPhoto/ChangePhoto.xhtml	(date 1634422532636)
+@@ -0,0 +1,144 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++  - Created by Osman Balci on 2021.7.15
++  - Copyright © 2021 Osman Balci. All rights reserved.
++  -->
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"
++      xmlns:h="http://java.sun.com/jsf/html"
++      xmlns:p="http://primefaces.org/ui"
++      xmlns:ui="http://java.sun.com/jsf/facelets">
++
++    <!-- This page is constructed based on the siteTemplate -->
++    <ui:composition template="/template/siteTemplate.xhtml">
++
++        <ui:define name="title">
++            <!-- Set the page title -->
++            <h:outputText value="Change Photo" />
++        </ui:define>
++
++        <!-- Create the content for this page below -->
++        <ui:define name="editableContent"> 
++
++            <div align="center" style="width:90%; margin:0 auto;">
++                <h1>Profile Photo</h1>
++                <br/>
++                <h1>Either Take Your Photo or Upload an Existing One</h1>
++                <br/>
++                <!-- 
++                ======================================================
++                Capture User's Photo by Using User's Computer's Camera
++                ======================================================
++                *** CLEAR Web Browser's CACHE to see the Captured Photo on other Web Pages ***
++                After user's photo is captured, it is immediately stored in CloudStorage/PhotoStorage/tempFile.
++                To see the captured photo on another page, web browser's cache must be cleared.
++                Refreshing the page will not help and will still show the cached earlier photo.
++                -->
++                <fieldset>
++                    <p class="titleSmall">Position yourself and click Capture to take your photo using your computer's camera</p>
++                    <h:form id="TakePhoto">      
++                        <table border="0" align="center" cellpadding="5" cellspacing="0">
++                            <tr>
++                                <!--
++                                ***********************************************************
++                                Row 1 Column 1: Capture Photo with User's Computer's Camera
++                                ***********************************************************
++                                -->
++                                <td>
++                                    <p:photoCam widgetVar="photoCam" listener="#{userPhotoController.onCapture}" update="capturedPhoto" />
++                                </td>
++                                <!--
++                                ********************************************************************
++                                Row 1 Column 2: Store Captured Photo in tmp_file and Display it Here
++                                ********************************************************************
++                                -->
++                                <td>
++                                    <p:outputPanel id="capturedPhoto">
++                                        <!-- Display the captured photo in a circle if it exists (rendered) -->
++                                        <p:graphicImage value="#{userPhotoController.capturedPhoto()}" cache="false"
++                                                        rendered="#{not empty userPhotoController.filename}" class="profilePhoto" />
++                                    </p:outputPanel>
++                                </td>
++                            </tr>
++                            <tr>
++                                <!--
++                                ************************************************************
++                                Row 2 Columns 1 & 2 Merged: Display Capture and Redo Buttons
++                                ************************************************************
++                                -->
++                                <td colspan="2" align="center">
++                                    <!--
++                                    ================================
++                                    |        CAPTURE Button        |
++                                    ================================
++                                    -->
++                                    <!-- type="button" implies no form submission -->
++                                    <p:commandButton type="button" value="Capture" icon="fas fa-camera" styleClass="rounded-button"
++                                                     onclick="PF('photoCam').capture()" />
++                                    &nbsp;
++                                    <!--
++                                    ================================
++                                    |          REDO Button         |
++                                    ================================
++                                    -->
++                                    <!-- Default is type="submit" that implies form submission -->
++                                    <p:commandButton id="redo" value="Redo" icon="fas fa-redo" styleClass="rounded-button"
++                                                     ajax="false" action="#{userPhotoController.redo()}" />
++                                    &nbsp;
++                                    <!--
++                                    ================================
++                                    |          DONE Button         |
++                                    ================================
++                                    -->
++                                    <p:button outcome="/userAccount/Profile" value="Done"
++                                              icon="fas fa-check-circle" styleClass="ui-button-outlined" />
++                                </td>
++                            </tr>
++                        </table>
++                    </h:form>
++                </fieldset>
++                <br/>
++                <!-- 
++                ================================================================
++                Obtain User's Photo by Selecting and Uploading an Existing Photo
++                ================================================================
++                -->
++
++                <!-- 
++                The enctype attribute sets the content type of the data to be submitted to the server.  
++                enctype="multipart/form-data" is required when the form used has a file upload control.
++                -->
++
++                <h:form id="UploadPhoto" enctype="multipart/form-data">
++                    <!-- fieldset is an HTML tag that draws a box around the content enclosed within it -->
++                    <fieldset>
++                        <p class="titleSmall">Click Choose File to select an existing photo on your computer and then click Upload to upload it</p>
++                        <br />
++                        <!--
++                        p:fileUpload uploads the selected file and stores it into "private UploadedFile file" of userPhotoController.
++                        -->
++                        <p:fileUpload id="file" value="#{userPhotoController.file}" mode="simple" />
++                        <br/><br/>
++                        <!--
++                        ================================
++                        |        UPLOAD Button         |
++                        ================================
++                        After the file is uploaded by p:fileUpload above, we invoke userPhotoController.upload()
++                        to store the uploaded file into the UserPhotoStorage external directory.
++                        -->
++                        <p:commandButton id="upload" value="Upload" icon="fas fa-upload" styleClass="rounded-button"
++                                         ajax="false" action="#{userPhotoController.upload()}"  />
++                    </fieldset>
++                    <br/><br/>
++                    <!--
++                    ================================
++                    |        CANCEL Button         |
++                    ================================
++                    -->
++                    <p:button outcome="/userAccount/Profile" value="Cancel"
++                              icon="fas fa-ban" styleClass="ui-button-outlined" />
++                </h:form>
++            </div>
++        </ui:define>
++    </ui:composition>
++</html>
+Index: src/main/webapp/resources/js/jsfcrud.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/resources/js/jsfcrud.js b/src/main/webapp/resources/js/jsfcrud.js
+new file mode 100644
+--- /dev/null	(date 1636333952265)
++++ b/src/main/webapp/resources/js/jsfcrud.js	(date 1636333952265)
+@@ -0,0 +1,8 @@
++function handleSubmit(args, dialog) {
++    var jqDialog = jQuery('#' + dialog);
++    if (args.validationFailed) {
++        jqDialog.effect('shake', {times: 3}, 100);
++    } else {
++        PF(dialog).hide();
++    }
++}
+Index: src/main/webapp/userFile/PlayVideo.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/userFile/PlayVideo.xhtml b/src/main/webapp/userFile/PlayVideo.xhtml
+new file mode 100644
+--- /dev/null	(date 1634422531967)
++++ b/src/main/webapp/userFile/PlayVideo.xhtml	(date 1634422531967)
+@@ -0,0 +1,87 @@
++<?xml version="1.0" encoding="UTF-8" ?>
++<!--
++  - Created by Osman Balci on 2021.7.15
++  - Copyright © 2021 Osman Balci. All rights reserved.
++  -->
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"
++      xmlns:h="http://java.sun.com/jsf/html"
++      xmlns:p="http://primefaces.org/ui"
++      xmlns:ui="http://java.sun.com/jsf/facelets"
++      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
++
++    <!-- This page is constructed based on the siteTemplate -->
++    <ui:composition template="/template/siteTemplate.xhtml">
++
++        <ui:define name="title">
++            <!-- Set the page title -->
++            <h:outputText value="Play Video" />
++        </ui:define>
++
++        <!-- Create the content for this page below -->
++        <ui:define name="editableContent">
++
++            <div align="center">
++                <h1>#{userFileController.cleanedFileNameForSelected()}</h1>
++                <!--
++                *******************************
++                *   SWITCH Statement in JSF   *
++                *******************************
++                JSF Standard Tag Library (JSTL) Core tags <c:choose>, <c:when> and <c:otherwise>
++                provide the SWITCH statement under the following structure:
++                
++                    <c:choose>
++                        <c:when test="${condition1}">
++                            // Statements to execute when condition1 is true
++                        </c:when>
++                        <c:when test="${condition2}">
++                            // Statements to execute when condition2 is true
++                        </c:when>
++                        <c:otherwise>
++                            // Statements to execute when all <c:when> tests are false.
++                        </c:otherwise>
++                    </c:choose>
++                -->
++
++                <c:choose>
++                    <!-- 
++                    Acceptable Video Formats [isVideo() returns true for]: MP4, OGG, and WEBM.
++                    Chrome and Firefox can play: MP4, OGG, WEBM, and those MOV files with MP4 encoding.
++                    Safari can play MP4 and any kind of MOV. But OGG and WEBM cannot be played under Safari.
++                    
++                    Apple's MOV video type is treated as MP4 media to be handled by the built-in HTML5 video player.
++                    But MOV files can contain a variety of different encodings and therefore, they are not all MP4 compatible.
++                    -->
++                    <c:when test = "#{userFileController.isVideo()}">
++                        <!--
++                        ***************************
++                        *     PLAY VIDEO FILE     *
++                        ***************************
++                        -->
++                        <video class="scalableVideo" preload="auto" controls="controls"
++                               src="#{userFileController.selectedFileURI()}">
++                            Your browser does not support the HTML5 Video element.
++                        </video>
++                    </c:when>
++
++                    <c:otherwise>
++                        <br /><br />
++                        <!-- Alert User -->
++                        <h:outputText class="alertUser"
++                                      value="Only video files of type MP4, OGG or WEBM can be played!" />
++                        <br />
++                    </c:otherwise>
++                </c:choose>
++
++                <br /><br />
++                <!--
++                ================================
++                |         BACK Button          |
++                ================================
++                -->
++                <p:button outcome="/userFile/ListUserFiles" value="Back"
++                          icon="fas fa-arrow-left" styleClass="ui-button-outlined" />
++            </div>
++        </ui:define>
++    </ui:composition>
++</html>
+Index: src/main/webapp/userAccount/EditAccount.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/userAccount/EditAccount.xhtml b/src/main/webapp/userAccount/EditAccount.xhtml
+new file mode 100644
+--- /dev/null	(date 1634422532695)
++++ b/src/main/webapp/userAccount/EditAccount.xhtml	(date 1634422532695)
+@@ -0,0 +1,153 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++  - Created by Osman Balci on 2021.7.15
++  - Copyright © 2021 Osman Balci. All rights reserved.
++  -->
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"
++      xmlns:h="http://xmlns.jcp.org/jsf/html"
++      xmlns:f="http://xmlns.jcp.org/jsf/core"
++      xmlns:p="http://primefaces.org/ui"
++      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
++
++    <!-- This page is constructed based on the siteTemplate -->
++    <ui:composition template="/template/siteTemplate.xhtml">
++
++        <ui:define name="title">
++            <!-- Set the page title -->
++            <h:outputText value="Edit Account" />
++        </ui:define>
++
++        <!-- Create the content for this page below -->
++        <ui:define name="editableContent">
++            <div align="center" style="width:80%; margin:0 auto;">
++
++                <h:form id="EditAccountProfileForm">
++
++                    <h1>Edit Account Profile</h1>
++
++                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2">
++                        <!--
++                        ********************************
++                        *          FIRST NAME          *
++                        ********************************
++                        -->
++                        <p:outputLabel value="First Name:" for="firstName" />
++                        <p:inputText id="firstName" value="#{userController.selected.firstName}" style="width: 290px"
++                                     required="true" requiredMessage="First Name is required!" >
++                            <f:validateLength minimum="2" />
++                        </p:inputText>   
++
++                        <!--
++                        ********************************
++                        *         MIDDLE NAME          *
++                        ********************************
++                        -->
++                        <p:outputLabel value="Middle Name:" for="middleName" />
++                        <p:inputText id="middleName" value="#{userController.selected.middleName}" style="width: 290px"
++                                     required="false" >
++                        </p:inputText>
++
++                        <!--
++                        ********************************
++                        *           LAST NAME          *
++                        ********************************
++                        -->
++                        <p:outputLabel value="Last Name:" for="lastName" />
++                        <p:inputText id="lastName" value="#{userController.selected.lastName}" style="width: 290px"
++                                     required="true" requiredMessage="Last Name is required!" >
++                            <f:validateLength minimum="2" />
++                        </p:inputText>
++
++                        <!--
++                        ********************************
++                        *        ADDRESS LINE 1        *
++                        ********************************
++                        -->
++                        <p:outputLabel value="Address Line 1:" for="address1" />
++                        <p:inputText id="address1" value="#{userController.selected.address1}" style="width: 290px"
++                                     required="true" requiredMessage="Address Line 1 is required!" >
++                            <f:validateLength minimum="2" />
++                        </p:inputText>
++
++                        <!--
++                        ********************************
++                        *        ADDRESS LINE 2        *
++                        ********************************
++                        -->
++                        <p:outputLabel value="Address Line 2:" for="address2" />
++                        <p:inputText id="address2" value="#{userController.selected.address2}" style="width: 290px"
++                                     required="false"  />
++
++                        <!--
++                        ********************************
++                        *             CITY             *
++                        ********************************
++                        -->
++                        <p:outputLabel value="City:" for="city" />
++                        <p:inputText id="city" value="#{userController.selected.city}" style="width: 290px"
++                                     required="true" requiredMessage="City name is required!" >
++                            <f:validateLength minimum="2" />
++                        </p:inputText>
++
++                        <!--
++                        ********************************
++                        *      STATE ABBREVIATION      *
++                        ********************************
++                        -->
++                        <p:outputLabel value="State:" for="state" />
++                        <h:selectOneMenu id="state" value="#{userController.selected.state}" >
++                            <f:selectItems value="#{userController.listOfStates()}" var="state"
++                                           itemLabel="#{state}" itemValue="#{state}" />
++                        </h:selectOneMenu>
++
++                        <!--
++                        ********************************
++                        *           ZIP CODE           *
++                        ********************************
++                        -->
++                        <p:outputLabel value="Zip Code:" for="zipcode" />
++                        <p:inputText id="zipcode" value="#{userController.selected.zipcode}" style="width: 290px"
++                                     required="true" requiredMessage="Zip Code is requied!"  >
++                            <f:validateLength minimum="5" />
++                            <f:validator validatorId="zipCodeValidator"/> 
++                        </p:inputText>
++
++                        <!--
++                        ********************************
++                        *         EMAIL ADDRESS        *
++                        ********************************
++                        -->
++                        <p:outputLabel value="Email:" for="email" />
++                        <p:inputText id="email" value="#{userController.selected.email}" style="width: 290px"
++                                     required="true" requiredMessage="Email address is required!" >
++                            <f:validateLength minimum="2" />
++                            <f:validator validatorId="emailValidator" />  
++                        </p:inputText>
++
++                        <!-- Username is listed in an uneditable mode and cannot be changed -->
++                        <h:outputText value="Username:" />
++                        <h:outputText value="#{userController.selected.username}" />
++                    </p:panelGrid>
++                    <br /><br />
++                    <!--
++                    ================================
++                    |          SAVE Button         |
++                    ================================
++                    -->
++                    <p:commandButton id="submit" value="Save" icon="fas fa-save" styleClass="rounded-button"
++                                     ajax="false" action="#{userController.updateAccount()}" />
++                    &nbsp;
++                    <!--
++                    ================================
++                    |         CANCEL Button        |
++                    ================================
++                    -->
++                    <p:button outcome="/userAccount/Profile" value="Cancel"
++                              icon="fas fa-ban" styleClass="ui-button-outlined" />
++                    <br /><br />
++                </h:form>
++            </div>
++        </ui:define>
++    </ui:composition>
++</html>
+\ No newline at end of file
+Index: src/main/webapp/userAccount/CreateAccount.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/userAccount/CreateAccount.xhtml b/src/main/webapp/userAccount/CreateAccount.xhtml
+new file mode 100644
+--- /dev/null	(date 1634422532669)
++++ b/src/main/webapp/userAccount/CreateAccount.xhtml	(date 1634422532669)
+@@ -0,0 +1,260 @@
++<?xml version="1.0" encoding="UTF-8" ?>
++<!--
++  - Created by Osman Balci on 2021.7.15
++  - Copyright © 2021 Osman Balci. All rights reserved.
++  -->
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"
++      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
++      xmlns:h="http://xmlns.jcp.org/jsf/html"
++      xmlns:f="http://xmlns.jcp.org/jsf/core"
++      xmlns:p="http://primefaces.org/ui">
++
++    <!-- This page is constructed based on the siteTemplate -->
++    <ui:composition template="/template/siteTemplate.xhtml">
++
++        <ui:define name="title">
++            <!-- Set the page title -->
++            <h:outputText value="Create Account" />
++        </ui:define>
++
++        <!-- Create the content for this page below -->
++        <ui:define name="editableContent">
++            <div align="center" style="width:80%; margin:0 auto;">
++                <h:form id="AccountCreationForm">
++                    <h1>Create an Account</h1>
++                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2">
++                        <!--
++                        ********************************
++                        *          FIRST NAME          *
++                        ********************************
++                        -->
++                        <p:outputLabel value="First Name:" for="firstName" />
++                        <!--
++                        The required="true" attribute automatically places an asterisk *
++                        at the end of the value to indicate that the field is required.  
++                        -->
++                        <p:inputText id="firstName" value="#{userController.firstName}" style="width: 290px"
++                                     required="true" requiredMessage="First Name is required!">
++                            <f:validateLength minimum="2" />
++                        </p:inputText>   
++
++                        <!--
++                        ********************************
++                        *         MIDDLE NAME          *
++                        ********************************
++                        -->
++                        <p:outputLabel value="Middle Name:" for="middleName" />
++                        <p:inputText id="middleName" value="#{userController.middleName}" style="width: 290px"
++                                     required="false" >
++                        </p:inputText>
++
++                        <!--
++                        ********************************
++                        *           LAST NAME          *
++                        ********************************
++                        -->
++                        <p:outputLabel value="Last Name:" for="lastName" />
++                        <p:inputText id="lastName" value="#{userController.lastName}" style="width: 290px"
++                                     required="true" requiredMessage="Last Name is required!">
++                            <f:validateLength minimum="2" />
++                        </p:inputText>
++
++                        <!--
++                        ********************************
++                        *        ADDRESS LINE 1        *
++                        ********************************
++                        -->
++                        <p:outputLabel value="Address Line 1:" for="address1" />
++                        <p:inputText id="address1" value="#{userController.address1}" style="width: 290px"
++                                     required="true" requiredMessage="Address Line 1 is required!">
++                            <f:validateLength minimum="2" />
++                        </p:inputText>
++
++                        <!--
++                        ********************************
++                        *        ADDRESS LINE 2        *
++                        ********************************
++                        -->
++                        <p:outputLabel value="Address Line 2:" for="address2" />
++                        <p:inputText id="address2" value="#{userController.address2}" style="width: 290px"
++                                     required="false" >
++                        </p:inputText>
++
++                        <!--
++                        ********************************
++                        *             CITY             *
++                        ********************************
++                        -->
++                        <p:outputLabel value="City:" for="city" />
++                        <p:inputText id="city" value="#{userController.city}" style="width: 290px"
++                                     required="true" requiredMessage="City name is required!">
++                            <f:validateLength minimum="2" />
++                        </p:inputText>
++
++                        <!--
++                        ********************************
++                        *      STATE ABBREVIATION      *
++                        ********************************
++                        -->
++                        <p:outputLabel value="State:" for="state" />
++                        <h:selectOneMenu id="state" value="#{userController.state}" >
++                            <!--
++                            List of U.S. state postal codes is displayed for the user to select one.
++                            The first state postal code AK is selected as the default.
++                            -->
++                            <f:selectItems value="#{userController.listOfStates()}" var="state"
++                                           itemLabel="#{state}" itemValue="#{state}" />
++                        </h:selectOneMenu>
++
++                        <!--
++                        ********************************
++                        *           ZIP CODE           *
++                        ********************************
++                        -->
++                        <p:outputLabel id="zipcodeEntry" value="Zip Code:" for="zipcode" >
++                            &nbsp;<i class="fas fa-question-circle" />
++                            <!--
++                            When the user mouses over the icon, a tooltip is displayed
++                            to provide context-sensitive help information to the user.
++                            -->
++                            <p:tooltip for="zipcodeEntry" value="Enter 5 digits or 9 digits with hyphen, e.g., 24060-1804" 
++                                       showEffect="clip" hideEffect="explode" position="top" />
++                        </p:outputLabel> 
++
++                        <p:inputText id="zipcode" value="#{userController.zipcode}" style="width: 290px"
++                                     required="true" requiredMessage="Zip Code is required!">
++                            <f:validateLength minimum="5" />
++                            <!-- 
++                            Execute the "validate" method in the "ZipCodeValidator.java" 
++                            class file to validate the ZIP code entered. 
++                            -->
++                            <f:validator validatorId="zipCodeValidator"/> 
++                        </p:inputText>
++
++                        <!--
++                        ********************************
++                        *       SECURITY QUESTION      *
++                        ********************************
++                        -->
++                        <p:outputLabel value="Security Question:" for="securityQuestion" />
++                        <p:selectOneMenu id="securityQuestion" value="#{userController.securityQuestionNumber}" >
++                            <!--
++                            List of security questions is displayed for the user to select one.
++                            The first security question is selected as the default.
++                            -->
++                            <f:selectItems value="#{userController.security_questions}"/>
++                        </p:selectOneMenu>
++
++                        <!--
++                        ********************************
++                        *        SECURITY ANSWER       *
++                        ********************************
++                        -->
++                        <p:outputLabel value="Security Answer:" for="securityAnswer" />
++                        <p:inputText id="securityAnswer" value="#{userController.answerToSecurityQuestion}"
++                                     style="width: 290px" required="true"
++                                     requiredMessage="Security Answer is required!">
++                            <f:validateLength minimum="2" />
++                        </p:inputText>
++
++                        <!--
++                        ********************************
++                        *         EMAIL ADDRESS        *
++                        ********************************
++                        -->
++                        <p:outputLabel value="Email:" for="email" />
++                        <p:inputText id="email" value="#{userController.email}" style="width: 290px"
++                                     required="true" requiredMessage="Email address is required!">
++                            <f:validateLength minimum="2" />
++                            <!-- 
++                            Execute the "validate" method in the "EmailValidator.java" 
++                            class file to validate the email address entered. 
++                            -->
++                            <f:validator validatorId="emailValidator" />  
++                        </p:inputText>
++
++                        <!--
++                        ********************************
++                        *       ACCOUNT USERNAME       *
++                        ********************************
++                        -->
++                        <p:outputLabel id="usernameEntry" value="Username:" for="username" >
++                            &nbsp;<i class="fas fa-question-circle" />
++                            <!--
++                            When the user mouses over the icon, a tooltip is displayed
++                            to provide context-sensitive help information to the user.
++                            -->
++                            <p:tooltip for="usernameEntry" value="Enter 6 to 32 characters with capital letter, lowercase letter, number, or special character _ . - @" 
++                                       showEffect="clip" hideEffect="explode" position="top" />
++                        </p:outputLabel> 
++
++                        <p:inputText id="username" value="#{userController.username}" style="width: 290px"
++                                     required="true" requiredMessage="Username is required!">
++                            <!-- 
++                            Execute the "validate" method in the "UsernameValidator.java" 
++                            class file to validate the username entered. 
++                            -->
++                            <f:validator validatorId="usernameValidator"/> 
++                        </p:inputText>
++
++                        <!--
++                        ********************************
++                        *       ACCOUNT PASSWORD       *
++                        ********************************
++                        -->                     
++                        <p:outputLabel id="passwordEntry" value="Password:" for="password" >
++                            &nbsp;<i class="fas fa-question-circle" />
++                            <!--
++                            When the user mouses over the icon, a tooltip is displayed
++                            to provide context-sensitive help information to the user.
++                            -->
++                            <p:tooltip for="passwordEntry" value="Enter 8 to 32 characters with at least 1: capital letter, lowercase letter, number, and special characters above the numbers on the keyboard."
++                                       showEffect="clip" hideEffect="explode" position="top" />
++                        </p:outputLabel>   
++
++                        <!-- 
++                        p:password changes the characters typed to bullets to hide the password as it is typed.
++                        feedback="true" displays password strength indicator.
++                        -->
++                        <p:password id="password" value="#{userController.password}" style="width: 290px"
++                                    feedback="true" required="true" requiredMessage="Password is required!" >
++                            <!-- 
++                            Execute the "validate" method in the "PasswordValidator.java" 
++                            class file to validate the password entered. 
++                            -->
++                            <f:validator validatorId="passwordValidator" /> 
++                        </p:password>
++
++                        <!--
++                        ********************************
++                        *       CONFIRM PASSWORD       *
++                        ********************************
++                        -->                         
++                        <p:outputLabel value="Confirm Password:" for="confirmPassword" />
++                        <p:password id="confirmPassword" value="#{userController.confirmPassword}" style="width: 290px"
++                                    required="true" requiredMessage="Confirm Password is required!" />
++
++                    </p:panelGrid>
++                    <br /><br />
++
++                    <!--
++                    ================================
++                    |    CREATE ACCOUNT Button     |
++                    ================================
++                    -->
++                    <p:commandButton id="createAccount" value="Submit" icon="fas fa-arrow-up" styleClass="rounded-button"
++                                     ajax="false" action="#{userController.createAccount()}" />
++                    &nbsp;&nbsp;
++                    <!--
++                    ================================
++                    |        CANCEL Button         |
++                    ================================
++                    -->
++                    <p:button outcome="/index" value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined" />
++
++                </h:form>
++            </div>
++        </ui:define>
++    </ui:composition>
++</html>
+Index: src/main/webapp/userFile/ListUserFiles.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/userFile/ListUserFiles.xhtml b/src/main/webapp/userFile/ListUserFiles.xhtml
+new file mode 100644
+--- /dev/null	(date 1634422532016)
++++ b/src/main/webapp/userFile/ListUserFiles.xhtml	(date 1634422532016)
+@@ -0,0 +1,195 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++  - Created by Osman Balci on 2021.7.15
++  - Copyright © 2021 Osman Balci. All rights reserved.
++  -->
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"
++      xmlns:h="http://java.sun.com/jsf/html"
++      xmlns:p="http://primefaces.org/ui"
++      xmlns:ui="http://java.sun.com/jsf/facelets"
++      xmlns:f="http://xmlns.jcp.org/jsf/core">
++
++<!-- This page is constructed based on the siteTemplate -->
++<ui:composition template="/template/siteTemplate.xhtml">
++    <ui:define name="title">
++        <!-- Set the page title -->
++        <h:outputText value="#{userController.selected.firstName}'s Files" />
++    </ui:define>
++
++    <!-- Create the content for this page below -->
++    <ui:define name="editableContent">
++
++        <div align="center">
++            <h:form id="UserFileListForm">
++                <p:panel header="#{userController.selected.firstName}&nbsp;#{userController.selected.lastName}'s Files" >
++
++                    <p:dataTable id="datalist"
++                                 value="#{userFileController.listOfUserFiles}"
++                                 var="aUserFile"
++                                 widgetVar="userFilesDataTable"
++                                 selectionMode="single"
++                                 selection="#{userFileController.selected}"
++                                 reflow="true"
++                                 showGridlines="true"
++                                 paginator="true"
++                                 rowKey="#{aUserFile.id}"
++                                 rows="5"
++                                 rowIndexVar="rowNumber"
++                                 rowsPerPageTemplate="5,10,20,30,40,50"
++                                 first="#{userFileController.selectedRowNumber}" >
++
++                        <p:ajax event="rowSelect" update="uploadButton downloadButton deleteButton displayButton playButton">
++                            #{userFileController.setSelectedRowNumber(rowNumber)};
++                        </p:ajax>
++
++                        <!--
++                        =========================================================================
++                        To show the previously selected row when the user comes back to this page
++                        =========================================================================
++                        Step 1: Include the following above:
++
++                                rowIndexVar="rowNumber"
++                                first="#{userFileController.selectedRowNumber}"
++                                    identifies the row number to show when this page reloads
++
++                        Step 2: With <p:ajax event="rowSelect"> above, set the selectedRowNumber
++                                instance variable by using the setter method.
++
++                        Step 3: Declare the instance variable selectedRowNumber and create the
++                                getter and setter methods for it in UserFileController.java.
++                        -->
++
++                        <p:ajax event="rowUnselect" update="uploadButton downloadButton deleteButton displayButton playButton"/>
++
++                        <!--
++                        ********************************
++                        *        FILE ID column        *
++                        ********************************
++                        -->
++                        <p:column sortBy="#{aUserFile.id}" headerText="File Id" style="width:80px;">
++                            <div align="center"><h:outputText value="#{aUserFile.id}"/></div>
++                        </p:column>
++
++                        <!--
++                        ********************************
++                        *     FILE TYPE column     *
++                        ********************************
++                        -->
++                        <p:column headerText="File Type" style="width:80px;">
++                            <div align="center">
++                                <h:graphicImage class="previewImage" value="#{userFileController.fileTypeIcon(aUserFile.id)}" />
++                            </div>
++                        </p:column>
++
++                        <!--
++                        ********************************
++                        *        FILE NAME column      *
++                        ********************************
++                        -->
++                        <p:column sortBy="#{aUserFile.filename}" headerText="File Name" >
++                            <h:outputText value="#{userFileController.cleanedFilenameForFileId(aUserFile.id)}"/>
++                        </p:column>
++
++                        <!--
++                        ********************************
++                        *        USER ID column        *
++                        ********************************
++                        -->
++                        <p:column headerText="User Id" style="width:60px;">
++                            <div align="center"><h:outputText value="#{aUserFile.userId}"/></div>
++                        </p:column>
++
++                        <!--
++                        ********************************
++                        *       USER PHOTO column      *
++                        ********************************
++                        -->
++                        <p:column headerText="User Photo" style="width:100px;">
++                            <div align="center">
++                                <h:graphicImage class="smallProfilePhoto" value="#{userController.userPhoto()}" />
++                            </div>
++                        </p:column>
++
++                        <f:facet name="footer">
++                            <div align="center">
++                                <!--
++                                ================================
++                                |      UPLOAD FILE Button      |
++                                ================================
++                                -->
++                                <p:commandButton id="uploadButton" value="Upload File" icon="fas fa-upload" styleClass="rounded-button"
++                                                 update=":UserFileListForm"
++                                                 action="/userFile/UploadFile?faces-redirect=true" />
++                                &nbsp;
++                                <!--
++                                ================================
++                                |     DOWNLOAD FILE Button     |
++                                ================================
++                                -->
++                                <p:commandButton id="downloadButton" value="Download File" icon="fas fa-download" styleClass="rounded-button"
++                                                 ajax="false" disabled="#{empty userFileController.selected}" >
++
++                                    <p:fileDownload value="#{fileDownloadManager.file}" />
++                                </p:commandButton>
++                                &nbsp;
++                                <!-- 
++                                ***************************************************
++                                Display a Confirmation dialog for the DELETE button
++                                *************************************************** 
++                                -->
++                                <!--
++                                ================================
++                                |      DELETE FILE Button      |
++                                ================================
++                                -->
++                                <p:commandButton id="deleteButton" value="Delete File" icon="fas fa-trash-alt" styleClass="rounded-button"
++                                                 actionListener="#{userFileController.deleteSelectedUserFile()}"
++                                                 update=":UserFileListForm" ajax="true"
++                                                 disabled="#{empty userFileController.selected}">
++
++                                    <p:confirm header="Deletion Confirmation"
++                                               message="Are you sure you want to permanently delete the selected file from the database?" />
++                                </p:commandButton>
++
++                                <p:confirmDialog id="confirmDialogBox" global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
++                                    <div align="center">
++                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fas fa-window-close" />
++                                        &nbsp;
++                                        <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger" icon="fas fa-check-square" />
++                                    </div>
++                                </p:confirmDialog>
++                                <!-- 
++                                ************************************************
++                                End of Display of the DELETE Confirmation dialog 
++                                ************************************************ 
++                                -->
++                                &nbsp;
++                                <!--
++                                ================================
++                                |     DISPLAY FILE Button      |
++                                ================================
++                                -->
++                                <p:commandButton id="displayButton" value="Display File" icon="fas fa-file-alt" styleClass="rounded-button"
++                                                 action="/userFile/DisplayFile?faces-redirect=true"
++                                                 ajax="false" disabled="#{empty userFileController.selected}" />
++                                &nbsp;
++                                <!--
++                                ================================
++                                |    PLAY VIDEO FILE Button    |
++                                ================================
++                                -->
++                                <p:commandButton id="playButton" value="Play Video File" icon="fas fa-play" styleClass="rounded-button"
++                                                 action="/userFile/PlayVideo?faces-redirect=true"
++                                                 ajax="false" disabled="#{empty userFileController.selected}" />
++
++                            </div>
++                        </f:facet>
++                    </p:dataTable>
++                </p:panel>
++            </h:form>
++        </div>
++    </ui:define>
++</ui:composition>
++<!-- Do not enter tags after the composition line since they are ignored by JSF -->
++</html>
+\ No newline at end of file
+Index: src/main/webapp/resources/css/siteStyles.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/resources/css/siteStyles.css b/src/main/webapp/resources/css/siteStyles.css
+new file mode 100644
+--- /dev/null	(date 1636506695468)
++++ b/src/main/webapp/resources/css/siteStyles.css	(date 1636506695468)
+@@ -0,0 +1,300 @@
++/*****************************************************
++*   Cascading Style Sheets (CSS) Style Definitions   *
++*   Composed by Osman Balci for the Videos app.      *
++*****************************************************/
++
++html, body {
++    background-color: linen;
++    margin: 0 0 0 0;    /* top right bottom left */
++    width: 100%;        /* Set page width horizontally 100% */
++    height: 100%;       /* Set page height vertically 100% */
++}
++
++body, p {
++    font-family: "Times New Roman", Times, sans-serif;
++    font-size: 12pt;
++    font-style: normal;
++    font-weight: normal;
++    text-decoration: none;
++    color: black;
++}
++
++h1, .title {
++    font-family: Arial, Helvetica, sans-serif;
++    font-size: 12pt;
++    font-style: normal;
++    font-weight: normal;
++    text-decoration: none;
++    color: maroon;
++}
++
++/*
++=======================================
++|   Site Template Component Styling   |
++=======================================
++*/
++#page {
++    font-family: "Times New Roman", Times, sans-serif;
++    font-size: 12pt;
++    font-style: normal;
++    font-weight: normal;
++    text-decoration: none;
++    color: black;
++}
++/*
++Style the div component whose unique id is "header"
++<div id="header"> in siteTemplate
++*/
++#header {
++    background-color: azure;
++    width: 100%;
++    height: 84px;
++    position: absolute;
++    left: 0;
++    top: 0;
++    right: 0;
++    margin-bottom: 16px;
++}
++/*
++Style the div component whose unique id is "editableContent"
++<div id="editableContent"> in siteTemplate
++*/
++#editableContent {
++    /* height = 100% window height - (header height 84px + footer height 100px) */
++    height: calc(100% - 184px);
++    width: 100%;
++    left: 0;
++    right: 0;
++    margin-top: 100px;
++    margin-bottom: 16px;
++}
++/*
++Style the div component whose unique id is "footer"
++<div id="footer"> in siteTemplate
++*/
++#footer {
++    height: 100px;
++    width: 100%;
++    left: 0;
++    right: 0;
++    bottom: 0;
++}
++
++/*
++==========================
++|   Styling Hyperlinks   |
++==========================
++*/
++
++/* Set the font family for the standard HTML tag "a" for hyperlinks */
++a {
++    font-family: Arial, Helvetica, sans-serif;
++    font-size: 10pt;
++}
++
++a:link {
++    text-decoration: none; /* Do not underline the link in normal state */
++}
++
++a:visited {
++    text-decoration: none; /* Do not underline the link in visited state */
++}
++
++a:hover {
++    text-decoration: underline; /* Underline the link in hover state */
++}
++
++a:active {
++    text-decoration: underline; /* Underline the link in active state */
++}
++
++/*
++================================
++|   Vertical Navigation Menu   |
++================================
++Used in Profile
++*/
++/* Style class for <ul> */
++.verticalMenu {
++    list-style-type: none;
++    margin: 0;
++    padding: 0;
++    width: 180px;
++    background-color: azure;
++    border: 1px solid darkgray;
++
++}
++
++/* Style class for <li> */
++.verticalMenuItem {
++    text-align: left;
++    border-bottom: 1px solid darkgray;
++}
++
++/* Style class for <li> and the <a> tag that defines a hyperlink */
++.verticalMenuItem a {
++    display: block;
++    color: black;
++    padding: 8px 16px;
++    text-decoration: none;  /* Do not underline the hyperlink */
++}
++
++/* Style class for <ul>, <li> and <a> hyperlink tag */
++.verticalMenu, .verticalMenuItem a {
++    font-family: Arial, Helvetica, sans-serif;
++    font-size: 10pt;
++    font-style: normal;
++    font-weight: normal;
++}
++
++/* Style class for <li> last-child */
++.verticalMenuItem:last-child {
++    border-bottom: none;
++}
++
++/* Style class for <li> for mouse over state */
++.verticalMenuItem a:hover {
++    background-color: lightskyblue;
++}
++
++/*
++=======================================
++|   Responsive YouTube Video Player   |
++=======================================
++We use the 9/16 (=56.25) ratio to play YouTube Videos.
++The padding-top applies the ratio of 56.25% to make sure
++that the width and height preserve the 9/16 ratio.
++*/
++
++.responsive-container {
++    position: relative;
++    overflow: hidden;
++    padding-top: 56.25%;
++}
++
++.responsive-iframe {
++    position: absolute;
++    top: 0;
++    left: 0;
++    width: 100%;
++    height: 100%;
++    border: 0;
++}
++
++/*
++===============================
++|   Other Style Definitions   |
++===============================
++*/
++
++/* Used in headerTemplate */
++.headerTitle {
++    font-family: "Times New Roman", Times, serif;
++    font-size: 18pt;
++    font-style: italic;
++    font-weight: normal;
++    text-decoration: none;
++    color: mediumblue;
++}
++
++/* Scrolls text vertically */
++.scrollableTextBox {
++    display: block;
++    text-align: left;
++    width: 100%;
++    height: 70px;
++    overflow-x: hidden;
++    overflow-y: scroll;
++    white-space: normal;
++    overflow-wrap: break-word;
++}
++
++/* Used in Profile to style person's photo in a circle */
++.profilePhoto {
++    display: inline-block;
++    width: 150px;
++    height: 150px;
++    border-radius: 50%;
++    background-repeat: no-repeat;
++    background-position: center center;
++    background-size: cover;
++}
++
++/* Used in headerTemplate to style user's small photo in a circle */
++.smallProfilePhoto {
++    display: inline-block;
++    width: 36px;
++    height: 36px;
++    border-radius: 50%;
++    background-repeat: no-repeat;
++    background-position: center center;
++    background-size: cover;
++    vertical-align: middle;
++}
++
++/*
++Proportionately scale image to show on mobile devices and smaller browser windows.
++Scale the image downward, but do not enlarge it beyond the width size of 500px.
++*/
++.scalableImage {
++    max-width: 100%;
++    height: auto;
++    border: none;
++}
++
++/* Style p:panelGrid Column 1 */
++.panelGridColumn1 {
++    text-align: right;
++    white-space: nowrap;        /* Disallow line break */
++    padding-top: 5px !important;
++    padding-bottom: 5px !important;
++    background-color: papayawhip !important;
++}
++
++/* Style p:panelGrid Column 2 */
++.panelGridColumn2 {
++    text-align: left;
++    padding-top: 5px !important;
++    padding-bottom: 5px !important;
++    background-color: oldlace !important;
++}
++
++/* Used to color panel backgrounds */
++.ui-panel-content {
++    background-color: oldlace !important;
++}
++
++/*
++======================================
++|   Skinning PrimeFaces Components   |
++======================================
++*/
++
++/* PrimeFaces dataTable Row Paddings */
++.ui-datatable-data td {
++    padding-top: 3px !important;
++    padding-bottom: 3px !important;
++}
++
++/* Skinning PrimeFaces Galleria Image Slider */
++.ui-galleria-caption {
++    position: absolute;
++    left: 0 !important;
++    background-color: rgba(240, 255, 255, 0.8) !important;
++    padding: 0 !important;
++}
++
++/* Override PrimeFaces styles for the fileUpload component */
++.ui-fileupload {
++    width: 80%;
++}
++
++.ui-fileupload-buttonbar {
++    /* padding values are specified in clockwise: Top, Right, Bottom, and Left */
++    padding: 0 0 8px 0 !important;
++}
++
++.ui-fileupload-content {
++    /* The drag-and-drop area height will increase as more files are dropped */
++    min-height: 200px;
++}
+Index: src/main/webapp/userFile/UploadFile.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/userFile/UploadFile.xhtml b/src/main/webapp/userFile/UploadFile.xhtml
+new file mode 100644
+--- /dev/null	(date 1634422531992)
++++ b/src/main/webapp/userFile/UploadFile.xhtml	(date 1634422531992)
+@@ -0,0 +1,58 @@
++<?xml version="1.0" encoding="UTF-8" ?>
++<!--
++  - Created by Osman Balci on 2021.7.14
++  - Copyright © 2021 Osman Balci. All rights reserved.
++  -->
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"
++      xmlns:h="http://java.sun.com/jsf/html"
++      xmlns:p="http://primefaces.org/ui"
++      xmlns:ui="http://java.sun.com/jsf/facelets">
++
++    <!-- This page is constructed based on the siteTemplate -->
++    <ui:composition template="/template/siteTemplate.xhtml">
++
++        <ui:define name="title">
++            <!-- Set the page title -->
++            <h:outputText value="Upload File(s)" />
++        </ui:define>
++
++        <!-- Create the content for this page below -->
++        <ui:define name="editableContent">
++            <!-- 
++            The enctype attribute sets the content type of the data to be submitted to the server.  
++            enctype="multipart/form-data" is required when the form used has a file upload control.
++            -->
++            <h:form enctype="multipart/form-data">
++                <div align="center">
++                    <h1>Upload One or More Files</h1>
++                    <br/>
++                    <div class="titleSmall">
++                        Click Choose to select one or more files or drag and drop one or more files within the white box.
++                    </div>
++                    <br/><br/>
++                    <!--
++                    ********************************************************
++                    *   Select or Drag and Drop Multiple Files to Upload   *
++                    ********************************************************
++                    The user either selects multiple files to upload or drags and drops them within the upload box to
++                    upload them. Maximum 30MB file size and no more than 5 files are allowed to upload at the same time.
++                    -->
++
++                    <p:fileUpload listener="#{fileUploadManager.handleFileUpload}"
++                                  mode="advanced" dragDropSupport="true" update="growlInfoMessage" 
++                                  sizeLimit="30000000" multiple="true" fileLimit="5" />
++                    <br/>
++                    <!--
++                    =============================
++                    |         DONE Button       |
++                    =============================
++                    -->
++                    <p:button outcome="/userFile/ListUserFiles" value="Done"
++                              icon="fas fa-check-circle" styleClass="ui-button-outlined" />
++                    <br/><br/>
++                </div>
++            </h:form>
++        </ui:define>
++    </ui:composition>
++</html>
+Index: src/main/webapp/userFile/DisplayFile.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/userFile/DisplayFile.xhtml b/src/main/webapp/userFile/DisplayFile.xhtml
+new file mode 100644
+--- /dev/null	(date 1634422532040)
++++ b/src/main/webapp/userFile/DisplayFile.xhtml	(date 1634422532040)
+@@ -0,0 +1,82 @@
++<?xml version="1.0" encoding="UTF-8" ?>
++<!--
++  - Created by Osman Balci on 2021.7.15
++  - Copyright © 2021 Osman Balci. All rights reserved.
++  -->
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml"
++      xmlns:h="http://java.sun.com/jsf/html"
++      xmlns:p="http://primefaces.org/ui"
++      xmlns:ui="http://java.sun.com/jsf/facelets"
++      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
++
++    <!-- This page is constructed based on the siteTemplate -->
++    <ui:composition template="/template/siteTemplate.xhtml">
++
++        <ui:define name="title">
++            <!-- Set the page title -->
++            <h:outputText value="Display File" />
++        </ui:define>
++
++        <!-- Create the content for this page below -->
++        <ui:define name="editableContent">
++
++            <div align="center">
++                <h1>#{userFileController.cleanedFileNameForSelected()}</h1>
++                <!--
++                *******************************
++                *   SWITCH Statement in JSF   *
++                *******************************
++                JSF Standard Tag Library (JSTL) Core tags <c:choose>, <c:when> and <c:otherwise>
++                provide the SWITCH statement functionality under the following structure:
++                
++                    <c:choose>
++                        <c:when test="${condition1}">
++                            // Statements to execute when condition1 is true
++                        </c:when>
++                        <c:when test="${condition2}">
++                            // Statements to execute when condition2 is true
++                        </c:when>
++                        <c:otherwise>
++                            // Statements to execute when all <c:when> tests are false.
++                        </c:otherwise>
++                    </c:choose>
++                -->
++                
++                <c:choose>
++                    <c:when test = "#{userFileController.isImage()}">
++                        <!-- isImage() returns true if the file is an image file of type JPG, JPEG, PNG, or GIF -->
++                        <h:graphicImage class="scalableImage" 
++                                        value="#{userFileController.selectedFileURI()}" />
++                        <br />
++                    </c:when>
++
++                    <c:when test = "#{userFileController.isViewable()}">
++                        <!-- isViewable() returns true if the file is of type HTML, PDF or TXT -->
++                        <div>
++                            <iframe src="#{userFileController.selectedFileURI()}"
++                                    width="90%" height="600px" scrolling="yes">
++                            </iframe>
++                        </div>
++                    </c:when>
++
++                    <c:otherwise>
++                        <br /><br />
++                        <!-- Alert User -->
++                        <h:outputText class="alertUser" 
++                                      value="Only image files JPG, JPEG, PNG, GIF and document files HTML, PDF, TXT can be displayed!" />
++                        <br />
++                    </c:otherwise>
++                </c:choose>
++                <br /><br />
++                <!--
++                ================================
++                |         BACK Button          |
++                ================================
++                -->
++                <p:button outcome="/userFile/ListUserFiles" value="Back"
++                          icon="fas fa-arrow-left" styleClass="ui-button-outlined" />
++            </div>
++        </ui:define>
++    </ui:composition>
++</html>

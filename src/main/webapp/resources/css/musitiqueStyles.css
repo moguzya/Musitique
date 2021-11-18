@@ -1,0 +1,48 @@
+html,
+body {
+    height: 100%;
+    margin: 0 !important;
+}
+.page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    table-layout:fixed;
+}
+
+.side-menu {
+    width: 20%;
+    max-width: 420px;
+    min-width: 00px;
+    display: table-cell;
+    background-color: cyan;
+}
+
+.content-container{
+    width: 80%;
+    height: 100%;
+    display: table-cell;
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+    display: inline-table;
+    border-collapse: collapse;
+}
+
+.header {
+    display: table-cell;
+    background-color: red;
+}
+
+.editable-content {
+    height: 80%;
+    display: table-cell;
+    background-color: green;
+}
+
+.footer {
+    display: table-cell;
+    background-color: yellow;
+}

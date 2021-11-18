@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<ui:composition>
+    <h:form>
+        <div>
+            <p:graphicImage
+                    width="100%"
+                    url="https://www.udiscovermusic.com/wp-content/uploads/2017/03/Drake-More-Life-album-cover-web-optimised-820.jpg"/>
+        </div>
+        <div>
+            <p:inputText style="width:100%" id="search" type="text" placeholder="Search"/>
+
+            <p:commandButton style="width:100%" value="New Releases" icon="fas fa-fire"/>
+
+            <p:commandButton style="width:100%" value="Followed Artists" icon="fas fa-list"/>
+
+            <p:commandButton style="width:100%" value="Profile" icon="fas fa-user"/>
+
+            <p:commandButton style="width:100%" value="Explore" icon="fas fa-compass"/>
+        </div>
+        <div>
+            <iframe style="width:100%"
+                    src="https://www.w3schools.com"
+                    title="W3Schools Free Online Web Tutorials">
+            </iframe>
+        </div>
+        <div style="height: 100%">
+            <p:commandButton style="width:100%" value="Logout" icon="fas fa-compass"
+                             styleClass="ui-button-secondary"/>
+        </div>
+    </h:form>
+</ui:composition>
+
+</html>

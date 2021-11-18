@@ -1,0 +1,47 @@
+html,
+body {
+    height: 100%;
+}
+.container {
+    width: 90%;
+    margin: auto;
+    display: table;
+    height: 100%;
+    table-layout:fixed;
+}
+
+.page {
+    display: grid;
+    height: 98vh;
+}
+
+.side-menu {
+    grid-column: 1/4 ;
+    grid-row: 1/20;
+    background-color: cyan;
+}
+
+.header {
+    grid-column: 4/10 ;
+    grid-row: 1;
+    background-color: red;
+}
+
+.editableContent {
+    grid-column: 4/10;
+    grid-row: 2/19;
+    background-color: green;
+}
+
+.footer {
+    grid-column: 4/10 ;
+    grid-row: 19/20;
+    background-color: yellow;
+}
+
+.grid-container > div {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 00px 0;
+    font-size: 30px;
+}

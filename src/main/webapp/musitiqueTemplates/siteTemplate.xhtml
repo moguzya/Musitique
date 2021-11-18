@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>
+        <ui:insert name="title">Musitique</ui:insert>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="refresh" content="#{facesContext.externalContext.sessionMaxInactiveInterval};
+              url=#{request.contextPath}/musitiqueStyles/sessionTimeout.xhtml"/>
+    <h:outputStylesheet library="css" name="musitiqueStyles.css"/>
+    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" type="text/javascript"></script>
+
+    <link rel="shortcut icon" href="#{resource['images:favicon.ico']}" type="image/x-icon"/>
+</h:head>
+
+<h:body>
+    <div class="page">
+        <div class="side-menu">
+            <ui:insert name="side-menu">
+                <ui:include src="sidemenuTemplate.xhtml"/>
+            </ui:insert>
+        </div>
+
+        <div class="content-container">
+            <table class="content">
+                <tr>
+                    <th class="header">
+                        <ui:insert name="header">
+                            <ui:include src="headerTemplate.xhtml"/>
+                        </ui:insert>
+                    </th>
+                </tr>
+                <tr>
+                    <td class="editable-content">
+                        <ui:insert name="editable-content">
+                            <ui:include src="contentTemplate.xhtml"/>
+                        </ui:insert>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="footer">
+                        <ui:insert name="footer">
+                            <ui:include src="footerTemplate.xhtml"/>
+                        </ui:insert>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <ui:insert name="growlMessages">
+        <ui:include src="growlMessages.xhtml"/>
+    </ui:insert>
+
+</h:body>
+</html>
