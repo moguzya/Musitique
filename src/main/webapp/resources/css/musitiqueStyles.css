@@ -15,7 +15,7 @@ body {
     max-width: 420px;
     min-width: 100px;
     display: table-cell;
-    background-color: cyan;
+    background-color: #121640;
 }
 
 .content-container{
@@ -33,16 +33,39 @@ body {
 
 .header {
     display: table-cell;
-    background-color: red;
+
+}
+
+.side-menu-bottom{
+    bottom: 0;
 }
 
 .editable-content {
     height: 80%;
     display: table-cell;
-    background-color: green;
+
 }
 
 .footer {
     display: table-cell;
-    background-color: yellow;
+    /*background-color: #888eff;*/
+
+}
+
+.siteLogo{
+    width: 20%;
+}
+
+.content-container{
+    background: #584483;
+    background: -webkit-linear-gradient(#64887a, #584483);
+    background:    -moz-linear-gradient(#64887a, #584483);
+    background:         linear-gradient(#64887a, #584483);
+}
+
+body .ui-panelgrid .ui-panelgrid-cell{
+    border: None !important;
+    background: None !important;
+    color: white !important;
+
 }

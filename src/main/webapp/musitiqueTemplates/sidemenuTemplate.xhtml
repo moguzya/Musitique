@@ -8,33 +8,55 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 <ui:composition>
     <h:form>
-        <div>
-            <h:panelGroup id="iframe-holder" layout="block">
-                <iframe src="#{spotifyPlayerController.embededURL}" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-            </h:panelGroup>
 
+        <div>
+        <!-- Menu Options IF a User is Signed In -->
+            <c:if test="#{userController.isLoggedIn() == true}">
+                <p:button outcome="/userAccount/Profile">
+                    <p:graphicImage cache="false" styleClass="smallProfilePhoto" value="#{userController.userPhoto()}" />
+                    &nbsp;My Account
+                </p:button>
+
+                <p:button value="Sign Out" action="#{userController.logout()}" icon="fas fa-sign-out-alt" />
+                &nbsp;
+            </c:if>
+
+            <!-- Menu Options IF No User is Signed In -->
+            <c:if test="#{userController.isLoggedIn() == false}">
+                <p:button value="Sign In" outcome="/SignIn" icon="fas fa-sign-in-alt" />
+                &nbsp;
+                <p:button value="Create Account" outcome="/userAccount/CreateAccount" icon="fas fa-user-plus" />
+                &nbsp;
+            </c:if>
         </div>
+
+
         <div>
-            <p:inputText style="width:100%" id="search" type="text" placeholder="Search"/>
+            <c:if test="#{userController.isLoggedIn() == true}">
+                <p:inputText style="width:100%" id="search" type="text" placeholder="Search"/>
 
-            <p:commandButton style="width:100%" value="New Releases" icon="fas fa-fire"/>
+                <p:commandButton style="width:100%" value="New Releases" icon="fas fa-fire"/>
 
-            <p:commandButton style="width:100%" value="Followed Artists" icon="fas fa-list"/>
+                <p:commandButton style="width:100%" value="Followed Artists" icon="fas fa-list"/>
 
-            <p:commandButton style="width:100%" value="Profile" icon="fas fa-user"/>
+                <p:commandButton style="width:100%" value="Profile" icon="fas fa-user"/>
+            </c:if>
 
             <p:commandButton style="width:100%" value="Explore" icon="fas fa-compass"/>
         </div>
-        <div>
-            <iframe style="width:100%"
-                    src="https://www.w3schools.com"
-                    title="W3Schools Free Online Web Tutorials">
-            </iframe>
+
+        <div class="side-menu-bottom">
+            <h:panelGroup id="iframe-holder" layout="block">
+                <iframe src="#{spotifyPlayerController.embededURL}" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </h:panelGroup>
+            <div align="center">
+                <a href="/index">
+                    <p:graphicImage cache="false" styleClass="siteLogo" value="#{resource['images:musitiqueLogo.png']}"/>
+                </a>
+                &nbsp;
+            </div>
         </div>
-        <div style="height: 100%">
-            <p:commandButton style="width:100%" value="Logout" icon="fas fa-compass"
-                             styleClass="ui-button-secondary"/>
-        </div>
+
     </h:form>
 </ui:composition>
 </html>

@@ -48,7 +48,7 @@ public class JsfUtil {
 
     public static void addErrorMessage(String msg) {
         /*
-        Prevent displaying the same msg twice by setting the message Detail to ""
+        Prevent displaying the same message 'msg' twice by setting the message Detail to ""
         */
         FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, "");
         FacesContext.getCurrentInstance().addMessage(null, facesMsg);
@@ -56,7 +56,7 @@ public class JsfUtil {
 
     public static void addSuccessMessage(String msg) {
         /*
-        Prevent displaying the same msg twice by setting the message Detail to ""
+        Prevent displaying the same message 'msg' twice by setting the message Detail to ""
         */
         FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, "");
         FacesContext.getCurrentInstance().addMessage("successInfo", facesMsg);

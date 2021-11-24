@@ -52,7 +52,7 @@
     <!-- Show the sessionTimeout.xhtml page when ViewExpiredException occurs. -->
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
-        <location>/template/sessionTimeout.xhtml</location>
+        <location>/musitiqueTemplates/sessionTimeout.xhtml</location>
     </error-page>
   
     <!-- Specify which file to show when the application is launched. -->
