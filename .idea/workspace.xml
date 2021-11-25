@@ -4,279 +4,104 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c0dcdd46-ff5d-4248-8906-15ba3bc61dd0" name="Changes" comment="templates added">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/musitiqueTemplates/sidemenuTemplate.xhtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/musitiqueStyles.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/musitiqueStylesbackup.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/primefaces-10.0.6.jar" beforeDir="false" />
+    <list default="true" id="4724d127-9d88-4425-a22c-bf48275172b2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/MusitiqueDB.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/vt/NewReleases/Album.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/vt/NewReleases/Artist.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/vt/NewReleases/ReleaseController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/vt/NewReleases/Track.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/vt/Type.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/newReleases/NewReleases.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/vt/EntityBeans/Movie.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/vt/FacadeBeans/MovieFacade.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/vt/MovieSearch/SearchedMovie.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/vt/MovieSearch/SearchedMovieCastMember.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/vt/MovieSearch/SearchedMovieController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/vt/MoviesNowPlaying/CurrentMovie.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/vt/MoviesNowPlaying/CurrentMovieCastMember.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/vt/NewReleases/CurrentMovieCastMember.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/vt/MoviesNowPlaying/CurrentMovieController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/vt/controllers/MovieController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/vt/controllers/SpotifyPlayerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/vt/controllers/SpotifyPlayerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/rebel.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/template/contentTemplate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/musitiqueTemplates/contentTemplate.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/template/footerTemplate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/musitiqueTemplates/footerTemplate.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/template/growlMessages.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/musitiqueTemplates/growlMessages.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/template/headerTemplate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/musitiqueTemplates/headerTemplate.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/template/sessionTimeout.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/musitiqueTemplates/sessionTimeout.xhtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/template/siteTemplate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/musitiqueTemplates/siteTemplate.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/movieFavorites/Create.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/movieFavorites/Edit.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/movieFavorites/List.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/movieFavorites/View.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/movieSearch/MovieCastMembers.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/movieSearch/MovieDetails.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/movieSearch/SearchResults.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/movieTrailer/YouTubeVideoPlayer.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/moviesNowPlaying/MovieCastMembers.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/newReleases/MovieCastMembers.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/moviesNowPlaying/MovieDetails.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/newReleases/MovieDetails.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/moviesNowPlaying/MoviePosters.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/newReleases/MoviePosters.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/moviesNowPlaying/MoviesNowPlaying.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/musitiqueTemplates/contentTemplate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/musitiqueTemplates/contentTemplate.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/musitiqueTemplates/playerTestPage.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/musitiqueTemplates/playerTestPage.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/musitiqueTemplates/sidemenuTemplate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/musitiqueTemplates/sidemenuTemplate.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/musitiqueTemplates/siteTemplate.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/musitiqueTemplates/siteTemplate.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/spotifyPlayer/playerTestPage.xhtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/spotifyPlayer/playerTestPage.xhtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/template/contentTemplate.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/template/footerTemplate.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/template/growlMessages.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/template/headerTemplate.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/template/sessionTimeout.xhtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/template/siteTemplate.xhtml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CompilerWorkspaceConfiguration">
-    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
-  </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
   </component>
-  <component name="ExternalProjectsManager">
-    <system id="GRADLE">
-      <state>
-        <task path="$PROJECT_DIR$">
-          <activation />
-        </task>
-        <projects_view>
-          <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Musitique" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Musitique" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Musitique" type="f1a62948:ProjectNode" />
-                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Musitique" type="f1a62948:ProjectNode" />
-                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
-                <item name="compileClasspath" type="62daadca:ExternalSystemViewDefaultContributor$DependencyScopeExternalSystemNode" />
-              </path>
-            </expand>
-            <select />
-          </tree_state>
-        </projects_view>
-      </state>
-    </system>
-  </component>
-  <component name="Git.Rebase.Settings">
-    <option name="NEW_BASE" value="master" />
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="origin/master" />
   </component>
   <component name="Git.Settings">
-    <option name="PUSH_AUTO_UPDATE" value="true" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="b9a3b9e8477c684429e3b4621e653908198e2800" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RESET_MODE" value="HARD" />
-  </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/musitiqueTemplates/sidemenuTemplate.xhtml" root0="FORCE_HIGHLIGHTING" />
-  </component>
-  <component name="JRebelWorkspace">
-    <option name="jrebelEnabledAutocompile" value="true" />
   </component>
   <component name="JpbToolWindowState">
     <option name="myId2FirstActivated">
       <map>
-        <entry key="JPA Inspector" value="true" />
-        <entry key="JPA Palette" value="true" />
         <entry key="JPA Structure" value="true" />
       </map>
     </option>
     <option name="myId2Visible">
       <map>
-        <entry key="JPA Inspector" value="false" />
-        <entry key="JPA Palette" value="false" />
         <entry key="JPA Structure" value="false" />
       </map>
     </option>
   </component>
-  <component name="ProjectId" id="2047pVRBEf0M1wdbA62pVPrRb5s" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="21QkXZKkk80dj5nJuuIrsxSgOrK" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="DatabaseDriversLRU" value="mysql" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/primefaces-11.0.0-RC1.jar" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.31635803" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
-  </component>
-  <component name="RebelAgentSelection">
-    <selection>jr</selection>
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Cloud\IdeaProjects\Musitique\src\main\webapp\resources\css" />
-      <recent name="C:\Users\Cloud\IdeaProjects\Musitique\src\main\webapp\musitiqueTemplates" />
-      <recent name="C:\Users\Cloud\IdeaProjects\Musitique" />
-      <recent name="C:\Users\Cloud\IdeaProjects\Musitique\src" />
-      <recent name="C:\Users\Cloud\IdeaProjects\Musitique\src\main\webapp\template" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Cloud\IdeaProjects\Musitique" />
-    </key>
-  </component>
-  <component name="RunManager">
-    <configuration name="WildFly" type="JBossConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="WildFly" ALTERNATIVE_JRE_ENABLED="false">
-      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/Musitique/" />
-      <option name="SHOW_DIALOG_ON_UPDATE" value="false" />
-      <option name="UPDATING_POLICY" value="redeploy-artifacts" />
-      <deployment>
-        <artifact name="Gradle : edu.vt : Musitique-1.0.war">
-          <settings />
-        </artifact>
-      </deployment>
-      <server-settings>
-        <option name="SERVER" />
-        <option name="BINDING_SET_NAME" value="" />
-        <option name="DOMAIN" value="false" />
-        <option name="SERVER_GROUP" value="main-server-group" />
-        <option name="USERNAME" value="" />
-        <option name="CREDENTIAL_ALIAS" />
-      </server-settings>
-      <predefined_log_file enabled="true" id="JBoss" />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="56565" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="JRebel Debug">
-        <option name="DEBUG_PORT" value="64588" />
-      </RunnerSettings>
-      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
-        <option name="USE_ENV_VARIABLES" value="true" />
-        <STARTUP>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </STARTUP>
-        <SHUTDOWN>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </SHUTDOWN>
-      </ConfigurationWrapper>
-      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
-        <option name="USE_ENV_VARIABLES" value="true" />
-        <STARTUP>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </STARTUP>
-        <SHUTDOWN>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </SHUTDOWN>
-      </ConfigurationWrapper>
-      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="JRebel Debug">
-        <option name="USE_ENV_VARIABLES" value="true" />
-        <STARTUP>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </STARTUP>
-        <SHUTDOWN>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </SHUTDOWN>
-      </ConfigurationWrapper>
-      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="JRebel Executor">
-        <option name="USE_ENV_VARIABLES" value="true" />
-        <STARTUP>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </STARTUP>
-        <SHUTDOWN>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </SHUTDOWN>
-      </ConfigurationWrapper>
-      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
-        <option name="USE_ENV_VARIABLES" value="true" />
-        <STARTUP>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </STARTUP>
-        <SHUTDOWN>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </SHUTDOWN>
-      </ConfigurationWrapper>
-      <method v="2">
-        <option name="Make" enabled="true" />
-        <option name="BuildArtifacts" enabled="true">
-          <artifact name="Gradle : edu.vt : Musitique-1.0.war" />
-        </option>
-      </method>
-    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c0dcdd46-ff5d-4248-8906-15ba3bc61dd0" name="Changes" comment="" />
-      <created>1635292191100</created>
+      <changelist id="4724d127-9d88-4425-a22c-bf48275172b2" name="Changes" comment="" />
+      <created>1637880740934</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1635292191100</updated>
-      <workItem from="1635292192465" duration="484000" />
-      <workItem from="1636501884526" duration="2825000" />
-      <workItem from="1636589845364" duration="2904000" />
-      <workItem from="1636592782207" duration="2065000" />
-      <workItem from="1637100113442" duration="999000" />
-      <workItem from="1637111141968" duration="5327000" />
-      <workItem from="1637118276655" duration="670000" />
-      <workItem from="1637177371980" duration="4992000" />
-      <workItem from="1637183857409" duration="436000" />
-      <workItem from="1637184313644" duration="9491000" />
-      <workItem from="1637194045449" duration="2393000" />
+      <updated>1637880740934</updated>
+      <workItem from="1637880743257" duration="736000" />
     </task>
-    <task id="LOCAL-00001" summary="templates added">
-      <created>1636590398521</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1636590398521</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -292,15 +117,5 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="templates added" />
-    <option name="LAST_COMMIT_MESSAGE" value="templates added" />
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
 </project>

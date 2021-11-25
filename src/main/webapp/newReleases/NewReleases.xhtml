@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/musitiqueTemplates/siteTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="New Releases"/>
+    </ui:define>
+
+    <ui:define name="editableContent">
+        <div align="center">
+            <h:form id="NewReleasesForm">
+                <p:dataView value="#{ReleaseController.listOfNewReleases}"
+                            var="aRelease"
+                            rows="6"
+                            paginator="true"
+                            rowsPerPageTemplate="3,6,9,12,15,18,21,24"
+                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            pageLinks="5"
+                            gridIcon="pi pi-th-large" listIcon="pi pi-bars"
+                            style="width:100%">
+
+                    <f:facet name="header">
+                        <h:outputText value="New Releases"/>
+                    </f:facet>
+
+                    <p:dataViewGridItem>
+                        <p:panel style="text-align:left">
+
+                            <h:panelGrid columns="3" style="width:100%"
+                            >
+
+                                <p:graphicImage url="#{aRelease.imageUrl}" width="92px" style="float:left"/>
+
+                                <h:panelGrid style="width:100%; margin-left:10px">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{aRelease.title}"/>
+                                    </f:facet>
+                                    <br/>
+                                    <h:outputText value="#{aRelease.artist}" style="float:left"/>
+                                    <h:outputText value="#{aRelease.duration_ms}, #{aRelease.releaseDate}"
+                                                  style="float:left"/>
+                                </h:panelGrid>
+
+                                <p:commandButton icon="fa fa-play fa-2x"
+                                                 actionListener='#{spotifyPlayerController.updateURL("https://open.spotify.com/embed/track/0VjIjW4GlUZAMYd2vXMi3b?utm_source=generator")}'>
+                                    <f:ajax render=":iframe-holder"/>
+                                </p:commandButton>
+
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:dataViewGridItem>
+
+                    <p:dataViewListItem>
+                        <div align="center" style="width: 50%">
+                            <p:panel style="text-align:left">
+                                <h:panelGrid columns="3" style="width:100%"
+                                             columnClasses="columnMoviePoster, columnMiddlePart, columnInfoButton">
+                                    <p:commandLink>
+                                        <p:graphicImage url="#{aRelease.imageUrl}" width="92px" style="float:left"/>
+                                    </p:commandLink>
+                                    <h:panelGrid style="width:100%; margin-left:10px">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{aRelease.title}"/>
+                                        </f:facet>
+                                        <br/>
+                                        <h:outputText value="#{aRelease.artist}" style="float:left"/>
+                                        <h:outputText value="#{aRelease.duration_ms}, #{aRelease.releaseDate}"
+                                                      style="float:left"/>
+                                    </h:panelGrid>
+
+                                    <p:commandButton icon="fa fa-play fa-2x"
+                                                     actionListener='#{spotifyPlayerController.updateURL(aRelease.playUrl)}'>
+                                        <f:ajax render=":iframe-holder"/>
+                                    </p:commandButton>
+                                </h:panelGrid>
+                            </p:panel>
+                        </div>
+                    </p:dataViewListItem>
+
+                </p:dataView>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>
+<!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>
+
