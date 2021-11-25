@@ -1,5 +1,5 @@
 /*
- * Created by Osman Balci on 2021.7.17
+ * Created by Osman Balci on 2021.7.14
  * Copyright © 2021 Osman Balci. All rights reserved.
  */
 package edu.vt.FacadeBeans;
@@ -11,13 +11,15 @@ import javax.persistence.EntityManager;
 // Parameter T refers to the Class Type.
 public abstract class AbstractFacade<T> {
 
-    // An instance variable pointing to a class object of type T
-    private final Class<T> entityClass;
+    // An instance variable pointing to an entity class of type T
+    private Class<T> entityClass;
 
     /*
-    The following concrete facade class inherits from this AbstractFacade class:
+    The following concrete facade classes inherit from this AbstractFacade class:
 
-        - MovieFacade    for Movie entity class    representing database table Movie
+        - UserFacade        for User entity class        representing database table User
+        - UserFileFacade    for UserFile entity class    representing database table UserFile
+        - UserPhotoFacade   for UserPhoto entity class   representing database table UserPhoto
 
      Each concrete facade class calls the following constructor method by passing entity
      class type T as a parameter. A concrete class provides the actual implementation.
@@ -33,7 +35,7 @@ public abstract class AbstractFacade<T> {
      */
     protected abstract EntityManager getEntityManager();
 
-    // Stores the newly created entity object into the database.
+    // Stores the newly Created entity object into the database.
     public void create(T entity) {
         getEntityManager().persist(entity);
     }

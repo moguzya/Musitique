@@ -6,11 +6,11 @@
 <!-- Persistence Unit Definition -->
 <persistence-unit name="MusitiquePU" transaction-type="JTA">
     <!-- JTA data source reference must be the same as registered in WildFly -->
-    <jta-data-source>java:/MoviesDB</jta-data-source>
+    <jta-data-source>java:/MusitiqueDB</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
         <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
-        <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/MoviesDB" />
+        <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/MusitiqueDB" />
         <property name="javax.persistence.jdbc.user" value="root" />
         <property name="javax.persistence.jdbc.password" value="CSD@mysql-1872" />
         <property name="javax.persistence.schema-generation.database.action" value="none"/>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Created by Osman Balci on 2021.7.15
+  - Copyright © 2021 Osman Balci. All rights reserved.
+  -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<link rel="stylesheet" href="https://unpkg.com/primeflex@3.1.0/primeflex.css"/>
+
+<!-- This page is constructed based on the siteTemplate -->
+<ui:composition template="/musitiqueTemplates/siteTemplate.xhtml">
+
+    <ui:define name="title">
+        <!-- Set the page title -->
+        <h:outputText value="My Account" />
+    </ui:define>
+
+    <!-- Create the content for this page below -->
+    <ui:define name="editableContent">
+
+        <h:form id="UserProfileForm">
+            <p:panelGrid columns="2">
+
+
+            </p:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>
