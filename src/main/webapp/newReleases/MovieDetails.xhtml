@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Created by Osman Balci on 2021.5.19
+  - Copyright © 2021 Osman Balci. All rights reserved.
+  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition>
+        <!-- 
+        ==========================================================
+        |  Clicking the INFO button displays this Dialog window  |
+        |  to show the Details of the Selected Current Movie.    |
+        ==========================================================
+        -->
+        <p:dialog id="currentMovieDetailsDialog" header="Now Playing Movie Details" widgetVar="currentMovieDetailsDialog"
+                  modal="true" width="90%" position="center" appendTo="@(body)"
+                  showEffect="slide" hideEffect="explode" responsive="true" >
+            <!--
+            There are various effect options to be used when displaying and closing the dialog. 
+            Use showEffect and hideEffect options to apply these effects:
+                blind, bounce, clip, drop, explode, fade, fold, highlight, puff, 
+                pulsate, scale, shake, size, slide and transfer. [PrimeFaces user Guide]
+            -->
+            <h:form id="currentMovieDetailsForm">
+                <p:panel style="text-align:center; border:none">   
+
+                    <h:panelGrid columns="2" rendered="#{not empty currentMovieController.selected}" 
+                                 columnClasses="dialogPoster,dialogText" cellspacing="10px" style="width:100%">
+
+                        <!-- MOVIE TITLE -->
+                        <f:facet name="header">
+                            <h:outputText class="selectedMovieTitle" value="#{currentMovieController.selected.title}" />
+                        </f:facet> 
+
+                        <!-- POSTER IMAGE -->
+                        <p:graphicImage url="http://image.tmdb.org/t/p/w780#{currentMovieController.selected.posterFileName}" 
+                                        style="width:100%; min-width:50px; max-width:400px; height:auto; border:none" /> 
+
+                        <!-- 3 RATING COLUMNS -->
+                        <h:panelGrid columns="1" cellspacing="10px" style="text-align:left; width:100%">
+                            <h:panelGrid columns="3" columnClasses="ratingColumn1, ratingColumn2, ratingColumn3" 
+                                         width="80%" style="text-align:left;">
+
+                                <h:outputText value="IMDb" />           <!-- Column 1 -->
+                                <h:outputText value="Critics" />        <!-- Column 2 -->
+                                <h:outputText value="Audience" />       <!-- Column 3 -->
+
+                                <!-- Column 1: IMDb rating image and value -->
+                                <h:panelGrid columns="2" >
+                                    <h:graphicImage value="#{resource['images:ratingIcons/imdb.png']}" width="40px" style="float:left"/>
+                                    <h:outputText class="ratingNumber" value="&nbsp;&nbsp;#{currentMovieController.selected.imdbRating}&nbsp;&nbsp;" />
+                                </h:panelGrid>  
+
+                                <!-- Column 2: Critics rating image and value -->
+                                <h:panelGrid columns="2" >
+                                    <h:graphicImage name="#{currentMovieController.selected.criticsRatingImage}" width="40px" style="float:left"/>
+                                    <h:outputText class="ratingNumber" value="&nbsp;&nbsp;#{currentMovieController.selected.criticsRating}&nbsp;&nbsp;" />
+                                </h:panelGrid>
+
+                                <!-- Column 3: Audience rating image and value -->
+                                <h:panelGrid  columns="2" style="vertical-align:middle; height:100%">    
+                                    <h:graphicImage name="#{currentMovieController.selected.audienceRatingImage}" width="40px" style="float:left"/>
+                                    <h:outputText class="ratingNumber" value="&nbsp;&nbsp;#{currentMovieController.selected.audienceRating}&nbsp;&nbsp;" />
+                                </h:panelGrid>  
+
+                            </h:panelGrid>
+
+                            <!-- MPAA Rating, Movie Duration -->
+                            <h:outputText value="#{currentMovieController.selected.mpaaRating}, #{currentMovieController.selected.runtime}" style="float:left"/>
+
+                            <!-- RELEASE DATE -->
+                            <h:outputText value="#{currentMovieController.selected.getReleaseDateLong()}" style="float:top" />
+
+                            <!-- CAST section -->
+                            <h:outputText value="Cast:" style="font-weight: bold; float:top" />
+                            <h:panelGrid width="100%">
+                                <h:panelGrid width="100%">
+                                    <h:outputText value="#{currentMovieController.selected.cast}" style="float:top; height:100px" />
+                                </h:panelGrid>
+
+                                <!-- View Cast Members button -->
+                                <p:commandButton id="castViewButton" icon="fas fa-eye" value="View Cast Members"
+                                                 update=":nowPlayingCastViewForm" oncomplete="PF('nowPlayingMovieCastMembersDialog').show()"/>
+                            </h:panelGrid>
+
+                            <!-- MOVIE INFO section -->
+                            <h:outputText value="Movie Info:" style="font-weight: bold; float:top" />
+                            <h:panelGrid width="100%">
+                                <h:outputText value="#{currentMovieController.selected.overview}" style="float:top; height:100px" />
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="2" columnClasses="alignLeft, alignRight" width="100%"> 
+
+                                <c:if test = "${currentMovieController.selected.youTubeMovieTrailerVideoID == ''}"> 
+                                    <!-- NO TRAILER button -->
+                                    <p:commandButton icon="fas fa-ban" value="No Trailer"  />
+                                </c:if>
+
+                                <c:if test = "${currentMovieController.selected.youTubeMovieTrailerVideoID != ''}"> 
+                                    <!-- PLAY TRAILER button -->
+                                    <p:commandButton id="playButton" value="Play Trailer" icon="fas fa-play" styleClass="rounded-button"
+                                                     actionListener="#{movieController.setIdOfVideoToPlay(currentMovieController.selected.youTubeMovieTrailerVideoID)}"
+                                                     update=":MovieTrailerPlayForm" oncomplete="PF('MovieTrailerPlayDialog').show()" />
+                                </c:if>
+                                <!-- CLOSE button -->
+                                <p:commandButton value="Close" icon="fas fa-window-close" styleClass="ui-button-outlined"
+                                                 onclick="PF('currentMovieDetailsDialog').hide()" />
+                            </h:panelGrid> 
+
+                        </h:panelGrid>                      
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+        <ui:include src="/moviesNowPlaying/MovieCastMembers.xhtml"/>
+
+        <ui:include src="/movieTrailer/YouTubeVideoPlayer.xhtml"/>
+
+    </ui:composition>
+</html>

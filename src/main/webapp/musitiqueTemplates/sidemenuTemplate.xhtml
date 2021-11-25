@@ -8,55 +8,31 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 <ui:composition>
     <h:form>
+        <h:panelGroup id="iframe-holder" layout="block">
+            <iframe src="#{spotifyPlayerController.embededURL}" width="100%" height="100%" frameBorder="0"
+                    allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+        </h:panelGroup>
 
-        <div>
-        <!-- Menu Options IF a User is Signed In -->
-            <c:if test="#{userController.isLoggedIn() == true}">
-                <p:button outcome="/userAccount/Profile">
-                    <p:graphicImage cache="false" styleClass="smallProfilePhoto" value="#{userController.userPhoto()}" />
-                    &nbsp;My Account
-                </p:button>
+        <p:inputText style="width:100%" id="search" type="text" placeholder="Search"/>
+        <p:menu style="width:100%">
+            <p:menuitem value="New Releases" icon="fas fa-fire"
+                        outcome="/newReleases/NewReleases.xhtml"/>
 
-                <p:button value="Sign Out" action="#{userController.logout()}" icon="fas fa-sign-out-alt" />
-                &nbsp;
-            </c:if>
+            <p:menuitem value="Followed Artists" icon="fas fa-list"/>
 
-            <!-- Menu Options IF No User is Signed In -->
-            <c:if test="#{userController.isLoggedIn() == false}">
-                <p:button value="Sign In" outcome="/SignIn" icon="fas fa-sign-in-alt" />
-                &nbsp;
-                <p:button value="Create Account" outcome="/userAccount/CreateAccount" icon="fas fa-user-plus" />
-                &nbsp;
-            </c:if>
+            <p:menuitem value="Profile" icon="fas fa-user"/>
+
+            <p:menuitem value="Explore" icon="fas fa-compass"/>
+        </p:menu>
+
+        <div style="height: 100%">
+            <p:commandButton style="width: 20%;
+    position: fixed;
+    bottom: 0px;
+    right: 80%;" value="Logout" icon="fas fa-compass"
+                             styleClass="ui-button-secondary"/>
         </div>
-
-
-        <div>
-            <c:if test="#{userController.isLoggedIn() == true}">
-                <p:inputText style="width:100%" id="search" type="text" placeholder="Search"/>
-
-                <p:commandButton style="width:100%" value="New Releases" icon="fas fa-fire"/>
-
-                <p:commandButton style="width:100%" value="Followed Artists" icon="fas fa-list"/>
-
-                <p:commandButton style="width:100%" value="Profile" icon="fas fa-user"/>
-            </c:if>
-
-            <p:commandButton style="width:100%" value="Explore" icon="fas fa-compass"/>
-        </div>
-
-        <div class="side-menu-bottom">
-            <h:panelGroup id="iframe-holder" layout="block">
-                <iframe src="#{spotifyPlayerController.embededURL}" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-            </h:panelGroup>
-            <div align="center">
-                <a href="/index">
-                    <p:graphicImage cache="false" styleClass="siteLogo" value="#{resource['images:musitiqueLogo.png']}"/>
-                </a>
-                &nbsp;
-            </div>
-        </div>
-
     </h:form>
 </ui:composition>
 </html>
