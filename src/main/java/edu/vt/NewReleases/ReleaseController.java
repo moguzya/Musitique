@@ -4,8 +4,7 @@
  */
 package edu.vt.NewReleases;
 
-import edu.vt.globals.Constants;
-import edu.vt.globals.Methods;
+import edu.vt.Pojos.Album;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,14 +13,11 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-import org.primefaces.shaded.json.JSONArray;
-import org.primefaces.shaded.json.JSONObject;
-
-@Named("ReleaseController")
+@Named("releaseController")
 @SessionScoped
 public class ReleaseController implements Serializable {
-    private List<Track> listOfNewReleases;
-    private Track selected;
+    private List<Album> listOfNewReleases;
+    private Album selected;
 
     @PostConstruct
     public void init() {
@@ -65,38 +61,29 @@ public class ReleaseController implements Serializable {
     }
 
 
-    private List<Track> tempReadData() {
-        List<Track> tempListOfNewReleases;
+    private List<Album> tempReadData() {
+        List<Album> tempListOfNewReleases;
         tempListOfNewReleases = new ArrayList<>();
-        tempListOfNewReleases.add(
-                new Track("1", "title1", "Gustaf & Viktor Norén", "12Chz98pHFMPJEknJQMWvI", "album name", "link",
-                        "2006-06-19", "https://i.scdn.co/image/ab67616d00004851efdaf87d5ea59307b4d530a3", "https://open.spotify.com/embed/album/3Gg0rgnLUn8kdctvVyAR3X?utm_source=generator", 304840));
-        tempListOfNewReleases.add(
-                new Track("2", "title2", "Så mycket bättre 2021 - Tolkningarna", "12Chz98pHFMPJEknJQMWvI", "album name", "link",
-                        "2006-06-19", "https://i.scdn.co/image/ab67616d00001e024a94b3678908c6524ec7c2ad", "https://open.spotify.com/embed/album/2SZ5OldmAx9zijGjLbSfor?utm_source=generator", 304840));
-        tempListOfNewReleases.add(
-                new Track("3", "title3", "Most People (with Lukas Graham)", "12Chz98pHFMPJEknJQMWvI", "album name", "link",
-                        "2006-06-19", "https://i.scdn.co/image/ab67616d00004851cb70ba7ab3fe1343b5b842ef", "https://open.spotify.com/embed/album/2rU6ujofsaPM3D2HyDdcKt?utm_source=generator", 304840));
-        tempListOfNewReleases.add(
-                new Track("4", "title4", "Donda (Deluxe)", "12Chz98pHFMPJEknJQMWvI", "album name", "link",
-                        "2006-06-19", "https://i.scdn.co/image/ab67616d0000b273c5663e50de353981ed2b1a37", "https://open.spotify.com/embed/album/2Wiyo7LzdeBCsVZiRA6vVZ?utm_source=generator", 304840));
-
+        tempListOfNewReleases.add(new Album("4tZwfgrHOc3mvqYlEYSvVi", "Gustaf & Viktor Norén", "https://i.scdn.co/image/ab67616d00004851efdaf87d5ea59307b4d530a3", "2006-06-19", 5));
+        tempListOfNewReleases.add(new Album("3a9qv6NLHnsVxJUtKOMHvD", "Så mycket bättre 2021 - Tolkningarna", "https://i.scdn.co/image/ab67616d00001e024a94b3678908c6524ec7c2ad", "2016-06-19", 15));
+        tempListOfNewReleases.add(new Album("4OEnpg5ubhg6OQ4M2ZjtsL", "Most People (with Lukas Graham)", "https://i.scdn.co/image/ab67616d00004851efdaf87d5ea59307b4d530a3", "2026-06-19", 25));
+        tempListOfNewReleases.add(new Album("1TT6gRprLQ5vSWgoWpyKfR", "Donda (Deluxe)", "https://i.scdn.co/image/ab67616d00004851efdaf87d5ea59307b4d530a3", "2036-06-19", 35));
         return tempListOfNewReleases;
     }
 
-    public List<Track> getListOfNewReleases() {
+    public List<Album> getListOfNewReleases() {
         return listOfNewReleases;
     }
 
-    public void setListOfNewReleases(List<Track> listOfNewReleases) {
+    public void setListOfNewReleases(List<Album> listOfNewReleases) {
         this.listOfNewReleases = listOfNewReleases;
     }
 
-    public Track getSelected() {
+    public Album getSelected() {
         return selected;
     }
 
-    public void setSelected(Track selected) {
+    public void setSelected(Album selected) {
         this.selected = selected;
     }
 
