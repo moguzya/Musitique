@@ -15,10 +15,10 @@
     <ui:define name="editableContent">
         <div align="center">
             <h:form id="ArtistForm">
-                <p:graphicImage url="#{entityController.getSelectedArtist.imageUrl}" width="20%"/>
-                <h:outputText value="#{entityController.getSelectedArtist.name}"/>
-                <h:outputText value="#{entityController.getSelectedArtist.getGenresListAsString}"/>
-                <h:outputText value="Number of Followers: #{entityController.getSelectedArtist.followers}"/>
+                <p:graphicImage url="#{entityController.getSelectedArtist().imageUrl}" width="20%"/>
+                <h:outputText value="#{entityController.getSelectedArtist().name}"/>
+                <h:outputText value="#{entityController.getSelectedArtist().getGenresListAsString}"/>
+                <h:outputText value="Number of Followers: #{entityController.getSelectedArtist().followers}"/>
                 <ui:insert name="comments">
                     <ui:include src="/musitiqueTemplates/commentsTemplate.xhtml"/>
                 </ui:insert>

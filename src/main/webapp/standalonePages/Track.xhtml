@@ -15,14 +15,14 @@
     <ui:define name="editableContent">
         <div align="center">
             <h:form id="TrackForm">
-                <p:graphicImage url="#{entityController.getSelectedTrack.imageUrl}" width="20%"/>
+                <p:graphicImage url="#{entityController.getSelectedTrack().imageUrl}" width="20%"/>
                 <p:commandButton icon="fa fa-play fa-2x"
-                                 actionListener='#{spotifyPlayerController.updateURL(entityController.getSelectedTrack.embedUri)}'>
+                                 actionListener='#{spotifyPlayerController.updateURL(entityController.getSelectedTrack().embedUri)}'>
                     <f:ajax render=":iframe-holder"/>
                 </p:commandButton>
-                <h:outputText value="#{entityController.getSelectedTrack.name}"/>
-                <h:outputText value="#{entityController.getSelectedTrack.artistsListAsString}" style="float:left"/>
-                <h:outputText value="#{entityController.getSelectedTrack.durationMs}" style="float:left"/>
+                <h:outputText value="#{entityController.getSelectedTrack().name}"/>
+                <h:outputText value="#{entityController.getSelectedTrack().artistsListAsString}" style="float:left"/>
+                <h:outputText value="#{entityController.getSelectedTrack().durationMs}" style="float:left"/>
                 <ui:insert name="comments">
                     <ui:include src="/musitiqueTemplates/commentsTemplate.xhtml"/>
                 </ui:insert>
