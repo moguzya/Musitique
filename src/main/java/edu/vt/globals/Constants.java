@@ -126,18 +126,7 @@ public final class Constants {
         "What was your favorite place to visit as a child?"
     };
 
+    public static final String EMBED_URI = "https://open.spotify.com/embed/";
 
-
-
-
-
-    public static final String TMDB_API_KEY                     = "USE-YOUR-OWN-API-KEY";
-
-    // You are allowed to use Dr. Balci's OMDb API key below since he pays $1 for it every month.
-    public static final String OMDB_API_KEY                     = "9f67dd7a";
-
-    public static final String TMDB_API_SEARCH_MOVIE_BASE_URL   = "https://api.themoviedb.org/3/search/movie";
-    public static final String TMDB_API_MOVIE_BASE_URL          = "https://api.themoviedb.org/3/movie/";
-    public static final String OMDB_API_MOVIE_BASE_URL          = "https://www.omdbapi.com/";
 
 }

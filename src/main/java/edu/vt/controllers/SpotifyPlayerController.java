@@ -16,17 +16,18 @@ public class SpotifyPlayerController implements Serializable {
     Instance Variables (Properties)
     ===============================
      */
-    private String embededURL = "https://open.spotify.com/embed/album/3Gg0rgnLUn8kdctvVyAR3X?utm_source=generator";
+    private String embedURL = "https://open.spotify.com/embed/album/3Gg0rgnLUn8kdctvVyAR3X?utm_source=generator";
 
-    public String getEmbededURL() {
-        return embededURL;
+    public String getEmbedURL() {
+        return embedURL;
     }
 
-    public void setEmbededURL(String embededURL) {
-        this.embededURL = embededURL;
+    public void setEmbedURL(String embedURL) {
+        this.embedURL = embedURL;
     }
     public void updateURL(String newUrl){
-        this.embededURL = newUrl;
+        this.embedURL = newUrl;
+        System.out.println(embedURL);
     }
 
 

@@ -9,14 +9,23 @@
 
 <ui:composition template="/musitiqueTemplates/siteTemplate.xhtml">
     <ui:define name="title">
-        <h:outputText value="New Releases"/>
+        <h:outputText value="#{entityController.getSelectedAlbum().name}"/>
     </ui:define>
 
     <ui:define name="editableContent">
         <div align="center">
-            <h:form id="NewReleasesForm">
-                <p:dataView value="#{releaseController.listOfNewReleases}"
-                            var="aRelease"
+            <h:form id="AlbumForm">
+                <p:graphicImage url="#{entityController.getSelectedAlbum().imageUrl}" width="20%"/>
+                <p:commandButton icon="fa fa-play fa-2x"
+                                 actionListener='#{spotifyPlayerController.updateURL(entityController.getSelectedAlbum().embedUri)}'>
+                    <f:ajax render=":iframe-holder"/>
+                </p:commandButton>
+                <h:outputText value="#{entityController.getSelectedAlbum().name}"/>
+                <h:outputText value="#{entityController.getSelectedAlbum().getArtistsListAsString()}" />
+                <h:outputText value="#{entityController.getSelectedAlbum().releaseDate}"/>
+                <h:outputText value="#{entityController.getSelectedAlbum().totalTracks}"/>
+                <p:dataView value="#{entityController.getSelectedAlbum().tracks}"
+                            var="aTrack"
                             rows="6"
                             paginator="true"
                             rowsPerPageTemplate="3,6,9,12,15,18,21,24"
@@ -26,7 +35,7 @@
                             style="width:100%">
 
                     <f:facet name="header">
-                        <h:outputText value="New Releases"/>
+                        <h:outputText value="Tracks"/>
                     </f:facet>
 
                     <p:dataViewGridItem>
@@ -34,21 +43,19 @@
 
                             <h:panelGrid columns="3" style="width:100%">
 
-                                <p:graphicImage url="#{aRelease.imageUrl}" width="92px" style="float:left"/>
+                                <p:graphicImage url="#{aTrack.imageUrl}" width="92px" style="float:left"/>
 
                                 <h:panelGrid style="width:100%; margin-left:10px">
                                     <f:facet name="header">
-                                        <h:outputText value="#{aRelease.name}"/>
+                                        <h:outputText value="#{aTrack.name}"/>
                                     </f:facet>
                                     <br/>
-                                    <h:outputText value="#{aRelease.getArtistsListAsString}" style="float:left"/>
-                                    <h:outputText
-                                            value="#{aRelease.releaseDate}, Number of Tracks:#{aRelease.totalTracks}"
-                                            style="float:left"/>
+                                    <h:outputText value="#{aTrack.getArtistsListAsString()}" style="float:left"/>
+                                    <h:outputText value="#{aTrack.durationMs}, #{aTrack.explicit}" style="float:left"/>
                                 </h:panelGrid>
 
                                 <p:commandButton icon="fa fa-play fa-2x"
-                                                 actionListener='#{spotifyPlayerController.updateURL(aRelease.getEmbedUri)}'>
+                                                 actionListener='#{spotifyPlayerController.updateURL(aTrack.getEmbedUri())}'>
                                     <f:ajax render=":iframe-holder"/>
                                 </p:commandButton>
 
@@ -62,21 +69,19 @@
                                 <h:panelGrid columns="3" style="width:100%"
                                              columnClasses="columnMoviePoster, columnMiddlePart, columnInfoButton">
                                     <p:commandLink>
-                                        <p:graphicImage url="#{aRelease.imageUrl}" width="92px" style="float:left"/>
+                                        <p:graphicImage url="#{aTrack.imageUrl}" width="92px" style="float:left"/>
                                     </p:commandLink>
                                     <h:panelGrid style="width:100%; margin-left:10px">
                                         <f:facet name="header">
-                                            <h:outputText value="#{aRelease.name}"/>
+                                            <h:outputText value="#{aTrack.name}"/>
                                         </f:facet>
                                         <br/>
-                                        <h:outputText value="#{aRelease.getArtistsListAsString}" style="float:left"/>
-                                        <h:outputText
-                                                value="#{aRelease.releaseDate}, Number of Tracks:#{aRelease.totalTracks}"
-                                                style="float:left"/>
+                                        <h:outputText value="#{aTrack.getArtistsListAsString()}" style="float:left"/>
+                                        <h:outputText value="#{aTrack.durationMs}, #{aTrack.explicit}" style="float:left"/>
                                     </h:panelGrid>
 
                                     <p:commandButton icon="fa fa-play fa-2x"
-                                                     actionListener='#{spotifyPlayerController.updateURL(aRelease.getEmbedUri())}'>
+                                                     actionListener='#{spotifyPlayerController.updateURL(aTrack.getEmbedUri())}'>
                                         <f:ajax render=":iframe-holder"/>
                                     </p:commandButton>
                                 </h:panelGrid>
@@ -85,6 +90,10 @@
                     </p:dataViewListItem>
 
                 </p:dataView>
+
+                <ui:insert name="comments">
+                    <ui:include src="/musitiqueTemplates/commentsTemplate.xhtml"/>
+                </ui:insert>
             </h:form>
         </div>
     </ui:define>
