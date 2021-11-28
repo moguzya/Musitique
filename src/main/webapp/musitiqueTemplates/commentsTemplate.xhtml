@@ -7,15 +7,19 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 <ui:composition>
-<!--    <p:dataTable var="aComment" value="#{entityController.getListOfComments()}">-->
-<!--        <p:column>-->
-<!--            <h:outputText value="#{aComment.userId}: #{aComment.comment}" />-->
-<!--        </p:column>-->
+    <h:outputText value="Comments" />
+    <p:dataTable
+            var="aComment"
+            value="#{entityController.getListOfComments()}"
+            selection="#{entityController.selectedComment}">
+        <p:column>
+            <h:outputText value="#{aComment.userId}: #{aComment.comment}" />
+        </p:column>
 
-<!--        <p:column>-->
-<!--            <h:outputText value="#{aComment.date}" />-->
-<!--        </p:column>-->
-<!--    </p:dataTable>-->
+        <p:column>
+            <h:outputText value="#{aComment.date}" />
+        </p:column>
+    </p:dataTable>
 </ui:composition>
 <!-- Do not enter tags before the composition line since they are ignored by JSF -->
 

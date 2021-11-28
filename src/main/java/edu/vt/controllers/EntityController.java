@@ -216,7 +216,7 @@ public class EntityController implements Serializable {
     }
 
     public List<UserComment> getListOfComments() {
-        return listOfComments;
+            return listOfComments==null?new ArrayList<>():listOfComments;
     }
 
     public void setListOfComments(List<UserComment> listOfComments) {
