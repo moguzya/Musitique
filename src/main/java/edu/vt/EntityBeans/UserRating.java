@@ -16,6 +16,14 @@ representing the Video table in the UsersVideosDB database.
 
 @Table(name = "UserRating")
 
+@NamedQueries({
+    /*
+    private User userId;    --> userId is the object reference of the User object.
+    userId.id               --> User object's database primary key
+     */
+        @NamedQuery(name = "UserRating.findByUserId", query = "SELECT r FROM UserRating r WHERE r.userId.id = :userId")
+})
+
 public class UserRating implements Serializable {
 
     @Id
@@ -24,10 +32,10 @@ public class UserRating implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "user_id")
-    private Integer userId;
+    // user_id INT UNSIGNED
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne
+    private User userId;
 
     @Basic(optional = false)
     @NotNull

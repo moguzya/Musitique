@@ -8,6 +8,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <link rel="stylesheet" href="https://unpkg.com/primeflex@3.1.0/primeflex.css"/>
 
@@ -72,14 +73,59 @@
 
                                 </p:panelGrid>
                 </p:panelGrid>
-
+                &nbsp;
                 <div style="background: grey; height: 200px; color:white;">
                     Preferences
                 </div>
-
+                &nbsp;
 
                 <div style="background: grey; height: 300px; color:white;">
+                    My Ratings
+                    #{userController.listOfUserRatings}
+
+<!--                    <p:dataView value="#{userController.listOfUserRatings}"-->
+<!--                                var="aRatings"-->
+<!--                                rows="6"-->
+<!--                                paginator="true"-->
+<!--                                layout="list"-->
+<!--                                rowsPerPageTemplate="3,6,9,12,15,18,21,24"-->
+<!--                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"-->
+<!--                                pageLinks="5"-->
+<!--                                gridIcon="pi pi-th-large" listIcon="pi pi-bars"-->
+<!--                                style="width:100%">-->
+
+<!--                        <p:dataViewListItem>-->
+<!--                            <div align="center" style="width: 50%">-->
+<!--                                <p:panel style="text-align:left">-->
+<!--                                    <h:panelGrid columns="3" style="width:100%"-->
+<!--                                                 columnClasses="columnTrackPoster, columnMiddlePart, columnInfoButton">-->
+<!--                                        <p:commandLink>-->
+<!--                                            <p:graphicImage url="#{aRatings.imageUrl}" width="92px" style="float:left"/>-->
+<!--                                        </p:commandLink>-->
+<!--                                        <h:panelGrid style="width:100%; margin-left:10px">-->
+<!--                                            <f:facet name="header">-->
+<!--                                                <h:outputText value="#{aRatings.name}"/>-->
+<!--                                            </f:facet>-->
+<!--                                            <br/>-->
+<!--                                            <h:outputText value="#{aRatings.getArtistsListAsString()}" style="float:left"/>-->
+<!--                                        </h:panelGrid>-->
+
+<!--                                        <h:outputText value="#{aRatings.()}" style="float:left"/>-->
+
+<!--                                        <p:commandButton icon="fa fa-play fa-2x"-->
+<!--                                                         actionListener='#{spotifyPlayerController.updateURL(aTrack.getEmbedUri())}'>-->
+<!--                                            <f:ajax render=":iframe-holder"/>-->
+<!--                                        </p:commandButton>-->
+<!--                                    </h:panelGrid>-->
+<!--                                </p:panel>-->
+<!--                            </div>-->
+<!--                        </p:dataViewListItem>-->
+<!--                    </p:dataView>-->
+                </div>
+                &nbsp;
+                <div style="background: grey; height: 300px; color:white;">
                     My Comments
+                    #{userController.listofUserComments}
                 </div>
 
                 <p:panelGrid columns="4">
@@ -145,7 +191,7 @@
 
             </h:form>
 
-            <!-- 
+            <!--
             =================================================================
             Dialog for Security Question and Answer for User Account Deletion
             =================================================================
@@ -182,7 +228,7 @@
                             |        CANCEL Button         |
                             ================================
 
-                            JSF application lifecycle execute phase contains the following subphases: 
+                            JSF application lifecycle execute phase contains the following subphases:
                             [See https://docs.oracle.com/javaee/6/tutorial/doc/bnaqq.html for detailed description]
 
                                 1. Restore View Phase
@@ -192,7 +238,7 @@
                                 5. Invoke Application Phase
                                 6. Render Response Phase
 
-                            immediate="true" causes the execution of only the Apply Request Values Phase. 
+                            immediate="true" causes the execution of only the Apply Request Values Phase.
                             Therefore, the <f:event> validation is not performed since the operation is cancelled.
                             -->
                             <p:commandButton id="cancel" value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined"
