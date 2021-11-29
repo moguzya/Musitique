@@ -1,5 +1,6 @@
 package edu.vt.FacadeBeans;
 
+import edu.vt.EntityBeans.User;
 import edu.vt.EntityBeans.UserComment;
 import edu.vt.EntityBeans.UserRating;
 
@@ -66,5 +67,19 @@ public class RatingFacade extends AbstractFacade<UserRating> {
 
         // The remove method is inherited from the parent AbstractFacade class
         getEntityManager().remove(userRating);
+    }
+
+    // Returns a list of object references of UserVideo objects that belong to
+    // the User object whose database Primary Key = primaryKey
+    public List<UserRating> findUserRatingByUserPrimaryKey(Integer primaryKey) {
+        /*
+        The following @NamedQuery definition is given in UserVideo entity class file:
+        @NamedQuery(name = "UserVideo.findByUserId", query = "SELECT u FROM UserVideo u WHERE u.userId.id = :userId")
+
+        The following statement obtains the results from the named database query.
+         */
+        return entityManager.createNamedQuery("UserRating.findByUserId")
+                .setParameter("userId", primaryKey)
+                .getResultList();
     }
 }

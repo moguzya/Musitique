@@ -5,7 +5,11 @@
 package edu.vt.controllers;
 
 import edu.vt.EntityBeans.User;
+import edu.vt.EntityBeans.UserComment;
 import edu.vt.EntityBeans.UserPhoto;
+import edu.vt.EntityBeans.UserRating;
+import edu.vt.FacadeBeans.CommentFacade;
+import edu.vt.FacadeBeans.RatingFacade;
 import edu.vt.FacadeBeans.UserFacade;
 import edu.vt.FacadeBeans.UserPhotoFacade;
 import edu.vt.globals.Constants;
@@ -58,6 +62,10 @@ public class UserController implements Serializable {
 
     private User selected;
 
+    private List<UserComment> listofUserComments = null;
+    private List<UserRating> listofUserRatings = null;
+
+
     /*
     The @EJB annotation directs the EJB Container Manager to inject (store) the object reference of the
     UserFacade bean into the instance variable 'userFacade' after it is instantiated at runtime.
@@ -72,12 +80,76 @@ public class UserController implements Serializable {
     @EJB
     private UserPhotoFacade userPhotoFacade;
 
+    /*
+    The @EJB annotation directs the EJB Container Manager to inject (store) the object reference of the
+    CommentFacade bean into the instance variable 'commentFacade' after it is instantiated at runtime.
+     */
+    @EJB
+    private CommentFacade commentFacade;
+
+    /*
+    The @EJB annotation directs the EJB Container Manager to inject (store) the object reference of the
+    CommentFacade bean into the instance variable 'commentFacade' after it is instantiated at runtime.
+     */
+    @EJB
+    private RatingFacade ratingFacade;
 
     /*
     =========================
     Getter and Setter Methods
     =========================
      */
+    /*
+    ***************************************************************
+    Return the List of User Comments that Belong to the Signed-In User
+    ***************************************************************
+     */
+    public List<UserComment> getListofUserComments() {
+
+        if (listofUserComments == null) {
+            /*
+            'user', the object reference of the signed-in user, was put into the SessionMap
+            in the initializeSessionMap() method in LoginManager upon user's sign in.
+             */
+            Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+            User signedInUser = (User) sessionMap.get("user");
+
+            // Obtain the database primary key of the signedInUser object
+            Integer primaryKey = signedInUser.getId();
+
+            // Obtain only those videos from the database that belong to the signed-in user
+            listofUserComments = commentFacade.findUserCommentByUserPrimaryKey(primaryKey);
+        }
+        return listofUserComments;
+    }
+
+    public void setListofUserComments(List<UserComment> listofUserComments) {
+        this.listofUserComments = listofUserComments;
+    }
+
+    public List<UserRating> getListOfUserRatings() {
+
+        if (listofUserRatings == null) {
+            /*
+            'user', the object reference of the signed-in user, was put into the SessionMap
+            in the initializeSessionMap() method in LoginManager upon user's sign in.
+             */
+            Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+            User signedInUser = (User) sessionMap.get("user");
+
+            // Obtain the database primary key of the signedInUser object
+            Integer primaryKey = signedInUser.getId();
+
+            // Obtain only those videos from the database that belong to the signed-in user
+            listofUserRatings = ratingFacade.findUserRatingByUserPrimaryKey(primaryKey);
+        }
+        return listofUserRatings;
+    }
+
+    public void setListOfUserRatings(List<UserRating> listofUserRatings) {
+        this.listofUserRatings = listofUserRatings;
+    }
+
     public String getUsername() {
         return username;
     }
