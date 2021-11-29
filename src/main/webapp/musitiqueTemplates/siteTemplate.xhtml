@@ -3,7 +3,8 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
     <title>
         <ui:insert name="title">Musitique</ui:insert>
@@ -18,40 +19,55 @@
 </h:head>
 
 <h:body>
-    <div class="page">
-        <div class="side-menu">
-            <ui:insert name="side-menu">
-                <ui:include src="sidemenuTemplate.xhtml"/>
-            </ui:insert>
-        </div>
 
-        <div class="content-container">
-            <table class="content">
-                <tr>
-                    <th class="header">
-                        <ui:insert name="header">
-                            <ui:include src="headerTemplate.xhtml"/>
-                        </ui:insert>
-                    </th>
-                </tr>
-                <tr>
-                    <td class="editable-content">
-                        <ui:insert name="editableContent">
-                            <ui:include src="contentTemplate.xhtml" />
-                        </ui:insert>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="footer">
-                        <ui:insert name="footer">
-                            <ui:include src="footerTemplate.xhtml"/>
-                        </ui:insert>
-                    </td>
-                </tr>
-            </table>
-        </div>
 
+    <div class="card" style="height: 100% !important;">
+        <p:splitter styleClass="p-mb-5" style="height: 100% !important;">
+            <p:splitterPanel size="15" minSize="10" styleClass="p-d-flex p-ai-center p-jc-center sideMenuSplitter">
+                <ui:insert name="side-menu">
+                    <ui:include src="sidemenuTemplate.xhtml"/>
+                </ui:insert>
+            </p:splitterPanel>
+            <p:splitterPanel  size="85" minSize="80" styleClass="p-d-flex p-ai-center p-jc-center mainContentSplitter">
+                <div class="content-container">
+                    <table class="content">
+                        <tr>
+                            <th class="header">
+                                <ui:insert name="header">
+                                    <ui:include src="headerTemplate.xhtml"/>
+                                </ui:insert>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td class="editable-content">
+                                <ui:insert name="editableContent">
+                                    <ui:include src="contentTemplate.xhtml" />
+                                </ui:insert>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="footer">
+                                <ui:insert name="footer">
+                                    <ui:include src="footerTemplate.xhtml"/>
+                                </ui:insert>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </p:splitterPanel>
+        </p:splitter>
     </div>
+
+<!--    <div class="page">-->
+<!--        <div class="side-menu">-->
+<!--            <ui:insert name="side-menu">-->
+<!--                <ui:include src="sidemenuTemplate.xhtml"/>-->
+<!--            </ui:insert>-->
+<!--        </div>-->
+
+
+
+<!--    </div>-->
 
     <ui:insert name="growlMessages">
         <ui:include src="growlMessages.xhtml"/>
