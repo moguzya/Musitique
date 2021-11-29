@@ -4,8 +4,10 @@
  */
 package edu.vt.controllers;
 
+import edu.vt.EntityBeans.User;
 import edu.vt.EntityBeans.UserComment;
 import edu.vt.EntityBeans.UserRating;
+import edu.vt.EntityType;
 import edu.vt.Pojos.Album;
 import edu.vt.FacadeBeans.CommentFacade;
 import edu.vt.FacadeBeans.RatingFacade;
@@ -14,15 +16,18 @@ import edu.vt.Pojos.Track;
 import edu.vt.controllers.util.JsfUtil;
 import edu.vt.controllers.util.JsfUtil.PersistAction;
 import edu.vt.globals.Methods;
+import org.primefaces.event.RateEvent;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -86,13 +91,32 @@ public class EntityController implements Serializable {
     private Artist selectedArtist;
 
     private UserComment selectedComment;
-    private UserRating selectedRating;
+    private UserRating userRating;
+
     private List<UserComment> listOfComments;
+    private EntityType selectedEntityType;
+
+    private Double averageEntityRating;
     /*
     ================
     Instance Methods
     ================
     */
+
+    public String toAlbumPage(Album selectedAlbum) {
+        setSelectedAlbum(selectedAlbum);
+        return "/standalonePages/Album?faces-redirect=true";
+    }
+
+    public String toArtistPage(Artist selectedArtist) {
+        setSelectedArtist(selectedArtist);
+        return "/standalonePages/Artist?faces-redirect=true";
+    }
+
+    public String toTrackPage(Track selectedTrack) {
+        setSelectedTrack(selectedTrack);
+        return "/standalonePages/Track?faces-redirect=true";
+    }
 
     public void unselectAlbum() {
         selectedAlbum = null;
@@ -122,7 +146,8 @@ public class EntityController implements Serializable {
     CREATE a New Comment in the Database
     ************************************
      */
-    public void createComment() {
+    public void createComment(UserComment comment) {
+        selectedComment = comment;
         Methods.preserveMessages();
         persistComment(PersistAction.CREATE, "Comment was Successfully Created!");
         if (!JsfUtil.isValidationFailed()) {
@@ -130,18 +155,20 @@ public class EntityController implements Serializable {
         }
     }
 
-    public void createRating() {
+    public void createRating(UserRating rating) {
+        userRating = rating;
         Methods.preserveMessages();
         persistRating(PersistAction.CREATE, "Rating was Successfully Created!");
     }
 
-    public void updateRating() {
+    public void updateRating(UserRating rating) {
+        userRating = rating;
         Methods.preserveMessages();
-
         persistRating(PersistAction.UPDATE, "Rating was Successfully Updated!");
     }
 
-    public void destroyComment() {
+    public void destroyComment(UserComment comment) {
+        selectedComment = comment;
         Methods.preserveMessages();
 
         persistComment(PersistAction.DELETE, "Comment was Successfully Deleted!");
@@ -150,6 +177,31 @@ public class EntityController implements Serializable {
             // No JSF validation error. The DELETE operation is successfully performed.
             listOfComments = null;    // Invalidate listOfComments to trigger re-query.
         }
+    }
+
+    public void destroyRating(UserRating rating) {
+        userRating = rating;
+        Methods.preserveMessages();
+
+        persistRating(PersistAction.DELETE, "Rating was Successfully Deleted!");
+
+        if (!JsfUtil.isValidationFailed()) {
+            // No JSF validation error. The DELETE operation is successfully performed.
+            userRating = null;
+        }
+    }
+
+    public void onRate(RateEvent<Integer> rateEvent) {
+        userRating = new UserRating(getUserId(), getSelectedEntityId(), rateEvent.getRating());
+        updateRating(userRating);
+    }
+
+    public void onUnrate() {
+        destroyRating(userRating);
+    }
+
+    private Integer getUserId() {
+        return ((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()).getId();
     }
 
     /*
@@ -163,6 +215,9 @@ public class EntityController implements Serializable {
 
     public void setSelectedAlbum(Album selectedAlbum) {
         this.selectedAlbum = selectedAlbum;
+        selectedEntityType = EntityType.ALBUM;
+        unselectArtist();
+        unselectTrack();
     }
 
     public Artist getSelectedArtist() {
@@ -171,6 +226,9 @@ public class EntityController implements Serializable {
 
     public void setSelectedArtist(Artist selectedArtist) {
         this.selectedArtist = selectedArtist;
+        selectedEntityType = EntityType.ARTIST;
+        unselectAlbum();
+        unselectTrack();
     }
 
     public Track getSelectedTrack() {
@@ -181,6 +239,9 @@ public class EntityController implements Serializable {
 
     public void setSelectedTrack(Track selectedTrack) {
         this.selectedTrack = selectedTrack;
+        selectedEntityType = EntityType.TRACK;
+        unselectAlbum();
+        unselectArtist();
     }
 
     public CommentFacade getCommentFacade() {
@@ -207,22 +268,52 @@ public class EntityController implements Serializable {
         this.selectedComment = selectedComment;
     }
 
-    public UserRating getSelectedRating() {
-        return selectedRating;
+    public UserRating getUserRating() {
+        userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUserId());
+        return userRating == null ? new UserRating() : userRating;
     }
 
-    public void setSelectedRating(UserRating selectedRating) {
-        this.selectedRating = selectedRating;
+    public void setUserRating(UserRating userRating) {
+        this.userRating = userRating;
     }
 
     public List<UserComment> getListOfComments() {
-            return listOfComments==null?new ArrayList<>():listOfComments;
+        listOfComments = commentFacade.findCommentsByEntityId(getSelectedEntityId());
+        return listOfComments;
     }
 
     public void setListOfComments(List<UserComment> listOfComments) {
         this.listOfComments = listOfComments;
     }
 
+    private String getSelectedEntityId() {
+        switch (selectedEntityType) {
+            case ALBUM:
+                return selectedAlbum.getId();
+            case ARTIST:
+                return selectedArtist.getId();
+            case TRACK:
+                return selectedTrack.getId();
+        }
+        return "";
+    }
+
+    public EntityType getSelectedEntityType() {
+        return selectedEntityType;
+    }
+
+    public void setSelectedEntityType(EntityType selectedEntityType) {
+        this.selectedEntityType = selectedEntityType;
+    }
+
+    public Double getAverageEntityRating() {
+        listOfComments = commentFacade.findCommentsByEntityId(getSelectedEntityId());
+        return averageEntityRating;
+    }
+
+    public void setAverageEntityRating(Double averageEntityRating) {
+        this.averageEntityRating = averageEntityRating;
+    }
     /*
      **********************************************************************************************
      *   Perform CREATE, UPDATE (EDIT), and DELETE (DESTROY, REMOVE) Operations in the Database   *
@@ -280,31 +371,31 @@ public class EntityController implements Serializable {
     }
 
     private void persistRating(PersistAction persistAction, String successMessage) {
-        if (selectedRating != null) {
+        if (userRating != null) {
             try {
                 if (persistAction != PersistAction.DELETE) {
                     /*
                      -------------------------------------------------
                      Perform CREATE or EDIT operation in the database.
                      -------------------------------------------------
-                     The edit(selected) method performs the SAVE (STORE) operation of the "selectedRating"
+                     The edit(selected) method performs the SAVE (STORE) operation of the "userRating"
                      object in the database regardless of whether the object is a newly
                      created object (CREATE) or an edited (updated) object (EDIT or UPDATE).
 
                      ratingFacade inherits the edit(selected) method from the AbstractFacade class.
                      */
-                    ratingFacade.edit(selectedRating);
+                    ratingFacade.edit(userRating);
                 } else {
                     /*
                      -----------------------------------------
                      Perform DELETE operation in the database.
                      -----------------------------------------
-                     The remove(selected) method performs the DELETE operation of the "selectedRating"
+                     The remove(selected) method performs the DELETE operation of the "userRating"
                      object in the database.
 
                      RatingFacade inherits the remove(selected) method from the AbstractFacade class.
                      */
-                    ratingFacade.remove(selectedRating);
+                    ratingFacade.remove(userRating);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

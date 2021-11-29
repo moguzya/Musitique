@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import java.io.IOException;
+import java.util.Objects;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -648,5 +649,9 @@ public class UserController implements Serializable {
         }
     }
 
+    public Boolean isOwner(Integer idToCheck) {
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        return Objects.equals(idToCheck, ((User) sessionMap.get("user")).getId());
+    }
 
 }

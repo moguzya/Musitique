@@ -1,5 +1,5 @@
 package edu.vt;
-public enum Type {
+public enum EntityType {
     TRACK,
     ALBUM,
     ARTIST

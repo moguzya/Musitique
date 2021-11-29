@@ -6,6 +6,7 @@ import edu.vt.EntityBeans.UserRating;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 // @Stateless annotation implies that the conversational state with the client shall not be maintained.
@@ -37,11 +38,16 @@ public class RatingFacade extends AbstractFacade<UserRating> {
         return entityManager;
     }
 
-    public List<UserRating> findRatingsByEntityId(String entityId) {
-        return getEntityManager()
+    public Double findAverageRatingByEntityId(String entityId) {
+        List<UserRating> ratings = getEntityManager()
                 .createQuery("SELECT r FROM UserRating r WHERE r.entityId = :entityId")
                 .setParameter("entityId", entityId)
                 .getResultList();
+        Double sum = 0.0;
+        for (UserRating rating : ratings) {
+            sum += rating.getRating();
+        }
+        return sum / ratings.size();
     }
 
     public UserRating findUserRatingByEntityId(String entityId, Integer userId) {

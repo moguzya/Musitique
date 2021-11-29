@@ -45,6 +45,17 @@ public class UserRating implements Serializable {
     @Column(name = "date")
     private LocalDateTime date;
 
+    public UserRating() {
+        rating = 0;
+    }
+
+    public UserRating(Integer userId, String entityId, Integer rating) {
+        this.userId = userId;
+        this.entityId = entityId;
+        this.rating = rating;
+        this.date = LocalDateTime.now();
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -72,5 +83,37 @@ public class UserRating implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(String entityId) {
+        this.entityId = entityId;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 }
