@@ -39,18 +39,22 @@ public class Album {
     }
 
     public Album(String id, String name, String imageUrl, String releaseDate, Integer totalTracks) {
+        this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
         this.releaseDate = releaseDate;
         this.totalTracks = totalTracks;
     }
-    public Album(String id, String name, String imageUrl, String releaseDate, Integer totalTracks,List<Track> tracks) {
+
+    public Album(String id, String name, String imageUrl, String releaseDate, Integer totalTracks, List<Track> tracks) {
+        this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
         this.releaseDate = releaseDate;
         this.totalTracks = totalTracks;
         this.tracks = tracks;
     }
+
     public String getId() {
         return id;
     }
@@ -108,7 +112,7 @@ public class Album {
     }
 
     public String getArtistsListAsString() {
-        if(artists == null)
+        if (artists == null)
             return "Artist list cannot be found";
         String artistsAsString = "";
         Iterator<Artist> iterator = artists.iterator();

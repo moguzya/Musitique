@@ -41,14 +41,14 @@
                                         <h:outputText value="#{aRelease.name}"/>
                                     </f:facet>
                                     <br/>
-                                    <h:outputText value="#{aRelease.getArtistsListAsString}" style="float:left"/>
+                                    <h:outputText value="#{aRelease.getArtistsListAsString()}" style="float:left"/>
                                     <h:outputText
                                             value="#{aRelease.releaseDate}, Number of Tracks:#{aRelease.totalTracks}"
                                             style="float:left"/>
                                 </h:panelGrid>
 
                                 <p:commandButton icon="fa fa-play fa-2x"
-                                                 actionListener='#{spotifyPlayerController.updateURL(aRelease.getEmbedUri)}'>
+                                                 actionListener='#{spotifyPlayerController.updateURL(aRelease.getEmbedUri())}'>
                                     <f:ajax render=":iframe-holder"/>
                                 </p:commandButton>
 
@@ -69,7 +69,7 @@
                                             <h:outputText value="#{aRelease.name}"/>
                                         </f:facet>
                                         <br/>
-                                        <h:outputText value="#{aRelease.getArtistsListAsString}" style="float:left"/>
+                                        <h:outputText value="#{aRelease.getArtistsListAsString()}" style="float:left"/>
                                         <h:outputText
                                                 value="#{aRelease.releaseDate}, Number of Tracks:#{aRelease.totalTracks}"
                                                 style="float:left"/>

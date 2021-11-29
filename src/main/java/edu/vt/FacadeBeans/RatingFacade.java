@@ -51,7 +51,7 @@ public class RatingFacade extends AbstractFacade<UserRating> {
         return sum / ratings.size();
     }
 
-    public UserRating findUserRatingByEntityId(String entityId, Integer userId) {
+    public UserRating findUserRatingByEntityId(String entityId, User userId) {
         return (UserRating) getEntityManager()
                 .createQuery("SELECT r FROM UserRating r WHERE r.entityId = :entityId AND r.userId = :userId")
                 .setParameter("entityId", entityId)

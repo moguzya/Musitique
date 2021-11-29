@@ -57,7 +57,7 @@ public class UserRating implements Serializable {
         rating = 0;
     }
 
-    public UserRating(Integer userId, String entityId, Integer rating) {
+    public UserRating(User userId, String entityId, Integer rating) {
         this.userId = userId;
         this.entityId = entityId;
         this.rating = rating;
@@ -93,11 +93,11 @@ public class UserRating implements Serializable {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 

@@ -9,14 +9,7 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 <ui:composition>
     <h:form class = "side-menu-main">
-
-
-
-
-
-
         <p:panel>
-
             <div class="speeddial-circle-demo" style="position: relative; height: 100px">
                 <p:speedDial direction="right" hideIcon= "true" buttonStyleClass="ui-button-warning profile-button">
                     <!--            <p:menuitem icon="pi pi-pencil" action="#{userController.createAccount}"/>-->
@@ -35,7 +28,7 @@
                     </c:if>
 
                     <!-- Menu Options IF No User is Signed In -->
-                    <c:if test="#{userController.isLoggedIn() == false}">
+                    <c:if test="#{!userController.isLoggedIn()}">
                         <p:menuitem icon="fas fa-sign-in-alt" value="Sign In" outcome="/SignIn"  />
                         &nbsp;
                         <p:menuitem icon="fas fa-user-plus"  value="Create Account" outcome="/userAccount/CreateAccount" />
@@ -43,39 +36,31 @@
                     </c:if>
                 </p:speedDial>
             </div>
+            <div class="side-menu-main">
+                <p:inputText style="width:100%" id="search" type="text" placeholder="Search"/>
+                <p:menu style="width:100%">
+                    <p:menuitem value="New Releases" icon="fas fa-fire"
+                                outcome="/newReleases/NewReleases.xhtml"/>
 
-        <div class="side-menu-main">
-
-            <p:inputText style="width:100%" id="search" type="text" placeholder="Search"/>
-            <p:menu style="width:100%">
-                <p:menuitem value="New Releases" icon="fas fa-fire"
-                            outcome="/newReleases/NewReleases.xhtml"/>
-
-                <c:if test="#{userController.isLoggedIn() == true}">
-                    <p:menuitem value="Followed Artists" icon="fas fa-list"/>
-                </c:if>
-
-                <p:menuitem value="Explore" icon="fas fa-compass"/>
-            </p:menu>
-
-        </div>
-
-
-
-            <f:facet name="footer">
-
+                    <c:if test="#{userController.isLoggedIn() == true}">
+                        <p:menuitem value="Followed Artists" icon="fas fa-list"/>
+                    </c:if>
+                    <p:menuitem value="Explore" icon="fas fa-compass"/>
+                </p:menu>
+            </div>
+<!--            <f:facet name="footer">-->
                 <div class="side-menu-bottom">
                     <h:panelGroup id="iframe-holder" layout="block">
                         <iframe src="#{spotifyPlayerController.embedURL}" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                     </h:panelGroup>
                     <div align="center">
-                        <a href="/index.xhtml">
+                        <a href="${pageContext.request.contextPath}/Musitique/">
                             <p:graphicImage cache="false" styleClass="siteLogo" value="#{resource['images:musitiqueLogo.png']}"/>
                         </a>
                         &nbsp;
                     </div>
                 </div>
-            </f:facet>
+<!--            </f:facet>-->
 
         </p:panel>
 

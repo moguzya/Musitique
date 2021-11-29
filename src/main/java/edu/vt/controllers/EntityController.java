@@ -200,8 +200,8 @@ public class EntityController implements Serializable {
         destroyRating(userRating);
     }
 
-    private Integer getUserId() {
-        return ((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()).getId();
+    private User getUserId() {
+        return (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
     }
 
     /*
