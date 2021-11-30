@@ -10,30 +10,25 @@
 <ui:composition>
     <h:form class = "side-menu-main">
         <p:panel>
+
+
             <div class="speeddial-circle-demo" style="position: relative; height: 100px">
                 <p:speedDial direction="right" hideIcon= "true" buttonStyleClass="ui-button-warning profile-button">
-                    <!--            <p:menuitem icon="pi pi-pencil" action="#{userController.createAccount}"/>-->
-                    <!--            <p:menuitem icon="pi pi-refresh" action="#{userController.logout}"/>-->
-                    <!--            <p:menuitem icon="pi pi-upload" url="https://www.primefaces.org"/>-->
-                    <!--            <p:menuitem icon="pi pi-external-link" url="https://www.primefaces.org"/>-->
+                    <!-- Menu Options IF No User is Signed In -->
+                    <c:if test="#{userController.isLoggedIn() == false}">
+                        <p:menuitem icon="fas fa-sign-in-alt" outcome="/SignIn" title="Sign In" />
+                        <p:menuitem icon="fas fa-user-plus" outcome="/userAccount/CreateAccount" title="Create Account"/>
+                    </c:if>
                     <!-- Menu Options IF a User is Signed In -->
                     <c:if test="#{userController.isLoggedIn() == true}">
-                        <p:menuitem icon="pi pi-pencil" outcome="/userAccount/Profile" value ="Profile">
-                            <!--                    <p:graphicImage cache="false" styleClass="smallProfilePhoto" value="#{userController.userPhoto()}" />-->
-                            <!--                    &nbsp;My Account-->
-                        </p:menuitem>
-
-                        <p:menuitem icon="fas fa-sign-out-alt" value="Sign Out" action="#{userController.logout()}"  />
-                        &nbsp;
+                        <p:menuitem icon="fas fa-id-badge" action="/userAccount/Profile" title="My Profile"/>
+                        <p:menuitem icon="fas fa-edit" action="/userAccount/EditAccount" title="Edit Account"/>
+                        <p:menuitem icon="fas fa-camera" action="/userPhoto/ChangePhoto" title="Change Photo"/>
+                        <p:menuitem icon="fas fa-key" action="/userPasswordChange/EnterUsername" title="Change Password"/>
+                        <p:menuitem icon="fas fa-sign-out-alt" action="#{userController.logout()}" title="Sign Out"/>
                     </c:if>
 
-                    <!-- Menu Options IF No User is Signed In -->
-                    <c:if test="#{!userController.isLoggedIn()}">
-                        <p:menuitem icon="fas fa-sign-in-alt" value="Sign In" outcome="/SignIn"  />
-                        &nbsp;
-                        <p:menuitem icon="fas fa-user-plus"  value="Create Account" outcome="/userAccount/CreateAccount" />
-                        &nbsp;
-                    </c:if>
+
                 </p:speedDial>
             </div>
             <div class="side-menu-main">
@@ -43,7 +38,8 @@
                                 outcome="/newReleases/NewReleases.xhtml"/>
 
                     <c:if test="#{userController.isLoggedIn() == true}">
-                        <p:menuitem value="Followed Artists" icon="fas fa-list"/>
+                        <p:menuitem icon="fas fa-list" value="Followed Artists" />
+                        <p:menuitem icon="fas fa-star-half-alt" action="/userAccount/myCritiques" value="My Critiques"/>
                     </c:if>
                     <p:menuitem value="Explore" icon="fas fa-compass"/>
                 </p:menu>

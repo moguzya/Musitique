@@ -28,38 +28,7 @@
 
 
         <h1 style="color:white"> #{userController.selected.firstName}&nbsp;#{userController.selected.lastName}'s Account Profile </h1>
-        <h:form>
 
-
-
-            <p:tooltip/>
-            <div class="speeddial-tooltip-demo" style="position: relative; height: 350px">
-                <p:speedDial direction="down" styleClass="speeddial-right" buttonStyleClass="ui-button-danger"
-                             keepOpen="true">
-                    <p:menuitem icon="fas fa-edit" action="/userAccount/EditAccount" title="Edit Account"/>
-                    <p:menuitem icon="fas fa-camera" action="/userPhoto/ChangePhoto" title="Change Photo"/>
-                    <p:menuitem icon="fas fa-key" action="/userPasswordChange/EnterUsername" title="Change Password"/>
-                    <p:menuitem icon="fas fa-trash-alt" update=":SecurityQuestionForm"
-                                oncomplete="PF('SecurityQuestionDialog').show()" title="Delete Account">
-                        <p:confirm header="Account Deletion Confirmation"
-                                   message="Are you sure to permanently delete your account? This cannot be undone!"/>
-                    </p:menuitem>
-                    <!--
-                    The confirmation dialog is displayed to check if the user really wants to delete the account.
-                    -->
-                    <p:confirmDialog id="confirmDialogBox2" global="true" showEffect="fade" hideEffect="fade"
-                                     responsive="true" width="350">
-                        <div align="center">
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
-                                             icon="fas fa-window-close"/>
-                            &nbsp;
-                            <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger"
-                                             icon="fas fa-check-square"/>
-                        </div>
-                    </p:confirmDialog>
-                </p:speedDial>
-            </div>
-        </h:form>
         <h:form id="UserProfileForm">
             <!--
             The table below has 1 row and 2 columns.
@@ -107,62 +76,9 @@
                     <h:outputText value="#{userController.selected.username}"/>
 
                 </p:panelGrid>
-                &nbsp;
-                <div style="background: grey; height: 200px; color:white;">
-                    Preferences
-                </div>
-                &nbsp;
 
-                <div style="background: grey; height: 300px; color:white;">
-                    My Ratings
-                    #{userController.listOfUserRatings}
 
-                    <!--                    <p:dataView value="#{userController.listOfUserRatings}"-->
-                    <!--                                var="aRatings"-->
-                    <!--                                rows="6"-->
-                    <!--                                paginator="true"-->
-                    <!--                                layout="list"-->
-                    <!--                                rowsPerPageTemplate="3,6,9,12,15,18,21,24"-->
-                    <!--                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"-->
-                    <!--                                pageLinks="5"-->
-                    <!--                                gridIcon="pi pi-th-large" listIcon="pi pi-bars"-->
-                    <!--                                style="width:100%">-->
-
-                    <!--                        <p:dataViewListItem>-->
-                    <!--                            <div align="center" style="width: 50%">-->
-                    <!--                                <p:panel style="text-align:left">-->
-                    <!--                                    <h:panelGrid columns="3" style="width:100%"-->
-                    <!--                                                 columnClasses="columnTrackPoster, columnMiddlePart, columnInfoButton">-->
-                    <!--                                        <p:commandLink>-->
-                    <!--                                            <p:graphicImage url="#{aRatings.imageUrl}" width="92px" style="float:left"/>-->
-                    <!--                                        </p:commandLink>-->
-                    <!--                                        <h:panelGrid style="width:100%; margin-left:10px">-->
-                    <!--                                            <f:facet name="header">-->
-                    <!--                                                <h:outputText value="#{aRatings.name}"/>-->
-                    <!--                                            </f:facet>-->
-                    <!--                                            <br/>-->
-                    <!--                                            <h:outputText value="#{aRatings.getArtistsListAsString()}" style="float:left"/>-->
-                    <!--                                        </h:panelGrid>-->
-
-                    <!--                                        <h:outputText value="#{aRatings.()}" style="float:left"/>-->
-
-                    <!--                                        <p:commandButton icon="fa fa-play fa-2x"-->
-                    <!--                                                         actionListener='#{spotifyPlayerController.updateURL(aTrack.getEmbedUri())}'>-->
-                    <!--                                            <f:ajax render=":iframe-holder"/>-->
-                    <!--                                        </p:commandButton>-->
-                    <!--                                    </h:panelGrid>-->
-                    <!--                                </p:panel>-->
-                    <!--                            </div>-->
-                    <!--                        </p:dataViewListItem>-->
-                    <!--                    </p:dataView>-->
-                </div>
-                &nbsp;
-                <div style="background: grey; height: 300px; color:white;">
-                    My Comments
-                    #{userController.listofUserComments}
-                </div>
-
-                <!--            <p:panelGrid columns="4">-->
+                            <p:panelGrid columns="1">
 
                 <!--                -->
                 <!--                &lt;!&ndash;-->
@@ -193,40 +109,40 @@
                 <!--                </h:link>-->
 
                 <!--                &lt;!&ndash;-->
-                <!--                ================================-->
-                <!--                |      DELETE ACCOUNT Link     |-->
-                <!--                ================================-->
-                <!--                &ndash;&gt;-->
+                                ================================
+                                |      DELETE ACCOUNT Link     |
+                                ================================
+                                -->
 
-                <!--                &lt;!&ndash; ****************** Delete Account Begin **************************** &ndash;&gt;-->
-                <!--                &lt;!&ndash;-->
-                <!--                When the user selects YES on the confirmDialogBox, SecurityQuestionDialog included below is-->
-                <!--                displayed, and the form with id SecurityQuestionForm in the SecurityQuestionDialog is updated.-->
-                <!--                &ndash;&gt;-->
-                <!--                <p:commandLink oncomplete="PF('SecurityQuestionDialog').show()" update=":SecurityQuestionForm">-->
+                                <!-- ****************** Delete Account Begin **************************** -->
+                                <!--
+                                When the user selects YES on the confirmDialogBox, SecurityQuestionDialog included below is
+                                displayed, and the form with id SecurityQuestionForm in the SecurityQuestionDialog is updated.
+                                -->
+                                <p:commandLink oncomplete="PF('SecurityQuestionDialog').show()" update=":SecurityQuestionForm">
 
-                <!--                    <label style="font-size: 10pt;">-->
-                <!--                        <i class="fas fa-trash-alt"/>&nbsp;Delete Account-->
-                <!--                    </label>-->
+                                    <label style="font-size: 10pt;">
+                                        <i class="fas fa-trash-alt"/>&nbsp;Delete Account
+                                    </label>
 
-                <!--                    <p:confirm header="Account Deletion Confirmation"-->
-                <!--                               message="Are you sure to permanently delete your account? This cannot be undone!"/>-->
-                <!--                </p:commandLink>-->
-                <!--                &lt;!&ndash;-->
-                <!--                The confirmation dialog is displayed to check if the user really wants to delete the account.-->
-                <!--                &ndash;&gt;-->
-                <!--                <p:confirmDialog id="confirmDialogBox" global="true" showEffect="fade" hideEffect="fade"-->
-                <!--                                 responsive="true" width="350">-->
-                <!--                    <div align="center">-->
-                <!--                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"-->
-                <!--                                         icon="fas fa-window-close"/>-->
-                <!--                        &nbsp;-->
-                <!--                        <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger"-->
-                <!--                                         icon="fas fa-check-square"/>-->
-                <!--                    </div>-->
-                <!--                </p:confirmDialog>-->
-                <!--                &lt;!&ndash; ****************** Delete Account End **************************** &ndash;&gt;-->
-                <!--            </p:panelGrid>-->
+                                    <p:confirm header="Account Deletion Confirmation"
+                                               message="Are you sure to permanently delete your account? This cannot be undone!"/>
+                                </p:commandLink>
+                                <!--
+                                The confirmation dialog is displayed to check if the user really wants to delete the account.
+                                -->
+                                <p:confirmDialog id="confirmDialogBox" global="true" showEffect="fade" hideEffect="fade"
+                                                 responsive="true" width="350">
+                                    <div align="center">
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+                                                         icon="fas fa-window-close"/>
+                                        &nbsp;
+                                        <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger"
+                                                         icon="fas fa-check-square"/>
+                                    </div>
+                                </p:confirmDialog>
+                                <!-- ****************** Delete Account End **************************** -->
+                            </p:panelGrid>
 
             </p:panelGrid>
         </h:form>
