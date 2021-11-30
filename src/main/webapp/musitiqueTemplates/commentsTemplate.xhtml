@@ -8,9 +8,9 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 <ui:composition>
     <c:if test="#{userController.isLoggedIn() == true}">
-        <p:rating value="#{entityController.userRating.rating}">
-            <p:ajax event="rate" listener="#{entityController.onRate}" update=""/>
-            <p:ajax event="cancel" listener="#{entityController.onUnrate}" update=""/>
+        <p:rating value="#{entityController.getUserRating().rating}">
+            <p:ajax event="rate" listener="#{entityController.onRate}"/>
+            <p:ajax event="cancel" listener="#{entityController.onUnrate}"/>
         </p:rating>
     </c:if>
     <h:outputText value="Comments"/>
@@ -38,6 +38,13 @@
             <h:outputText value="#{aComment.date}"/>
         </p:column>
     </p:dataTable>
+    <p:inputTextarea rows="5" value="#{entityController.newCommentText}" counter="display" maxlength="10"
+                     counterTemplate="{0} characters remaining." />
+    <h:outputText id="display" class="p-d-block" />
+    <p:commandButton value="Post Comment" icon="fas fa-save" styleClass="rounded-button"
+                     ajax="false" actionListener="#{entityController.postComment}"
+                     update=":commentsTable,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
+                     oncomplete="#{entityController.postComment}" />
 </ui:composition>
 <!-- Do not enter tags before the composition line since they are ignored by JSF -->
 

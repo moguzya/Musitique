@@ -94,7 +94,7 @@ public class EntityController implements Serializable {
 
     private List<UserComment> listOfComments;
     private EntityType selectedEntityType = EntityType.ALBUM;
-
+    private String newCommentText;
     private Double averageEntityRating;
     /*
     ================
@@ -190,10 +190,20 @@ public class EntityController implements Serializable {
         }
     }
 
+    public void postComment() {
+        UserComment userComment = new UserComment(getUser(), getSelectedEntityId(), newCommentText);
+        createComment(userComment);
+    }
+
     public void onRate(RateEvent<Integer> rateEvent) {
         userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser());
-        userRating.setRating(rateEvent.getRating());
-        updateRating(userRating);
+        if (userRating.getRating() == -1) {
+            userRating = new UserRating(getUser(), getSelectedEntityId(), rateEvent.getRating());
+            createRating(userRating);
+        } else {
+            userRating.setRating(rateEvent.getRating());
+            updateRating(userRating);
+        }
     }
 
     public void onUnrate() {
@@ -243,6 +253,14 @@ public class EntityController implements Serializable {
         selectedEntityType = EntityType.TRACK;
         unselectAlbum();
         unselectArtist();
+    }
+
+    public String getNewCommentText() {
+        return newCommentText;
+    }
+
+    public void setNewCommentText(String newCommentText) {
+        this.newCommentText = newCommentText;
     }
 
     public CommentFacade getCommentFacade() {

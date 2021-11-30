@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /*
@@ -51,7 +52,17 @@ public class UserComment implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "date")
-    private Date date;
+    private LocalDateTime date;
+
+    public UserComment() {
+    }
+
+    public UserComment(User userId, String entityId, String comment) {
+        this.userId = userId;
+        this.entityId = entityId;
+        this.comment = comment;
+        this.date = LocalDateTime.now();
+    }
 
     @Override
     public int hashCode() {
@@ -106,11 +117,11 @@ public class UserComment implements Serializable {
         this.comment = comment;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 }

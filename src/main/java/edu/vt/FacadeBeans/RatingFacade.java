@@ -63,7 +63,7 @@ public class RatingFacade extends AbstractFacade<UserRating> {
                     .setParameter("userId", user)
                     .getSingleResult();
         } catch (NoResultException nre) {
-            userRating = new UserRating();
+            userRating = new UserRating(user, entityId, -1);
         }
         return userRating;
     }
