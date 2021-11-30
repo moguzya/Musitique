@@ -721,11 +721,14 @@ public class UserController implements Serializable {
         }
     }
 
-    public Boolean isOwner(User userToCheck) {
+    public Boolean isOwner(UserComment commentToCheck) {
+        if (commentToCheck == null)
+            return Boolean.FALSE;
+        User userToCheck = commentToCheck.getUserId();
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         User signedInUser = (User) sessionMap.get("user");
         Integer primaryKey = signedInUser.getId();
-        return Objects.equals(userToCheck.getId(), primaryKey);
+        return userToCheck.getId() == primaryKey;
     }
 
 }

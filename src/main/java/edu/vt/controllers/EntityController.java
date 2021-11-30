@@ -193,6 +193,7 @@ public class EntityController implements Serializable {
     public void postComment() {
         UserComment userComment = new UserComment(getUser(), getSelectedEntityId(), newCommentText);
         createComment(userComment);
+        newCommentText = "";
     }
 
     public void onRate(RateEvent<Integer> rateEvent) {
