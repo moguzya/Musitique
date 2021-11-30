@@ -48,25 +48,28 @@
                     <p:menuitem value="Explore" icon="fas fa-compass"/>
                 </p:menu>
             </div>
-<!--            <f:facet name="footer">-->
-                <div class="side-menu-bottom">
-                    <h:panelGroup id="iframe-holder" layout="block">
-                        <iframe src="#{spotifyPlayerController.embedURL}" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-                    </h:panelGroup>
-                    <div align="center">
-                        <a href="${pageContext.request.contextPath}/Musitique/">
-                            <p:graphicImage cache="false" styleClass="siteLogo" value="#{resource['images:musitiqueLogo.png']}"/>
-                        </a>
-                        &nbsp;
-                    </div>
-                </div>
-<!--            </f:facet>-->
+
 
         </p:panel>
 
 
-
-
     </h:form>
+
+    <h:panelGroup id="iframe-holder" layout="block">
+        <iframe src="#{spotifyPlayerController.embedURL}" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+    </h:panelGroup>
+
+    <!--            <f:facet name="footer">-->
+    <div class="side-menu-bottom">
+
+        <div align="center">
+            <a href="${pageContext.request.contextPath}/Musitique/">
+                <p:graphicImage cache="false" styleClass="siteLogo" value="#{resource['images:musitiqueLogo.png']}"/>
+            </a>
+            &nbsp;
+        </div>
+    </div>
+    <!--            </f:facet>-->
+
 </ui:composition>
 </html>
