@@ -1,7 +1,4 @@
-/*
- * Created by Osman Balci on 2021.9.10
- * Copyright © 2021 Osman Balci. All rights reserved.
- */
+
 package edu.vt.NewReleases;
 
 import edu.vt.Pojos.Album;
@@ -64,10 +61,10 @@ public class ReleaseController implements Serializable {
     private List<Album> tempReadData() {
         List<Album> tempListOfNewReleases;
         tempListOfNewReleases = new ArrayList<>();
-        tempListOfNewReleases.add(new Album("4tZwfgrHOc3mvqYlEYSvVi", "Gustaf & Viktor Norén", "https://i.scdn.co/image/ab67616d00004851efdaf87d5ea59307b4d530a3", "2006-06-19", 5));
-        tempListOfNewReleases.add(new Album("3a9qv6NLHnsVxJUtKOMHvD", "Så mycket bättre 2021 - Tolkningarna", "https://i.scdn.co/image/ab67616d00001e024a94b3678908c6524ec7c2ad", "2016-06-19", 15));
-        tempListOfNewReleases.add(new Album("4OEnpg5ubhg6OQ4M2ZjtsL", "Most People (with Lukas Graham)", "https://i.scdn.co/image/ab67616d00004851efdaf87d5ea59307b4d530a3", "2026-06-19", 25));
-        tempListOfNewReleases.add(new Album("1TT6gRprLQ5vSWgoWpyKfR", "Donda (Deluxe)", "https://i.scdn.co/image/ab67616d00004851efdaf87d5ea59307b4d530a3", "2036-06-19", 35));
+        tempListOfNewReleases.add(new Album("4aawyAB9vmqN3uQ7FjRGTy", "Global Warming", "https://i.scdn.co/image/ab67616d0000b2732c5b24ecfa39523a75c993c4", "2006-06-19", 5));
+        tempListOfNewReleases.add(new Album("2ZGACajeINbPfwLPbEuzwr", "Änglar", "https://i.scdn.co/image/ab67616d0000b273f54e06014d92f89dfe5baaf3", "2016-06-19", 15));
+        tempListOfNewReleases.add(new Album("1VhOdgOjIARBn6SoNyeQDa", "Always Been You", "https://i.scdn.co/image/ab67616d0000b273f54e06014d92f89dfe5baaf3", "2026-06-19", 25));
+        tempListOfNewReleases.add(new Album("3KrkQ77DF9OUB0aOzKFYOF", "Donda (Deluxe)", "https://i.scdn.co/image/ab67616d0000b273df9a35baaa98675256b35177", "2036-06-19", 35));
         return tempListOfNewReleases;
     }
 

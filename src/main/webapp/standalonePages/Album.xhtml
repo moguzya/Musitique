@@ -44,7 +44,7 @@
 
                                 <h:panelGrid style="width:100%; margin-left:10px">
                                     <f:facet name="header">
-                                        <h:outputText value="#{aTrack.name}"/>
+                                        <h:commandLink action="#{entityController.toTrackPage(aTrack)}" value="#{aTrack.name}" />
                                     </f:facet>
                                     <br/>
                                     <h:outputText value="#{aTrack.getArtistsListAsString()}" style="float:left"/>

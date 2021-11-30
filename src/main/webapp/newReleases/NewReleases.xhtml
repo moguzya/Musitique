@@ -40,7 +40,7 @@
 
                                     <h:panelGrid style="width:100%; margin-left:10px">
                                         <f:facet name="header">
-                                            <h:outputText value="#{aRelease.name}"/>
+                                            <h:commandLink action="#{entityController.toAlbumPage(aRelease)}" value="#{aRelease.name}" />
                                         </f:facet>
                                         <br/>
                                         <h:outputText value="#{aRelease.getArtistsListAsString()}" style="float:left"/>
@@ -68,7 +68,7 @@
                                         </p:commandLink>
                                         <h:panelGrid style="width:100%; margin-left:10px">
                                             <f:facet name="header">
-                                                <h:outputText value="#{aRelease.name}"/>
+                                                <h:commandLink action="#{entityController.toAlbumPage(aRelease)}" value="#{aRelease.name}" />
                                             </f:facet>
                                             <br/>
                                             <h:outputText value="#{aRelease.getArtistsListAsString()}" style="float:left"/>
