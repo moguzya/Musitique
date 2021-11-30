@@ -15,55 +15,29 @@
     <ui:define name="editableContent">
         <div align="center">
             <h:form id="NewReleasesForm">
-                <p:dataView value="#{releaseController.listOfNewReleases}"
-                            var="aRelease"
-                            rows="6"
-                            paginator="true"
-                            rowsPerPageTemplate="3,6,9,12,15,18,21,24"
-                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                            pageLinks="5"
-                            gridIcon="pi pi-th-large" listIcon="pi pi-bars"
-                            style="width:100%">
+                <div class="tableBackgroundDiv">
 
-                    <f:facet name="header">
-                        <h:outputText value="New Releases"/>
-                    </f:facet>
+                    <p:dataView value="#{releaseController.listOfNewReleases}"
+                                var="aRelease"
+                                rows="6"
+                                paginator="true"
+                                rowsPerPageTemplate="3,6,9,12,15,18,21,24"
+                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                pageLinks="5"
+                                gridIcon="pi pi-th-large" listIcon="pi pi-bars"
+                                style="width:100%">
 
-                    <p:dataViewGridItem>
-                        <p:panel style="text-align:left">
+                        <f:facet name="header">
+                            <h:outputText value="New Releases"/>
+                        </f:facet>
 
-                            <h:panelGrid columns="3" style="width:100%">
-
-                                <p:graphicImage url="#{aRelease.imageUrl}" width="92px" style="float:left"/>
-
-                                <h:panelGrid style="width:100%; margin-left:10px">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{aRelease.name}"/>
-                                    </f:facet>
-                                    <br/>
-                                    <h:outputText value="#{aRelease.getArtistsListAsString()}" style="float:left"/>
-                                    <h:outputText
-                                            value="#{aRelease.releaseDate}, Number of Tracks:#{aRelease.totalTracks}"
-                                            style="float:left"/>
-                                </h:panelGrid>
-
-                                <p:commandButton icon="fa fa-play fa-2x"
-                                                 actionListener='#{spotifyPlayerController.updateURL(aRelease.getEmbedUri())}'>
-                                    <f:ajax render=":iframe-holder"/>
-                                </p:commandButton>
-
-                            </h:panelGrid>
-                        </p:panel>
-                    </p:dataViewGridItem>
-
-                    <p:dataViewListItem>
-                        <div align="center" style="width: 50%">
+                        <p:dataViewGridItem>
                             <p:panel style="text-align:left">
-                                <h:panelGrid columns="3" style="width:100%"
-                                             columnClasses="columnMoviePoster, columnMiddlePart, columnInfoButton">
-                                    <p:commandLink>
-                                        <p:graphicImage url="#{aRelease.imageUrl}" width="92px" style="float:left"/>
-                                    </p:commandLink>
+
+                                <h:panelGrid columns="3" style="width:100%">
+
+                                    <p:graphicImage url="#{aRelease.imageUrl}" width="92px" style="float:left"/>
+
                                     <h:panelGrid style="width:100%; margin-left:10px">
                                         <f:facet name="header">
                                             <h:outputText value="#{aRelease.name}"/>
@@ -79,12 +53,41 @@
                                                      actionListener='#{spotifyPlayerController.updateURL(aRelease.getEmbedUri())}'>
                                         <f:ajax render=":iframe-holder"/>
                                     </p:commandButton>
+
                                 </h:panelGrid>
                             </p:panel>
-                        </div>
-                    </p:dataViewListItem>
+                        </p:dataViewGridItem>
 
-                </p:dataView>
+                        <p:dataViewListItem>
+                            <div align="center" style="width: 50%">
+                                <p:panel style="text-align:left">
+                                    <h:panelGrid columns="3" style="width:100%"
+                                                 columnClasses="columnMoviePoster, columnMiddlePart, columnInfoButton">
+                                        <p:commandLink>
+                                            <p:graphicImage url="#{aRelease.imageUrl}" width="92px" style="float:left"/>
+                                        </p:commandLink>
+                                        <h:panelGrid style="width:100%; margin-left:10px">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{aRelease.name}"/>
+                                            </f:facet>
+                                            <br/>
+                                            <h:outputText value="#{aRelease.getArtistsListAsString()}" style="float:left"/>
+                                            <h:outputText
+                                                    value="#{aRelease.releaseDate}, Number of Tracks:#{aRelease.totalTracks}"
+                                                    style="float:left"/>
+                                        </h:panelGrid>
+
+                                        <p:commandButton icon="fa fa-play fa-2x"
+                                                         actionListener='#{spotifyPlayerController.updateURL(aRelease.getEmbedUri())}'>
+                                            <f:ajax render=":iframe-holder"/>
+                                        </p:commandButton>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </div>
+                        </p:dataViewListItem>
+
+                    </p:dataView>
+                </div>
             </h:form>
         </div>
     </ui:define>
