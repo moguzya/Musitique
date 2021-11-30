@@ -24,7 +24,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -94,7 +93,7 @@ public class EntityController implements Serializable {
     private UserRating userRating;
 
     private List<UserComment> listOfComments;
-    private EntityType selectedEntityType;
+    private EntityType selectedEntityType = EntityType.ALBUM;
 
     private Double averageEntityRating;
     /*
@@ -192,7 +191,8 @@ public class EntityController implements Serializable {
     }
 
     public void onRate(RateEvent<Integer> rateEvent) {
-        userRating = new UserRating(getUserId(), getSelectedEntityId(), rateEvent.getRating());
+        userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser());
+        userRating.setRating(rateEvent.getRating());
         updateRating(userRating);
     }
 
@@ -200,8 +200,9 @@ public class EntityController implements Serializable {
         destroyRating(userRating);
     }
 
-    private User getUserId() {
-        return (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+    private User getUser() {
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        return (User) sessionMap.get("user");
     }
 
     /*
@@ -269,8 +270,10 @@ public class EntityController implements Serializable {
     }
 
     public UserRating getUserRating() {
-        userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUserId());
-        return userRating == null ? new UserRating() : userRating;
+        if (userRating == null) {
+            userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser());
+        }
+        return userRating;
     }
 
     public void setUserRating(UserRating userRating) {
@@ -278,7 +281,9 @@ public class EntityController implements Serializable {
     }
 
     public List<UserComment> getListOfComments() {
-        listOfComments = commentFacade.findCommentsByEntityId(getSelectedEntityId());
+        if (listOfComments == null) {
+            listOfComments = commentFacade.findCommentsByEntityId(getSelectedEntityId());
+        }
         return listOfComments;
     }
 

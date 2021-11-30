@@ -6,6 +6,7 @@ import edu.vt.EntityBeans.UserRating;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,8 @@ public class RatingFacade extends AbstractFacade<UserRating> {
                 .createQuery("SELECT r FROM UserRating r WHERE r.entityId = :entityId")
                 .setParameter("entityId", entityId)
                 .getResultList();
+        if (ratings.size() == 0)
+            return 0.0;
         Double sum = 0.0;
         for (UserRating rating : ratings) {
             sum += rating.getRating();
@@ -51,12 +54,18 @@ public class RatingFacade extends AbstractFacade<UserRating> {
         return sum / ratings.size();
     }
 
-    public UserRating findUserRatingByEntityId(String entityId, User userId) {
-        return (UserRating) getEntityManager()
-                .createQuery("SELECT r FROM UserRating r WHERE r.entityId = :entityId AND r.userId = :userId")
-                .setParameter("entityId", entityId)
-                .setParameter("userId", userId)
-                .getSingleResult();
+    public UserRating findUserRatingByEntityId(String entityId, User user) {
+        UserRating userRating;
+        try {
+            userRating = (UserRating) getEntityManager()
+                    .createQuery("SELECT r FROM UserRating r WHERE r.entityId = :entityId AND r.userId = :userId")
+                    .setParameter("entityId", entityId)
+                    .setParameter("userId", user)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            userRating = new UserRating();
+        }
+        return userRating;
     }
 
     // Deletes the UserRating entity object whose primary key is id
