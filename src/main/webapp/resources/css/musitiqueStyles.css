@@ -86,7 +86,7 @@ body .ui-splitter .ui-splitter-gutter{
 }
 
 .side-menu-main {
-    min-height: 100%;
+    /*min-height: 100%;*/
     display: grid;
     grid-template-rows: auto 1fr auto;
 }
