@@ -32,7 +32,6 @@ public class UserRating implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    // user_id INT UNSIGNED
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
     private User userId;

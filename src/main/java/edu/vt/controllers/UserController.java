@@ -721,9 +721,11 @@ public class UserController implements Serializable {
         }
     }
 
-    public Boolean isOwner(Integer idToCheck) {
+    public Boolean isOwner(User userToCheck) {
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        return Objects.equals(idToCheck, ((User) sessionMap.get("user")).getId());
+        User signedInUser = (User) sessionMap.get("user");
+        Integer primaryKey = signedInUser.getId();
+        return Objects.equals(userToCheck.getId(), primaryKey);
     }
 
 }

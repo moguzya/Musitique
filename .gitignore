@@ -8,3 +8,16 @@ gradle
 gradle/*
 gradlew
 gradlew.bat
+build/tmp/compileJava/previous-compilation-data.bin
+build/resources/main/META-INF/persistence.xml
+build/libs/Musitique-1.0.war
+build/classes/java/main/edu/vt/NewReleases/ReleaseController.class
+build/classes/java/main/edu/vt/globals/Constants.class
+build/classes/java/main/edu/vt/controllers/SpotifyPlayerController.class
+.idea/workspace.xml
+.gradle/buildOutputCleanup/outputFiles.bin
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+.gradle/7.1.1/fileHashes/fileHashes.lock
+.gradle/7.1.1/fileHashes/fileHashes.bin
+.gradle/7.1.1/executionHistory/executionHistory.lock
+.gradle/7.1.1/executionHistory/executionHistory.bin
