@@ -26,14 +26,14 @@
                                          styleClass="rounded-button ui-button-help ui-button-outlined"
                                          action="#{userFavoriteArtistController.destroy()}"
                                          ajax="false"
-                                         update="commentsTable,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage">
+                                         update=":growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage">
                         </p:commandButton>
                     </c:when>
                     <c:otherwise>
                         <p:commandButton type="button" icon="pi pi-heart" styleClass="rounded-button ui-button-help"
                                          action="#{userFavoriteArtistController.addFavorite(entityController.getSelectedArtist())}"
                                          ajax="false"
-                                         update="commentsTable,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage">
+                                         update=":growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage">
                         </p:commandButton>
                     </c:otherwise>
                 </c:choose>
