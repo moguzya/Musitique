@@ -1,5 +1,6 @@
 package edu.vt.EntityBeans;
 
+import edu.vt.EntityType;
 import edu.vt.controllers.EntityController;
 
 import javax.persistence.*;
@@ -60,17 +61,17 @@ public class UserRating implements Serializable {
     @NotNull
     @Column(name = "date")
     private LocalDateTime date;
+//TODO delete
+//    public UserRating() {
+//        rating = 0;
+//    }
 
-    public UserRating() {
-        rating = 0;
-    }
-
-    public UserRating(User userId, String entityId, Integer rating, String entityType) {
+    public UserRating(User userId, String entityId, Integer rating, EntityType entityType) {
         this.userId = userId;
         this.entityId = entityId;
         this.rating = rating;
         this.date = LocalDateTime.now();
-        this.entityType = entityType;
+        this.entityType = entityType.toString();
     }
 
     @Override
@@ -135,7 +136,7 @@ public class UserRating implements Serializable {
     }
 
 
-    public String getEntityName(){
+    public String getEntityName() {
         EntityController entityController = new EntityController();
 
         switch (entityType) {
@@ -149,7 +150,7 @@ public class UserRating implements Serializable {
         return "NOT FOUND";
     }
 
-    public String getEntityArtists(){
+    public String getEntityArtists() {
         EntityController entityController = new EntityController();
 
         switch (entityType) {
@@ -161,7 +162,7 @@ public class UserRating implements Serializable {
         return "NOT FOUND";
     }
 
-    public String getEntityImageUrl(){
+    public String getEntityImageUrl() {
         EntityController entityController = new EntityController();
 
         switch (entityType) {

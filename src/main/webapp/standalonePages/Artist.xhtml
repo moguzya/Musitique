@@ -5,7 +5,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <ui:composition template="/musitiqueTemplates/siteTemplate.xhtml">
     <ui:define name="title">
@@ -19,6 +20,23 @@
                 <h:outputText value="#{entityController.getSelectedArtist().name}"/>
                 <h:outputText value="#{entityController.getSelectedArtist().getGenresListAsString}"/>
                 <h:outputText value="Number of Followers: #{entityController.getSelectedArtist().followers}"/>
+                <c:choose>
+                    <c:when test="#{userFavoriteArtistController.isFavoriteArtist(entityController.getSelectedArtist())}">
+                        <p:commandButton type="button" icon="pi pi-heart"
+                                         styleClass="rounded-button ui-button-help ui-button-outlined"
+                                         action="#{userFavoriteArtistController.destroy()}"
+                                         ajax="false"
+                                         update="commentsTable,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage">
+                        </p:commandButton>
+                    </c:when>
+                    <c:otherwise>
+                        <p:commandButton type="button" icon="pi pi-heart" styleClass="rounded-button ui-button-help"
+                                         action="#{userFavoriteArtistController.addFavorite(entityController.getSelectedArtist())}"
+                                         ajax="false"
+                                         update="commentsTable,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage">
+                        </p:commandButton>
+                    </c:otherwise>
+                </c:choose>
                 <ui:insert name="comments">
                     <ui:include src="/musitiqueTemplates/commentsTemplate.xhtml"/>
                 </ui:insert>

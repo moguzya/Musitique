@@ -191,15 +191,15 @@ public class EntityController implements Serializable {
     }
 
     public void postComment() {
-        UserComment userComment = new UserComment(getUser(), getSelectedEntityId(), newCommentText);
+        UserComment userComment = new UserComment(getUser(), getSelectedEntityId(),getSelectedEntityType() , newCommentText);
         createComment(userComment);
         newCommentText = "";
     }
 
     public void onRate(RateEvent<Integer> rateEvent) {
-        userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser(), selectedEntityType.toString());
+        userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser(), selectedEntityType);
         if (userRating.getRating() == -1) {
-            userRating = new UserRating(getUser(), getSelectedEntityId(), rateEvent.getRating(), selectedEntityType.toString());
+            userRating = new UserRating(getUser(), getSelectedEntityId(), rateEvent.getRating(), selectedEntityType);
             createRating(userRating);
         } else {
             userRating.setRating(rateEvent.getRating());
@@ -290,7 +290,7 @@ public class EntityController implements Serializable {
 
     public UserRating getUserRating() {
         if (userRating == null) {
-            userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser(), selectedEntityType.toString());
+            userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser(), selectedEntityType);
         }
         return userRating;
     }

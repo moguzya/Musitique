@@ -1,10 +1,10 @@
-
 package edu.vt.controllers;
 
 import edu.vt.EntityBeans.User;
 
 import edu.vt.EntityBeans.UserFavoriteArtist;
 import edu.vt.FacadeBeans.UserFavoriteArtistFacade;
+import edu.vt.Pojos.Artist;
 import edu.vt.controllers.util.JsfUtil;
 import edu.vt.controllers.util.JsfUtil.PersistAction;
 import edu.vt.globals.Constants;
@@ -12,6 +12,7 @@ import edu.vt.globals.Methods;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.el.MethodExpression;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -85,6 +86,36 @@ public class UserFavoriteArtistController implements Serializable {
         return Constants.GENRES;
     }
 
+    public Boolean isFavoriteArtist(Artist artist) {
+        for (UserFavoriteArtist favoriteArtist :
+                getListOfFavoriteArtists()) {
+            if (favoriteArtist.getEntityId() == artist.getId()) {
+                selected = favoriteArtist;
+                return true;
+            }
+        }
+        selected = null;
+        return false;
+    }
+
+    public void addFavorite(Artist artist) {
+        selected = new UserFavoriteArtist();
+        selected.setEntityId(artist.getId());
+        selected.setUserId(getUser());
+        create();
+    }
+
+    public void removeFavorite(Artist artist) {
+        selected = new UserFavoriteArtist();
+        selected.setEntityId(artist.getId());
+        selected.setUserId(getUser());
+        destroy();
+    }
+
+    private User getUser() {
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        return (User) sessionMap.get("user");
+    }
 
     /*
      **************************************
@@ -119,10 +150,9 @@ public class UserFavoriteArtistController implements Serializable {
         selected = new UserFavoriteArtist();
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         User signedInUser = (User) sessionMap.get("user");
-        if(signedInUser == null){
+        if (signedInUser == null) {
             JsfUtil.addSuccessMessage("NOT LOGGED IN");
-        }
-        else {
+        } else {
             selected.setUserId(signedInUser);
         }
     }
@@ -146,7 +176,7 @@ public class UserFavoriteArtistController implements Serializable {
     **********************
      */
     public void create() {
-        persist(PersistAction.CREATE,"User Video was successfully created.");
+        persist(PersistAction.CREATE, "User Video was successfully created.");
 
         if (!JsfUtil.isValidationFailed()) {
             selected = null;            // Remove selection
@@ -162,7 +192,7 @@ public class UserFavoriteArtistController implements Serializable {
     public void update() {
         Methods.preserveMessages();
 
-        persist(PersistAction.UPDATE,"User Video was successfully updated.");
+        persist(PersistAction.UPDATE, "User Video was successfully updated.");
 
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The UPDATE operation is successfully performed.
@@ -179,7 +209,7 @@ public class UserFavoriteArtistController implements Serializable {
     public void destroy() {
         Methods.preserveMessages();
 
-        persist(PersistAction.DELETE,"User Video was successfully deleted.");
+        persist(PersistAction.DELETE, "Artist removed from favorites.");
 
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The DELETE operation is successfully performed.
@@ -193,8 +223,9 @@ public class UserFavoriteArtistController implements Serializable {
      *   Perform CREATE, EDIT (UPDATE), and DELETE Operations in the Database   *
      ****************************************************************************
      */
+
     /**
-     * @param persistAction refers to CREATE, UPDATE (Edit) or DELETE action
+     * @param persistAction  refers to CREATE, UPDATE (Edit) or DELETE action
      * @param successMessage displayed to inform the user about the result
      */
     private void persist(PersistAction persistAction, String successMessage) {
@@ -236,12 +267,14 @@ public class UserFavoriteArtistController implements Serializable {
                 if (msg.length() > 0) {
                     JsfUtil.addErrorMessage(msg);
                 } else {
-                    JsfUtil.addErrorMessage(ex,"A Persistence Error Occurred!");
+                    JsfUtil.addErrorMessage(ex, "A Persistence Error Occurred!");
                 }
             } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex,"A Persistence Error Occurred!");
+                JsfUtil.addErrorMessage(ex, "A Persistence Error Occurred!");
             }
         }
     }
+
+
 }

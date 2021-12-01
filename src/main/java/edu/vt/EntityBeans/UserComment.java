@@ -69,9 +69,10 @@ public class UserComment implements Serializable {
     public UserComment() {
     }
 
-    public UserComment(User userId, String entityId, String comment) {
+    public UserComment(User userId, String entityId, EntityType entityType, String comment) {
         this.userId = userId;
         this.entityId = entityId;
+        this.entityType = entityType.toString();
         this.comment = comment;
         this.date = LocalDateTime.now();
     }

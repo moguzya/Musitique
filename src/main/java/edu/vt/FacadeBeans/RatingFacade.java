@@ -3,6 +3,7 @@ package edu.vt.FacadeBeans;
 import edu.vt.EntityBeans.User;
 import edu.vt.EntityBeans.UserComment;
 import edu.vt.EntityBeans.UserRating;
+import edu.vt.EntityType;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -54,7 +55,7 @@ public class RatingFacade extends AbstractFacade<UserRating> {
         return sum / ratings.size();
     }
 
-    public UserRating findUserRatingByEntityId(String entityId, User user, String entityType) {
+    public UserRating findUserRatingByEntityId(String entityId, User user, EntityType entityType) {
         UserRating userRating;
         try {
             userRating = (UserRating) getEntityManager()
