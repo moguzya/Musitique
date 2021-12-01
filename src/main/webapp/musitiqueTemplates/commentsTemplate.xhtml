@@ -38,13 +38,15 @@
                     <h:outputText value="#{aComment.date}"/>
                 </p:column>
             </p:dataTable>
-            <p:inputTextarea rows="5" value="#{entityController.newCommentText}" counter="display" maxlength="256"
-                             counterTemplate="{0} characters remaining."/>
-            <h:outputText id="display" class="p-d-block"/>
-            <p:commandButton value="Post Comment" icon="fas fa-save" styleClass="rounded-button"
-                             ajax="false" actionListener="#{entityController.postComment}"
-                             update=":commentsTable,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
-                             oncomplete="#{entityController.postComment}"/>
+            <c:if test="#{userController.isLoggedIn() == true}">
+                <p:inputTextarea rows="5" value="#{entityController.newCommentText}" counter="display" maxlength="256"
+                                 counterTemplate="{0} characters remaining."/>
+                <h:outputText id="display" class="p-d-block"/>
+                <p:commandButton value="Post Comment" icon="fas fa-save" styleClass="rounded-button"
+                                 ajax="false" actionListener="#{entityController.postComment}"
+                                 update=":commentsTable,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
+                                 oncomplete="#{entityController.postComment}"/>
+            </c:if>
         </h:form>
     </div>
 

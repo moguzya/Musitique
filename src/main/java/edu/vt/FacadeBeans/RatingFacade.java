@@ -54,7 +54,7 @@ public class RatingFacade extends AbstractFacade<UserRating> {
         return sum / ratings.size();
     }
 
-    public UserRating findUserRatingByEntityId(String entityId, User user) {
+    public UserRating findUserRatingByEntityId(String entityId, User user, String entityType) {
         UserRating userRating;
         try {
             userRating = (UserRating) getEntityManager()
@@ -63,7 +63,7 @@ public class RatingFacade extends AbstractFacade<UserRating> {
                     .setParameter("userId", user)
                     .getSingleResult();
         } catch (NoResultException nre) {
-            userRating = new UserRating(user, entityId, -1);
+            userRating = new UserRating(user, entityId, -1, entityType);
         }
         return userRating;
     }
