@@ -155,7 +155,13 @@ public class UserGenresController implements Serializable {
     **********************
      */
     public void create() {
+        System.out.printf("-------------- %s %s\n",selected, listOfUserGenres);
+
         persist(PersistAction.CREATE,"User Video was successfully created.");
+//        for (String nameAux: selectedElemnts )
+//        {
+//            //you save the data here
+//        }
 
         if (!JsfUtil.isValidationFailed()) {
             selected = null;            // Remove selection

@@ -51,7 +51,7 @@
                         <div align="center">
                             <h:form id="CommentsListForm">
                                 <p:panel header="List of My Comments">
-                                    <p:dataTable id="datalist"
+                                    <p:dataTable id="datalistComment"
                                                  value="#{userCommentsController.listofUserComments}"
                                                  var="aComments"
                                                  widgetVar="commentsDataTable"
@@ -65,8 +65,8 @@
                                                  rowsPerPageTemplate="5,10,15,20,30,40,50"
                                                  emptyMessage="No comments found for the search query entered!" >
 
-                                        <p:ajax event="rowSelect"   />
-                                        <p:ajax event="rowUnselect" />
+                                        <p:ajax event="rowSelect"  update="deleteButtonComment" />
+                                        <p:ajax event="rowUnselect" update="deleteButtonComment"/>
 
                                         <!--
                                         *************************
@@ -191,22 +191,22 @@
                                                 Display a Confirmation dialog for the DELETE button
                                                 ***************************************************
                                                 -->
-<!--                                                <p:commandButton id="deleteButton" value="Delete" icon="fas fa-trash-alt" styleClass="rounded-button"-->
-<!--                                                                 actionListener="#{userCommentsController.destroy}"-->
-<!--                                                                 update="datalist,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"-->
-<!--                                                                 disabled="#{empty userCommentsController.selected}">-->
+                                                <p:commandButton id="deleteButtonComment" value="Delete" icon="fas fa-trash-alt" styleClass="rounded-button"
+                                                                 actionListener="#{userCommentsController.destroy}"
+                                                                 update="datalistComment,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
+                                                                 disabled="#{empty userCommentsController.selected}">
 
-<!--                                                    <p:confirm header="Deletion Confirmation"-->
-<!--                                                               message="Are you sure you want to permanently delete the selected movie #{userCommentsController.selected.title} from the database?" />-->
-<!--                                                </p:commandButton>-->
+                                                    <p:confirm header="Deletion Confirmation"
+                                                               message="Are you sure you want to permanently delete the selected comment for #{userCommentsController.selected.entityName} from the database?" />
+                                                </p:commandButton>
 
-<!--                                                <p:confirmDialog id="confirmDialogBox" global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">-->
-<!--                                                    <div align="center">-->
-<!--                                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fas fa-window-close" />-->
-<!--                                                        &nbsp;-->
-<!--                                                        <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger" icon="fas fa-check-square" />-->
-<!--                                                    </div>-->
-<!--                                                </p:confirmDialog>-->
+                                                <p:confirmDialog id="confirmDialogBox" global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                                                    <div align="center">
+                                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fas fa-window-close" />
+                                                        &nbsp;
+                                                        <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger" icon="fas fa-check-square" />
+                                                    </div>
+                                                </p:confirmDialog>
                                                 <!--
                                                 ************************************************
                                                 End of Display of the DELETE Confirmation dialog
@@ -252,7 +252,7 @@
                             <div align="center">
                                 <h:form id="RatingsListForm">
                                     <p:panel header="List of My Comments">
-                                        <p:dataTable id="datalistratings"
+                                        <p:dataTable id="datalistRating"
                                                      value="#{userRatingsController.listofUserRatings}"
                                                      var="aRatings"
                                                      widgetVar="ratingDataTable"
@@ -261,13 +261,13 @@
                                                      reflow="true"
                                                      showGridlines="true"
                                                      paginator="true"
-                                                     rowKey="#{aComments.id}"
+                                                     rowKey="#{aRatings.id}"
                                                      rows="5"
                                                      rowsPerPageTemplate="5,10,15,20,30,40,50"
                                                      emptyMessage="No comments found for the search query entered!" >
 
-                                            <p:ajax event="rowSelect"   />
-                                            <p:ajax event="rowUnselect" />
+                                            <p:ajax event="rowSelect"  update="deleteButtonRating" />
+                                            <p:ajax event="rowUnselect" update="deleteButtonRating"/>
 
                                             <!--
                                             *************************
@@ -366,50 +366,29 @@
                                             -->
                                             <f:facet name="footer">
                                                 <div align="center">
-                                                    <!--                                                &lt;!&ndash; These command buttons require id since they are referenced to be activated or deactivated &ndash;&gt;-->
-                                                    <!--                                                <p:commandButton id="createButton" value="Create" icon="fas fa-plus" styleClass="rounded-button"-->
-                                                    <!--                                                                 actionListener="#{movieController.prepareCreate()}"-->
-                                                    <!--                                                                 update=":MovieCreateForm" oncomplete="PF('MovieCreateDialog').show()"/>-->
-                                                    <!--                                                &nbsp;-->
-                                                    <!--                                                <p:commandButton id="viewButton" value="View" icon="fas fa-eye" styleClass="rounded-button"-->
-                                                    <!--                                                                 update=":MovieViewForm" oncomplete="PF('MovieViewDialog').show()"-->
-                                                    <!--                                                                 disabled="#{empty movieController.selected}"/>-->
-                                                    <!--                                                &nbsp;-->
-                                                    <!--                                                <p:commandButton id="editButton" value="Edit" icon="fas fa-edit" styleClass="rounded-button"-->
-                                                    <!--                                                                 update=":MovieEditForm" oncomplete="PF('MovieEditDialog').show()"-->
-                                                    <!--                                                                 disabled="#{empty movieController.selected}"/>-->
-                                                    <!--                                                &nbsp;-->
-                                                    <!--                                                <p:commandButton id="playButton" value="Play" icon="fas fa-play" styleClass="rounded-button"-->
-                                                    <!--                                                                 actionListener="#{movieController.setIdOfVideoToPlay(movieController.selected.youtubeTrailerId)}"-->
-                                                    <!--                                                                 update=":MovieTrailerPlayForm" oncomplete="PF('MovieTrailerPlayDialog').show()"-->
-                                                    <!--                                                                 disabled="#{empty movieController.selected}" />-->
-                                                    &nbsp;
-                                                    <!--
-                                                    update=":MovieTrailerPlayForm" is critically required to
-                                                    update the selected movie trailer in the Play dialog form.
-                                                    -->
+
 
                                                     <!--
                                                     ***************************************************
                                                     Display a Confirmation dialog for the DELETE button
                                                     ***************************************************
                                                     -->
-                                                    <!--                                                <p:commandButton id="deleteButton" value="Delete" icon="fas fa-trash-alt" styleClass="rounded-button"-->
-                                                    <!--                                                                 actionListener="#{userCommentsController.destroy}"-->
-                                                    <!--                                                                 update="datalist,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"-->
-                                                    <!--                                                                 disabled="#{empty userCommentsController.selected}">-->
+                                                    <p:commandButton id="deleteButtonRating" value="Delete" icon="fas fa-trash-alt" styleClass="rounded-button"
+                                                                     actionListener="#{userRatingsController.destroy}"
+                                                                     update="datalistRating,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
+                                                                     disabled="#{empty userRatingsController.selected}">
 
-                                                    <!--                                                    <p:confirm header="Deletion Confirmation"-->
-                                                    <!--                                                               message="Are you sure you want to permanently delete the selected movie #{userCommentsController.selected.title} from the database?" />-->
-                                                    <!--                                                </p:commandButton>-->
+                                                        <p:confirm header="Deletion Confirmation"
+                                                                   message="Are you sure you want to permanently delete the selected movie #{userRatingsController.selected.entityName} from the database?" />
+                                                    </p:commandButton>
 
-                                                    <!--                                                <p:confirmDialog id="confirmDialogBox" global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">-->
-                                                    <!--                                                    <div align="center">-->
-                                                    <!--                                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fas fa-window-close" />-->
-                                                    <!--                                                        &nbsp;-->
-                                                    <!--                                                        <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger" icon="fas fa-check-square" />-->
-                                                    <!--                                                    </div>-->
-                                                    <!--                                                </p:confirmDialog>-->
+                                                    <p:confirmDialog id="confirmDialogBoxRating" global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                                                        <div align="center">
+                                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fas fa-window-close" />
+                                                            &nbsp;
+                                                            <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger" icon="fas fa-check-square" />
+                                                        </div>
+                                                    </p:confirmDialog>
                                                     <!--
                                                     ************************************************
                                                     End of Display of the DELETE Confirmation dialog
