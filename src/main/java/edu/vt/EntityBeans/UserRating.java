@@ -1,5 +1,7 @@
 package edu.vt.EntityBeans;
 
+import edu.vt.controllers.EntityController;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -41,6 +43,13 @@ public class UserRating implements Serializable {
     @Size(min = 1, max = 256)
     @Column(name = "entity_id")
     private String entityId;
+
+    // entity_type VARCHAR(256) NOT NULL
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 256)
+    @Column(name = "entity_type")
+    private String entityType;
 
     @Basic(optional = false)
     @NotNull
@@ -122,5 +131,46 @@ public class UserRating implements Serializable {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+
+
+    public String getEntityName(){
+        EntityController entityController = new EntityController();
+
+        switch (entityType) {
+            case "ALBUM":
+                return entityController.getSelectedAlbum().getName();
+            case "TRACK":
+                return entityController.getSelectedTrack().getName();
+            case "ARTIST":
+                return entityController.getSelectedTrack().getName();
+        }
+        return "NOT FOUND";
+    }
+
+    public String getEntityArtists(){
+        EntityController entityController = new EntityController();
+
+        switch (entityType) {
+            case "ALBUM":
+                return entityController.getSelectedAlbum().getArtistsListAsString();
+            case "TRACK":
+                return entityController.getSelectedTrack().getArtistsListAsString();
+        }
+        return "NOT FOUND";
+    }
+
+    public String getEntityImageUrl(){
+        EntityController entityController = new EntityController();
+
+        switch (entityType) {
+            case "ALBUM":
+                return entityController.getSelectedAlbum().getImageUrl();
+            case "TRACK":
+                return entityController.getSelectedTrack().getImageUrl();
+            case "ARTIST":
+                return entityController.getSelectedTrack().getImageUrl();
+        }
+        return "NOT FOUND";
     }
 }

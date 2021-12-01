@@ -28,10 +28,11 @@
                     <p:menu style="width:100%">
                         <p:menuitem value="New Releases" icon="fas fa-fire"
                                     outcome="/newReleases/NewReleases.xhtml"/>
-
+                        <p:menuitem icon="fas fa-star-half-alt" action="/userAccount/myCritiques.xhtml"
+                                    value="My Critiques"/>
                         <c:if test="#{userController.isLoggedIn() == true}">
                             <p:menuitem icon="fas fa-list" value="Followed Artists"/>
-                            <p:menuitem icon="fas fa-star-half-alt" action="/userAccount/myCritiques"
+                            <p:menuitem icon="fas fa-star-half-alt" action="/userAccount/myCritiques.xhtml"
                                         value="My Critiques"/>
                         </c:if>
                         <p:menuitem value="Explore" icon="fas fa-compass"/>

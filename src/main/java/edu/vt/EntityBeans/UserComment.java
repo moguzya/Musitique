@@ -1,11 +1,15 @@
 package edu.vt.EntityBeans;
 
+import edu.vt.EntityType;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import edu.vt.EntityType;
+import edu.vt.controllers.EntityController;
 
 /*
 The @Entity annotation designates this class as a JPA Entity POJO class
@@ -42,6 +46,14 @@ public class UserComment implements Serializable {
     @Size(min = 1, max = 256)
     @Column(name = "entity_id")
     private String entityId;
+
+    // entity_type VARCHAR(256) NOT NULL
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 256)
+    @Column(name = "entity_type")
+    private String entityType;
+
 
     @Basic(optional = false)
     @NotNull
@@ -123,5 +135,53 @@ public class UserComment implements Serializable {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+
+    public String getEntityType() {
+        return entityType;
+    }
+
+    public void setEntityType(String entityType) {
+        this.entityType = entityType;
+    }
+
+    public String getEntityName(){
+        EntityController entityController = new EntityController();
+
+        switch (entityType) {
+            case "ALBUM":
+                return entityController.getSelectedAlbum().getName();
+            case "TRACK":
+                return entityController.getSelectedTrack().getName();
+            case "ARTIST":
+                return entityController.getSelectedTrack().getName();
+        }
+        return "NOT FOUND";
+    }
+
+    public String getEntityArtists(){
+        EntityController entityController = new EntityController();
+
+        switch (entityType) {
+            case "ALBUM":
+                return entityController.getSelectedAlbum().getArtistsListAsString();
+            case "TRACK":
+                return entityController.getSelectedTrack().getArtistsListAsString();
+        }
+        return "NOT FOUND";
+    }
+
+    public String getEntityImageUrl(){
+        EntityController entityController = new EntityController();
+
+        switch (entityType) {
+            case "ALBUM":
+                return entityController.getSelectedAlbum().getImageUrl();
+            case "TRACK":
+                return entityController.getSelectedTrack().getImageUrl();
+            case "ARTIST":
+                return entityController.getSelectedTrack().getImageUrl();
+        }
+        return "NOT FOUND";
     }
 }

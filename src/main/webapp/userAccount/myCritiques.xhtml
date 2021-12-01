@@ -18,7 +18,7 @@
 
     <ui:define name="title">
         <!-- Set the page title -->
-        <h:outputText value="My Account"/>
+        <h:outputText value="My Critiques"/>
     </ui:define>
 
     <!-- Create the content for this page below -->
@@ -38,63 +38,46 @@
 
             <div class="tableBackgroundDiv">
 
-                #{userController.listofUserComments}
+                #{userCommentsController.listofUserComments}
+                <p:tabView>
+                    <p:tab title="My Comments">
+                        <p:dataTable value="#{userCommentsController.listofUserComments}"
+                                    var="aComments"
+                                    style="width:100%; background: none;">
+                                        <p:column headerText="Image">
+                                            <p:graphicImage url="#{aComments.entityImageUrl}" width="92px" style="float:left"/>
+                                        </p:column>
 
-                <p:dataView value="#{userController.listofUserComments}"
-                            var="aComments"
-                            rows="6"
-                            paginator="true"
-                            layout="list"
-                            rowsPerPageTemplate="3,6,9,12,15,18,21,24"
-                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                            pageLinks="5"
-                            gridIcon="pi pi-th-large" listIcon="pi pi-bars"
-                            style="width:100%">
+                                        <p:column headerText="Type">
+                                            <h:outputText value="#{aComments.entityType}: #{aComments.entityName}" style="float:left"/>
+                                        </p:column>
 
-                    <f:facet name="header">
-                        <h:outputText value="My Comments"/>
-                    </f:facet>
+                                        <p:column headerText="Artists">
+                                            <h:outputText value="#{aComments.entityArtists}" style="float:left"/>
+                                        </p:column>
 
-                    <p:dataViewListItem>
-                        <div align="center" style="width: 50%">
-                            <p:panel style="text-align:left">
-                                <h:panelGrid columns="4" style="width:100%"
-                                             columnClasses="columnTrackPoster, columnMiddlePart, columnInfoButton">
-                                    <p:commandLink>
-                                        <p:graphicImage url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiipHEChM2xFrajHls6sUZshatYxppcN7Ht1k7uTtvHHvllThw3gJMRlTrWvn629i3BSw&amp;usqp=CAU" width="92px" style="float:left"/>
-                                    </p:commandLink>
+                                        <p:column headerText="Date Posted">
+                                            <h:outputText value="#{aComments.date}" style="float:left"/>
+                                        </p:column>
 
-                                    <h:panelGrid style="width:100%; margin-left:10px">
-                                        <h:outputText value="#{aComments.id}"/>
-                                        <br/>
-                                        <h:outputText value="#{aComments.id}" style="float:left"/>
-                                    </h:panelGrid>
+                                        <p:column headerText="Comment">
+                                            <h:outputText value="#{aComments.comment}" style="float:left"/>
+                                        </p:column>
 
-                                    <h:panelGrid style="width:100%; margin-left:10px">
-
-                                        <h:outputText value="#{aComments.date}" style="float:left"/>
-                                        <h:outputText value="#{aComments.comment}" style="float:left"/>
-                                    </h:panelGrid>
-
-                                    <p:commandButton icon="fa fa-play fa-2x"
-                                                     actionListener='#{spotifyPlayerController.updateURL(aComments.getEmbedUri())}'>
-                                        <f:ajax render=":iframe-holder"/>
-                                    </p:commandButton>
-
-                                </h:panelGrid>
-
-                            </p:panel>
+                        </p:dataTable>
+                    </p:tab>
+                    <p:tab title="My Raitings">
+                        <div class="tableBackgroundDiv">
+                            My Raitings
+                            <!--                #{userController.listOfUserRatings}-->
                         </div>
-                    </p:dataViewListItem>
-                </p:dataView>
+                    </p:tab>
 
+                </p:tabView>
 
             </div>
             &nbsp;
-            <div class="tableBackgroundDiv">
-                My Raitings
-                #{userController.listOfUserRatings}
-            </div>
+
 
         </h:form>
     </ui:define>
