@@ -80,11 +80,14 @@
                 <p:selectManyCheckbox id="grid" value="#{userGenresController.listOfUserGenres}" layout="grid" columns="3" styleClass="grid-checkbox">
 <!--                <p:selectManyMenu id="advanced" value="#{userGenresController.listOfUserGenres}"-->
 <!--                                  var="g" filter="true" filterMatchMode="contains" showCheckbox="true" styleClass="manymenu-advanced">-->
-                    <f:selectItems value="#{userGenresController.genres}" var="userGenre" itemLabel="#{userGenre.genre}"
+                    <f:selectItems  value="#{userGenresController.genres}" var="userGenre" itemLabel="#{userGenre.genre}" styleClass="manymenu-advanced"
                                    itemValue="#{userGenre}"/>
 
 <!--                </p:selectManyMenu>-->
                 </p:selectManyCheckbox>
+                <p:commandButton icon="fa fa-play fa-2x"
+                                 actionListener='#{userGenresController.create}'>
+                </p:commandButton>
 
                             <p:panelGrid columns="1">
 
