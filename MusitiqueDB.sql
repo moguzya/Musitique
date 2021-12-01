@@ -65,7 +65,7 @@ CREATE TABLE UserRating
 
 
 /* The UserGenres table contains user genre preferences */
-CREATE TABLE UserGenres
+CREATE TABLE UserGenre
 (
 	id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
 	user_id INT UNSIGNED,
@@ -73,11 +73,11 @@ CREATE TABLE UserGenres
 	FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
 );
 
-/* The UserFollowedArtists table contains user's Followed Artists */
-CREATE TABLE UserFollowedArtists
+/* The UserFavoriteArtists table contains user's Followed Artists */
+CREATE TABLE UserFavoriteArtist
 (
 	id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
 	user_id INT UNSIGNED,
-	entity_id VARCHAR(256)
+	entity_id VARCHAR(256),
 	FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
 );
