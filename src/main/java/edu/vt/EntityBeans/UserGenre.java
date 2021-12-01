@@ -12,14 +12,14 @@ representing the Video table in the UsersVideosDB database.
 
 @Entity
 
-@Table(name = "UserGenres")
+@Table(name = "UserGenre")
 
 @NamedQueries({
     /*
     private User userId;    --> userId is the object reference of the User object.
     userId.id               --> User object's database primary key
      */
-        @NamedQuery(name = "UserGenres.findByUserId", query = "SELECT r FROM UserRating r WHERE r.userId.id = :userId")
+        @NamedQuery(name = "UserGenre.findByUserId", query = "SELECT r FROM UserGenre r WHERE r.userId.id = :userId")
 })
 
 public class UserGenre implements Serializable {
@@ -39,6 +39,14 @@ public class UserGenre implements Serializable {
     @Size(min = 1, max = 256)
     @Column(name = "genre")
     private String genre;
+
+    public UserGenre() {
+    }
+
+    public UserGenre(String genre, User userId) {
+        this.genre = genre;
+        this.userId = userId;
+    }
 
     public User getUserId() {
         return userId;

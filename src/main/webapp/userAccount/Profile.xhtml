@@ -35,7 +35,7 @@
             Left column contains the vertical navigation menu.
             Right column contains the user's profile data.
             -->
-            <p:panelGrid columns="1" style="float:left;overflow-y: auto;height: 100px;">
+            <p:panelGrid columns="2" style="float:left;overflow-y: auto;height: 100px;">
                 <!--
                 USER'S PROFILE PHOTO: Display the user's account profile photo in a circle.
                 The cache="false" option enables immediate display of a newly uploaded photo without using cache.
@@ -77,6 +77,12 @@
 
                 </p:panelGrid>
 
+                <p:selectManyMenu id="advanced" value="#{userGenresController.listOfUserGenres}"
+                                  var="c" filter="true" filterMatchMode="contains" showCheckbox="true" styleClass="manymenu-advanced">
+                    <f:selectItems value="#{userGenresController.genres}" var="country" itemLabel="#{UserGenre.genre}"
+                                   itemValue="#{UserGenre}"/>
+
+                </p:selectManyMenu>
 
                             <p:panelGrid columns="1">
 

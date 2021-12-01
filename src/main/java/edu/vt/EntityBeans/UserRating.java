@@ -65,11 +65,12 @@ public class UserRating implements Serializable {
         rating = 0;
     }
 
-    public UserRating(User userId, String entityId, Integer rating) {
+    public UserRating(User userId, String entityId, Integer rating, String entityType) {
         this.userId = userId;
         this.entityId = entityId;
         this.rating = rating;
         this.date = LocalDateTime.now();
+        this.entityType = entityType;
     }
 
     @Override

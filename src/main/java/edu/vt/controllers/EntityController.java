@@ -197,9 +197,9 @@ public class EntityController implements Serializable {
     }
 
     public void onRate(RateEvent<Integer> rateEvent) {
-        userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser());
+        userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser(), selectedEntityType.toString());
         if (userRating.getRating() == -1) {
-            userRating = new UserRating(getUser(), getSelectedEntityId(), rateEvent.getRating());
+            userRating = new UserRating(getUser(), getSelectedEntityId(), rateEvent.getRating(), selectedEntityType.toString());
             createRating(userRating);
         } else {
             userRating.setRating(rateEvent.getRating());
@@ -290,7 +290,7 @@ public class EntityController implements Serializable {
 
     public UserRating getUserRating() {
         if (userRating == null) {
-            userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser());
+            userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser(), selectedEntityType.toString());
         }
         return userRating;
     }
@@ -335,16 +335,8 @@ public class EntityController implements Serializable {
         return averageEntityRating;
     }
 
-    public Object getEntity(String entityId, EntityType entityType){
-        switch (entityType) {
-            case ALBUM:
-                return selectedTrack;
-            case ARTIST:
-                return selectedArtist;
-            case TRACK:
-                return selectedTrack;
-        }
-        return null;
+    public void setAverageEntityRating(Double averageEntityRating) {
+        this.averageEntityRating = averageEntityRating;
     }
 
 //    public String getEntityArtists(String entityId, EntityType entityType){
@@ -357,8 +349,16 @@ public class EntityController implements Serializable {
 //        return "";
 //    }
 
-    public void setAverageEntityRating(Double averageEntityRating) {
-        this.averageEntityRating = averageEntityRating;
+    public Object getEntity(String entityId, EntityType entityType) {
+        switch (entityType) {
+            case ALBUM:
+                return selectedTrack;
+            case ARTIST:
+                return selectedArtist;
+            case TRACK:
+                return selectedTrack;
+        }
+        return null;
     }
     /*
      **********************************************************************************************
