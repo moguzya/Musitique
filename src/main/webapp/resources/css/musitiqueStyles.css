@@ -134,3 +134,16 @@ body .ui-paginator .ui-paginator-current, body .ui-paginator .ui-paginator-prev,
 body .ui-dataview .ui-dataview-header{
     color: white;
 }
+body .ui-tabs .ui-tabs-panels{
+    background: none !important;
+}
+
+body .ui-datatable thead th{
+    background: none !important;
+    color:  white;
+}
+
+body .ui-datatable .ui-datatable-data > tr{
+    background: none !important;
+    color: white;
+}

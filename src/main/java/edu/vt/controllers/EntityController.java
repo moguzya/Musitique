@@ -335,6 +335,28 @@ public class EntityController implements Serializable {
         return averageEntityRating;
     }
 
+    public Object getEntity(String entityId, EntityType entityType){
+        switch (entityType) {
+            case ALBUM:
+                return selectedTrack;
+            case ARTIST:
+                return selectedArtist;
+            case TRACK:
+                return selectedTrack;
+        }
+        return null;
+    }
+
+//    public String getEntityArtists(String entityId, EntityType entityType){
+//        switch (entityType) {
+//            case ALBUM:
+//                return selectedAlbum.getArtistsListAsString();
+//            case TRACK:
+//                return selectedTrack.getArtistsListAsString();
+//        }
+//        return "";
+//    }
+
     public void setAverageEntityRating(Double averageEntityRating) {
         this.averageEntityRating = averageEntityRating;
     }
