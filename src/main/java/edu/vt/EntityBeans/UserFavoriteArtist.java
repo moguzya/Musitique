@@ -16,14 +16,14 @@ representing the Video table in the UsersVideosDB database.
 
 @Entity
 
-@Table(name = "UserFavoriteArtists")
+@Table(name = "UserFavoriteArtist")
 
 @NamedQueries({
     /*
     private User userId;    --> userId is the object reference of the User object.
     userId.id               --> User object's database primary key
      */
-        @NamedQuery(name = "UserFavoriteArtists.findByUserId", query = "SELECT r FROM UserRating r WHERE r.userId.id = :userId")
+        @NamedQuery(name = "UserFavoriteArtist.findByUserId", query = "SELECT r FROM UserFavoriteArtist r WHERE r.userId.id = :userId")
 })
 
 public class UserFavoriteArtist implements Serializable {

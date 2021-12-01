@@ -15,6 +15,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -47,10 +48,10 @@ public class UserGenresController implements Serializable {
      */
 
     /*
-    ***************************************************************
-    Return the List of User Videos that Belong to the Signed-In User
-    ***************************************************************
-     */
+        ***************************************************************
+        Return the List of User Videos that Belong to the Signed-In User
+        ***************************************************************
+         */
     public List<UserGenre> getListOfUserGenres() {
 
         if (listOfUserGenres == null) {
@@ -70,18 +71,28 @@ public class UserGenresController implements Serializable {
         return listOfUserGenres;
     }
 
+    public void setListOfUserGenres(List<UserGenre> listOfUserGenres) {
+        this.listOfUserGenres = listOfUserGenres;
+    }
 
 
-
-    /*
+/*
     ================
     Instance Methods
     ================
     */
 
     // Return list of categories
-    public List<String> getGenres() {
-        return Constants.GENRES;
+    public List<UserGenre> getGenres() {
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        User signedInUser = (User) sessionMap.get("user");
+
+        List<UserGenre> genres = new ArrayList<>();
+        for (int i = 0; i < Constants.GENRES.size(); i++) {
+
+            genres.add(new UserGenre(Constants.GENRES.get(i),signedInUser));
+        }
+        return genres;
     }
 
 
