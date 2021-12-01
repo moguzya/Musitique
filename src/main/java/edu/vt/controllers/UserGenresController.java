@@ -89,10 +89,9 @@ public class UserGenresController implements Serializable {
 
         List<UserGenre> genres = new ArrayList<>();
         for (int i = 0; i < Constants.GENRES.size(); i++) {
-
             genres.add(new UserGenre(Constants.GENRES.get(i),signedInUser));
         }
-        return genres;
+        return new ArrayList<>(genres);
     }
 
 

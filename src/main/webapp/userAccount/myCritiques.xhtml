@@ -31,11 +31,6 @@
 
             <h1 style="color:white"> #{userController.selected.firstName}&nbsp;#{userController.selected.lastName}'s Critique History </h1>
 
-            &nbsp;
-            <div class="tableBackgroundDiv">
-                Preferences
-            </div>
-            &nbsp;
 
             <div class="tableBackgroundDiv">
 
@@ -242,10 +237,191 @@
 
 <!--                        </p:dataTable>-->
                     </p:tab>
-                    <p:tab title="My Raitings">
-                        <div class="tableBackgroundDiv">
-                            My Raitings
-                            <!--                #{userController.listOfUserRatings}-->
+                    <p:tab title="My Ratings">
+                            My Ratings
+                            <!-- In case of JSF validation error, set 'selected' to null in movieController -->
+                            <c:if test="#{facesContext.validationFailed}">
+                                ${userRatingsController.unselect()}
+                            </c:if>
+
+                            <!-- Set 'selected' to null in movieController when the user refreshes / reloads this JSF page -->
+                            <f:metadata>
+                                <f:viewAction action="#{userRatingsController.unselect()}" rendered="#{facesContext.postback}" />
+                            </f:metadata>
+
+                            <div align="center">
+                                <h:form id="RatingsListForm">
+                                    <p:panel header="List of My Comments">
+                                        <p:dataTable id="datalistratings"
+                                                     value="#{userRatingsController.listofUserRatings}"
+                                                     var="aRatings"
+                                                     widgetVar="ratingDataTable"
+                                                     selectionMode="single"
+                                                     selection="#{userRatingsController.selected}"
+                                                     reflow="true"
+                                                     showGridlines="true"
+                                                     paginator="true"
+                                                     rowKey="#{aComments.id}"
+                                                     rows="5"
+                                                     rowsPerPageTemplate="5,10,15,20,30,40,50"
+                                                     emptyMessage="No comments found for the search query entered!" >
+
+                                            <p:ajax event="rowSelect"   />
+                                            <p:ajax event="rowUnselect" />
+
+                                            <!--
+                                            *************************
+                                            *   Data Table Header   *
+                                            *************************
+                                            -->
+                                            <f:facet name="header">
+                                                <div align="center">
+                                                    <p:inputText id="globalFilterRatings" onkeyup="PF('ratingDataTable').filter()" filterMatchMode="contains"
+                                                                 style="width: 250px"
+                                                                 placeholder="Enter Global Search Query" />
+                                                    &nbsp;
+                                                    <p:commandButton type="button" value="Clear All Filters" styleClass="ui-button-outlined"
+                                                                     icon="fas fa-undo" onclick="PF('ratingDataTable').clearFilters()" />
+                                                </div>
+                                            </f:facet>
+
+                                            <!--
+                                            *******************************
+                                            *   Artwork Image   *
+                                            *******************************
+                                            -->
+                                            <p:column headerText="Artwork" style="width: 80px; text-align: center; vertical-align: top">
+                                                <p:graphicImage url="#{aRatings.entityImageUrl}" width="92px" style="float:left"/>
+                                            </p:column>
+
+
+                                            <!--
+                                            ********************
+                                            *      Type      *
+                                            ********************
+                                            -->
+                                            <p:column headerText="Type" sortBy="#{aRatings.entityType}"
+                                                      filterBy="#{aRatings.entityType}" filterMatchMode="contains"
+                                                      style="width: 150px; text-align: center; vertical-align: top">
+                                                <h:outputText value="#{aRatings.entityType}" style="float:left"/>
+
+                                            </p:column>
+
+                                            <!--
+                                            ********************
+                                            *      Name      *
+                                            ********************
+                                            -->
+                                            <p:column headerText="Name" sortBy="#{aRatings.entityName}"
+                                                      filterBy="#{aRatings.entityName}" filterMatchMode="contains"
+                                                      style="width: 150px; text-align: center; vertical-align: top">
+                                                <h:outputText value="#{aRatings.entityName}" style="float:left"/>
+                                            </p:column>
+
+                                            <!--
+                                            ********************
+                                            *      Artists      *
+                                            ********************
+                                            -->
+                                            <p:column headerText="Name" sortBy="#{aRatings.entityArtists}"
+                                                      filterBy="#{aRatings.entityArtists}" filterMatchMode="contains"
+                                                      style="width: 150px; text-align: center; vertical-align: top">
+                                                <h:outputText value="#{aRatings.entityArtists}" style="float:left"/>
+                                            </p:column>
+
+                                            <!--
+                                            ********************
+                                            *   Release Date   *
+                                            ********************
+                                            -->
+                                            <p:column headerText="Date Rated" sortBy="#{aRatings.date}"
+                                                      filterBy="#{aRatings.date}" filterMatchMode="contains"
+                                                      style="width: 150px; text-align: center; vertical-align: top">
+                                                <!--                                            <h:outputText value="#{aComments.date}">-->
+                                                <!--                                                <f:convertDateTime pattern="MM/dd/yyyy" />-->
+                                                <!--                                            </h:outputText>-->
+                                                <h:outputText value="#{aRatings.date}" style="float:left"/>
+
+                                            </p:column>
+
+                                            <!--
+                                            *******************
+                                            *   Rating   *
+                                            *******************
+                                            -->
+                                            <p:column headerText="Rating" sortBy="#{aRatings.rating}"
+                                                      style="text-align: center; vertical-align: top">
+                                                <p:rating value="#{aRatings.rating}">
+                                                    <p:ajax event="rate" listener="#{entityController.onRate}"/>
+                                                    <p:ajax event="cancel" listener="#{entityController.onUnrate}"/>
+                                                </p:rating>
+                                            </p:column>
+
+                                            <br /><br />
+
+                                            <!--
+                                            *************************
+                                            *   Data Table Footer   *
+                                            *************************
+                                            -->
+                                            <f:facet name="footer">
+                                                <div align="center">
+                                                    <!--                                                &lt;!&ndash; These command buttons require id since they are referenced to be activated or deactivated &ndash;&gt;-->
+                                                    <!--                                                <p:commandButton id="createButton" value="Create" icon="fas fa-plus" styleClass="rounded-button"-->
+                                                    <!--                                                                 actionListener="#{movieController.prepareCreate()}"-->
+                                                    <!--                                                                 update=":MovieCreateForm" oncomplete="PF('MovieCreateDialog').show()"/>-->
+                                                    <!--                                                &nbsp;-->
+                                                    <!--                                                <p:commandButton id="viewButton" value="View" icon="fas fa-eye" styleClass="rounded-button"-->
+                                                    <!--                                                                 update=":MovieViewForm" oncomplete="PF('MovieViewDialog').show()"-->
+                                                    <!--                                                                 disabled="#{empty movieController.selected}"/>-->
+                                                    <!--                                                &nbsp;-->
+                                                    <!--                                                <p:commandButton id="editButton" value="Edit" icon="fas fa-edit" styleClass="rounded-button"-->
+                                                    <!--                                                                 update=":MovieEditForm" oncomplete="PF('MovieEditDialog').show()"-->
+                                                    <!--                                                                 disabled="#{empty movieController.selected}"/>-->
+                                                    <!--                                                &nbsp;-->
+                                                    <!--                                                <p:commandButton id="playButton" value="Play" icon="fas fa-play" styleClass="rounded-button"-->
+                                                    <!--                                                                 actionListener="#{movieController.setIdOfVideoToPlay(movieController.selected.youtubeTrailerId)}"-->
+                                                    <!--                                                                 update=":MovieTrailerPlayForm" oncomplete="PF('MovieTrailerPlayDialog').show()"-->
+                                                    <!--                                                                 disabled="#{empty movieController.selected}" />-->
+                                                    &nbsp;
+                                                    <!--
+                                                    update=":MovieTrailerPlayForm" is critically required to
+                                                    update the selected movie trailer in the Play dialog form.
+                                                    -->
+
+                                                    <!--
+                                                    ***************************************************
+                                                    Display a Confirmation dialog for the DELETE button
+                                                    ***************************************************
+                                                    -->
+                                                    <!--                                                <p:commandButton id="deleteButton" value="Delete" icon="fas fa-trash-alt" styleClass="rounded-button"-->
+                                                    <!--                                                                 actionListener="#{userCommentsController.destroy}"-->
+                                                    <!--                                                                 update="datalist,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"-->
+                                                    <!--                                                                 disabled="#{empty userCommentsController.selected}">-->
+
+                                                    <!--                                                    <p:confirm header="Deletion Confirmation"-->
+                                                    <!--                                                               message="Are you sure you want to permanently delete the selected movie #{userCommentsController.selected.title} from the database?" />-->
+                                                    <!--                                                </p:commandButton>-->
+
+                                                    <!--                                                <p:confirmDialog id="confirmDialogBox" global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">-->
+                                                    <!--                                                    <div align="center">-->
+                                                    <!--                                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fas fa-window-close" />-->
+                                                    <!--                                                        &nbsp;-->
+                                                    <!--                                                        <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger" icon="fas fa-check-square" />-->
+                                                    <!--                                                    </div>-->
+                                                    <!--                                                </p:confirmDialog>-->
+                                                    <!--
+                                                    ************************************************
+                                                    End of Display of the DELETE Confirmation dialog
+                                                    ************************************************
+                                                    -->
+                                                </div>
+                                            </f:facet>
+                                        </p:dataTable>
+                                    </p:panel>
+                                </h:form>
+
+
                         </div>
                     </p:tab>
 

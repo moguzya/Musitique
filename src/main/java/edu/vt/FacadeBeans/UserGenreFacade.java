@@ -45,7 +45,7 @@ public class UserGenreFacade extends AbstractFacade<UserGenre> {
 
         The following statement obtains the results from the named database query.
          */
-        return entityManager.createNamedQuery("UserGenres.findByUserId")
+        return entityManager.createNamedQuery("UserGenre.findByUserId")
                 .setParameter("userId", primaryKey)
                 .getResultList();
     }
