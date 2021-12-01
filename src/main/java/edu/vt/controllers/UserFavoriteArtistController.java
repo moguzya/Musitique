@@ -41,8 +41,9 @@ public class UserFavoriteArtistController implements Serializable {
     @EJB
     private UserFavoriteArtistFacade userFavoriteArtistFacade;
 
-
-    /*
+    public UserFavoriteArtistController() {
+    }
+/*
     =========================
     Getter and Setter Methods
     =========================
@@ -103,13 +104,6 @@ public class UserFavoriteArtistController implements Serializable {
         selected.setEntityId(artist.getId());
         selected.setUserId(getUser());
         create();
-    }
-
-    public void removeFavorite(Artist artist) {
-        selected = new UserFavoriteArtist();
-        selected.setEntityId(artist.getId());
-        selected.setUserId(getUser());
-        destroy();
     }
 
     private User getUser() {
@@ -176,7 +170,7 @@ public class UserFavoriteArtistController implements Serializable {
     **********************
      */
     public void create() {
-        persist(PersistAction.CREATE, "User Video was successfully created.");
+        persist(PersistAction.CREATE, "Artist added to favorites.");
 
         if (!JsfUtil.isValidationFailed()) {
             selected = null;            // Remove selection
@@ -206,7 +200,18 @@ public class UserFavoriteArtistController implements Serializable {
      DELETE Selected UserVideo from the Database
      ***************************************
       */
-    public void destroy() {
+    public void destroy(Artist artist) {
+        if (selected == null) {
+            List<UserFavoriteArtist> favs = getListOfFavoriteArtists();
+            for (UserFavoriteArtist fav : favs) {
+                System.out.println(fav.getEntityId());
+                System.out.println(artist.getId());
+                if (fav.getEntityId().equals(artist.getId())) {
+                    selected = fav;
+                    break;
+                }
+            }
+        }
         Methods.preserveMessages();
 
         persist(PersistAction.DELETE, "Artist removed from favorites.");

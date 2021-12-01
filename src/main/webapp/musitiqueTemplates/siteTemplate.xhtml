@@ -28,7 +28,7 @@
                     <ui:include src="sidemenuTemplate.xhtml"/>
                 </ui:insert>
             </p:splitterPanel>
-            <p:splitterPanel  size="85" minSize="80" styleClass="p-d-flex p-ai-center p-jc-center mainContentSplitter">
+            <p:splitterPanel size="85" minSize="80" styleClass="p-d-flex p-ai-center p-jc-center mainContentSplitter">
                 <div class="content-container">
                     <table class="content">
                         <tr>
@@ -41,7 +41,7 @@
                         <tr>
                             <td class="editable-content">
                                 <ui:insert name="editableContent">
-                                    <ui:include src="contentTemplate.xhtml" />
+                                    <ui:include src="contentTemplate.xhtml"/>
                                 </ui:insert>
                             </td>
                         </tr>
@@ -58,16 +58,15 @@
         </p:splitter>
     </div>
 
-<!--    <div class="page">-->
-<!--        <div class="side-menu">-->
-<!--            <ui:insert name="side-menu">-->
-<!--                <ui:include src="sidemenuTemplate.xhtml"/>-->
-<!--            </ui:insert>-->
-<!--        </div>-->
+    <!--    <div class="page">-->
+    <!--        <div class="side-menu">-->
+    <!--            <ui:insert name="side-menu">-->
+    <!--                <ui:include src="sidemenuTemplate.xhtml"/>-->
+    <!--            </ui:insert>-->
+    <!--        </div>-->
 
 
-
-<!--    </div>-->
+    <!--    </div>-->
 
     <ui:insert name="growlMessages">
         <ui:include src="growlMessages.xhtml"/>

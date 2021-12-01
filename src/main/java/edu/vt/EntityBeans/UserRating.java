@@ -61,10 +61,9 @@ public class UserRating implements Serializable {
     @NotNull
     @Column(name = "date")
     private LocalDateTime date;
-//TODO delete
-//    public UserRating() {
-//        rating = 0;
-//    }
+    public UserRating() {
+        rating = 0;
+    }
 
     public UserRating(User userId, String entityId, Integer rating, EntityType entityType) {
         this.userId = userId;

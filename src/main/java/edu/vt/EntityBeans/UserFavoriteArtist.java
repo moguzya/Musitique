@@ -23,7 +23,7 @@ representing the Video table in the UsersVideosDB database.
     private User userId;    --> userId is the object reference of the User object.
     userId.id               --> User object's database primary key
      */
-        @NamedQuery(name = "UserFavoriteArtist.findByUserId", query = "SELECT r FROM UserFavoriteArtist r WHERE r.userId.id = :userId")
+        @NamedQuery(name = "UserFavoriteArtists.findByUserId", query = "SELECT r FROM UserFavoriteArtist r WHERE r.userId.id = :userId")
 })
 
 public class UserFavoriteArtist implements Serializable {
@@ -43,6 +43,9 @@ public class UserFavoriteArtist implements Serializable {
     @Size(min = 1, max = 256)
     @Column(name = "entity_id")
     private String entityId;
+
+    public UserFavoriteArtist() {
+    }
 
     public User getUserId() {
         return userId;

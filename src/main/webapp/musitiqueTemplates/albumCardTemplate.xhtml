@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition>
+    <p:commandLink>
+        <p:graphicImage url="#{album.imageUrl}" width="92px" style="float:left"/>
+    </p:commandLink>
+    <h:panelGrid style="width:100%; margin-left:10px">
+        <f:facet name="header">
+            <h:commandLink action="#{entityController.toAlbumPage(album)}" value="#{album.name}"/>
+        </f:facet>
+        <br/>
+        <ui:repeat var="artist" value="#{album.artists}" varStatus="status">
+            <h:commandLink action="#{entityController.toArtistPage(artist)}" value="#{artist.name} "/>
+        </ui:repeat>
+        <h:outputText
+                value="#{album.getTracksCountAsString()}"
+                style="float:left"/>
+    </h:panelGrid>
+
+    <p:commandButton icon="fa fa-play fa-2x"
+                     actionListener='#{spotifyPlayerController.updateURL(album.getEmbedUri())}'>
+        <f:ajax render=":iframe-holder"/>
+    </p:commandButton>
+</ui:composition>
+
+</html>
+
+

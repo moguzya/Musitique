@@ -17,6 +17,14 @@ public class Artist {
     public Artist(String json) {
     }
 
+    public Artist(String id, String name, Integer followers, String imageUrl, List<String> genres) {
+        this.id = id;
+        this.name = name;
+        this.followers = followers;
+        this.imageUrl = imageUrl;
+        this.genres = genres;
+    }
+
     public String getId() {
         return id;
     }

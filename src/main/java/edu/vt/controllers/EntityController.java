@@ -6,8 +6,10 @@ package edu.vt.controllers;
 
 import edu.vt.EntityBeans.User;
 import edu.vt.EntityBeans.UserComment;
+import edu.vt.EntityBeans.UserFavoriteArtist;
 import edu.vt.EntityBeans.UserRating;
 import edu.vt.EntityType;
+import edu.vt.FacadeBeans.UserFavoriteArtistFacade;
 import edu.vt.Pojos.Album;
 import edu.vt.FacadeBeans.CommentFacade;
 import edu.vt.FacadeBeans.RatingFacade;
@@ -72,6 +74,9 @@ public class EntityController implements Serializable {
 
     @EJB
     private RatingFacade ratingFacade;
+
+    @EJB
+    private UserFavoriteArtistFacade userFavoriteArtistFacade;
 
     private Track selectedTrack = new Track(
             "Test track name",
@@ -191,7 +196,7 @@ public class EntityController implements Serializable {
     }
 
     public void postComment() {
-        UserComment userComment = new UserComment(getUser(), getSelectedEntityId(),getSelectedEntityType() , newCommentText);
+        UserComment userComment = new UserComment(getUser(), getSelectedEntityId(), getSelectedEntityType(), newCommentText);
         createComment(userComment);
         newCommentText = "";
     }
@@ -214,6 +219,30 @@ public class EntityController implements Serializable {
     private User getUser() {
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         return (User) sessionMap.get("user");
+    }
+
+    public List<UserFavoriteArtist> getListOfFavoriteArtists() {
+        /*
+        'user', the object reference of the signed-in user, was put into the SessionMap
+        in the initializeSessionMap() method in LoginManager upon user's sign in.
+         */
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        User signedInUser = (User) sessionMap.get("user");
+
+        // Obtain the database primary key of the signedInUser object
+        Integer primaryKey = signedInUser.getId();
+
+        return userFavoriteArtistFacade.findUserFavoriteArtistsByUserPrimaryKey(primaryKey);
+    }
+
+    public Boolean isFavoriteArtist() {
+        for (UserFavoriteArtist favoriteArtist :
+                getListOfFavoriteArtists()) {
+            if (favoriteArtist.getEntityId().equals(selectedArtist.getId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /*

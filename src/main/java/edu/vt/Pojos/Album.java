@@ -38,12 +38,13 @@ public class Album {
 
     }
 
-    public Album(String id, String name, String imageUrl, String releaseDate, Integer totalTracks) {
+    public Album(String id, String name, String imageUrl, String releaseDate, List<Artist> artists, Integer totalTracks) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
         this.releaseDate = releaseDate;
         this.totalTracks = totalTracks;
+        this.artists = artists;
     }
 
     public Album(String id, String name, String imageUrl, String releaseDate, Integer totalTracks, List<Track> tracks) {
@@ -136,5 +137,11 @@ public class Album {
 
     public void setTracks(List<Track> tracks) {
         this.tracks = tracks;
+    }
+
+    public String getTracksCountAsString() {
+        if (totalTracks > 2)
+            return totalTracks + " Tracks in Album";
+        return "Only " + totalTracks + " Track in Album";
     }
 }

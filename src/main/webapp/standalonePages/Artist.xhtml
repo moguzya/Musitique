@@ -18,25 +18,31 @@
             <h:form id="ArtistForm">
                 <p:graphicImage url="#{entityController.getSelectedArtist().imageUrl}" width="20%"/>
                 <h:outputText value="#{entityController.getSelectedArtist().name}"/>
-                <h:outputText value="#{entityController.getSelectedArtist().getGenresListAsString}"/>
+                <h:outputText value="#{entityController.getSelectedArtist().getGenresListAsString()}"/>
                 <h:outputText value="Number of Followers: #{entityController.getSelectedArtist().followers}"/>
-                <c:choose>
-                    <c:when test="#{userFavoriteArtistController.isFavoriteArtist(entityController.getSelectedArtist())}">
-                        <p:commandButton type="button" icon="pi pi-heart"
-                                         styleClass="rounded-button ui-button-help ui-button-outlined"
-                                         action="#{userFavoriteArtistController.destroy()}"
-                                         ajax="false"
-                                         update=":growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage">
-                        </p:commandButton>
-                    </c:when>
-                    <c:otherwise>
-                        <p:commandButton type="button" icon="pi pi-heart" styleClass="rounded-button ui-button-help"
-                                         action="#{userFavoriteArtistController.addFavorite(entityController.getSelectedArtist())}"
-                                         ajax="false"
-                                         update=":growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage">
-                        </p:commandButton>
-                    </c:otherwise>
-                </c:choose>
+                <c:if test="#{userController.isLoggedIn() == true}">
+                    <h:form>
+                        <div id="FavButton">
+                            <p:commandButton icon="pi pi-heart"
+                                             rendered="#{entityController.isFavoriteArtist()}"
+                                             styleClass="rounded-button ui-button-help"
+                                             ajax="false"
+                                             actionListener="#{userFavoriteArtistController.destroy(entityController.getSelectedArtist())}"
+                                             update=":FavButton,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
+                                             oncomplete="standalonePages/Artist.xhtml"
+                            />
+
+                            <p:commandButton icon="pi pi-heart"
+                                             styleClass="rounded-button ui-button-help ui-button-outlined"
+                                             rendered="#{!entityController.isFavoriteArtist()}"
+                                             ajax="false"
+                                             actionListener="#{userFavoriteArtistController.addFavorite(entityController.getSelectedArtist())}"
+                                             update=":FavButton,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
+                                             oncomplete="standalonePages/Artist.xhtml"
+                            />
+                        </div>
+                    </h:form>
+                </c:if>
                 <ui:insert name="comments">
                     <ui:include src="/musitiqueTemplates/commentsTemplate.xhtml"/>
                 </ui:insert>
