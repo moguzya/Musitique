@@ -4,6 +4,9 @@
  */
 package edu.vt.globals;
 
+import java.util.Arrays;
+import java.util.List;
+
 public final class Constants {
     /*
     ==================================================
@@ -128,5 +131,5 @@ public final class Constants {
 
     public static final String EMBED_URI = "https://open.spotify.com/embed/";
 
-
+    public static final List<String> GENRES = Arrays.asList("RAP","R/B","HIP-HOP","COUNTRY","POP","ROCK");
 }

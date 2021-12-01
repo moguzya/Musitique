@@ -50,6 +50,8 @@ public class UserCommentsController implements Serializable {
     private Track track;
     private Artist artist;
 
+
+
     /*
     The @EJB annotation directs the EJB Container Manager to inject (store) the object reference of the
     UserFacade bean into the instance variable 'userFacade' after it is instantiated at runtime.
@@ -69,6 +71,18 @@ public class UserCommentsController implements Serializable {
     Getter and Setter Methods
     =========================
      */
+    public void setSelected(UserComment selected) {
+        this.selected = selected;
+    }
+
+    public UserComment getSelected() {
+        return selected;
+    }
+
+    public void unselect() {
+        selected = null;
+    }
+
     /*
     ***************************************************************
     Return the List of User Comments that Belong to the Signed-In User
