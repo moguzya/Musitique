@@ -134,6 +134,13 @@ public class UserRating implements Serializable {
         this.date = date;
     }
 
+    public String getEntityType() {
+        return entityType;
+    }
+
+    public void setEntityType(String entityType) {
+        this.entityType = entityType;
+    }
 
     public String getEntityName(){
         EntityController entityController = new EntityController();

@@ -76,13 +76,15 @@
                     <h:outputText value="#{userController.selected.username}"/>
 
                 </p:panelGrid>
+                #{userGenresController.genres}
+                <p:selectManyCheckbox id="grid" value="#{userGenresController.listOfUserGenres}" layout="grid" columns="3" styleClass="grid-checkbox">
+<!--                <p:selectManyMenu id="advanced" value="#{userGenresController.listOfUserGenres}"-->
+<!--                                  var="g" filter="true" filterMatchMode="contains" showCheckbox="true" styleClass="manymenu-advanced">-->
+                    <f:selectItems value="#{userGenresController.genres}" var="userGenre" itemLabel="#{userGenre.genre}"
+                                   itemValue="#{userGenre}"/>
 
-                <p:selectManyMenu id="advanced" value="#{userGenresController.listOfUserGenres}"
-                                  var="c" filter="true" filterMatchMode="contains" showCheckbox="true" styleClass="manymenu-advanced">
-                    <f:selectItems value="#{userGenresController.genres}" var="country" itemLabel="#{UserGenre.genre}"
-                                   itemValue="#{UserGenre}"/>
-
-                </p:selectManyMenu>
+<!--                </p:selectManyMenu>-->
+                </p:selectManyCheckbox>
 
                             <p:panelGrid columns="1">
 
