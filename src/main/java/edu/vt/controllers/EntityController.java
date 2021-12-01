@@ -34,7 +34,7 @@ import java.util.logging.Logger;
 ---------------------------------------------------------------------------
 The @Named (javax.inject.Named) annotation indicates that the objects
 instantiated from this class will be managed by the Contexts and Dependency
-Injection (CDI) container. The name "videoController" is used within
+Injection (CDI) container. The name "entityController" is used within
 Expression Language (EL) expressions in JSF (XHTML) facelets pages to
 access the properties and invoke methods of this class.
 ---------------------------------------------------------------------------
