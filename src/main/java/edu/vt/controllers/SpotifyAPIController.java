@@ -5,6 +5,8 @@
 package edu.vt.controllers;
 
 
+import edu.vt.EntityBeans.UserFavoriteArtist;
+import edu.vt.EntityBeans.UserGenre;
 import edu.vt.Pojos.Album;
 import edu.vt.Pojos.Artist;
 import edu.vt.Pojos.Track;
@@ -123,9 +125,6 @@ public class SpotifyAPIController implements Serializable {
         return null;
     }
 
-
-
-
     public List<Album> requestSeveralAlbums(String albumIds) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spotify.com/v1/albums?ids=" + albumIds))
@@ -177,6 +176,8 @@ public class SpotifyAPIController implements Serializable {
             } else if (response.statusCode() == 401) {
                 requestToken();
                 return requestArtist(artistId);
+            } else if (response.statusCode() == 429) {
+                System.out.println("rate limit");
             }
         } catch (IOException | InterruptedException e) {
             System.out.println(e);
@@ -237,6 +238,8 @@ public class SpotifyAPIController implements Serializable {
             } else if (response.statusCode() == 401) {
                 requestToken();
                 return requestTrack(trackId);
+            } else if (response.statusCode() == 429) {
+                System.out.println("rate limit");
             }
         } catch (IOException | InterruptedException e) {
             System.out.println(e);
@@ -279,7 +282,47 @@ public class SpotifyAPIController implements Serializable {
         return null;
     }
 
-    public String getAccessToken() {
+    public List<Album> requestNewReleases() {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/browse/new-releases?country=US&limit=50&offset=0"))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + accessToken)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                List<Album> albums = new ArrayList();
+                JSONArray albumArray = new JSONObject(response.body()).getJSONObject("albums").getJSONArray("items");
+
+                for (int i = 0; i < albumArray.length(); i++) {
+                    Album a = new Album(albumArray.getJSONObject(0).toString());
+                    albums.add(a);
+                }
+                return albums;
+            } else if (response.statusCode() == 401) {
+                requestToken();
+                return requestNewReleases();
+            } else if (response.statusCode() == 429) {
+                System.out.println("rate limit");
+            }
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public List<Track> requestRecommendations() {
+        List<UserGenre> UserGenresController.favoriteGenres = getListOfUserGenres();
+        List<UserFavoriteArtist> favoriteArtists = getListOfFavoriteArtists();
+
+    }
+    
+     public String getAccessToken() {
         return accessToken;
     }
 
@@ -293,21 +336,5 @@ public class SpotifyAPIController implements Serializable {
 
     public void setRecommendedAlbums(List<Album> recommendedAlbums) {
         this.recommendedAlbums = recommendedAlbums;
-    }
-
-    public List<Artist> getRecommendedArtists() {
-        return recommendedArtists;
-    }
-
-    public void setRecommendedArtists(List<Artist> recommendedArtists) {
-        this.recommendedArtists = recommendedArtists;
-    }
-
-    public List<Track> getRecommendedTracks() {
-        return recommendedTracks;
-    }
-
-    public void setRecommendedTracks(List<Track> recommendedTracks) {
-        this.recommendedTracks = recommendedTracks;
     }
 }

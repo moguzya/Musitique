@@ -73,6 +73,15 @@ public class Album {
         this.totalTracks = totalTracks;
     }
 
+    public Album(String id, String name, String imageUrl, String releaseDate, List<Artist> artists, Integer totalTracks) {
+        this.id = id;
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.releaseDate = releaseDate;
+        this.artists = artists;
+        this.totalTracks = totalTracks;
+    }
+
     public String getId() {
         return id;
     }
