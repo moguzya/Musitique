@@ -64,6 +64,9 @@ public class SpotifyAPIController implements Serializable {
     */
     private static final HttpClient CLIENT = HttpClient.newHttpClient();
     private String accessToken;
+    private List<Album> recommendedAlbums;
+    private List<Artist> recommendedArtists;
+    private List<Track> recommendedTracks;
 
     /*
     ================
@@ -119,6 +122,9 @@ public class SpotifyAPIController implements Serializable {
 
         return null;
     }
+
+
+
 
     public List<Album> requestSeveralAlbums(String albumIds) {
         HttpRequest request = HttpRequest.newBuilder()
@@ -271,5 +277,37 @@ public class SpotifyAPIController implements Serializable {
         }
 
         return null;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public List<Album> getRecommendedAlbums() {
+        return recommendedAlbums;
+    }
+
+    public void setRecommendedAlbums(List<Album> recommendedAlbums) {
+        this.recommendedAlbums = recommendedAlbums;
+    }
+
+    public List<Artist> getRecommendedArtists() {
+        return recommendedArtists;
+    }
+
+    public void setRecommendedArtists(List<Artist> recommendedArtists) {
+        this.recommendedArtists = recommendedArtists;
+    }
+
+    public List<Track> getRecommendedTracks() {
+        return recommendedTracks;
+    }
+
+    public void setRecommendedTracks(List<Track> recommendedTracks) {
+        this.recommendedTracks = recommendedTracks;
     }
 }

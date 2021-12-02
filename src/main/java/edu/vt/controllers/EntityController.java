@@ -242,7 +242,6 @@ public class EntityController implements Serializable {
     ******************
      */
     public Album getSelectedAlbum() {
-        selectedAlbum = API_CONTROLLER.requestAlbum(selectedAlbum.getId());
         return selectedAlbum;
     }
 
@@ -254,8 +253,6 @@ public class EntityController implements Serializable {
     }
 
     public Artist getSelectedArtist() {
-//        TODO
-//        selectedArtist = API_CONTROLLER.requestArtist(selectedArtist.getId());
         return selectedArtist;
     }
 
@@ -267,8 +264,6 @@ public class EntityController implements Serializable {
     }
 
     public Track getSelectedTrack() {
-//        TODO
-//        selectedTrack = API_CONTROLLER.requestTrack(selectedTrack.getId());
         return selectedTrack;
     }
 
@@ -362,20 +357,10 @@ public class EntityController implements Serializable {
         this.averageEntityRating = averageEntityRating;
     }
 
-//    public String getEntityArtists(String entityId, EntityType entityType){
-//        switch (entityType) {
-//            case ALBUM:
-//                return selectedAlbum.getArtistsListAsString();
-//            case TRACK:
-//                return selectedTrack.getArtistsListAsString();
-//        }
-//        return "";
-//    }
-
     public Object getEntity(String entityId, EntityType entityType) {
         switch (entityType) {
             case ALBUM:
-                return selectedTrack;
+                return selectedAlbum;
             case ARTIST:
                 return selectedArtist;
             case TRACK:

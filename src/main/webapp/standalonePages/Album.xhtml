@@ -21,7 +21,7 @@
                     <f:ajax render=":iframe-holder"/>
                 </p:commandButton>
                 <h:outputText value="#{entityController.getSelectedAlbum().name}"/>
-                <ui:repeat var="artist" value="#{album.artists}" varStatus="status">
+                <ui:repeat var="artist" value="#{entityController.getSelectedAlbum().artists}" varStatus="status">
                     <h:commandLink action="#{entityController.toArtistPage(artist)}" value="#{artist.name} "/>
                 </ui:repeat>
                 <h:outputText value="#{entityController.getSelectedAlbum().releaseDate}"/>
@@ -42,21 +42,9 @@
 
                             <h:panelGrid columns="3" style="width:100%">
 
-                                <p:graphicImage url="#{aTrack.imageUrl}" width="92px" style="float:left"/>
-
-                                <h:panelGrid style="width:100%; margin-left:10px">
-                                    <f:facet name="header">
-                                        <h:commandLink action="#{entityController.toTrackPage(aTrack)}" value="#{aTrack.name}" />
-                                    </f:facet>
-                                    <br/>
-                                    <h:outputText value="#{aTrack.getArtistsListAsString()}" style="float:left"/>
-                                    <h:outputText value="#{aTrack.durationMs}, #{aTrack.explicit}" style="float:left"/>
-                                </h:panelGrid>
-
-                                <p:commandButton icon="fa fa-play fa-2x"
-                                                 actionListener='#{spotifyPlayerController.updateURL(aTrack.getEmbedUri())}'>
-                                    <f:ajax render=":iframe-holder"/>
-                                </p:commandButton>
+                                <ui:include src="/musitiqueTemplates/trackCardTemplate.xhtml.xhtml">
+                                    <ui:param name="album" value="#{aTrack}"/>
+                                </ui:include>
 
                             </h:panelGrid>
                         </p:panel>
@@ -67,22 +55,9 @@
                             <p:panel style="text-align:left">
                                 <h:panelGrid columns="3" style="width:100%"
                                              columnClasses="columnMoviePoster, columnMiddlePart, columnInfoButton">
-                                    <p:commandLink>
-                                        <p:graphicImage url="#{aTrack.imageUrl}" width="92px" style="float:left"/>
-                                    </p:commandLink>
-                                    <h:panelGrid style="width:100%; margin-left:10px">
-                                        <f:facet name="header">
-                                            <h:outputText value="#{aTrack.name}"/>
-                                        </f:facet>
-                                        <br/>
-                                        <h:outputText value="#{aTrack.getArtistsListAsString()}" style="float:left"/>
-                                        <h:outputText value="#{aTrack.durationMs}, #{aTrack.explicit}" style="float:left"/>
-                                    </h:panelGrid>
-
-                                    <p:commandButton icon="fa fa-play fa-2x"
-                                                     actionListener='#{spotifyPlayerController.updateURL(aTrack.getEmbedUri())}'>
-                                        <f:ajax render=":iframe-holder"/>
-                                    </p:commandButton>
+                                    <ui:include src="/musitiqueTemplates/trackCardTemplate.xhtml.xhtml">
+                                        <ui:param name="album" value="#{aTrack}"/>
+                                    </ui:include>
                                 </h:panelGrid>
                             </p:panel>
                         </div>
