@@ -1,11 +1,12 @@
 package edu.vt.Pojos;
 
+import org.primefaces.shaded.json.JSONArray;
+import org.primefaces.shaded.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static edu.vt.globals.Constants.EMBED_URI;
-
-//TODO
 public class Artist {
 
     private String id;
@@ -15,6 +16,23 @@ public class Artist {
     private String imageUrl;
 
     public Artist(String json) {
+        JSONObject body = new JSONObject(json);
+        this.id = body.optString("id", "");
+        this.name = body.optString("name", "");
+
+        JSONArray genresArray = body.getJSONArray("genres");
+        this.genres = new ArrayList();
+
+        for (int i = 0; i < genresArray.length(); i++) {
+            this.genres.add(genresArray.optString(i, ""));
+        }
+
+        this.followers = body.optInt("followers", 0);
+
+        if (body.getJSONArray("images").length() > 0)
+            this.imageUrl = body.getJSONArray("images").getJSONObject(0).optString("url", "");
+        else
+            this.imageUrl = "https://i.scdn.co/image/ab6761610000e5eb2dc40ac263ef07c16a95af4e";
     }
 
     public String getId() {

@@ -21,40 +21,7 @@ public class ReleaseController implements Serializable {
 
         selected = null;
         //TODO change the following
-        //listOfNewReleases = new ArrayList<>();
         listOfNewReleases = tempReadData();
-//        try {
-//            for (int tmdbPageNumber = 1; tmdbPageNumber < 2; tmdbPageNumber++) {
-//
-//                String tmdbNowPlayingWebServiceUrl = Constants.TMDB_API_MOVIE_BASE_URL + "now_playing?api_key=" + Constants.TMDB_API_KEY + "&page=" + tmdbPageNumber;
-//
-//                String nowPlayingResultsJsonData = Methods.readUrlContent(tmdbNowPlayingWebServiceUrl);
-//
-//                JSONObject resultsJsonObject = new JSONObject(nowPlayingResultsJsonData);
-//
-//                JSONArray jsonArrayMovies = resultsJsonObject.getJSONArray("results");
-//
-//                int index = 0;
-//
-//                if (jsonArrayMovies.length() > index) {
-//
-//                    while (jsonArrayMovies.length() > index) {
-//
-//                        Song song = new Song(id, title, artist, album, description, link, releaseDate, imageUrl, duration_ms);
-//                        listOfNewReleases.add(song);
-//                        index++;
-//                    }
-//
-//                } else {
-//                    Methods.showMessage("Information", "No API response!",
-//                            "Spotify New Releases API is unreachable!");
-//                    return;
-//                }
-//            }
-//
-//        } catch (Exception ex) {
-//            // Take no action
-//        }
     }
 
 

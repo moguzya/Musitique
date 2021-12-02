@@ -4,6 +4,7 @@
  */
 package edu.vt.controllers;
 
+import edu.vt.controllers.SpotifyAPIController;
 import edu.vt.EntityBeans.User;
 import edu.vt.EntityBeans.UserComment;
 import edu.vt.EntityBeans.UserRating;
@@ -29,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static edu.vt.globals.Constants.API_CONTROLLER;
 
 /*
 ---------------------------------------------------------------------------
@@ -73,20 +76,8 @@ public class EntityController implements Serializable {
     @EJB
     private RatingFacade ratingFacade;
 
-    private Track selectedTrack = new Track(
-            "Test track name",
-            123456,
-            Boolean.TRUE,
-            "https://i.scdn.co/image/ab67616d00004851efdaf87d5ea59307b4d530a3");
-
-    private Album selectedAlbum = new Album(
-            "4OEnpg5ubhg6OQ4M2ZjtsL",
-            "Most People (with Lukas Graham)",
-            "https://i.scdn.co/image/ab67616d00004851efdaf87d5ea59307b4d530a3",
-            "2026-06-19",
-            25,
-            Arrays.asList(selectedTrack, selectedTrack, selectedTrack, selectedTrack, selectedTrack, selectedTrack)
-    );
+    private Track selectedTrack;
+    private Album selectedAlbum;
     private Artist selectedArtist;
 
     private UserComment selectedComment;
@@ -96,6 +87,7 @@ public class EntityController implements Serializable {
     private EntityType selectedEntityType = EntityType.ALBUM;
     private String newCommentText;
     private Double averageEntityRating;
+
     /*
     ================
     Instance Methods
@@ -222,6 +214,7 @@ public class EntityController implements Serializable {
     ******************
      */
     public Album getSelectedAlbum() {
+        selectedAlbum = API_CONTROLLER.requestAlbum(selectedAlbum.getId());
         return selectedAlbum;
     }
 
@@ -233,6 +226,8 @@ public class EntityController implements Serializable {
     }
 
     public Artist getSelectedArtist() {
+//        TODO
+//        selectedArtist = API_CONTROLLER.requestArtist(selectedArtist.getId());
         return selectedArtist;
     }
 
@@ -244,8 +239,8 @@ public class EntityController implements Serializable {
     }
 
     public Track getSelectedTrack() {
-        //TODO fix this
-        selectedTrack.setAlbum(selectedAlbum);
+//        TODO
+//        selectedTrack = API_CONTROLLER.requestTrack(selectedTrack.getId());
         return selectedTrack;
     }
 

@@ -4,31 +4,26 @@
  */
 package edu.vt.controllers;
 
-import edu.vt.EntityBeans.User;
-import edu.vt.EntityBeans.UserComment;
-import edu.vt.EntityBeans.UserRating;
-import edu.vt.EntityType;
-import edu.vt.FacadeBeans.CommentFacade;
-import edu.vt.FacadeBeans.RatingFacade;
+
 import edu.vt.Pojos.Album;
 import edu.vt.Pojos.Artist;
 import edu.vt.Pojos.Track;
-import edu.vt.controllers.util.JsfUtil;
-import edu.vt.controllers.util.JsfUtil.PersistAction;
-import edu.vt.globals.Methods;
-import org.primefaces.event.RateEvent;
+import edu.vt.globals.Constants;
 
-import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.Arrays;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.primefaces.shaded.json.JSONArray;
+import org.primefaces.shaded.json.JSONObject;
 
 /*
 ---------------------------------------------------------------------------
@@ -67,32 +62,214 @@ public class SpotifyAPIController implements Serializable {
     Instance Variables (Properties)
     ===============================
     */
-//    List<Album> getNewReleases()
-//    Track getTrackInfo(String Id)
-//    Album getAlbum Info(String Id)
-//    Artist getArtist Info(String Id)
-//
-//    Void getRecommendations(List<String> favoriteArtistIds)
-//    set:
-//    List<Album> searchedAlbum;
-//    List<Track> searchedTrack;
-//    List<Artist> searchedArtist;
-
-    private List<Track> searchedTracks;
-    private List<Artist> searchedArtist;
-    private List<Album> searchedAlbums;
-
+    private static final HttpClient CLIENT = HttpClient.newHttpClient();
+    private String accessToken;
 
     /*
     ================
     Instance Methods
     ================
     */
+    public void requestToken() {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://accounts.spotify.com/api/token"))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .header("Authorization", "Basic " + Constants.CLIENT_AUTH)
+                .POST(HttpRequest.BodyPublishers.ofString("grant_type=client_credentials&json=true"))
+                .build();
+
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                JSONObject body = new JSONObject(response.body());
+                accessToken = body.optString("access_token", "");
+                if (accessToken.equals(""))
+                    throw new NoSuchFieldException();
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public Album requestAlbum(String albumId) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/albums/" + albumId))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + accessToken)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                return new Album(response.body());
+            } else if (response.statusCode() == 401) {
+                requestToken();
+                return requestAlbum(albumId);
+            } else if (response.statusCode() == 429) {
+                System.out.println("rate limit");
+            }
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public List<Album> requestSeveralAlbums(String albumIds) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/albums?ids=" + albumIds))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + accessToken)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                List<Album> albums = new ArrayList();
+                JSONArray albumArray = new JSONObject(response.body()).getJSONArray("albums");
+
+                for (int i = 0; i < albumArray.length(); i++) {
+                    Album a = new Album(albumArray.getJSONObject(0).toString());
+                    albums.add(a);
+                }
+                return albums;
+            } else if (response.statusCode() == 401) {
+                requestToken();
+                return requestSeveralAlbums(albumIds);
+            } else if (response.statusCode() == 429) {
+                System.out.println("rate limit");
+            }
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public Artist requestArtist(String artistId) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/artists/" + artistId))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + accessToken)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                return new Artist(response.body());
+            } else if (response.statusCode() == 401) {
+                requestToken();
+                return requestArtist(artistId);
+            }
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
 
 
-    /*
-    ******************
-    Getter and Setters
-    ******************
-     */
+    public List<Artist> requestSeveralArtists(String artistIds) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/artists?ids=" + artistIds))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + accessToken)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                List<Artist> artists = new ArrayList();
+                JSONArray artistArray = new JSONObject(response.body()).getJSONArray("artists");
+
+                for (int i = 0; i < artistArray.length(); i++) {
+                    Artist a = new Artist(artistArray.getJSONObject(0).toString());
+                    artists.add(a);
+                }
+                return artists;
+            } else if (response.statusCode() == 401) {
+                requestToken();
+                return requestSeveralArtists(artistIds);
+            } else if (response.statusCode() == 429) {
+                System.out.println("rate limit");
+            }
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public Track requestTrack(String trackId) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/tracks/" + trackId))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + accessToken)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                return new Track(response.body());
+            } else if (response.statusCode() == 401) {
+                requestToken();
+                return requestTrack(trackId);
+            }
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public List<Track> requestSeveralTracks(String trackIds) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/tracks?ids=" + trackIds))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + accessToken)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                List<Track> tracks = new ArrayList();
+                JSONArray trackArray = new JSONObject(response.body()).getJSONArray("tracks");
+
+                for (int i = 0; i < trackArray.length(); i++) {
+                    Track a = new Track(trackArray.getJSONObject(0).toString());
+                    tracks.add(a);
+                }
+                return tracks;
+            } else if (response.statusCode() == 401) {
+                requestToken();
+                return requestSeveralTracks(trackIds);
+            } else if (response.statusCode() == 429) {
+                System.out.println("rate limit");
+            }
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
 }
