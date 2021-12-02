@@ -4,12 +4,11 @@
  */
 package edu.vt.controllers;
 
+import edu.vt.controllers.SpotifyAPIController;
 import edu.vt.EntityBeans.User;
 import edu.vt.EntityBeans.UserComment;
-import edu.vt.EntityBeans.UserFavoriteArtist;
 import edu.vt.EntityBeans.UserRating;
 import edu.vt.EntityType;
-import edu.vt.FacadeBeans.UserFavoriteArtistFacade;
 import edu.vt.Pojos.Album;
 import edu.vt.FacadeBeans.CommentFacade;
 import edu.vt.FacadeBeans.RatingFacade;
@@ -32,11 +31,13 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static edu.vt.globals.Constants.API_CONTROLLER;
+
 /*
 ---------------------------------------------------------------------------
 The @Named (javax.inject.Named) annotation indicates that the objects
 instantiated from this class will be managed by the Contexts and Dependency
-Injection (CDI) container. The name "videoController" is used within
+Injection (CDI) container. The name "entityController" is used within
 Expression Language (EL) expressions in JSF (XHTML) facelets pages to
 access the properties and invoke methods of this class.
 ---------------------------------------------------------------------------
@@ -75,23 +76,8 @@ public class EntityController implements Serializable {
     @EJB
     private RatingFacade ratingFacade;
 
-    @EJB
-    private UserFavoriteArtistFacade userFavoriteArtistFacade;
-
-    private Track selectedTrack = new Track(
-            "Test track name",
-            123456,
-            Boolean.TRUE,
-            "https://i.scdn.co/image/ab67616d00004851efdaf87d5ea59307b4d530a3");
-
-    private Album selectedAlbum = new Album(
-            "4OEnpg5ubhg6OQ4M2ZjtsL",
-            "Most People (with Lukas Graham)",
-            "https://i.scdn.co/image/ab67616d00004851efdaf87d5ea59307b4d530a3",
-            "2026-06-19",
-            25,
-            Arrays.asList(selectedTrack, selectedTrack, selectedTrack, selectedTrack, selectedTrack, selectedTrack)
-    );
+    private Track selectedTrack;
+    private Album selectedAlbum;
     private Artist selectedArtist;
 
     private UserComment selectedComment;
@@ -101,6 +87,7 @@ public class EntityController implements Serializable {
     private EntityType selectedEntityType = EntityType.ALBUM;
     private String newCommentText;
     private Double averageEntityRating;
+
     /*
     ================
     Instance Methods
@@ -196,15 +183,15 @@ public class EntityController implements Serializable {
     }
 
     public void postComment() {
-        UserComment userComment = new UserComment(getUser(), getSelectedEntityId(), getSelectedEntityType(), newCommentText);
+        UserComment userComment = new UserComment(getUser(), getSelectedEntityId(), newCommentText);
         createComment(userComment);
         newCommentText = "";
     }
 
     public void onRate(RateEvent<Integer> rateEvent) {
-        userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser(), selectedEntityType);
+        userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser(), selectedEntityType.toString());
         if (userRating.getRating() == -1) {
-            userRating = new UserRating(getUser(), getSelectedEntityId(), rateEvent.getRating(), selectedEntityType);
+            userRating = new UserRating(getUser(), getSelectedEntityId(), rateEvent.getRating(), selectedEntityType.toString());
             createRating(userRating);
         } else {
             userRating.setRating(rateEvent.getRating());
@@ -221,36 +208,13 @@ public class EntityController implements Serializable {
         return (User) sessionMap.get("user");
     }
 
-    public List<UserFavoriteArtist> getListOfFavoriteArtists() {
-        /*
-        'user', the object reference of the signed-in user, was put into the SessionMap
-        in the initializeSessionMap() method in LoginManager upon user's sign in.
-         */
-        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        User signedInUser = (User) sessionMap.get("user");
-
-        // Obtain the database primary key of the signedInUser object
-        Integer primaryKey = signedInUser.getId();
-
-        return userFavoriteArtistFacade.findUserFavoriteArtistsByUserPrimaryKey(primaryKey);
-    }
-
-    public Boolean isFavoriteArtist() {
-        for (UserFavoriteArtist favoriteArtist :
-                getListOfFavoriteArtists()) {
-            if (favoriteArtist.getEntityId().equals(selectedArtist.getId())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     /*
     ******************
     Getter and Setters
     ******************
      */
     public Album getSelectedAlbum() {
+        selectedAlbum = API_CONTROLLER.requestAlbum(selectedAlbum.getId());
         return selectedAlbum;
     }
 
@@ -262,6 +226,8 @@ public class EntityController implements Serializable {
     }
 
     public Artist getSelectedArtist() {
+//        TODO
+//        selectedArtist = API_CONTROLLER.requestArtist(selectedArtist.getId());
         return selectedArtist;
     }
 
@@ -273,8 +239,8 @@ public class EntityController implements Serializable {
     }
 
     public Track getSelectedTrack() {
-        //TODO fix this
-        selectedTrack.setAlbum(selectedAlbum);
+//        TODO
+//        selectedTrack = API_CONTROLLER.requestTrack(selectedTrack.getId());
         return selectedTrack;
     }
 
@@ -319,7 +285,7 @@ public class EntityController implements Serializable {
 
     public UserRating getUserRating() {
         if (userRating == null) {
-            userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser(), selectedEntityType);
+            userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser(), selectedEntityType.toString());
         }
         return userRating;
     }

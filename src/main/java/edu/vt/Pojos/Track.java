@@ -1,8 +1,13 @@
 package edu.vt.Pojos;
 
+import org.primefaces.shaded.json.JSONArray;
+import org.primefaces.shaded.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static edu.vt.globals.Constants.API_CONTROLLER;
 import static edu.vt.globals.Constants.EMBED_URI;
 
 //TODO
@@ -17,8 +22,30 @@ public class Track {
     private String imageUrl;
 
     public Track(String json) {
-    }
+        JSONObject body = new JSONObject(json);
+        this.id = body.optString("id", "");
+        this.name = body.optString("name", "");
 
+        JSONObject album = body.getJSONObject("album");
+        this.album = new Album(album);
+
+        JSONArray artistsArray = body.getJSONArray("artists");
+        this.artists = new ArrayList();
+
+        String artistsAsString = "";
+        for (int i = 0; i < artistsArray.length()-1; i++) {
+            artistsAsString+=artistsArray.getJSONObject(i).optString("id") + ",";
+        }
+        artistsAsString+=artistsArray.getJSONObject(artistsArray.length()-1).optString("id") ;
+        this.artists = API_CONTROLLER.requestSeveralArtists(artistsAsString);
+
+        this.durationMs = body.optInt("duration_ms", 0);
+        this.explicit = body.optBoolean("explicit", false);
+        if (album.getJSONArray("images").length() > 0)
+            this.imageUrl = album.getJSONArray("images").getJSONObject(0).optString("url", "");
+        else
+            this.imageUrl = "https://i.scdn.co/image/ab6761610000e5eb2dc40ac263ef07c16a95af4e";
+    }
 
     public Track(String name,Integer durationMs,Boolean explicit,String imageUrl) {
         this.name = name;

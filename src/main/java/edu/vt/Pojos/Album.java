@@ -2,17 +2,17 @@ package edu.vt.Pojos;
 
 import edu.vt.EntityBeans.UserComment;
 import edu.vt.EntityBeans.UserRating;
-import edu.vt.globals.Constants;
+import org.primefaces.shaded.json.JSONArray;
+import org.primefaces.shaded.json.JSONObject;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static edu.vt.globals.Constants.API_CONTROLLER;
 import static edu.vt.globals.Constants.EMBED_URI;
 
-//TODO
 public class Album {
-
     private String id;
     private String albumType;
     private Integer totalTracks;
@@ -25,35 +25,52 @@ public class Album {
     private List<UserRating> ratings;
 
     public Album(String json) {
-//        parseid()
-//        parsealbumtype()
-//
-//        for
-//            artists.add(new Artist(stringpart))
-//        for
-//            tracks.add(new Track(stringpart))
+        JSONObject body = new JSONObject(json);
+        this.id = body.optString("id", "");
+        this.albumType = body.optString("album_type", "");
+        this.totalTracks = body.optInt("total_tracks", 0);
+        if (body.getJSONArray("images").length() > 0)
+            this.imageUrl = body.getJSONArray("images").getJSONObject(0).optString("url", "");
+        else
+            this.imageUrl = "https://i.scdn.co/image/ab6761610000e5eb2dc40ac263ef07c16a95af4e";
+        this.name = body.optString("name", "");
+        this.releaseDate = body.optString("release_date", "");
+
+        JSONArray artistsArray = body.getJSONArray("artists");
+        JSONArray tracksArray = body.getJSONObject("tracks").getJSONArray("items");
+        this.artists = new ArrayList();
+        this.tracks = new ArrayList();
+
+        String artistsAsString = "";
+        for (int i = 0; i < artistsArray.length()-1; i++) {
+            artistsAsString+=artistsArray.getJSONObject(i).optString("id") + ",";
+        }
+        artistsAsString+=artistsArray.getJSONObject(artistsArray.length()-1).optString("id") ;
+        this.artists = API_CONTROLLER.requestSeveralArtists(artistsAsString);
+
+        String tracksAsString = "";
+        for (int i = 0; i < tracksArray.length()-1; i++) {
+            tracksAsString+=tracksArray.getJSONObject(i).optString("id") + ",";
+        }
+        tracksAsString+=tracksArray.getJSONObject(tracksArray.length()-1).optString("id") ;
+        this.tracks = API_CONTROLLER.requestSeveralTracks(tracksAsString);
     }
 
-    public Album() {
-
+    public Album(JSONObject object) {
+        this.id = object.optString("id", "");
+        this.albumType = object.optString("album_type", "");
+        this.totalTracks = object.optInt("total_tracks", 0);
+        this.imageUrl = object.getJSONArray("images").getJSONObject(0).optString("url", "");
+        this.name = object.optString("name", "");
+        this.releaseDate = object.optString("release_date", "");
     }
 
-    public Album(String id, String name, String imageUrl, String releaseDate, List<Artist> artists, Integer totalTracks) {
+    public Album(String id, String name, String imageUrl, String releaseDate, Integer totalTracks) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
         this.releaseDate = releaseDate;
         this.totalTracks = totalTracks;
-        this.artists = artists;
-    }
-
-    public Album(String id, String name, String imageUrl, String releaseDate, Integer totalTracks, List<Track> tracks) {
-        this.id = id;
-        this.name = name;
-        this.imageUrl = imageUrl;
-        this.releaseDate = releaseDate;
-        this.totalTracks = totalTracks;
-        this.tracks = tracks;
     }
 
     public String getId() {
@@ -137,11 +154,5 @@ public class Album {
 
     public void setTracks(List<Track> tracks) {
         this.tracks = tracks;
-    }
-
-    public String getTracksCountAsString() {
-        if (totalTracks > 2)
-            return totalTracks + " Tracks in Album";
-        return "Only " + totalTracks + " Track in Album";
     }
 }

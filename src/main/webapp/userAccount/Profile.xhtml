@@ -23,210 +23,193 @@
 
     <!-- Create the content for this page below -->
     <ui:define name="editableContent">
-        <div style="display: table">
-            <h1 style="color:white"> #{userController.selected.firstName}&nbsp;#{userController.selected.lastName}'s Account Profile </h1>
 
-            <h:form id="UserProfileForm">
+
+
+
+        <h1 style="color:white"> #{userController.selected.firstName}&nbsp;#{userController.selected.lastName}'s Account Profile </h1>
+
+        <h:form id="UserProfileForm">
+            <!--
+            The table below has 1 row and 2 columns.
+            Left column contains the vertical navigation menu.
+            Right column contains the user's profile data.
+            -->
+            <p:panelGrid columns="2" style="float:left;overflow-y: auto;height: 100px;">
                 <!--
-                The table below has 1 row and 2 columns.
-                Left column contains the vertical navigation menu.
-                Right column contains the user's profile data.
+                USER'S PROFILE PHOTO: Display the user's account profile photo in a circle.
+                The cache="false" option enables immediate display of a newly uploaded photo without using cache.
                 -->
-                <p:panelGrid columns="2" style="float:left;overflow-y: auto;height: 100px;">
-                    <!--
-                    USER'S PROFILE PHOTO: Display the user's account profile photo in a circle.
-                    The cache="false" option enables immediate display of a newly uploaded photo without using cache.
-                    -->
-                    <p:graphicImage cache="false" styleClass="profilePhoto" value="#{userController.userPhoto()}"/>
+                <p:graphicImage cache="false" styleClass="profilePhoto" value="#{userController.userPhoto()}"/>
 
 
-                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2">
+                <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2">
 
-                        <h:outputText value="First Name:"/>
-                        <h:outputText value="#{userController.selected.firstName}"/>
+                    <h:outputText value="First Name:"/>
+                    <h:outputText value="#{userController.selected.firstName}"/>
 
-                        <h:outputText value="Middle Name:"/>
-                        <h:outputText value="#{userController.selected.middleName}"/>
+                    <h:outputText value="Middle Name:"/>
+                    <h:outputText value="#{userController.selected.middleName}"/>
 
-                        <h:outputText value="Last Name:"/>
-                        <h:outputText value="#{userController.selected.lastName}"/>
+                    <h:outputText value="Last Name:"/>
+                    <h:outputText value="#{userController.selected.lastName}"/>
 
-                        <h:outputText value="Address Line 1:"/>
-                        <h:outputText value="#{userController.selected.address1}"/>
+                    <h:outputText value="Address Line 1:"/>
+                    <h:outputText value="#{userController.selected.address1}"/>
 
-                        <h:outputText value="Address Line 2:"/>
-                        <h:outputText value="#{userController.selected.address2}"/>
+                    <h:outputText value="Address Line 2:"/>
+                    <h:outputText value="#{userController.selected.address2}"/>
 
-                        <h:outputText value="City:"/>
-                        <h:outputText value="#{userController.selected.city}"/>
+                    <h:outputText value="City:"/>
+                    <h:outputText value="#{userController.selected.city}"/>
 
-                        <h:outputText value="State:"/>
-                        <h:outputText value="#{userController.selected.state}"/>
+                    <h:outputText value="State:"/>
+                    <h:outputText value="#{userController.selected.state}"/>
 
-                        <h:outputText value="Zip Code"/>
-                        <h:outputText value="#{userController.selected.zipcode}"/>
+                    <h:outputText value="Zip Code"/>
+                    <h:outputText value="#{userController.selected.zipcode}"/>
 
-                        <h:outputText value="Email:"/>
-                        <h:outputText value="#{userController.selected.email}"/>
+                    <h:outputText value="Email:"/>
+                    <h:outputText value="#{userController.selected.email}"/>
 
-                        <h:outputText value="Username:"/>
-                        <h:outputText value="#{userController.selected.username}"/>
-
-                    </p:panelGrid>
-                    <!--                #{userGenresController.genres}-->
-                    <!--                <p:selectManyMenu id="advanced" value="#{userGenresController.listOfUserGenres}"-->
-
-                    <p:selectManyMenu id="grid"
-                                      value="#{userGenresController.listOfUserGenreNames}"
-                                      filter="true" filterMatchMode="contains"
-                                      showCheckbox="true"
-                                      styleClass="manymenu-advanced">
-
-                        <f:selectItems
-                                value="#{userGenresController.genres}"
-                                var="userGenre"
-                                itemLabel="#{userGenre.genre}"
-                                itemValue="#{userGenre.genre}"/>
-
-                    </p:selectManyMenu>
-                    <!--                </p:selectManyMenu>-->
-
-                    <p:commandButton id="genreAddButon" value="Genre Save" icon="fas fa-trash-alt"
-                                     styleClass="rounded-button"
-                                     actionListener="#{userGenresController.update(userGenresController.listOfUserGenreNames)}"
-                                     update="grid,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"/>
-
-
-                    <p:panelGrid columns="1">
-
-                        <!--                -->
-                        <!--                &lt;!&ndash;-->
-                        <!--                ================================-->
-                        <!--                |      EDIT PROFILE Link       |-->
-                        <!--                ================================-->
-                        <!--                &ndash;&gt;-->
-                        <!--                <h:link outcome="/userAccount/EditAccount">-->
-                        <!--                    <i class="fas fa-edit"/>&nbsp;Edit Profile-->
-                        <!--                </h:link>-->
-
-                        <!--                &lt;!&ndash;-->
-                        <!--                ================================-->
-                        <!--                |      CHANGE PHOTO Link       |-->
-                        <!--                ================================-->
-                        <!--                &ndash;&gt;-->
-                        <!--                <h:link outcome="/userPhoto/ChangePhoto">-->
-                        <!--                    <i class="fas fa-camera"/>&nbsp;Change Photo-->
-                        <!--                </h:link>-->
-
-                        <!--                &lt;!&ndash;-->
-                        <!--                ================================-->
-                        <!--                |     CHANGE PASSWORD Link     |-->
-                        <!--                ================================-->
-                        <!--                &ndash;&gt;-->
-                        <!--                <h:link outcome="/userPasswordChange/EnterUsername">-->
-                        <!--                    <i class="fas fa-key"/>&nbsp;Change Password-->
-                        <!--                </h:link>-->
-
-                        <!--                &lt;!&ndash;-->
-                        ================================
-                        | DELETE ACCOUNT Link |
-                        ================================
-                        -->
-
-                        <!-- ****************** Delete Account Begin **************************** -->
-                        <!--
-                        When the user selects YES on the confirmDialogBox, SecurityQuestionDialog included below is
-                        displayed, and the form with id SecurityQuestionForm in the SecurityQuestionDialog is updated.
-                        -->
-                        <p:commandLink oncomplete="PF('SecurityQuestionDialog').show()" update=":SecurityQuestionForm">
-
-                            <label style="font-size: 10pt;">
-                                <i class="fas fa-trash-alt"/>&nbsp;Delete Account
-                            </label>
-
-                            <p:confirm header="Account Deletion Confirmation"
-                                       message="Are you sure to permanently delete your account? This cannot be undone!"/>
-                        </p:commandLink>
-                        <!--
-                        The confirmation dialog is displayed to check if the user really wants to delete the account.
-                        -->
-                        <p:confirmDialog id="confirmDialogBox" global="true" showEffect="fade" hideEffect="fade"
-                                         responsive="true" width="350">
-                            <div align="center">
-                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
-                                                 icon="fas fa-window-close"/>
-                                &nbsp;
-                                <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger"
-                                                 icon="fas fa-check-square"/>
-                            </div>
-                        </p:confirmDialog>
-                        <!-- ****************** Delete Account End **************************** -->
-                    </p:panelGrid>
+                    <h:outputText value="Username:"/>
+                    <h:outputText value="#{userController.selected.username}"/>
 
                 </p:panelGrid>
+
+                <p:selectManyMenu id="advanced" value="#{userGenresController.listOfUserGenres}"
+                                  var="c" filter="true" filterMatchMode="contains" showCheckbox="true" styleClass="manymenu-advanced">
+                    <f:selectItems value="#{userGenresController.genres}" var="country" itemLabel="#{UserGenre.genre}"
+                                   itemValue="#{UserGenre}"/>
+
+                </p:selectManyMenu>
+
+                            <p:panelGrid columns="1">
+
+                <!--                -->
+                <!--                &lt;!&ndash;-->
+                <!--                ================================-->
+                <!--                |      EDIT PROFILE Link       |-->
+                <!--                ================================-->
+                <!--                &ndash;&gt;-->
+                <!--                <h:link outcome="/userAccount/EditAccount">-->
+                <!--                    <i class="fas fa-edit"/>&nbsp;Edit Profile-->
+                <!--                </h:link>-->
+
+                <!--                &lt;!&ndash;-->
+                <!--                ================================-->
+                <!--                |      CHANGE PHOTO Link       |-->
+                <!--                ================================-->
+                <!--                &ndash;&gt;-->
+                <!--                <h:link outcome="/userPhoto/ChangePhoto">-->
+                <!--                    <i class="fas fa-camera"/>&nbsp;Change Photo-->
+                <!--                </h:link>-->
+
+                <!--                &lt;!&ndash;-->
+                <!--                ================================-->
+                <!--                |     CHANGE PASSWORD Link     |-->
+                <!--                ================================-->
+                <!--                &ndash;&gt;-->
+                <!--                <h:link outcome="/userPasswordChange/EnterUsername">-->
+                <!--                    <i class="fas fa-key"/>&nbsp;Change Password-->
+                <!--                </h:link>-->
+
+                <!--                &lt;!&ndash;-->
+<!--                                ================================-->
+<!--                                |      DELETE ACCOUNT Link     |-->
+<!--                                ================================-->
+<!--                                &ndash;&gt;-->
+
+                                <!-- ****************** Delete Account Begin **************************** -->
+                                <!--
+                                When the user selects YES on the confirmDialogBox, SecurityQuestionDialog included below is
+                                displayed, and the form with id SecurityQuestionForm in the SecurityQuestionDialog is updated.
+                                -->
+                                <p:commandLink oncomplete="PF('SecurityQuestionDialog').show()" update=":SecurityQuestionForm">
+
+                                    <label style="font-size: 10pt;">
+                                        <i class="fas fa-trash-alt"/>&nbsp;Delete Account
+                                    </label>
+
+                                    <p:confirm header="Account Deletion Confirmation"
+                                               message="Are you sure to permanently delete your account? This cannot be undone!"/>
+                                </p:commandLink>
+                                <!--
+                                The confirmation dialog is displayed to check if the user really wants to delete the account.
+                                -->
+                                <p:confirmDialog id="confirmDialogBox" global="true" showEffect="fade" hideEffect="fade"
+                                                 responsive="true" width="350">
+                                    <div align="center">
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+                                                         icon="fas fa-window-close"/>
+                                        &nbsp;
+                                        <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger"
+                                                         icon="fas fa-check-square"/>
+                                    </div>
+                                </p:confirmDialog>
+                                <!-- ****************** Delete Account End **************************** -->
+                            </p:panelGrid>
+
+            </p:panelGrid>
+        </h:form>
+
+        <!--
+        =================================================================
+        Dialog for Security Question and Answer for User Account Deletion
+        =================================================================
+        -->
+        <p:dialog id="SecurityQuestionDlg" header="Security Question" widgetVar="SecurityQuestionDialog"
+                  modal="true" width="80%" position="center" appendTo="@(body)"
+                  showEffect="blind" hideEffect="fade" responsive="true">
+
+            <h:form id="SecurityQuestionForm">
+                <fieldset>
+                    <div style="margin-bottom:20px">
+                        <h:outputLabel for="answer" value="#{userController.getSelectedSecurityQuestion()}"/>
+                    </div>
+
+                    <div style="margin-bottom:10px">
+                        <p:inputText id="answer" value="#{userController.answerToSecurityQuestion}"
+                                     style="width: 290px" required="true"
+                                     requiredMessage="Please enter your answer to the security question!"/>
+                    </div>
+                    <br/>
+                    <div align="center">
+                        <!--
+                        ================================
+                        |         SUBMIT Button        |
+                        ================================
+                        -->
+                        <p:commandButton id="Submit" value="Submit" icon="fas fa-arrow-up" styleClass="rounded-button"
+                                         ajax="false" action="#{userController.securityAnswerSubmit()}"
+                                         update=":growlInfoMessage, :growlErrorMessage, :growlFatalMessage, :growlWarningMessage"
+                                         oncomplete="PF('SecurityQuestionDialog').hide()"/>
+                        &nbsp;
+                        <!--
+                        ================================
+                        |        CANCEL Button         |
+                        ================================
+
+                        JSF application lifecycle execute phase contains the following subphases:
+                        [See https://docs.oracle.com/javaee/6/tutorial/doc/bnaqq.html for detailed description]
+
+                            1. Restore View Phase
+                            2. Apply Request Values Phase
+                            3. Process Validations Phase
+                            4. Update Model Values Phase
+                            5. Invoke Application Phase
+                            6. Render Response Phase
+
+                        immediate="true" causes the execution of only the Apply Request Values Phase.
+                        Therefore, the <f:event> validation is not performed since the operation is cancelled.
+                        -->
+                        <p:commandButton id="cancel" value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined"
+                                         immediate="true" oncomplete="PF('SecurityQuestionDialog').hide()"/>
+                    </div>
+                    <br/>
+                </fieldset>
             </h:form>
-
-            <!--
-            =================================================================
-            Dialog for Security Question and Answer for User Account Deletion
-            =================================================================
-            -->
-            <p:dialog id="SecurityQuestionDlg" header="Security Question" widgetVar="SecurityQuestionDialog"
-                      modal="true" width="80%" position="center" appendTo="@(body)"
-                      showEffect="blind" hideEffect="fade" responsive="true">
-
-                <h:form id="SecurityQuestionForm">
-                    <fieldset>
-                        <div style="margin-bottom:20px">
-                            <h:outputLabel for="answer" value="#{userController.getSelectedSecurityQuestion()}"/>
-                        </div>
-
-                        <div style="margin-bottom:10px">
-                            <p:inputText id="answer" value="#{userController.answerToSecurityQuestion}"
-                                         style="width: 290px" required="true"
-                                         requiredMessage="Please enter your answer to the security question!"/>
-                        </div>
-                        <br/>
-                        <div align="center">
-                            <!--
-                            ================================
-                            |         SUBMIT Button        |
-                            ================================
-                            -->
-                            <p:commandButton id="Submit" value="Submit" icon="fas fa-arrow-up"
-                                             styleClass="rounded-button"
-                                             ajax="false" action="#{userController.securityAnswerSubmit()}"
-                                             update=":growlInfoMessage, :growlErrorMessage, :growlFatalMessage, :growlWarningMessage"
-                                             oncomplete="PF('SecurityQuestionDialog').hide()"/>
-                            &nbsp;
-                            <!--
-                            ================================
-                            |        CANCEL Button         |
-                            ================================
-
-                            JSF application lifecycle execute phase contains the following subphases:
-                            [See https://docs.oracle.com/javaee/6/tutorial/doc/bnaqq.html for detailed description]
-
-                                1. Restore View Phase
-                                2. Apply Request Values Phase
-                                3. Process Validations Phase
-                                4. Update Model Values Phase
-                                5. Invoke Application Phase
-                                6. Render Response Phase
-
-                            immediate="true" causes the execution of only the Apply Request Values Phase.
-                            Therefore, the <f:event> validation is not performed since the operation is cancelled.
-                            -->
-                            <p:commandButton id="cancel" value="Cancel" icon="fas fa-ban"
-                                             styleClass="ui-button-outlined"
-                                             immediate="true" oncomplete="PF('SecurityQuestionDialog').hide()"/>
-                        </div>
-                        <br/>
-                    </fieldset>
-                </h:form>
-            </p:dialog>
-        </div>
-
+        </p:dialog>
     </ui:define>
 </ui:composition>
 </html>

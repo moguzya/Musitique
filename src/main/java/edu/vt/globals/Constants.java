@@ -4,6 +4,8 @@
  */
 package edu.vt.globals;
 
+import edu.vt.controllers.SpotifyAPIController;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,34 +39,12 @@ public final class Constants {
     //---------------
 
     // Windows
-    public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/vibha/OneDrive/School/MSC/Fall 2021/CS5704/Projects/DocRoot/MusitiqueUserPhotoStorage/";
-
-    // Unix (macOS) or Linux
-//    public static final String PHOTOS_ABSOLUTE_PATH = "/Users/Balci/DocRoot/CloudStorage/MusitiqueUserPhotoStorage/";
+    public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/jmcon/DocRoot/MusitiqueUserPhotoStorage/";
 
     //--------------------------------
     // To run on your AWS EC2 instance
     //--------------------------------
 //    public static final String PHOTOS_ABSOLUTE_PATH = "/opt/wildfly/DocRoot/CloudStorage/MusitiqueUserPhotoStorage/";
-
-    /*
-     ---------------------------------
-     To Deploy to Your AWS EC2 server:
-     ---------------------------------
-     STEP 1: Comment out the two constants under "To run locally" above.
-     STEP 2: Uncomment the two constants under "To run on your AWS EC2 instance" above.
-
-     STEP 3: Comment out the two constants under "To run locally" below.
-     STEP 4: Uncomment the two constants under "To run on your AWS EC2 instance with your IP address" below.
-     STEP 5: Replace 54.92.194.218 with the public IP address of your AWS EC2 instance.
-
-     STEP 6: Select Build --> Rebuild Project.
-     STEP 7: Run your app to generate the WAR file. Do not use the app locally!
-     STEP 8: Use the generated WAR file to deploy your app to your AWS EC2 server.
-
-     STEP 9: Undo the above changes to run the app locally.
-     */
-
 
     /*
     RUN THE FOLLOWING TO ADD PATH TO WILDFLY
@@ -130,6 +110,9 @@ public final class Constants {
     };
 
     public static final String EMBED_URI = "https://open.spotify.com/embed/";
+
+    public static final SpotifyAPIController API_CONTROLLER = new SpotifyAPIController();
+    public static final String CLIENT_AUTH = "NzM5YjE5NTU2OGJmNGZkNTg5MzBiMmUxZjU4YjU4NDA6MmI0ZTk4MWI0OTFkNGRhZmJiOGE3OGY2NTU3MjA0MjM=";
 
     public static final List<String> GENRES = Arrays.asList("acoustic",
             "afrobeat",
