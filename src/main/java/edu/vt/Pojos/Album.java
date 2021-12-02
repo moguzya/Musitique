@@ -43,16 +43,17 @@ public class Album {
 
         String artistsAsString = "";
         for (int i = 0; i < artistsArray.length()-1; i++) {
-            artistsAsString+=artistsArray.getJSONObject(i).optString("id") + ",";
+            artistsAsString += artistsArray.getJSONObject(i).optString("id") + ",";
         }
-        artistsAsString+=artistsArray.getJSONObject(artistsArray.length()-1).optString("id") ;
+        artistsAsString += artistsArray.getJSONObject(artistsArray.length()-1).optString("id");
         this.artists = API_CONTROLLER.requestSeveralArtists(artistsAsString);
 
         String tracksAsString = "";
         for (int i = 0; i < tracksArray.length()-1; i++) {
-            tracksAsString+=tracksArray.getJSONObject(i).optString("id") + ",";
+            tracksAsString += tracksArray.getJSONObject(i).optString("id") + ",";
         }
-        tracksAsString+=tracksArray.getJSONObject(tracksArray.length()-1).optString("id") ;
+        tracksAsString += tracksArray.getJSONObject(tracksArray.length()-1).optString("id");
+
         this.tracks = API_CONTROLLER.requestSeveralTracks(tracksAsString);
     }
 

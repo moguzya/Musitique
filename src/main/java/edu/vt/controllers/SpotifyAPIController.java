@@ -4,7 +4,6 @@
  */
 package edu.vt.controllers;
 
-
 import edu.vt.EntityBeans.UserFavoriteArtist;
 import edu.vt.EntityBeans.UserGenre;
 import edu.vt.Pojos.Album;
@@ -23,6 +22,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.primefaces.shaded.json.JSONArray;
 import org.primefaces.shaded.json.JSONObject;
@@ -69,6 +69,9 @@ public class SpotifyAPIController implements Serializable {
     private List<Album> recommendedAlbums;
     private List<Artist> recommendedArtists;
     private List<Track> recommendedTracks;
+    private List<Album> searchedAlbums;
+    private List<Artist> searchedArtists;
+    private List<Track> searchedTracks;
 
     /*
     ================
@@ -316,19 +319,106 @@ public class SpotifyAPIController implements Serializable {
         return null;
     }
 
-    public List<Track> requestRecommendations() {
-        List<UserGenre> UserGenresController.favoriteGenres = getListOfUserGenres();
-        List<UserFavoriteArtist> favoriteArtists = getListOfFavoriteArtists();
+    public void requestRecommendations() {
+        UserGenresController gc = new UserGenresController();
+        UserFavoriteArtistController fc = new UserFavoriteArtistController();
+        List<UserGenre> favoriteGenres = gc.getListOfUserGenres();
+        List<UserFavoriteArtist> favoriteArtists = fc.getListOfFavoriteArtists();
+        String queryGenre = favoriteGenres.stream().
+                map(i -> String.valueOf(i.getGenre())).
+                collect(Collectors.joining(","));
+        String queryArtist = favoriteArtists.stream().
+                map(i -> String.valueOf(i.getEntityId())).
+                collect(Collectors.joining(","));
 
-    }
-    
-     public String getAccessToken() {
-        return accessToken;
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/recommendations?limit=50&seed_artists=" + queryArtist + "&seed_genres=" + queryGenre))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + accessToken)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                JSONArray recommendationArray = new JSONObject(response.body()).getJSONArray("tracks");
+                List<Album> albums = new ArrayList<>();
+                List<Artist> artists = new ArrayList<>();
+                List<Track> tracks = new ArrayList<>();
+
+                for (int i = 0; i < recommendationArray.length(); i++) {
+                    albums.add(new Album(recommendationArray.getJSONObject(i).getJSONObject("album").toString()));
+                    artists.add(new Artist(recommendationArray.getJSONObject(i).getJSONArray("artists").get(0).toString()));
+                    tracks.add(new Track(recommendationArray.getJSONObject(i).toString()));
+                }
+
+                setRecommendedAlbums(albums);
+                setRecommendedArtists(artists);
+                setRecommendedTracks(tracks);
+            } else if (response.statusCode() == 401) {
+                requestToken();
+                requestRecommendations();
+            } else if (response.statusCode() == 429) {
+                System.out.println("rate limit");
+            }
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e);
+        }
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void requestSearch(String query) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/search?q=" + query + "&type=track,artist,album&limit=50&market=US"))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + accessToken)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                JSONArray tracksArray = new JSONObject(response.body()).getJSONObject("tracks").getJSONArray("items");
+                JSONArray albumsArray = new JSONObject(response.body()).getJSONObject("albums").getJSONArray("items");
+                JSONArray artistsArray = new JSONObject(response.body()).getJSONObject("artists").getJSONArray("items");
+
+                List<Album> albums = new ArrayList<>();
+                List<Artist> artists = new ArrayList<>();
+                List<Track> tracks = new ArrayList<>();
+
+                for (int i = 0; i < tracksArray.length(); i++) {
+                    tracks.add(new Track(tracksArray.getJSONObject(i).toString()));
+                }
+
+                for (int i = 0; i < albumsArray.length(); i++) {
+                    albums.add(new Album(albumsArray.getJSONObject(i).toString()));
+                }
+
+                for (int i = 0; i < artistsArray.length(); i++) {
+                    artists.add(new Artist(artistsArray.getJSONObject(i).toString()));
+                }
+
+                setSearchedAlbums(albums);
+                setSearchedArtists(artists);
+                setSearchedTracks(tracks);
+            } else if (response.statusCode() == 401) {
+                requestToken();
+                requestRecommendations();
+            } else if (response.statusCode() == 429) {
+                System.out.println("rate limit");
+            }
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e);
+        }
     }
+
+
+    /*
+        Getters & Setters
+     */
 
     public List<Album> getRecommendedAlbums() {
         return recommendedAlbums;
@@ -336,5 +426,45 @@ public class SpotifyAPIController implements Serializable {
 
     public void setRecommendedAlbums(List<Album> recommendedAlbums) {
         this.recommendedAlbums = recommendedAlbums;
+    }
+
+    public List<Artist> getRecommendedArtists() {
+        return recommendedArtists;
+    }
+
+    public void setRecommendedArtists(List<Artist> recommendedArtists) {
+        this.recommendedArtists = recommendedArtists;
+    }
+
+    public List<Track> getRecommendedTracks() {
+        return recommendedTracks;
+    }
+
+    public void setRecommendedTracks(List<Track> recommendedTracks) {
+        this.recommendedTracks = recommendedTracks;
+    }
+
+    public List<Album> getSearchedAlbums() {
+        return searchedAlbums;
+    }
+
+    public void setSearchedAlbums(List<Album> searchedAlbums) {
+        this.searchedAlbums = searchedAlbums;
+    }
+
+    public List<Artist> getSearchedArtists() {
+        return searchedArtists;
+    }
+
+    public void setSearchedArtists(List<Artist> searchedArtists) {
+        this.searchedArtists = searchedArtists;
+    }
+
+    public List<Track> getSearchedTracks() {
+        return searchedTracks;
+    }
+
+    public void setSearchedTracks(List<Track> searchedTracks) {
+        this.searchedTracks = searchedTracks;
     }
 }
