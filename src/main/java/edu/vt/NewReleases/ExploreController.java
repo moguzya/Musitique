@@ -20,24 +20,21 @@ public class ExploreController implements Serializable {
     private List<Artist> artists;
     private List<Track> tracks;
 
-//    @PostConstruct
-//    public void init() {
-//
-//        //TODO change the following
-//        //listOfNewReleases = new ArrayList<>();
-//        albums = readAlbums();
-//        artists = readArtists();
-//        tracks = readTracks();
-//    }
-    public String explore(){
-        //TODO do explore
+    @PostConstruct
+    public void init() {
+        API_CONTROLLER.requestRecommendations();
+        albums = getAlbums();
+        artists = getArtists();
+        tracks = getTracks();
+    }
+
+    public String explore() {
+//        init();
         return "/NewReleases/Explore.xhtml";
     }
 
     public List<Album> getAlbums() {
-        if (albums == null) {
-            albums = API_CONTROLLER.requestAlbumRecommendations();
-        }
+        albums = API_CONTROLLER.requestAlbumRecommendations();
         return albums;
     }
 
@@ -46,9 +43,7 @@ public class ExploreController implements Serializable {
     }
 
     public List<Artist> getArtists() {
-        if (artists == null) {
-            artists = API_CONTROLLER.requestArtistRecommendations();
-        }
+        artists = API_CONTROLLER.requestArtistRecommendations();
         return artists;
     }
 
@@ -57,9 +52,7 @@ public class ExploreController implements Serializable {
     }
 
     public List<Track> getTracks() {
-        if (tracks == null) {
-            tracks = API_CONTROLLER.requestTrackRecommendations();
-        }
+        tracks = API_CONTROLLER.requestTrackRecommendations();
         return tracks;
     }
 
