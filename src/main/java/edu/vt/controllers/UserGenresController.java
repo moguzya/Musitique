@@ -31,6 +31,8 @@ public class UserGenresController implements Serializable {
     ===============================
      */
     private List<UserGenre> listOfUserGenres = null;
+    private List<String> listOfUserGenreNames = null;
+
     private UserGenre selected;
 
     /*
@@ -47,11 +49,39 @@ public class UserGenresController implements Serializable {
     =========================
      */
 
+    public List<String> getListOfUserGenreNames() {
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        User signedInUser = (User) sessionMap.get("user");
+        if (listOfUserGenres==null){
+            listOfUserGenres = userGenreFacade.findUserGenresByUserPrimaryKey(signedInUser.getId());
+        }
+        if (listOfUserGenreNames==null){
+            listOfUserGenreNames = new ArrayList<String>();
+            for (UserGenre genre: listOfUserGenres )
+            {
+                listOfUserGenreNames.add(genre.getGenre());
+            }
+        }
+        return listOfUserGenreNames;
+    }
+
+    public void setListOfUserGenreNames(List<String> listOfUserGenreNames) {
+        this.listOfUserGenreNames = listOfUserGenreNames;
+    }
+
+    public UserGenre getSelected() {
+        return selected;
+    }
+
+    public void setSelected(UserGenre selected) {
+        this.selected = selected;
+    }
+
     /*
-        ***************************************************************
-        Return the List of User Videos that Belong to the Signed-In User
-        ***************************************************************
-         */
+            ***************************************************************
+            Return the List of User Videos that Belong to the Signed-In User
+            ***************************************************************
+             */
     public List<UserGenre> getListOfUserGenres() {
 
         if (listOfUserGenres == null) {
@@ -155,13 +185,6 @@ public class UserGenresController implements Serializable {
     **********************
      */
     public void create() {
-        System.out.printf("-------------- %s %s\n",selected, listOfUserGenres);
-
-        persist(PersistAction.CREATE,"User Video was successfully created.");
-//        for (String nameAux: selectedElemnts )
-//        {
-//            //you save the data here
-//        }
 
         if (!JsfUtil.isValidationFailed()) {
             selected = null;            // Remove selection
@@ -174,7 +197,26 @@ public class UserGenresController implements Serializable {
      UPDATE Selected UserVideo in the Database
      *************************************
       */
-    public void update() {
+    public void update(List<String> listOfUserGenres2) {
+        System.out.printf("-------------- %s %s\n",selected, listOfUserGenres2);
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        User signedInUser = (User) sessionMap.get("user");
+
+        persist(PersistAction.CREATE,"User Video was successfully created.");
+        for (String genreName: listOfUserGenres2 )
+        {
+            UserGenre userGenreNew = new UserGenre(genreName,signedInUser);
+            userGenreFacade.edit(userGenreNew);
+        }
+
+        //DELETE Ones the user unselected
+        for (UserGenre genre: listOfUserGenres )
+        {
+            if ( !listOfUserGenres2.contains(genre)) {
+                userGenreFacade.remove(genre);
+            }
+        }
+
         Methods.preserveMessages();
 
         persist(PersistAction.UPDATE,"User Video was successfully updated.");

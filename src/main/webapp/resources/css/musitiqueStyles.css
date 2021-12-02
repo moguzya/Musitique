@@ -132,51 +132,51 @@ body .ui-paginator .ui-paginator-current, body .ui-paginator .ui-paginator-prev,
 }
 
 
-/*.ui-paginator.ui-paginator-bottom{*/
-/*    border:none;*/
-/*}*/
-/*.ui-dataview .ui-dataview-header{*/
-/*    color: white;*/
-/*    border:none;*/
-/*}*/
-/*.ui-tabs .ui-tabs-panels{*/
-/*    background: none !important;*/
-/*}*/
-/*.ui-dataview .ui-paginator.ui-paginator-bottom{*/
-/*    border:none;*/
-/*}*/
-/*.ui-datatable thead th{*/
-/*    background: none !important;*/
-/*}*/
+.ui-paginator.ui-paginator-bottom{
+    border:none;
+}
+.ui-dataview .ui-dataview-header{
+    color: white;
+    border:none;
+}
+.ui-tabs .ui-tabs-panels{
+    background: none !important;
+}
+.ui-dataview .ui-paginator.ui-paginator-bottom{
+    border:none;
+}
+.ui-datatable thead th{
+    background: none !important;
+}
 
-/*body .ui-datatable .ui-datatable-data > tr{*/
-/*    background: none !important;*/
-/*    color: white;*/
-/*    border: none !important;*/
-/*}*/
+body .ui-datatable .ui-datatable-data > tr{
+    background: none !important;
+    color: white;
+    border: none !important;
+}
 
-/*body .ui-datatable .ui-datatable-data > tr > td{*/
-/*    border: solid 1px #121640 !important;*/
-/*}*/
-/*body .ui-datatable .ui-paginator.ui-paginator-bottom{*/
-/*    background: none !important;*/
-/*    border: solid 1px #121640 !important;*/
-/*}*/
-/*body .ui-datatable .ui-paginator.ui-paginator-top{*/
-/*    background: none !important;*/
-/*    border: solid 1px #121640 !important;*/
-/*}*/
-/*body .ui-datatable .ui-datatable-footer{*/
-/*    background: none !important;*/
-/*    border: solid 1px #121640 !important;*/
-/*}*/
-/*body .ui-datatable .ui-datatable-header{*/
-/*    background: none !important;*/
-/*    border: solid 1px #121640 !important;*/
-/*}*/
-/*body .ui-button.ui-button-outlined{*/
-/*    background-color: white !important;*/
-/*}*/
-/*body .ui-panel .ui-panel-titlebar{*/
-/*    display: none;*/
-/*}*/
+body .ui-datatable .ui-datatable-data > tr > td{
+    border: solid 1px #121640 !important;
+}
+body .ui-datatable .ui-paginator.ui-paginator-bottom{
+    background: none !important;
+    border: solid 1px #121640 !important;
+}
+body .ui-datatable .ui-paginator.ui-paginator-top{
+    background: none !important;
+    border: solid 1px #121640 !important;
+}
+body .ui-datatable .ui-datatable-footer{
+    background: none !important;
+    border: solid 1px #121640 !important;
+}
+body .ui-datatable .ui-datatable-header{
+    background: none !important;
+    border: solid 1px #121640 !important;
+}
+body .ui-button.ui-button-outlined{
+    background-color: white !important;
+}
+body .ui-panel .ui-panel-titlebar{
+    display: none;
+}
