@@ -32,7 +32,7 @@ public class Artist {
         if (body.getJSONArray("images").length() > 0)
             this.imageUrl = body.getJSONArray("images").getJSONObject(0).optString("url", "");
         else
-            this.imageUrl = "https://i.scdn.co/image/ab6761610000e5eb2dc40ac263ef07c16a95af4e";
+            this.imageUrl = "https://i.imgur.com/7dUML1G.png";
     }
 
     public Artist(String id, String name, Integer followers, String imageUrl, List<String> genres) {
