@@ -19,7 +19,7 @@
 </h:head>
 
 <h:body>
-
+    <h:outputScript library="js" name="scrollable.js"/>
 
     <div class="card" style="height: 100% !important;">
         <p:splitter styleClass="p-mb-5" style="height: 100% !important;">
@@ -29,30 +29,30 @@
                 </ui:insert>
             </p:splitterPanel>
             <p:splitterPanel size="85" minSize="80" styleClass="p-d-flex p-ai-center p-jc-center mainContentSplitter">
-                <div class="content-container">
-                    <table class="content">
-                        <tr>
-                            <th class="header">
-                                <ui:insert name="header">
-                                    <ui:include src="headerTemplate.xhtml"/>
-                                </ui:insert>
-                            </th>
-                        </tr>
-                        <tr>
-                            <td class="editable-content">
+                <div  style="height: calc(50% - 0.5px); display: table;">
+<!--                    <table class="content" >-->
+<!--                        <tr>-->
+<!--                            <th class="header">-->
+<!--                                <ui:insert name="header">-->
+<!--                                    <ui:include src="headerTemplate.xhtml"/>-->
+<!--                                </ui:insert>-->
+<!--                            </th>-->
+<!--                        </tr>-->
+<!--                        <tr >-->
+<!--                            <td class="editable-content" >-->
                                 <ui:insert name="editableContent">
                                     <ui:include src="contentTemplate.xhtml"/>
                                 </ui:insert>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="footer">
-                                <ui:insert name="footer">
-                                    <ui:include src="footerTemplate.xhtml"/>
-                                </ui:insert>
-                            </td>
-                        </tr>
-                    </table>
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td class="footer">-->
+<!--                                <ui:insert name="footer">-->
+<!--                                    <ui:include src="footerTemplate.xhtml"/>-->
+<!--                                </ui:insert>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                    </table>-->
                 </div>
             </p:splitterPanel>
         </p:splitter>

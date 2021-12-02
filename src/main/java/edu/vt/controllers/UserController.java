@@ -262,6 +262,10 @@ public class UserController implements Serializable {
         this.email = email;
     }
 
+    public String myCritiques()
+    {
+        return "/userAccount/myCritiques.xhtml";
+    }
     /*
     --------------------------------------------------------------------------------
     private Map<String, Object> security_questions;

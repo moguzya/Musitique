@@ -202,7 +202,7 @@ public class UserGenresController implements Serializable {
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         User signedInUser = (User) sessionMap.get("user");
 
-        persist(PersistAction.CREATE,"User Video was successfully created.");
+        persist(PersistAction.CREATE,"Favorite genres are set.");
         for (String genreName: listOfUserGenres2 )
         {
             UserGenre userGenreNew = new UserGenre(genreName,signedInUser);

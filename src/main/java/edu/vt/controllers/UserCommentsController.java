@@ -140,7 +140,7 @@ public class UserCommentsController implements Serializable {
     public void destroy() {
         Methods.preserveMessages();
 
-        persist(PersistAction.DELETE,"Movie was Successfully Deleted!");
+        persist(PersistAction.DELETE,"Comment was Successfully Deleted!");
 
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The DELETE operation is successfully performed.
