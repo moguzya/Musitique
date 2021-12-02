@@ -18,6 +18,8 @@ import edu.vt.controllers.util.JsfUtil;
 import edu.vt.controllers.util.JsfUtil.PersistAction;
 import edu.vt.globals.Methods;
 import org.primefaces.event.RateEvent;
+import edu.vt.EntityBeans.UserFavoriteArtist;
+import edu.vt.FacadeBeans.UserFavoriteArtistFacade;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -75,6 +77,8 @@ public class EntityController implements Serializable {
 
     @EJB
     private RatingFacade ratingFacade;
+
+    private UserFavoriteArtistFacade userFavoriteArtistFacade;
 
     private Track selectedTrack;
     private Album selectedAlbum;
@@ -183,15 +187,15 @@ public class EntityController implements Serializable {
     }
 
     public void postComment() {
-        UserComment userComment = new UserComment(getUser(), getSelectedEntityId(), newCommentText);
+        UserComment userComment = new UserComment(getUser(), getSelectedEntityId(), getSelectedEntityType(), newCommentText);
         createComment(userComment);
         newCommentText = "";
     }
 
     public void onRate(RateEvent<Integer> rateEvent) {
-        userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser(), selectedEntityType.toString());
+        userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser(), selectedEntityType);
         if (userRating.getRating() == -1) {
-            userRating = new UserRating(getUser(), getSelectedEntityId(), rateEvent.getRating(), selectedEntityType.toString());
+            userRating = new UserRating(getUser(), getSelectedEntityId(), rateEvent.getRating(), selectedEntityType);
             createRating(userRating);
         } else {
             userRating.setRating(rateEvent.getRating());
@@ -206,6 +210,30 @@ public class EntityController implements Serializable {
     private User getUser() {
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         return (User) sessionMap.get("user");
+    }
+
+    public List<UserFavoriteArtist> getListOfFavoriteArtists() {
+        /*
+        'user', the object reference of the signed-in user, was put into the SessionMap
+        in the initializeSessionMap() method in LoginManager upon user's sign in.
+         */
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        User signedInUser = (User) sessionMap.get("user");
+
+        // Obtain the database primary key of the signedInUser object
+        Integer primaryKey = signedInUser.getId();
+
+        return userFavoriteArtistFacade.findUserFavoriteArtistsByUserPrimaryKey(primaryKey);
+    }
+
+    public Boolean isFavoriteArtist() {
+        for (UserFavoriteArtist favoriteArtist :
+                getListOfFavoriteArtists()) {
+            if (favoriteArtist.getEntityId().equals(selectedArtist.getId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /*
@@ -285,7 +313,7 @@ public class EntityController implements Serializable {
 
     public UserRating getUserRating() {
         if (userRating == null) {
-            userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser(), selectedEntityType.toString());
+            userRating = ratingFacade.findUserRatingByEntityId(getSelectedEntityId(), getUser(), selectedEntityType);
         }
         return userRating;
     }
