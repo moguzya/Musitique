@@ -29,8 +29,7 @@
                                              ajax="false"
                                              actionListener="#{userFavoriteArtistController.destroy(entityController.getSelectedArtist())}"
                                              update=":FavButton,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
-                                             oncomplete="standalonePages/Artist.xhtml"
-                            />
+                                             oncomplete="standalonePages/Artist.xhtml"/>
 
                             <p:commandButton icon="pi pi-heart"
                                              styleClass="rounded-button ui-button-help ui-button-outlined"
@@ -38,8 +37,7 @@
                                              ajax="false"
                                              actionListener="#{userFavoriteArtistController.addFavorite(entityController.getSelectedArtist())}"
                                              update=":FavButton,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
-                                             oncomplete="standalonePages/Artist.xhtml"
-                            />
+                                             oncomplete="standalonePages/Artist.xhtml"/>
                         </div>
                     </h:form>
                 </c:if>

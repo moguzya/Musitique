@@ -21,7 +21,9 @@
                     <f:ajax render=":iframe-holder"/>
                 </p:commandButton>
                 <h:outputText value="#{entityController.getSelectedAlbum().name}"/>
-                <h:outputText value="#{entityController.getSelectedAlbum().getArtistsListAsString()}" />
+                <ui:repeat var="artist" value="#{album.artists}" varStatus="status">
+                    <h:commandLink action="#{entityController.toArtistPage(artist)}" value="#{artist.name} "/>
+                </ui:repeat>
                 <h:outputText value="#{entityController.getSelectedAlbum().releaseDate}"/>
                 <h:outputText value="#{entityController.getSelectedAlbum().totalTracks}"/>
                 <p:dataView value="#{entityController.getSelectedAlbum().tracks}"

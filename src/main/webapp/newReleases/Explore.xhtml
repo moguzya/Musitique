@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<ui:composition template="/musitiqueTemplates/siteTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="New Releases"/>
+    </ui:define>
+
+    <ui:define name="editableContent">
+        <div align="center">
+            <h:form id="NewReleasesForm">
+                <div class="tableBackgroundDiv">
+                    <p:dataView value="#{exploreController.getAlbums()}"
+                                var="anAlbum"
+                                rows="3"
+                                paginator="true"
+                                layout="grid"
+                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                pageLinks="5"
+                                gridIcon="pi pi-th-large" listIcon="pi pi-bars"
+                                style="width:100%">
+
+                        <f:facet name="header">
+                            <h:outputText value="Albums"/>
+                        </f:facet>
+
+                        <p:dataViewGridItem>
+                            <p:panel style="text-align:left">
+                                <h:panelGrid columns="3" style="width:100%; margin-left:10px">
+                                    <ui:include src="/musitiqueTemplates/albumCardTemplate.xhtml">
+                                        <ui:param name="album" value="#{anAlbum}"/>
+                                    </ui:include>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:dataViewGridItem>
+
+                        <p:dataViewListItem>
+                            <p:panel style="text-align:left; width:100%" >
+                                <h:panelGrid columns="3" style="width:100%">
+                                    <ui:include src="/musitiqueTemplates/albumCardTemplate.xhtml">
+                                        <ui:param name="album" value="#{anAlbum}"/>
+                                    </ui:include>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:dataViewListItem>
+                    </p:dataView>
+
+
+                    <p:dataView value="#{exploreController.getArtists()}"
+                                var="anArtist"
+                                rows="3"
+                                paginator="true"
+                                layout="grid"
+                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                pageLinks="5"
+                                gridIcon="pi pi-th-large" listIcon="pi pi-bars"
+                                style="width:100%">
+
+                        <f:facet name="header">
+                            <h:outputText value="Artists"/>
+                        </f:facet>
+
+                        <p:dataViewGridItem>
+                            <p:panel style="text-align:left">
+                                <h:panelGrid columns="3" style="width:100%; margin-left:10px">
+                                    <ui:include src="/musitiqueTemplates/artistCardTemplate.xhtml">
+                                        <ui:param name="artist" value="#{anArtist}"/>
+                                    </ui:include>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:dataViewGridItem>
+
+                        <p:dataViewListItem>
+                            <p:panel style="text-align:left; width:100%" >
+                                <h:panelGrid columns="3" style="width:100%">
+                                    <ui:include src="/musitiqueTemplates/artistCardTemplate.xhtml">
+                                        <ui:param name="artist" value="#{anArtist}"/>
+                                    </ui:include>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:dataViewListItem>
+                    </p:dataView>
+
+
+                    <p:dataView value="#{exploreController.getTracks()}"
+                                var="aTrack"
+                                rows="3"
+                                paginator="true"
+                                layout="grid"
+                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                pageLinks="5"
+                                gridIcon="pi pi-th-large" listIcon="pi pi-bars"
+                                style="width:100%">
+
+                        <f:facet name="header">
+                            <h:outputText value="Tracks"/>
+                        </f:facet>
+
+                        <p:dataViewGridItem>
+                            <p:panel style="text-align:left">
+                                <h:panelGrid columns="3" style="width:100%; margin-left:10px">
+                                    <ui:include src="/musitiqueTemplates/trackCardTemplate.xhtml">
+                                        <ui:param name="track" value="#{aTrack}"/>
+                                    </ui:include>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:dataViewGridItem>
+
+                        <p:dataViewListItem>
+                            <p:panel style="text-align:left; width:100%" >
+                                <h:panelGrid columns="3" style="width:100%">
+                                    <ui:include src="/musitiqueTemplates/trackCardTemplate.xhtml">
+                                        <ui:param name="track" value="#{aTrack}"/>
+                                    </ui:include>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:dataViewListItem>
+                    </p:dataView>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>
+<!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>
+

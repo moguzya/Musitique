@@ -24,17 +24,25 @@
         <h:form class="side-menu-main">
             <p:panel>
                 <div class="side-menu-main">
-                    <p:inputText style="width:100%" id="search" type="text" placeholder="Search"/>
+                    <p:remoteCommand name="test"
+                                     actionListener="#{searchController.search()}"/>
+                    <p:inputText style="width:100%" id="search"
+                                 type="text" placeholder="Search"
+                                 value="#{searchController.searchedText}"
+                                 onkeypress="if (event.keyCode == 13) { test(); return false; }"/>
                     <p:menu style="width:100%">
                         <p:menuitem value="New Releases" icon="fas fa-fire"
                                     outcome="/newReleases/NewReleases.xhtml"/>
 
                         <c:if test="#{userController.isLoggedIn() == true}">
-                            <p:menuitem icon="fas fa-list" value="Followed Artists"/>
-                            <p:menuitem icon="fas fa-star-half-alt" action="/userAccount/myCritiques.xhtml"
+                            <p:menuitem icon="fas fa-star-half-alt"
+                                        action="/userAccount/myCritiques.xhtml"
                                         value="My Critiques"/>
+                            <p:menuitem value="Explore"
+                                        icon="fas fa-compass"
+                                        actionListener="#{exploreController.explore()}"/>
                         </c:if>
-                        <p:menuitem value="Explore" icon="fas fa-compass"/>
+
                     </p:menu>
                 </div>
             </p:panel>
