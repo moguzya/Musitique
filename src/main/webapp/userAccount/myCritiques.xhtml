@@ -96,7 +96,7 @@
                                 *      Type      *
                                 ********************
                                 -->
-                                <p:column headerText="Type" sortBy="#{aComments.entityType}"
+                                <p:column headerText="Type" sortBy="#{aComments.entityArtists}"
                                           filterBy="#{aComments.entityType}" filterMatchMode="contains"
                                           style="width: 150px; text-align: center; vertical-align: top">
                                     <h:outputText value="#{aComments.entityType}" style="float:left"/>
@@ -183,170 +183,170 @@
             </p:tab>
             <p:tab title="My Ratings">
                 <!-- In case of JSF validation error, set 'selected' to null in movieController -->
-                <c:if test="#{facesContext.validationFailed}">
-                    ${userRatingsController.unselect()}
-                </c:if>
+<!--                <c:if test="#{facesContext.validationFailed}">-->
+<!--                    ${userRatingsController.unselect()}-->
+<!--                </c:if>-->
 
-                <!-- Set 'selected' to null in movieController when the user refreshes / reloads this JSF page -->
-                <f:metadata>
-                    <f:viewAction action="#{userRatingsController.unselect()}"
-                                  rendered="#{facesContext.postback}"/>
-                </f:metadata>
+<!--                &lt;!&ndash; Set 'selected' to null in movieController when the user refreshes / reloads this JSF page &ndash;&gt;-->
+<!--                <f:metadata>-->
+<!--                    <f:viewAction action="#{userRatingsController.unselect()}"-->
+<!--                                  rendered="#{facesContext.postback}"/>-->
+<!--                </f:metadata>-->
 
-                <div align="center">
-                    <h:form id="RatingsListForm">
-                        <p:panel header="List of My Ratings">
-                            <p:dataTable id="datalistRating"
-                                         value="#{userRatingsController.listofUserRatings}"
-                                         var="aRatings"
-                                         widgetVar="ratingDataTable"
-                                         selectionMode="single"
-                                         selection="#{userRatingsController.selected}"
-                                         reflow="true"
-                                         showGridlines="true"
-                                         paginator="true"
-                                         rowKey="#{aRatings.id}"
-                                         rows="5"
-                                         rowsPerPageTemplate="5,10,15,20,30,40,50"
-                                         emptyMessage="No comments found for the search query entered!">
+<!--                <div align="center">-->
+<!--                    <h:form id="RatingsListForm">-->
+<!--                        <p:panel header="List of My Ratings">-->
+<!--                            <p:dataTable id="datalistRating"-->
+<!--                                         value="#{userRatingsController.listofUserRatings}"-->
+<!--                                         var="aRatings"-->
+<!--                                         widgetVar="ratingDataTable"-->
+<!--                                         selectionMode="single"-->
+<!--                                         selection="#{userRatingsController.selected}"-->
+<!--                                         reflow="true"-->
+<!--                                         showGridlines="true"-->
+<!--                                         paginator="true"-->
+<!--                                         rowKey="#{aRatings.id}"-->
+<!--                                         rows="5"-->
+<!--                                         rowsPerPageTemplate="5,10,15,20,30,40,50"-->
+<!--                                         emptyMessage="No comments found for the search query entered!">-->
 
-                                <p:ajax event="rowSelect" update="deleteButtonRating"/>
-                                <p:ajax event="rowUnselect" update="deleteButtonRating"/>
+<!--                                <p:ajax event="rowSelect" update="deleteButtonRating"/>-->
+<!--                                <p:ajax event="rowUnselect" update="deleteButtonRating"/>-->
 
-                                <!--
-                                *************************
-                                *   Data Table Header   *
-                                *************************
-                                -->
-                                <f:facet name="header">
-                                    <div align="center">
-                                        <p:inputText id="globalFilterRatings"
-                                                     onkeyup="PF('ratingDataTable').filter()"
-                                                     filterMatchMode="contains"
-                                                     style="width: 250px"
-                                                     placeholder="Enter Global Search Query"/>
-                                        &nbsp;
-                                        <p:commandButton type="button" value="Clear All Filters"
-                                                         styleClass="ui-button-outlined"
-                                                         icon="fas fa-undo"
-                                                         onclick="PF('ratingDataTable').clearFilters()"/>
-                                    </div>
-                                </f:facet>
+<!--                                &lt;!&ndash;-->
+<!--                                *************************-->
+<!--                                *   Data Table Header   *-->
+<!--                                *************************-->
+<!--                                &ndash;&gt;-->
+<!--                                <f:facet name="header">-->
+<!--                                    <div align="center">-->
+<!--                                        <p:inputText id="globalFilterRatings"-->
+<!--                                                     onkeyup="PF('ratingDataTable').filter()"-->
+<!--                                                     filterMatchMode="contains"-->
+<!--                                                     style="width: 250px"-->
+<!--                                                     placeholder="Enter Global Search Query"/>-->
+<!--                                        &nbsp;-->
+<!--                                        <p:commandButton type="button" value="Clear All Filters"-->
+<!--                                                         styleClass="ui-button-outlined"-->
+<!--                                                         icon="fas fa-undo"-->
+<!--                                                         onclick="PF('ratingDataTable').clearFilters()"/>-->
+<!--                                    </div>-->
+<!--                                </f:facet>-->
 
-                                <!--
-                                *******************************
-                                *   Artwork Image   *
-                                *******************************
-                                -->
-                                <p:column headerText="Artwork"
-                                          style="width: 80px; text-align: center; vertical-align: top">
-                                    <p:graphicImage url="#{aRatings.entityImageUrl}" width="92px"
-                                                    style="float:left"/>
-                                </p:column>
-
-
-                                <!--
-                                ********************
-                                *      Type      *
-                                ********************
-                                -->
-                                <p:column headerText="Type" sortBy="#{aRatings.entityType}"
-                                          filterBy="#{aRatings.entityType}" filterMatchMode="contains"
-                                          style="width: 150px; text-align: center; vertical-align: top">
-                                    <h:outputText value="#{aRatings.entityType}" style="float:left"/>
-
-                                </p:column>
-
-                                <!--
-                                ********************
-                                *      Name      *
-                                ********************
-                                -->
-                                <p:column headerText="Name" sortBy="#{aRatings.entityName}"
-                                          filterBy="#{aRatings.entityName}" filterMatchMode="contains"
-                                          style="width: 150px; text-align: center; vertical-align: top">
-                                    <h:outputText value="#{aRatings.entityName}" style="float:left"/>
-                                </p:column>
-
-                                <!--
-                                ********************
-                                *      Artists      *
-                                ********************
-                                -->
-                                <p:column headerText="Name" sortBy="#{aRatings.entityArtists}"
-                                          filterBy="#{aRatings.entityArtists}" filterMatchMode="contains"
-                                          style="width: 150px; text-align: center; vertical-align: top">
-                                    <h:outputText value="#{aRatings.entityArtists}" style="float:left"/>
-                                </p:column>
-
-                                <!--
-                                ********************
-                                *   Release Date   *
-                                ********************
-                                -->
-                                <p:column headerText="Date Rated" sortBy="#{aRatings.date}"
-                                          filterBy="#{aRatings.date}" filterMatchMode="contains"
-                                          style="width: 150px; text-align: center; vertical-align: top">
-                                    <!--                                            <h:outputText value="#{aComments.date}">-->
-                                    <!--                                                <f:convertDateTime pattern="MM/dd/yyyy" />-->
-                                    <!--                                            </h:outputText>-->
-                                    <h:outputText value="#{aRatings.date}" style="float:left"/>
-
-                                </p:column>
-
-                                <!--
-                                *******************
-                                *   Rating   *
-                                *******************
-                                -->
-                                <p:column headerText="Rating" sortBy="#{aRatings.rating}"
-                                          style="text-align: center; vertical-align: top">
-                                    <p:rating value="#{aRatings.rating}">
-                                        <p:ajax event="rate" listener="#{entityController.onRate}"/>
-                                        <p:ajax event="cancel" listener="#{entityController.onUnrate}"/>
-                                    </p:rating>
-                                </p:column>
-
-                                <br/><br/>
-
-                                <!--
-                                *************************
-                                *   Data Table Footer   *
-                                *************************
-                                -->
-                                <f:facet name="footer">
-                                    <div align="center">
+<!--                                &lt;!&ndash;-->
+<!--                                *******************************-->
+<!--                                *   Artwork Image   *-->
+<!--                                *******************************-->
+<!--                                &ndash;&gt;-->
+<!--                                <p:column headerText="Artwork"-->
+<!--                                          style="width: 80px; text-align: center; vertical-align: top">-->
+<!--                                    <p:graphicImage url="#{aRatings.entityImageUrl}" width="92px"-->
+<!--                                                    style="float:left"/>-->
+<!--                                </p:column>-->
 
 
-                                        <!--
-                                        ***************************************************
-                                        Display a Confirmation dialog for the DELETE button
-                                        ***************************************************
-                                        -->
-                                        <p:commandButton id="deleteButtonRating" value="Delete"
-                                                         icon="fas fa-trash-alt" styleClass="rounded-button"
-                                                         actionListener="#{userRatingsController.destroy}"
-                                                         update="datalistRating,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
-                                                         disabled="#{empty userRatingsController.selected}">
+<!--                                &lt;!&ndash;-->
+<!--                                ********************-->
+<!--                                *      Type      *-->
+<!--                                ********************-->
+<!--                                &ndash;&gt;-->
+<!--                                <p:column headerText="Type" sortBy="#{aRatings.entityType}"-->
+<!--                                          filterBy="#{aRatings.entityType}" filterMatchMode="contains"-->
+<!--                                          style="width: 150px; text-align: center; vertical-align: top">-->
+<!--                                    <h:outputText value="#{aRatings.entityType}" style="float:left"/>-->
 
-                                            <p:confirm header="Deletion Confirmation"
-                                                       message="Are you sure you want to permanently delete the selected movie #{userRatingsController.selected.entityName} from the database?"/>
-                                        </p:commandButton>
+<!--                                </p:column>-->
 
-                                        <!--
-                                        ************************************************
-                                        End of Display of the DELETE Confirmation dialog
-                                        ************************************************
-                                        -->
-                                    </div>
-                                </f:facet>
-                            </p:dataTable>
-                        </p:panel>
-                    </h:form>
+<!--                                &lt;!&ndash;-->
+<!--                                ********************-->
+<!--                                *      Name      *-->
+<!--                                ********************-->
+<!--                                &ndash;&gt;-->
+<!--                                <p:column headerText="Name" sortBy="#{aRatings.entityName}"-->
+<!--                                          filterBy="#{aRatings.entityName}" filterMatchMode="contains"-->
+<!--                                          style="width: 150px; text-align: center; vertical-align: top">-->
+<!--                                    <h:outputText value="#{aRatings.entityName}" style="float:left"/>-->
+<!--                                </p:column>-->
+
+<!--                                &lt;!&ndash;-->
+<!--                                ********************-->
+<!--                                *      Artists      *-->
+<!--                                ********************-->
+<!--                                &ndash;&gt;-->
+<!--                                <p:column headerText="Name" sortBy="#{aRatings.entityArtists}"-->
+<!--                                          filterBy="#{aRatings.entityArtists}" filterMatchMode="contains"-->
+<!--                                          style="width: 150px; text-align: center; vertical-align: top">-->
+<!--                                    <h:outputText value="#{aRatings.entityArtists}" style="float:left"/>-->
+<!--                                </p:column>-->
+
+<!--                                &lt;!&ndash;-->
+<!--                                ********************-->
+<!--                                *   Release Date   *-->
+<!--                                ********************-->
+<!--                                &ndash;&gt;-->
+<!--                                <p:column headerText="Date Rated" sortBy="#{aRatings.date}"-->
+<!--                                          filterBy="#{aRatings.date}" filterMatchMode="contains"-->
+<!--                                          style="width: 150px; text-align: center; vertical-align: top">-->
+<!--                                    &lt;!&ndash;                                            <h:outputText value="#{aComments.date}">&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                                <f:convertDateTime pattern="MM/dd/yyyy" />&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                            </h:outputText>&ndash;&gt;-->
+<!--                                    <h:outputText value="#{aRatings.date}" style="float:left"/>-->
+
+<!--                                </p:column>-->
+
+<!--                                &lt;!&ndash;-->
+<!--                                *******************-->
+<!--                                *   Rating   *-->
+<!--                                *******************-->
+<!--                                &ndash;&gt;-->
+<!--                                <p:column headerText="Rating" sortBy="#{aRatings.rating}"-->
+<!--                                          style="text-align: center; vertical-align: top">-->
+<!--                                    <p:rating value="#{aRatings.rating}">-->
+<!--                                        <p:ajax event="rate" listener="#{entityController.onRate}"/>-->
+<!--                                        <p:ajax event="cancel" listener="#{entityController.onUnrate}"/>-->
+<!--                                    </p:rating>-->
+<!--                                </p:column>-->
+
+<!--                                <br/><br/>-->
+
+<!--                                &lt;!&ndash;-->
+<!--                                *************************-->
+<!--                                *   Data Table Footer   *-->
+<!--                                *************************-->
+<!--                                &ndash;&gt;-->
+<!--                                <f:facet name="footer">-->
+<!--                                    <div align="center">-->
 
 
-                </div>
-            </p:tab>
+<!--                                        &lt;!&ndash;-->
+<!--                                        ***************************************************-->
+<!--                                        Display a Confirmation dialog for the DELETE button-->
+<!--                                        ***************************************************-->
+<!--                                        &ndash;&gt;-->
+<!--                                        <p:commandButton id="deleteButtonRating" value="Delete"-->
+<!--                                                         icon="fas fa-trash-alt" styleClass="rounded-button"-->
+<!--                                                         actionListener="#{userRatingsController.destroy}"-->
+<!--                                                         update="datalistRating,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"-->
+<!--                                                         disabled="#{empty userRatingsController.selected}">-->
+
+<!--                                            <p:confirm header="Deletion Confirmation"-->
+<!--                                                       message="Are you sure you want to permanently delete the selected movie #{userRatingsController.selected.entityName} from the database?"/>-->
+<!--                                        </p:commandButton>-->
+
+<!--                                        &lt;!&ndash;-->
+<!--                                        ************************************************-->
+<!--                                        End of Display of the DELETE Confirmation dialog-->
+<!--                                        ************************************************-->
+<!--                                        &ndash;&gt;-->
+<!--                                    </div>-->
+<!--                                </f:facet>-->
+<!--                            </p:dataTable>-->
+<!--                        </p:panel>-->
+<!--                    </h:form>-->
+
+
+<!--                </div>-->
+<!--            </p:tab>-->
 
         </p:tabView>
 
