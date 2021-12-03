@@ -16,7 +16,6 @@
 
 <!-- This page is constructed based on the siteTemplate -->
 <ui:composition>
-
     <!-- Create the content for this page below -->
     <!-- In case of JSF validation error, set 'selected' to null in movieController -->
     <c:if test="#{facesContext.validationFailed}">
@@ -46,8 +45,8 @@
                              rowsPerPageTemplate="5,10,15,20,30,40,50"
                              emptyMessage="No comments found for the search query entered!">
 
-                    <p:ajax event="rowSelect" update="deleteButtonRating"/>
-                    <p:ajax event="rowUnselect" update="deleteButtonRating"/>
+                    <p:ajax event="rowSelect" update="viewButtonRating deleteButtonRating"/>
+                    <p:ajax event="rowUnselect" update="viewButtonRating deleteButtonRating"/>
 
                     <!--
                     *************************
@@ -154,6 +153,9 @@
                         <div align="center">
 
 
+                            <p:commandButton id="viewButtonRating" value="View" icon="fas fa-eye" styleClass="rounded-button"
+                                             update=":RatingViewDlg" oncomplete="PF('RatingViewDialog').show()"
+                                             disabled="#{empty userRatingsController.selected}"/>
                             <!--
                             ***************************************************
                             Display a Confirmation dialog for the DELETE button
@@ -166,7 +168,7 @@
                                              disabled="#{empty userRatingsController.selected}">
 
                                 <p:confirm header="Deletion Confirmation"
-                                           message="Are you sure you want to permanently delete the selected movie #{userRatingsController.selected.entityName} from the database?"/>
+                                           message="Are you sure you want to permanently delete the selected raiting from the database?"/>
                             </p:commandButton>
                             <p:confirmDialog id="confirmDialogBoxRaitings" global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
                                 <div align="center">
@@ -188,7 +190,6 @@
 
 
     </div>
-
 
 
 
