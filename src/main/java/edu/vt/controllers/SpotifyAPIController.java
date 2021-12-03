@@ -114,7 +114,7 @@ public class SpotifyAPIController implements Serializable {
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
-                return new Album(response.body());
+                return new Album(response.body(), false);
             } else if (response.statusCode() == 401) {
                 requestToken();
                 return requestAlbum(albumId);
@@ -128,7 +128,7 @@ public class SpotifyAPIController implements Serializable {
         return null;
     }
 
-    public List<Album> requestSeveralAlbums(String albumIds) {
+    public List<Album> requestSeveralAlbums(String albumIds, Boolean subcall) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spotify.com/v1/albums?ids=" + albumIds))
                 .timeout(Duration.ofMinutes(1))
@@ -145,14 +145,14 @@ public class SpotifyAPIController implements Serializable {
 
                 for (int i = 0; i < albumArray.length(); i++) {
                     if (albumArray.get(i).toString() != "null") {
-                        Album a = new Album(albumArray.getJSONObject(i).toString());
+                        Album a = new Album(albumArray.getJSONObject(i).toString(), subcall);
                         albums.add(a);
                     }
                 }
                 return albums;
             } else if (response.statusCode() == 401) {
                 requestToken();
-                return requestSeveralAlbums(albumIds);
+                return requestSeveralAlbums(albumIds, subcall);
             } else if (response.statusCode() == 429) {
                 System.out.println("rate limit");
             }
@@ -199,7 +199,6 @@ public class SpotifyAPIController implements Serializable {
                 .header("Authorization", "Bearer " + accessToken)
                 .GET()
                 .build();
-
         try {
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
@@ -240,7 +239,7 @@ public class SpotifyAPIController implements Serializable {
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
-                return new Track(response.body());
+                return new Track(response.body(), false);
             } else if (response.statusCode() == 401) {
                 requestToken();
                 return requestTrack(trackId);
@@ -254,7 +253,7 @@ public class SpotifyAPIController implements Serializable {
         return null;
     }
 
-    public List<Track> requestSeveralTracks(String trackIds) {
+    public List<Track> requestSeveralTracks(String trackIds, Boolean subcall) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spotify.com/v1/tracks?ids=" + trackIds))
                 .timeout(Duration.ofMinutes(1))
@@ -272,14 +271,14 @@ public class SpotifyAPIController implements Serializable {
 
                 for (int i = 0; i < trackArray.length(); i++) {
                     if (trackArray.get(i).toString() != "null") {
-                        Track a = new Track(trackArray.getJSONObject(0).toString());
+                        Track a = new Track(trackArray.getJSONObject(0).toString(), subcall);
                         tracks.add(a);
                     }
                 }
                 return tracks;
             } else if (response.statusCode() == 401) {
                 requestToken();
-                return requestSeveralTracks(trackIds);
+                return requestSeveralTracks(trackIds, subcall);
             } else if (response.statusCode() == 429) {
                 System.out.println("rate limit");
             }
@@ -308,7 +307,7 @@ public class SpotifyAPIController implements Serializable {
                 JSONArray albumArray = new JSONObject(response.body()).getJSONObject("albums").getJSONArray("items");
 
                 for (int i = 0; i < albumArray.length(); i++) {
-                    Album a = new Album(albumArray.getJSONObject(i).toString());
+                    Album a = new Album(albumArray.getJSONObject(i).toString(), false);
                     albums.add(a);
                 }
                 return albums;
@@ -355,9 +354,9 @@ public class SpotifyAPIController implements Serializable {
                 List<Track> tracks = new ArrayList<>();
 
                 for (int i = 0; i < recommendationArray.length(); i++) {
-                    albums.add(new Album(recommendationArray.getJSONObject(i).getJSONObject("album").toString()));
+                    albums.add(new Album(recommendationArray.getJSONObject(i).getJSONObject("album").toString(), false));
                     artists.add(new Artist(recommendationArray.getJSONObject(i).getJSONArray("artists").get(0).toString()));
-                    tracks.add(new Track(recommendationArray.getJSONObject(i).toString()));
+                    tracks.add(new Track(recommendationArray.getJSONObject(i).toString(), false));
                 }
 
                 setRecommendedAlbums(albums);
@@ -396,11 +395,11 @@ public class SpotifyAPIController implements Serializable {
                 List<Track> tracks = new ArrayList<>();
 
                 for (int i = 0; i < tracksArray.length(); i++) {
-                    tracks.add(new Track(tracksArray.getJSONObject(i).toString()));
+                    tracks.add(new Track(tracksArray.getJSONObject(i).toString(), false));
                 }
 
                 for (int i = 0; i < albumsArray.length(); i++) {
-                    albums.add(new Album(albumsArray.getJSONObject(i).toString()));
+                    albums.add(new Album(albumsArray.getJSONObject(i).toString(), false));
                 }
 
                 for (int i = 0; i < artistsArray.length(); i++) {

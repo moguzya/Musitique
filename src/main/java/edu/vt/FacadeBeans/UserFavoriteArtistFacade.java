@@ -41,15 +41,10 @@ public class UserFavoriteArtistFacade extends AbstractFacade<UserFavoriteArtist>
         return entityManager;
     }
 
-    // Returns a list of object references of UserVideo objects that belong to
+    // Returns a list of object references of UserFavoriteArtist objects that belong to
     // the User object whose database Primary Key = primaryKey
     public List<UserFavoriteArtist> findUserFavoriteArtistsByUserPrimaryKey(Integer primaryKey) {
-        /*
-        The following @NamedQuery definition is given in UserVideo entity class file:
-        @NamedQuery(name = "UserVideo.findByUserId", query = "SELECT u FROM UserVideo u WHERE u.userId.id = :userId")
 
-        The following statement obtains the results from the named database query.
-         */
         return entityManager.createNamedQuery("UserFavoriteArtists.findByUserId")
                 .setParameter("userId", primaryKey)
                 .getResultList();
@@ -59,12 +54,7 @@ public class UserFavoriteArtistFacade extends AbstractFacade<UserFavoriteArtist>
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         User signedInUser = (User) sessionMap.get("user");
 
-        /*
-        The following @NamedQuery definition is given in UserVideo entity class file:
-        @NamedQuery(name = "UserVideo.findByUserId", query = "SELECT u FROM UserVideo u WHERE u.userId.id = :userId")
 
-        The following statement obtains the results from the named database query.
-         */
         return entityManager.createNamedQuery("UserFavoriteArtists.findByUserId")
                 .setParameter("userId", signedInUser.getId())
                 .getResultList();

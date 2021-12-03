@@ -98,7 +98,6 @@ public class UserCommentsController implements Serializable {
             Integer primaryKey = signedInUser.getId();
 
 
-            // Obtain only those videos from the database that belong to the signed-in user
             listofUserComments = commentFacade.findUserCommentByUserPrimaryKey(primaryKey);
 
             List<String> AlbumsIds = new ArrayList<>();
@@ -118,9 +117,8 @@ public class UserCommentsController implements Serializable {
                 }
             }
 
-            listofAlbums = spotifyAPIController.requestSeveralAlbums(String.join(",", AlbumsIds));
-            System.out.println(listofAlbums);
-            listofTracks = spotifyAPIController.requestSeveralTracks(String.join(",", TracksIds));
+            listofAlbums = spotifyAPIController.requestSeveralAlbums(String.join(",", AlbumsIds),false);
+            listofTracks = spotifyAPIController.requestSeveralTracks(String.join(",", TracksIds),false);
             listofArtists = spotifyAPIController.requestSeveralArtists(String.join(",", ArtistsIds));
 
         }
@@ -234,10 +232,10 @@ public class UserCommentsController implements Serializable {
     }
 
     /*
-        *************************************
-        UPDATE Selected Movie in the Database
-        *************************************
-         */
+    *************************************
+    UPDATE Selected Comment in the Database
+    *************************************
+     */
     public void update() {
         Methods.preserveMessages();
 
@@ -246,13 +244,13 @@ public class UserCommentsController implements Serializable {
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The UPDATE operation is successfully performed.
             selected = null;        // Remove selection
-            listofUserComments = null;    // Invalidate listOfMovies to trigger re-query.
+            listofUserComments = null;    // Invalidate listOfComments to trigger re-query.
         }
     }
 
     /*
     ***************************************
-    DELETE Selected Movie from the Database
+    DELETE Selected Comment from the Database
     ***************************************
      */
     public void destroy() {
@@ -263,7 +261,7 @@ public class UserCommentsController implements Serializable {
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The DELETE operation is successfully performed.
             selected = null;        // Remove selection
-            listofUserComments = null;    // Invalidate listOfMovies to trigger re-query.
+            listofUserComments = null;    // Invalidate listOfComments to trigger re-query.
         }
     }
 
@@ -288,7 +286,7 @@ public class UserCommentsController implements Serializable {
                      object in the database regardless of whether the object is a newly
                      created object (CREATE) or an edited (updated) object (EDIT or UPDATE).
 
-                     MovieFacade inherits the edit(selected) method from the AbstractFacade class.
+                     CommentFacade inherits the edit(selected) method from the AbstractFacade class.
                      */
                     commentFacade.edit(selected);
                 } else {
@@ -299,7 +297,7 @@ public class UserCommentsController implements Serializable {
                      The remove(selected) method performs the DELETE operation of the "selected"
                      object in the database.
 
-                     MovieFacade inherits the remove(selected) method from the AbstractFacade class.
+                     CommentFacade inherits the remove(selected) method from the AbstractFacade class.
                      */
                     commentFacade.remove(selected);
                 }

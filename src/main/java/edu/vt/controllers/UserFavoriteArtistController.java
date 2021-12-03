@@ -34,10 +34,6 @@ public class UserFavoriteArtistController implements Serializable {
     private List<UserFavoriteArtist> listOfUserFavoriteArtists = null;
     private UserFavoriteArtist selected;
 
-    /*
-    The @EJB annotation directs the EJB Container Manager to inject (store) the object reference of the
-    UserVideoFacade bean into the instance variable 'userVideoFacade' after it is instantiated at runtime.
-     */
     @EJB
     private UserFavoriteArtistFacade userFavoriteArtistFacade;
 
@@ -51,7 +47,7 @@ public class UserFavoriteArtistController implements Serializable {
 
     /*
     ***************************************************************
-    Return the List of User Videos that Belong to the Signed-In User
+    Return the List of UserFavoriteArtist that Belong to the Signed-In User
     ***************************************************************
      */
     public List<UserFavoriteArtist> getListOfFavoriteArtists() {
@@ -67,7 +63,6 @@ public class UserFavoriteArtistController implements Serializable {
             // Obtain the database primary key of the signedInUser object
             Integer primaryKey = signedInUser.getId();
 
-            // Obtain only those videos from the database that belong to the signed-in user
             listOfUserFavoriteArtists = userFavoriteArtistFacade.findUserFavoriteArtistsByUserPrimaryKey(primaryKey);
         }
         return listOfUserFavoriteArtists;
@@ -111,36 +106,17 @@ public class UserFavoriteArtistController implements Serializable {
         return (User) sessionMap.get("user");
     }
 
-    /*
-     **************************************
-     *   Unselect Selected UserVideo Object   *
-     **************************************
-     */
     public void unselect() {
         selected = null;
     }
 
     /*
-     *************************************
-     *   Cancel and Display List.xhtml   *
-     *************************************
-     */
-    public String cancel() {
-        // Unselect previously selected userVideo object if any
-        selected = null;
-        return "/userVideo/List?faces-redirect=true";
-    }
-
-    /*
-    *****************************
-    Prepare to Create a New UserVideo
-    *****************************
+    *****************
+    Prepare to Create
+    *****************
     */
     public void prepareCreate() {
-        /*
-        Instantiate a new UserVideo object and store its object reference into
-        instance variable 'selected'. The UserVideo class is defined in UserVideo.java
-         */
+
         selected = new UserFavoriteArtist();
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         User signedInUser = (User) sessionMap.get("user");
@@ -164,48 +140,33 @@ public class UserFavoriteArtistController implements Serializable {
 
     // The constants CREATE, DELETE and UPDATE are defined in JsfUtil.java
 
-    /*
-    **********************
-    Create a New User Video
-    **********************
-     */
     public void create() {
         persist(PersistAction.CREATE, "Artist added to favorites.");
 
         if (!JsfUtil.isValidationFailed()) {
             selected = null;            // Remove selection
-            listOfUserFavoriteArtists = null;     // Invalidate listOfUserVideos to trigger re-query.
+            listOfUserFavoriteArtists = null;     // Invalidate listOfUserFavoriteArtists to trigger re-query.
         }
     }
 
-    /*
-     *************************************
-     UPDATE Selected UserVideo in the Database
-     *************************************
-      */
+
     public void update() {
         Methods.preserveMessages();
 
-        persist(PersistAction.UPDATE, "User Video was successfully updated.");
+        persist(PersistAction.UPDATE, "Favorıte was successfully updated.");
 
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The UPDATE operation is successfully performed.
             selected = null;        // Remove selection
-            listOfUserFavoriteArtists = null;    // Invalidate listOfUserVideos to trigger re-query.
+            listOfUserFavoriteArtists = null;    // Invalidate to trigger re-query.
         }
     }
 
-    /*
-     ***************************************
-     DELETE Selected UserVideo from the Database
-     ***************************************
-      */
+
     public void destroy(Artist artist) {
         if (selected == null) {
             List<UserFavoriteArtist> favs = getListOfFavoriteArtists();
             for (UserFavoriteArtist fav : favs) {
-                System.out.println(fav.getEntityId());
-                System.out.println(artist.getId());
                 if (fav.getEntityId().equals(artist.getId())) {
                     selected = fav;
                     break;
@@ -219,7 +180,7 @@ public class UserFavoriteArtistController implements Serializable {
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The DELETE operation is successfully performed.
             selected = null;        // Remove selection
-            listOfUserFavoriteArtists = null;    // Invalidate listOfUserVideos to trigger re-query.
+            listOfUserFavoriteArtists = null;    // Invalidate listOfUserFavoriteArtists to trigger re-query.
         }
     }
 
@@ -246,7 +207,7 @@ public class UserFavoriteArtistController implements Serializable {
                      object in the database regardless of whether the object is a newly
                      created object (CREATE) or an edited (updated) object (EDIT or UPDATE).
 
-                     userVideoFacade inherits the edit(selected) method from the AbstractFacade class.
+                     userFavoriteArtistFacade inherits the edit(selected) method from the AbstractFacade class.
                      */
                     userFavoriteArtistFacade.edit(selected);
                 } else {
@@ -256,7 +217,7 @@ public class UserFavoriteArtistController implements Serializable {
                      -----------------------------------------
                      The remove method performs the DELETE operation in the database.
 
-                     userVideoFacade inherits the remove(selected) method from the AbstractFacade class.
+                     userFavoriteArtistFacade inherits the remove(selected) method from the AbstractFacade class.
                      */
                     userFavoriteArtistFacade.remove(selected);
                 }

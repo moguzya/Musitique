@@ -47,7 +47,7 @@ access the properties and invoke methods of this class.
 @Named("entityController")
 
 /*
-The @SessionScoped annotation preserves the values of the VideoController
+The @SessionScoped annotation preserves the values of the entityController
 object's instance variables across multiple HTTP request-response cycles
 as long as the user's established HTTP session is alive.
 */
@@ -55,7 +55,7 @@ as long as the user's established HTTP session is alive.
 
 /*
 -----------------------------------------------------------------------------
-Marking the VideoController class as "implements Serializable" implies that
+Marking the EntityController class as "implements Serializable" implies that
 instances of the class can be automatically serialized and deserialized. 
 
 Serialization is the process of converting a class instance (object)

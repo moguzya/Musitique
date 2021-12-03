@@ -1,8 +1,3 @@
-/*****************************************************
-*   Cascading Style Sheets (CSS) Style Definitions   *
-*   Composed by Osman Balci for the Videos app.      *
-*****************************************************/
-
 html, body {
     background-color: linen;
     margin: 0 0 0 0;    /* top right bottom left */
@@ -157,14 +152,6 @@ Used in Profile
     background-color: lightskyblue;
 }
 
-/*
-=======================================
-|   Responsive YouTube Video Player   |
-=======================================
-We use the 9/16 (=56.25) ratio to play YouTube Videos.
-The padding-top applies the ratio of 56.25% to make sure
-that the width and height preserve the 9/16 ratio.
-*/
 
 .responsive-container {
     position: relative;

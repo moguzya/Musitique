@@ -24,11 +24,11 @@ public class ExploreController implements Serializable {
     private List<Track> tracks;
 
     public String explore() {
+        API_CONTROLLER.requestRecommendations();
         return "/newReleases/Explore.xhtml";
     }
 
     public List<Album> getAlbums() {
-        API_CONTROLLER.requestRecommendations();
         albums = API_CONTROLLER.getRecommendedAlbums();
         return albums;
     }

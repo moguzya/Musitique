@@ -83,7 +83,7 @@ public class UserRatingsController implements Serializable {
     Return the List of User Comments that Belong to the Signed-In User
     ***************************************************************
      */
-    public List<UserRating> getListofUserRatings() {
+    public List<UserRating> getListOfUserRatings() {
 
         if (listofUserRatings == null) {
             /*
@@ -96,7 +96,6 @@ public class UserRatingsController implements Serializable {
             // Obtain the database primary key of the signedInUser object
             Integer primaryKey = signedInUser.getId();
 
-            // Obtain only those videos from the database that belong to the signed-in user
             listofUserRatings = ratingFacade.findUserRatingByUserPrimaryKey(primaryKey);
 
             List<String> AlbumsIds = new ArrayList<>();
@@ -116,9 +115,8 @@ public class UserRatingsController implements Serializable {
                 }
             }
 
-            listofAlbums = spotifyAPIController.requestSeveralAlbums(String.join(",", AlbumsIds));
-            System.out.println(listofAlbums);
-            listofTracks = spotifyAPIController.requestSeveralTracks(String.join(",", TracksIds));
+            listofAlbums = spotifyAPIController.requestSeveralAlbums(String.join(",", AlbumsIds),false);
+            listofTracks = spotifyAPIController.requestSeveralTracks(String.join(",", TracksIds),false);
             listofArtists = spotifyAPIController.requestSeveralArtists(String.join(",", ArtistsIds));
 
         }
@@ -234,7 +232,7 @@ public class UserRatingsController implements Serializable {
 
     /*
     *************************************
-    UPDATE Selected Movie in the Database
+    UPDATE Selected Rating in the Database
     *************************************
      */
     public void update() {
@@ -245,15 +243,15 @@ public class UserRatingsController implements Serializable {
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The UPDATE operation is successfully performed.
             selected = null;        // Remove selection
-            listofUserRatings = null;    // Invalidate listOfMovies to trigger re-query.
+            listofUserRatings = null;    // Invalidate listOfRatings to trigger re-query.
         }
     }
 
     /*
-      ***************************************
-      DELETE Selected Movie from the Database
-      ***************************************
-       */
+    ***************************************
+    DELETE Selected Rating from the Database
+    ***************************************
+    */
     public void destroy() {
         JsfUtil.addSuccessMessage("here");
         JsfUtil.addSuccessMessage(selected.getEntityId());
@@ -265,7 +263,7 @@ public class UserRatingsController implements Serializable {
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The DELETE operation is successfully performed.
             selected = null;        // Remove selection
-            listofUserRatings = null;    // Invalidate listOfMovies to trigger re-query.
+            listofUserRatings = null;    // Invalidate listOfRatings to trigger re-query.
         }
     }
 
@@ -290,7 +288,7 @@ public class UserRatingsController implements Serializable {
                      object in the database regardless of whether the object is a newly
                      created object (CREATE) or an edited (updated) object (EDIT or UPDATE).
 
-                     MovieFacade inherits the edit(selected) method from the AbstractFacade class.
+                     RatingFacade inherits the edit(selected) method from the AbstractFacade class.
                      */
                     ratingFacade.edit(selected);
                 } else {
@@ -301,7 +299,7 @@ public class UserRatingsController implements Serializable {
                      The remove(selected) method performs the DELETE operation of the "selected"
                      object in the database.
 
-                     MovieFacade inherits the remove(selected) method from the AbstractFacade class.
+                     RatingFacade inherits the remove(selected) method from the AbstractFacade class.
                      */
                     ratingFacade.remove(selected);
                 }

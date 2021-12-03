@@ -41,13 +41,8 @@ public class UserGenreFacade extends AbstractFacade<UserGenre> {
         return entityManager;
     }
 
-    // Returns a list of object references of UserVideo objects that belong to
-    // the User object whose database Primary Key = primaryKey
     public List<UserGenre> findUserGenresByUserPrimaryKey(Integer primaryKey) {
         /*
-        The following @NamedQuery definition is given in UserVideo entity class file:
-        @NamedQuery(name = "UserVideo.findByUserId", query = "SELECT u FROM UserVideo u WHERE u.userId.id = :userId")
-
         The following statement obtains the results from the named database query.
          */
         return entityManager.createNamedQuery("UserGenre.findByUserId")
@@ -61,12 +56,7 @@ public class UserGenreFacade extends AbstractFacade<UserGenre> {
     public List<UserGenre> findUserGenres() {
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         User signedInUser = (User) sessionMap.get("user");
-        /*
-        The following @NamedQuery definition is given in UserVideo entity class file:
-        @NamedQuery(name = "UserVideo.findByUserId", query = "SELECT u FROM UserVideo u WHERE u.userId.id = :userId")
 
-        The following statement obtains the results from the named database query.
-         */
         return entityManager.createNamedQuery("UserGenre.findByUserId")
                 .setParameter("userId", signedInUser.getId())
                 .getResultList();

@@ -24,7 +24,7 @@ public class Album {
     private List<UserComment> comments;
     private List<UserRating> ratings;
 
-    public Album(String json) {
+    public Album(String json, Boolean subcall) {
         JSONObject body = new JSONObject(json);
         this.id = body.optString("id", "");
         this.albumType = body.optString("album_type", "");
@@ -39,24 +39,27 @@ public class Album {
         JSONArray artistsArray = body.getJSONArray("artists");
         this.artists = new ArrayList();
 
+
         String artistsAsString = "";
-        for (int i = 0; i < artistsArray.length()-1; i++) {
+        for (int i = 0; i < artistsArray.length() - 1; i++) {
             artistsAsString += artistsArray.getJSONObject(i).optString("id") + ",";
         }
-        artistsAsString += artistsArray.getJSONObject(artistsArray.length()-1).optString("id");
-        this.artists = API_CONTROLLER.requestSeveralArtists(artistsAsString);
-
+        artistsAsString += artistsArray.getJSONObject(artistsArray.length() - 1).optString("id");
+        if (!subcall) {
+            this.artists = API_CONTROLLER.requestSeveralArtists(artistsAsString);
+        }
+        this.tracks = new ArrayList();
         if (body.has("tracks")) {
             JSONArray tracksArray = body.getJSONObject("tracks").getJSONArray("items");
-            this.tracks = new ArrayList();
+
 
             String tracksAsString = "";
-            for (int i = 0; i < tracksArray.length()-1; i++) {
+            for (int i = 0; i < tracksArray.length() - 1; i++) {
                 tracksAsString += tracksArray.getJSONObject(i).optString("id") + ",";
             }
-            tracksAsString += tracksArray.getJSONObject(tracksArray.length()-1).optString("id");
-
-            this.tracks = API_CONTROLLER.requestSeveralTracks(tracksAsString);
+            tracksAsString += tracksArray.getJSONObject(tracksArray.length() - 1).optString("id");
+            if (!subcall)
+                this.tracks = API_CONTROLLER.requestSeveralTracks(tracksAsString, true);
         }
     }
 
@@ -67,23 +70,6 @@ public class Album {
         this.imageUrl = object.getJSONArray("images").getJSONObject(0).optString("url", "");
         this.name = object.optString("name", "");
         this.releaseDate = object.optString("release_date", "");
-    }
-
-    public Album(String id, String name, String imageUrl, String releaseDate, Integer totalTracks) {
-        this.id = id;
-        this.name = name;
-        this.imageUrl = imageUrl;
-        this.releaseDate = releaseDate;
-        this.totalTracks = totalTracks;
-    }
-
-    public Album(String id, String name, String imageUrl, String releaseDate, List<Artist> artists, Integer totalTracks) {
-        this.id = id;
-        this.name = name;
-        this.imageUrl = imageUrl;
-        this.releaseDate = releaseDate;
-        this.artists = artists;
-        this.totalTracks = totalTracks;
     }
 
     public String getId() {

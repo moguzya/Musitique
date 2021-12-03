@@ -31,17 +31,20 @@ public class UserGenresController implements Serializable {
     Instance Variables (Properties)
     ===============================
      */
+
+    /*
+    The @EJB annotation directs the EJB Container Manager to inject (store) the object reference of the
+    UserGenreFacade bean into the instance variable 'UserGenreFacade' after it is instantiated at runtime.
+     */
+    @EJB
+    private UserGenreFacade userGenreFacade;
+
     private List<UserGenre> listOfUserGenres = null;
     private List<String> listOfUserGenreNames = null;
 
     private UserGenre selected;
 
-    /*
-    The @EJB annotation directs the EJB Container Manager to inject (store) the object reference of the
-    UserVideoFacade bean into the instance variable 'userVideoFacade' after it is instantiated at runtime.
-     */
-    @EJB
-    private UserGenreFacade userGenreFacade;
+
 
     /*
     =========================
@@ -78,10 +81,10 @@ public class UserGenresController implements Serializable {
     }
 
     /*
-            ***************************************************************
-            Return the List of User Videos that Belong to the Signed-In User
-            ***************************************************************
-             */
+    ***************************************************************
+    Return the List of UserGenre that Belong to the Signed-In User
+    ***************************************************************
+     */
     public List<UserGenre> getListOfUserGenres() {
 
         if (listOfUserGenres == null) {
@@ -95,7 +98,6 @@ public class UserGenresController implements Serializable {
             // Obtain the database primary key of the signedInUser object
             Integer primaryKey = signedInUser.getId();
 
-            // Obtain only those videos from the database that belong to the signed-in user
             listOfUserGenres = userGenreFacade.findUserGenresByUserPrimaryKey(primaryKey);
 
         }
@@ -122,40 +124,19 @@ public class UserGenresController implements Serializable {
         for (int i = 0; i < Constants.GENRES.size(); i++) {
             genres.add(new UserGenre(Constants.GENRES.get(i),signedInUser));
         }
-        System.out.printf("-------------%s",genres);
         return genres;
     }
 
 
-    /*
-     **************************************
-     *   Unselect Selected UserVideo Object   *
-     **************************************
-     */
     public void unselect() {
         selected = null;
     }
 
-    /*
-     *************************************
-     *   Cancel and Display List.xhtml   *
-     *************************************
-     */
-    public String cancel() {
-        // Unselect previously selected userVideo object if any
-        selected = null;
-        return "/userVideo/List?faces-redirect=true";
-    }
 
-    /*
-    *****************************
-    Prepare to Create a New UserVideo
-    *****************************
-    */
     public void prepareCreate() {
         /*
-        Instantiate a new UserVideo object and store its object reference into
-        instance variable 'selected'. The UserVideo class is defined in UserVideo.java
+        Instantiate a new UserGenre object and store its object reference into
+        instance variable 'selected'. The UserGenre class is defined in UserGenre.java
          */
         selected = new UserGenre();
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
@@ -181,24 +162,16 @@ public class UserGenresController implements Serializable {
 
     // The constants CREATE, DELETE and UPDATE are defined in JsfUtil.java
 
-    /*
-    **********************
-    Create a New User Video
-    **********************
-     */
+
     public void create() {
 
         if (!JsfUtil.isValidationFailed()) {
             selected = null;            // Remove selection
-            listOfUserGenres = null;     // Invalidate listOfUserVideos to trigger re-query.
+            listOfUserGenres = null;     // Invalidate listOfUserGenres to trigger re-query.
         }
     }
 
-    /*
-     *************************************
-     UPDATE Selected UserVideo in the Database
-     *************************************
-      */
+
     public void update(List<String> listOfUserGenres2) {
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         User signedInUser = (User) sessionMap.get("user");
@@ -220,29 +193,25 @@ public class UserGenresController implements Serializable {
 
         Methods.preserveMessages();
 
-        persist(PersistAction.UPDATE,"User Video was successfully updated.");
+        persist(PersistAction.UPDATE,"User Genre was successfully updated.");
 
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The UPDATE operation is successfully performed.
             selected = null;        // Remove selection
-            listOfUserGenres = null;    // Invalidate listOfUserVideos to trigger re-query.
+            listOfUserGenres = null;    // Invalidate listOfUserGenres to trigger re-query.
         }
     }
 
-    /*
-     ***************************************
-     DELETE Selected UserVideo from the Database
-     ***************************************
-      */
+
     public void destroy() {
         Methods.preserveMessages();
 
-        persist(PersistAction.DELETE,"User Video was successfully deleted.");
+        persist(PersistAction.DELETE,"User Genre was successfully deleted.");
 
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The DELETE operation is successfully performed.
             selected = null;        // Remove selection
-            listOfUserGenres = null;    // Invalidate listOfUserVideos to trigger re-query.
+            listOfUserGenres = null;    // Invalidate listOfUserGenres to trigger re-query.
         }
     }
 
@@ -268,7 +237,7 @@ public class UserGenresController implements Serializable {
                      object in the database regardless of whether the object is a newly
                      created object (CREATE) or an edited (updated) object (EDIT or UPDATE).
 
-                     userVideoFacade inherits the edit(selected) method from the AbstractFacade class.
+                     userGenreFacade inherits the edit(selected) method from the AbstractFacade class.
                      */
                     userGenreFacade.edit(selected);
                 } else {
@@ -278,7 +247,7 @@ public class UserGenresController implements Serializable {
                      -----------------------------------------
                      The remove method performs the DELETE operation in the database.
 
-                     userVideoFacade inherits the remove(selected) method from the AbstractFacade class.
+                     userGenreFacade inherits the remove(selected) method from the AbstractFacade class.
                      */
                     userGenreFacade.remove(selected);
                 }

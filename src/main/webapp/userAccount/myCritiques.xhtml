@@ -29,12 +29,12 @@
             <p:tabView>
                 <p:tab title="My Comments">
 
-                    <!-- In case of JSF validation error, set 'selected' to null in movieController -->
+                    <!-- In case of JSF validation error, set 'selected' to null in commentController -->
                     <c:if test="#{facesContext.validationFailed}">
                         ${userCommentsController.unselect()}
                     </c:if>
 
-                    <!-- Set 'selected' to null in movieController when the user refreshes / reloads this JSF page -->
+                    <!-- Set 'selected' to null in userCommentController when the user refreshes / reloads this JSF page -->
                     <f:metadata>
                         <f:viewAction action="#{userCommentsController.unselect()}"
                                       rendered="#{facesContext.postback}"/>
@@ -183,12 +183,12 @@
                     <!--                        </p:dataTable>-->
                 </p:tab>
                 <p:tab title="My Ratings">
-                     In case of JSF validation error, set 'selected' to null in movieController
+                     In case of JSF validation error, set 'selected' to null in userRatingController
                     <c:if test="#{facesContext.validationFailed}">
                         ${userRatingsController.unselect()}
                     </c:if>
 
-                    <!-- Set 'selected' to null in movieController when the user refreshes / reloads this JSF page -->
+                    <!-- Set 'selected' to null in userRatingController when the user refreshes / reloads this JSF page -->
                     <f:metadata>
                         <f:viewAction action="#{userRatingsController.unselect()}"
                                       rendered="#{facesContext.postback}"/>
@@ -198,7 +198,7 @@
                         <h:form id="RatingsListForm">
                             <p:panel header="List of My Ratings">
                                 <p:dataTable id="datalistRating"
-                                             value="#{userRatingsController.listofUserRatings}"
+                                             value="#{userRatingsController.listOfUserRatings}"
                                              var="aRatings"
                                              widgetVar="ratingDataTable"
                                              selectionMode="single"
@@ -331,7 +331,7 @@
                                                              disabled="#{empty userRatingsController.selected}">
 
                                                 <p:confirm header="Deletion Confirmation"
-                                                           message="Are you sure you want to permanently delete the selected movie #{userRatingsController.selected.entityName} from the database?"/>
+                                                           message="Are you sure you want to permanently delete the selected rating for #{userRatingsController.selected.entityName} from the database?"/>
                                             </p:commandButton>
 
                                             <!--

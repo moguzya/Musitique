@@ -12,7 +12,7 @@ import java.util.Date;
 
 /*
 The @Entity annotation designates this class as a JPA Entity POJO class
-representing the Video table in the UsersVideosDB database.
+representing the UserRating table in the database.
  */
 
 @Entity

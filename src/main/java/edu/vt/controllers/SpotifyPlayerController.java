@@ -27,7 +27,6 @@ public class SpotifyPlayerController implements Serializable {
     }
     public void updateURL(String newUrl){
         this.embedURL = newUrl;
-        System.out.println(embedURL);
     }
 
 

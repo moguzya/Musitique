@@ -10,7 +10,6 @@ import java.util.List;
 import static edu.vt.globals.Constants.API_CONTROLLER;
 import static edu.vt.globals.Constants.EMBED_URI;
 
-//TODO
 public class Track {
 
     private String id;
@@ -21,7 +20,7 @@ public class Track {
     private Boolean explicit;
     private String imageUrl;
 
-    public Track(String json) {
+    public Track(String json, Boolean subcall) {
         JSONObject body = new JSONObject(json);
         this.id = body.optString("id", "");
         this.name = body.optString("name", "");
@@ -30,14 +29,16 @@ public class Track {
         this.album = new Album(album);
 
         JSONArray artistsArray = body.getJSONArray("artists");
-        this.artists = new ArrayList();
 
-        String artistsAsString = "";
-        for (int i = 0; i < artistsArray.length()-1; i++) {
-            artistsAsString+=artistsArray.getJSONObject(i).optString("id") + ",";
+        StringBuilder artistsAsString = new StringBuilder();
+        for (int i = 0; i < artistsArray.length() - 1; i++) {
+            artistsAsString.append(artistsArray.getJSONObject(i).optString("id")).append(",");
         }
-        artistsAsString+=artistsArray.getJSONObject(artistsArray.length()-1).optString("id") ;
-        this.artists = API_CONTROLLER.requestSeveralArtists(artistsAsString);
+        artistsAsString.append(artistsArray.getJSONObject(artistsArray.length() - 1).optString("id"));
+
+        this.artists = new ArrayList();
+        if (!subcall)
+            this.artists = API_CONTROLLER.requestSeveralArtists(artistsAsString.toString());
 
         this.durationMs = body.optInt("duration_ms", 0);
         this.explicit = body.optBoolean("explicit", false);
@@ -45,13 +46,6 @@ public class Track {
             this.imageUrl = album.getJSONArray("images").getJSONObject(0).optString("url", "");
         else
             this.imageUrl = "https://i.scdn.co/image/ab6761610000e5eb2dc40ac263ef07c16a95af4e";
-    }
-
-    public Track(String name,Integer durationMs,Boolean explicit,String imageUrl) {
-        this.name = name;
-        this.durationMs = durationMs;
-        this.explicit = explicit;
-        this.imageUrl = imageUrl;
     }
 
     public String getId() {
@@ -111,7 +105,7 @@ public class Track {
     }
 
     public String getArtistsListAsString() {
-        if(artists == null)
+        if (artists == null)
             return "Artist list cannot be found";
         String artistsAsString = "";
         Iterator<Artist> iterator = artists.iterator();
@@ -125,7 +119,7 @@ public class Track {
         return artistsAsString == "" ? "Artist list cannot be found" : artistsAsString;
     }
 
-    public String getEmbedUri(){
+    public String getEmbedUri() {
         return EMBED_URI + "track/" + id;
     }
 }

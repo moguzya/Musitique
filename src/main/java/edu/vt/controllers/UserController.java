@@ -117,7 +117,6 @@ public class UserController implements Serializable {
             // Obtain the database primary key of the signedInUser object
             Integer primaryKey = signedInUser.getId();
 
-            // Obtain only those videos from the database that belong to the signed-in user
             listofUserComments = commentFacade.findUserCommentByUserPrimaryKey(primaryKey);
         }
         return listofUserComments;
@@ -140,7 +139,6 @@ public class UserController implements Serializable {
             // Obtain the database primary key of the signedInUser object
             Integer primaryKey = signedInUser.getId();
 
-            // Obtain only those videos from the database that belong to the signed-in user
             listofUserRatings = ratingFacade.findUserRatingByUserPrimaryKey(primaryKey);
         }
         return listofUserRatings;
