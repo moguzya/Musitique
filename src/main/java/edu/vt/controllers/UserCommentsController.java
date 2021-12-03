@@ -45,7 +45,7 @@ public class UserCommentsController implements Serializable {
     List<Track> listofTracks;
     List<Artist> listofArtists;
 
-    SpotifyAPIController spotifyAPIController = new SpotifyAPIController();
+//    SpotifyAPIController spotifyAPIController = new SpotifyAPIController();
 
 
     /*
@@ -84,20 +84,21 @@ public class UserCommentsController implements Serializable {
     Return the List of User Comments that Belong to the Signed-In User
     ***************************************************************
      */
-    public List<UserComment> getListofUserComments() {
+    public List<UserComment> getListofUserComments(SpotifyPlayerController spotifyAPIController) {
 
         if (listofUserComments == null) {
             /*
             'user', the object reference of the signed-in user, was put into the SessionMap
             in the initializeSessionMap() method in LoginManager upon user's sign in.
              */
-            Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-            User signedInUser = (User) sessionMap.get("user");
+//            Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+//            User signedInUser = (User) sessionMap.get("user");
+//
+//            // Obtain the database primary key of the signedInUser object
+//            Integer primaryKey = signedInUser.getId();
+                Integer primaryKey = 1;
 
-            // Obtain the database primary key of the signedInUser object
-            Integer primaryKey = signedInUser.getId();
-
-
+            // Obtain only those videos from the database that belong to the signed-in user
             listofUserComments = commentFacade.findUserCommentByUserPrimaryKey(primaryKey);
 
             List<String> AlbumsIds = new ArrayList<>();
@@ -118,6 +119,7 @@ public class UserCommentsController implements Serializable {
             }
 
             listofAlbums = spotifyAPIController.requestSeveralAlbums(String.join(",", AlbumsIds),false);
+            System.out.println(listofAlbums);
             listofTracks = spotifyAPIController.requestSeveralTracks(String.join(",", TracksIds),false);
             listofArtists = spotifyAPIController.requestSeveralArtists(String.join(",", ArtistsIds));
 
@@ -194,9 +196,11 @@ public class UserCommentsController implements Serializable {
 
 
     public String getImageUrl(UserComment userComment) {
+        System.out.println(userComment.getEntityType());
         switch (userComment.getEntityType()) {
             case "ALBUM":
                 Album album = findAlbum(userComment.getEntityId());
+                System.out.println(album);
                 if (album != null) {
                     return album.getImageUrl();
                 }
@@ -208,8 +212,12 @@ public class UserCommentsController implements Serializable {
             case "ARTIST":
                 Artist artist = findArtist(userComment.getEntityId());
                 if (artist != null) {
+                    System.out.println(artist);
+                    System.out.println(artist.getImageUrl());
+
                     return artist.getImageUrl();
                 }
+
         }
         return "";
     }
@@ -227,15 +235,20 @@ public class UserCommentsController implements Serializable {
                 if (track != null) {
                     return track.getArtistsListAsString();
                 }
+            case "ARTIST":
+                Artist artist = findArtist(userComment.getEntityId());
+                if (artist != null) {
+                    return artist.getName();
+                }
         }
         return "";
     }
 
     /*
-    *************************************
-    UPDATE Selected Comment in the Database
-    *************************************
-     */
+        *************************************
+        UPDATE Selected Movie in the Database
+        *************************************
+         */
     public void update() {
         Methods.preserveMessages();
 
@@ -244,13 +257,13 @@ public class UserCommentsController implements Serializable {
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The UPDATE operation is successfully performed.
             selected = null;        // Remove selection
-            listofUserComments = null;    // Invalidate listOfComments to trigger re-query.
+            listofUserComments = null;    // Invalidate listOfMovies to trigger re-query.
         }
     }
 
     /*
     ***************************************
-    DELETE Selected Comment from the Database
+    DELETE Selected Movie from the Database
     ***************************************
      */
     public void destroy() {
@@ -261,7 +274,7 @@ public class UserCommentsController implements Serializable {
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The DELETE operation is successfully performed.
             selected = null;        // Remove selection
-            listofUserComments = null;    // Invalidate listOfComments to trigger re-query.
+            listofUserComments = null;    // Invalidate listOfMovies to trigger re-query.
         }
     }
 
@@ -286,7 +299,7 @@ public class UserCommentsController implements Serializable {
                      object in the database regardless of whether the object is a newly
                      created object (CREATE) or an edited (updated) object (EDIT or UPDATE).
 
-                     CommentFacade inherits the edit(selected) method from the AbstractFacade class.
+                     MovieFacade inherits the edit(selected) method from the AbstractFacade class.
                      */
                     commentFacade.edit(selected);
                 } else {
@@ -297,7 +310,7 @@ public class UserCommentsController implements Serializable {
                      The remove(selected) method performs the DELETE operation of the "selected"
                      object in the database.
 
-                     CommentFacade inherits the remove(selected) method from the AbstractFacade class.
+                     MovieFacade inherits the remove(selected) method from the AbstractFacade class.
                      */
                     commentFacade.remove(selected);
                 }

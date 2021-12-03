@@ -78,32 +78,9 @@ body .ui-panel .ui-panel-content {
     border: None !important;
     background: None !important;
     color: white !important;
-    border-color: fuchsia;
+
 }
 
-a:-webkit-any-link {
-    color: darkorange;
-    cursor: pointer;
-    text-decoration: wavy;
-}
-
-body .ui-paginator .ui-paginator-pages .ui-paginator-page
-{
-    color: white;
-}
-body .ui-datagrid .ui-datagrid-content {
-    border: none;
-    background: none !important;
-}
-body .ui-datagrid .ui-datagrid-header{
-    border: none;
-    background: none;
-    color: aliceblue;
-}
-.customClass .ui-datagrid-column {
-    width: 33%;
-    height: 20%;;
-}
 body .ui-panel .ui-panel-footer{
     border: None !important;
     background: None !important;
@@ -112,6 +89,18 @@ body .ui-panel .ui-panel-footer{
 
 body .ui-splitter .ui-splitter-gutter{
     background: #034586;
+}
+
+.side-menu-main {
+    /*min-height: 100%;*/
+    /*display: grid;*/
+    /*grid-template-rows: auto 1fr auto;*/
+}
+.side-menu-div {
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*justify-content: space-between;*/
+    /*height: 80%;*/
 }
 
 .speeddial-circle-demo .ui-speeddial-quarter-circle.ui-speeddial-direction-up-right {
@@ -175,6 +164,7 @@ body .ui-paginator .ui-paginator-current, body .ui-paginator .ui-paginator-prev,
     color: white;
     border:none;
 }
+
 .ui-tabs .ui-tabs-panels{
     background: none !important;
 }
@@ -191,6 +181,10 @@ body .ui-datatable .ui-datatable-data > tr{
     border: none !important;
 }
 
+body .ui-datatable thead th{
+    color: white;
+    border: solid 1px #121640 !important;
+}
 body .ui-datatable .ui-datatable-data > tr > td{
     border: solid 1px #121640 !important;
 }

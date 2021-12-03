@@ -31,10 +31,6 @@ import java.util.logging.Logger;
 @Named("userRatingsController")
 @SessionScoped
 public class UserRatingsController implements Serializable {
-    List<Album> listofAlbums;
-    List<Track> listofTracks;
-    List<Artist> listofArtists;
-    SpotifyAPIController spotifyAPIController = new SpotifyAPIController();
     /*
     ===============================
     Instance Variables (Properties)
@@ -43,6 +39,14 @@ public class UserRatingsController implements Serializable {
     private UserRating selected;
     private List<UserRating> listofUserRatings = null;
     private EntityController entityController;
+
+    List<Album> listofAlbums;
+    List<Track> listofTracks;
+    List<Artist> listofArtists;
+
+    SpotifyAPIController spotifyAPIController = new SpotifyAPIController();
+
+
     /*
     The @EJB annotation directs the EJB Container Manager to inject (store) the object reference of the
     UserFacade bean into the instance variable 'userFacade' after it is instantiated at runtime.
@@ -57,10 +61,6 @@ public class UserRatingsController implements Serializable {
     @EJB
     private RatingFacade ratingFacade;
 
-    public UserRating getSelected() {
-        return selected;
-    }
-
     /*
     =========================
     Getter and Setter Methods
@@ -68,6 +68,10 @@ public class UserRatingsController implements Serializable {
      */
     public void setSelected(UserRating selected) {
         this.selected = selected;
+    }
+
+    public UserRating getSelected() {
+        return selected;
     }
 
     public void unselect() {
@@ -79,19 +83,21 @@ public class UserRatingsController implements Serializable {
     Return the List of User Comments that Belong to the Signed-In User
     ***************************************************************
      */
-    public List<UserRating> getListOfUserRatings() {
+    public List<UserRating> getListofUserRatings() {
 
         if (listofUserRatings == null) {
             /*
             'user', the object reference of the signed-in user, was put into the SessionMap
             in the initializeSessionMap() method in LoginManager upon user's sign in.
              */
-            Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-            User signedInUser = (User) sessionMap.get("user");
+//            Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+//            User signedInUser = (User) sessionMap.get("user");
+//
+//            // Obtain the database primary key of the signedInUser object
+//            Integer primaryKey = signedInUser.getId();
 
-            // Obtain the database primary key of the signedInUser object
-            Integer primaryKey = signedInUser.getId();
-
+            Integer primaryKey = 1;
+            // Obtain only those videos from the database that belong to the signed-in user
             listofUserRatings = ratingFacade.findUserRatingByUserPrimaryKey(primaryKey);
 
             List<String> AlbumsIds = new ArrayList<>();
@@ -111,8 +117,9 @@ public class UserRatingsController implements Serializable {
                 }
             }
 
-            listofAlbums = spotifyAPIController.requestSeveralAlbums(String.join(",", AlbumsIds), false);
-            listofTracks = spotifyAPIController.requestSeveralTracks(String.join(",", TracksIds), false);
+            listofAlbums = spotifyAPIController.requestSeveralAlbums(String.join(",", AlbumsIds),false);
+            System.out.println(listofAlbums);
+            listofTracks = spotifyAPIController.requestSeveralTracks(String.join(",", TracksIds),false);
             listofArtists = spotifyAPIController.requestSeveralArtists(String.join(",", ArtistsIds));
 
         }
@@ -125,9 +132,9 @@ public class UserRatingsController implements Serializable {
     }
 
     public Album findAlbum(String entityId) {
-        if (listofAlbums != null) {
+        if (listofAlbums !=null) {
             for (Album album : listofAlbums) {
-                if (album != null) {
+                if (album != null){
                     if (Objects.equals(entityId, album.getId())) {
                         return album;
                     }
@@ -139,9 +146,9 @@ public class UserRatingsController implements Serializable {
     }
 
     public Track findTrack(String entityId) {
-        if (listofTracks != null) {
+        if (listofTracks !=null) {
             for (Track track : listofTracks) {
-                if (track != null) {
+                if (track != null){
                     if (Objects.equals(entityId, track.getId())) {
                         return track;
                     }
@@ -152,10 +159,10 @@ public class UserRatingsController implements Serializable {
     }
 
     public Artist findArtist(String entityId) {
-        if (listofArtists != null) {
+        if (listofArtists !=null) {
 
             for (Artist artist : listofArtists) {
-                if (artist != null) {
+                if (artist != null){
                     if (Objects.equals(entityId, artist.getId())) {
                         return artist;
                     }
@@ -166,8 +173,6 @@ public class UserRatingsController implements Serializable {
     }
 
     public String getEntityName(UserRating UserRating) {
-        if (UserRating == null)
-            return "";
         switch (UserRating.getEntityType()) {
             case "ALBUM":
                 Album album = findAlbum(UserRating.getEntityId());
@@ -223,6 +228,11 @@ public class UserRatingsController implements Serializable {
                 if (track != null) {
                     return track.getArtistsListAsString();
                 }
+            case "ARTIST":
+                Artist artist = findArtist(UserRating.getEntityId());
+                if (artist != null) {
+                    return artist.getName();
+                }
         }
         return "";
     }
@@ -230,38 +240,38 @@ public class UserRatingsController implements Serializable {
 
     /*
     *************************************
-    UPDATE Selected Rating in the Database
+    UPDATE Selected Movie in the Database
     *************************************
      */
     public void update() {
         Methods.preserveMessages();
 
-        persist(JsfUtil.PersistAction.UPDATE, "Rating was Successfully Updated!");
+        persist(JsfUtil.PersistAction.UPDATE,"Rating was Successfully Updated!");
 
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The UPDATE operation is successfully performed.
             selected = null;        // Remove selection
-            listofUserRatings = null;    // Invalidate listOfRatings to trigger re-query.
+            listofUserRatings = null;    // Invalidate listOfMovies to trigger re-query.
         }
     }
 
     /*
-    ***************************************
-    DELETE Selected Rating from the Database
-    ***************************************
-    */
+      ***************************************
+      DELETE Selected Movie from the Database
+      ***************************************
+       */
     public void destroy() {
         JsfUtil.addSuccessMessage("here");
         JsfUtil.addSuccessMessage(selected.getEntityId());
 
         Methods.preserveMessages();
 
-        persist(JsfUtil.PersistAction.DELETE, "Rating was Successfully Deleted!");
+        persist(JsfUtil.PersistAction.DELETE,"Rating was Successfully Deleted!");
 
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The DELETE operation is successfully performed.
             selected = null;        // Remove selection
-            listofUserRatings = null;    // Invalidate listOfRatings to trigger re-query.
+            listofUserRatings = null;    // Invalidate listOfMovies to trigger re-query.
         }
     }
 
@@ -270,9 +280,8 @@ public class UserRatingsController implements Serializable {
      *   Perform CREATE, UPDATE (EDIT), and DELETE (DESTROY, REMOVE) Operations in the Database   *
      **********************************************************************************************
      */
-
     /**
-     * @param persistAction  refers to CREATE, UPDATE (Edit) or DELETE action
+     * @param persistAction refers to CREATE, UPDATE (Edit) or DELETE action
      * @param successMessage displayed to inform the user about the result
      */
     private void persist(JsfUtil.PersistAction persistAction, String successMessage) {
@@ -287,7 +296,7 @@ public class UserRatingsController implements Serializable {
                      object in the database regardless of whether the object is a newly
                      created object (CREATE) or an edited (updated) object (EDIT or UPDATE).
 
-                     RatingFacade inherits the edit(selected) method from the AbstractFacade class.
+                     MovieFacade inherits the edit(selected) method from the AbstractFacade class.
                      */
                     ratingFacade.edit(selected);
                 } else {
@@ -298,7 +307,7 @@ public class UserRatingsController implements Serializable {
                      The remove(selected) method performs the DELETE operation of the "selected"
                      object in the database.
 
-                     RatingFacade inherits the remove(selected) method from the AbstractFacade class.
+                     MovieFacade inherits the remove(selected) method from the AbstractFacade class.
                      */
                     ratingFacade.remove(selected);
                 }
@@ -312,11 +321,11 @@ public class UserRatingsController implements Serializable {
                 if (msg.length() > 0) {
                     JsfUtil.addErrorMessage(msg);
                 } else {
-                    JsfUtil.addErrorMessage(ex, "A persistence error occurred.");
+                    JsfUtil.addErrorMessage(ex,"A persistence error occurred.");
                 }
             } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, "A persistence error occurred.");
+                JsfUtil.addErrorMessage(ex,"A persistence error occurred.");
             }
         }
     }
