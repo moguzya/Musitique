@@ -139,14 +139,15 @@ public class SpotifyAPIController implements Serializable {
 
         try {
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
-
             if (response.statusCode() == 200) {
                 List<Album> albums = new ArrayList();
                 JSONArray albumArray = new JSONObject(response.body()).getJSONArray("albums");
 
                 for (int i = 0; i < albumArray.length(); i++) {
-                    Album a = new Album(albumArray.getJSONObject(0).toString());
-                    albums.add(a);
+                    if (albumArray.get(i).toString() != "null") {
+                        Album a = new Album(albumArray.getJSONObject(i).toString());
+                        albums.add(a);
+                    }
                 }
                 return albums;
             } else if (response.statusCode() == 401) {
@@ -207,8 +208,10 @@ public class SpotifyAPIController implements Serializable {
                 JSONArray artistArray = new JSONObject(response.body()).getJSONArray("artists");
 
                 for (int i = 0; i < artistArray.length(); i++) {
-                    Artist a = new Artist(artistArray.getJSONObject(0).toString());
-                    artists.add(a);
+                    if (artistArray.get(i).toString() != "null") {
+                        Artist a = new Artist(artistArray.getJSONObject(0).toString());
+                        artists.add(a);
+                    }
                 }
                 return artists;
             } else if (response.statusCode() == 401) {
@@ -268,8 +271,10 @@ public class SpotifyAPIController implements Serializable {
                 JSONArray trackArray = new JSONObject(response.body()).getJSONArray("tracks");
 
                 for (int i = 0; i < trackArray.length(); i++) {
-                    Track a = new Track(trackArray.getJSONObject(0).toString());
-                    tracks.add(a);
+                    if (trackArray.get(i).toString() != "null") {
+                        Track a = new Track(trackArray.getJSONObject(0).toString());
+                        tracks.add(a);
+                    }
                 }
                 return tracks;
             } else if (response.statusCode() == 401) {
@@ -284,6 +289,7 @@ public class SpotifyAPIController implements Serializable {
 
         return null;
     }
+
 
     public List<Album> requestNewReleases() {
         HttpRequest request = HttpRequest.newBuilder()
