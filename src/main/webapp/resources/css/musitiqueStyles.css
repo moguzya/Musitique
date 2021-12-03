@@ -78,6 +78,18 @@ body .ui-panel .ui-panel-content {
     color: white !important;
 
 }
+body .ui-paginator .ui-paginator-pages .ui-paginator-page
+{
+    color: white;
+}
+body .ui-datagrid .ui-datagrid-content {
+    border: none;
+    background: none;
+}
+body .ui-datagrid .ui-datagrid-header{
+    background: none;
+    color: aliceblue;
+}
 
 body .ui-panel .ui-panel-footer{
     border: None !important;

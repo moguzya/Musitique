@@ -1,10 +1,13 @@
 package edu.vt.NewReleases;
 
+import edu.vt.FacadeBeans.RatingFacade;
+import edu.vt.FacadeBeans.UserGenreFacade;
 import edu.vt.Pojos.Album;
 import edu.vt.Pojos.Artist;
 import edu.vt.Pojos.Track;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -20,17 +23,8 @@ public class ExploreController implements Serializable {
     private List<Artist> artists;
     private List<Track> tracks;
 
-    @PostConstruct
-    public void init() {
-        API_CONTROLLER.requestRecommendations();
-        albums = getAlbums();
-        artists = getArtists();
-        tracks = getTracks();
-    }
-
     public String explore() {
-//        init();
-        return "/NewReleases/Explore.xhtml";
+        return "/newReleases/Explore.xhtml";
     }
 
     public List<Album> getAlbums() {
@@ -44,7 +38,6 @@ public class ExploreController implements Serializable {
     }
 
     public List<Artist> getArtists() {
-        API_CONTROLLER.requestRecommendations();
         artists = API_CONTROLLER.getRecommendedArtists();
         return artists;
     }
@@ -54,7 +47,6 @@ public class ExploreController implements Serializable {
     }
 
     public List<Track> getTracks() {
-        API_CONTROLLER.requestRecommendations();
         tracks = API_CONTROLLER.getRecommendedTracks();
         return tracks;
     }

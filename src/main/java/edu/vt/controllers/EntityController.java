@@ -78,6 +78,7 @@ public class EntityController implements Serializable {
     @EJB
     private RatingFacade ratingFacade;
 
+    @EJB
     private UserFavoriteArtistFacade userFavoriteArtistFacade;
 
     private Track selectedTrack;

@@ -1,11 +1,16 @@
 package edu.vt.FacadeBeans;
 
+import edu.vt.EntityBeans.User;
 import edu.vt.EntityBeans.UserGenre;
+import edu.vt.NewReleases.ExploreController;
+import edu.vt.controllers.SpotifyAPIController;
 
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Map;
 
 // @Stateless annotation implies that the conversational state with the client shall not be maintained.
 @Stateless
@@ -47,6 +52,22 @@ public class UserGenreFacade extends AbstractFacade<UserGenre> {
          */
         return entityManager.createNamedQuery("UserGenre.findByUserId")
                 .setParameter("userId", primaryKey)
+                .getResultList();
+    }
+
+
+
+    public List<UserGenre> findUserGenres() {
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        User signedInUser = (User) sessionMap.get("user");
+        /*
+        The following @NamedQuery definition is given in UserVideo entity class file:
+        @NamedQuery(name = "UserVideo.findByUserId", query = "SELECT u FROM UserVideo u WHERE u.userId.id = :userId")
+
+        The following statement obtains the results from the named database query.
+         */
+        return entityManager.createNamedQuery("UserGenre.findByUserId")
+                .setParameter("userId", signedInUser.getId())
                 .getResultList();
     }
 }

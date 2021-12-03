@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Named("userGenresController")
+
 @SessionScoped
 
 public class UserGenresController implements Serializable {
@@ -41,7 +42,6 @@ public class UserGenresController implements Serializable {
      */
     @EJB
     private UserGenreFacade userGenreFacade;
-
 
     /*
     =========================
@@ -198,7 +198,6 @@ public class UserGenresController implements Serializable {
      *************************************
       */
     public void update(List<String> listOfUserGenres2) {
-        System.out.printf("-------------- %s %s\n",selected, listOfUserGenres2);
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         User signedInUser = (User) sessionMap.get("user");
 

@@ -43,13 +43,6 @@ public class CommentFacade extends AbstractFacade<UserComment> {
                 .getResultList();
     }
 
-//    public List<UserComment> findUserCommentsByEntityId(String entityId, Integer userId) {
-//        return getEntityManager().createQuery("SELECT c FROM UserComment c WHERE c.entityId = :entityId AND c.userId = :userId")
-//                .setParameter("entityId", entityId)
-//                .setParameter("userId", userId)
-//                .getResultList();
-//    }
-
     // Deletes the UserComment entity object whose primary key is id
     public void deleteComment(int id) {
 

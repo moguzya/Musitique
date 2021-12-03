@@ -22,25 +22,24 @@
             <f:viewAction action="#{releaseController.unselect()}" rendered="#{facesContext.postback}"/>
         </f:metadata>
 
-        <div align="center">
-            <h:form id="NewReleasesForm">
-                <div class="tableBackgroundDiv">
+        <div align="center" style="background: none;">
+            <h:form id="NewReleasesForm"     style="background: none;">
+                <div class="tableBackgroundDiv" style="background: none;">
 
-                    <p:dataView value="#{releaseController.listOfNewReleases}"
+                    <p:dataGrid  value="#{releaseController.listOfNewReleases}"
                                 var="aRelease"
-                                rows="12"
+                                rows="9"
                                 paginator="true"
-                                layout="grid"
                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                 pageLinks="5"
                                 gridIcon="pi pi-th-large" listIcon="pi pi-bars"
-                                style="width:100%">
+                                style="background: none;width:100%">
 
-                        <f:facet name="header">
+                        <f:facet name="header" style="background: none;">
                             <h:outputText value="New Releases"/>
                         </f:facet>
 
-                        <p:dataViewGridItem>
+                        <p:dataViewGridItem style="background: none;">
                             <p:panel style="text-align:left">
                                 <h:panelGrid columns="3" style="width:100%; margin-left:10px">
                                     <ui:include src="/musitiqueTemplates/albumCardTemplate.xhtml">
@@ -49,18 +48,7 @@
                                 </h:panelGrid>
                             </p:panel>
                         </p:dataViewGridItem>
-
-                        <p:dataViewListItem>
-                            <p:panel style="text-align:left; width:100%" >
-                                <h:panelGrid columns="3" style="width:100%">
-                                    <ui:include src="/musitiqueTemplates/albumCardTemplate.xhtml">
-                                        <ui:param name="album" value="#{aRelease}"/>
-                                    </ui:include>
-                                </h:panelGrid>
-                            </p:panel>
-                        </p:dataViewListItem>
-
-                    </p:dataView>
+                    </p:dataGrid>
                 </div>
             </h:form>
         </div>
