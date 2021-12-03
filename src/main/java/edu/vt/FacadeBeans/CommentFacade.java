@@ -72,6 +72,8 @@ public class CommentFacade extends AbstractFacade<UserComment> {
 
         The following statement obtains the results from the named database query.
          */
+        System.out.println(entityManager.createNamedQuery("UserComment.findByUserId")
+                .setParameter("userId", primaryKey));
         return entityManager.createNamedQuery("UserComment.findByUserId")
                 .setParameter("userId", primaryKey)
                 .getResultList();

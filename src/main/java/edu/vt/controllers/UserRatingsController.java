@@ -5,6 +5,7 @@
 package edu.vt.controllers;
 
 import edu.vt.EntityBeans.User;
+import edu.vt.EntityBeans.UserComment;
 import edu.vt.EntityBeans.UserRating;
 import edu.vt.FacadeBeans.RatingFacade;
 import edu.vt.FacadeBeans.UserFacade;
@@ -20,8 +21,10 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,10 +40,11 @@ public class UserRatingsController implements Serializable {
     private List<UserRating> listofUserRatings = null;
     private EntityController entityController;
 
-    private Album album;
-    private Track track;
-    private Artist artist;
+    List<Album> listofAlbums;
+    List<Track> listofTracks;
+    List<Artist> listofArtists;
 
+    SpotifyAPIController spotifyAPIController = new SpotifyAPIController();
 
 
     /*
@@ -94,13 +98,140 @@ public class UserRatingsController implements Serializable {
 
             // Obtain only those videos from the database that belong to the signed-in user
             listofUserRatings = ratingFacade.findUserRatingByUserPrimaryKey(primaryKey);
+
+            List<String> AlbumsIds = new ArrayList<>();
+            List<String> TracksIds = new ArrayList<>();
+            List<String> ArtistsIds = new ArrayList<>();
+
+            //move each entity type into seperate lists to that we can bulk get the data
+            for (UserRating listofUserRating : listofUserRatings) {
+                String currEntityType = listofUserRating.getEntityType();
+                switch (currEntityType) {
+                    case "ALBUM":
+                        AlbumsIds.add(listofUserRating.getEntityId());
+                    case "TRACK":
+                        TracksIds.add(listofUserRating.getEntityId());
+                    case "ARTIST":
+                        ArtistsIds.add(listofUserRating.getEntityId());
+                }
+            }
+
+            listofAlbums = spotifyAPIController.requestSeveralAlbums(String.join(",", AlbumsIds));
+            System.out.println(listofAlbums);
+            listofTracks = spotifyAPIController.requestSeveralTracks(String.join(",", TracksIds));
+            listofArtists = spotifyAPIController.requestSeveralArtists(String.join(",", ArtistsIds));
+
         }
+
         return listofUserRatings;
     }
 
-    public void setListofUserComments(List<UserRating> listofUserComments) {
-        this.listofUserRatings = listofUserComments;
+    public void setListofUserRatings(List<UserRating> listofUserRatings) {
+        this.listofUserRatings = listofUserRatings;
     }
+
+    public Album findAlbum(String entityId) {
+        if (listofAlbums !=null) {
+            for (Album album : listofAlbums) {
+                if (album != null){
+                    if (Objects.equals(entityId, album.getId())) {
+                        return album;
+                    }
+                }
+            }
+
+        }
+        return null;
+    }
+
+    public Track findTrack(String entityId) {
+        if (listofTracks !=null) {
+            for (Track track : listofTracks) {
+                if (track != null){
+                    if (Objects.equals(entityId, track.getId())) {
+                        return track;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public Artist findArtist(String entityId) {
+        if (listofArtists !=null) {
+
+            for (Artist artist : listofArtists) {
+                if (artist != null){
+                    if (Objects.equals(entityId, artist.getId())) {
+                        return artist;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public String getEntityName(UserRating UserRating) {
+        switch (UserRating.getEntityType()) {
+            case "ALBUM":
+                Album album = findAlbum(UserRating.getEntityId());
+                if (album != null) {
+                    return album.getName();
+                }
+            case "TRACK":
+                Track track = findTrack(UserRating.getEntityId());
+                if (track != null) {
+                    return track.getName();
+                }
+            case "ARTIST":
+                Artist artist = findArtist(UserRating.getEntityId());
+                if (artist != null) {
+                    return artist.getName();
+                }
+        }
+        return "";
+    }
+
+
+    public String getImageUrl(UserRating UserRating) {
+        switch (UserRating.getEntityType()) {
+            case "ALBUM":
+                Album album = findAlbum(UserRating.getEntityId());
+                if (album != null) {
+                    return album.getImageUrl();
+                }
+            case "TRACK":
+                Track track = findTrack(UserRating.getEntityId());
+                if (track != null) {
+                    return track.getImageUrl();
+                }
+            case "ARTIST":
+                Artist artist = findArtist(UserRating.getEntityId());
+                if (artist != null) {
+                    return artist.getImageUrl();
+                }
+        }
+        return "";
+    }
+
+
+    public String getArtists(UserRating UserRating) {
+        switch (UserRating.getEntityType()) {
+            case "ALBUM":
+                Album album = findAlbum(UserRating.getEntityId());
+                if (album != null) {
+                    return album.getArtistsListAsString();
+                }
+            case "TRACK":
+                Track track = findTrack(UserRating.getEntityId());
+                if (track != null) {
+                    return track.getArtistsListAsString();
+                }
+        }
+        return "";
+    }
+
+
     /*
     *************************************
     UPDATE Selected Movie in the Database

@@ -6,36 +6,25 @@ package edu.vt.controllers;
 
 import edu.vt.EntityBeans.User;
 import edu.vt.EntityBeans.UserComment;
-import edu.vt.EntityBeans.UserPhoto;
-import edu.vt.EntityBeans.UserRating;
-import edu.vt.EntityType;
 import edu.vt.FacadeBeans.CommentFacade;
-import edu.vt.FacadeBeans.RatingFacade;
 import edu.vt.FacadeBeans.UserFacade;
-import edu.vt.FacadeBeans.UserPhotoFacade;
 import edu.vt.Pojos.Album;
 import edu.vt.Pojos.Artist;
 import edu.vt.Pojos.Track;
 import edu.vt.controllers.util.JsfUtil;
-import edu.vt.globals.Constants;
 import edu.vt.globals.Methods;
-import edu.vt.globals.Password;
 import edu.vt.controllers.util.JsfUtil.PersistAction;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import java.io.IOException;
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,9 +40,10 @@ public class UserCommentsController implements Serializable {
     private List<UserComment> listofUserComments = null;
     private EntityController entityController;
 
-    private Album album;
-    private Track track;
-    private Artist artist;
+
+    List<Album> listofAlbums;
+    List<Track> listofTracks;
+    List<Artist> listofArtists;
 
     SpotifyAPIController spotifyAPIController = new SpotifyAPIController();
 
@@ -107,44 +97,32 @@ public class UserCommentsController implements Serializable {
             // Obtain the database primary key of the signedInUser object
             Integer primaryKey = signedInUser.getId();
 
+
             // Obtain only those videos from the database that belong to the signed-in user
             listofUserComments = commentFacade.findUserCommentByUserPrimaryKey(primaryKey);
 
-//            String AlbumsIds = "";
-//            String TracksIds = "";
-//            String ArtistsIds = "";
-//
-//            //move each entity type into seperate lists to that we can bulk get the data
-//            for (int i = 0; i < listofUserComments.size(); i++) {
-//                String currEntityType = listofUserComments.get(i).getEntityType();
-//                switch (currEntityType) {
-//                    case "ALBUM":
-//                        AlbumsIds += listofUserComments.get(i).getEntityId() + ",";
-//                    case "TRACK":
-//                        TracksIds += listofUserComments.get(i).getEntityId() + ",";
-//                    case "ARTIST":
-//                        ArtistsIds += listofUserComments.get(i).getEntityId() + ",";
-//                }
-//            }
-//
-//
-//            List<Album> listofAlbums = spotifyAPIController.requestSeveralAlbums(AlbumsIds);
-//            List<Track> listofTracks = spotifyAPIController.requestSeveralTracks(TracksIds);
-//            List<Artist> listofArtists = spotifyAPIController.requestSeveralArtists(ArtistsIds);
-//
-//            //Since order is maintianed I can just pull from each list in the same order
-//            String artistsAsString = "";
-//            for (int i = 0; i < listofUserComments.size(); i++) {
-//                String currEntityType = listofUserComments.get(i).getEntityType();
-//                switch (currEntityType) {
-//                    case "ALBUM":
-//                        listofUserComments.get(i).setAlbum(listofAlbums.remove(0));
-//                    case "TRACK":
-//                        listofUserComments.get(i).setTrack(listofTracks.remove(0));
-//                    case "ARTIST":
-//                        listofUserComments.get(i).setArtist(listofArtists.remove(0));
-//                }
-//            }
+            List<String> AlbumsIds = new ArrayList<>();
+            List<String> TracksIds = new ArrayList<>();
+            List<String> ArtistsIds = new ArrayList<>();
+
+            //move each entity type into seperate lists to that we can bulk get the data
+            for (UserComment listofUserComment : listofUserComments) {
+                String currEntityType = listofUserComment.getEntityType();
+                switch (currEntityType) {
+                    case "ALBUM":
+                        AlbumsIds.add(listofUserComment.getEntityId());
+                    case "TRACK":
+                        TracksIds.add(listofUserComment.getEntityId());
+                    case "ARTIST":
+                        ArtistsIds.add(listofUserComment.getEntityId());
+                }
+            }
+
+            listofAlbums = spotifyAPIController.requestSeveralAlbums(String.join(",", AlbumsIds));
+            System.out.println(listofAlbums);
+            listofTracks = spotifyAPIController.requestSeveralTracks(String.join(",", TracksIds));
+            listofArtists = spotifyAPIController.requestSeveralArtists(String.join(",", ArtistsIds));
+
         }
 
         return listofUserComments;
@@ -152,6 +130,107 @@ public class UserCommentsController implements Serializable {
 
     public void setListofUserComments(List<UserComment> listofUserComments) {
         this.listofUserComments = listofUserComments;
+    }
+
+    public Album findAlbum(String entityId) {
+        if (listofAlbums !=null) {
+            for (Album album : listofAlbums) {
+                if (album != null){
+                    if (Objects.equals(entityId, album.getId())) {
+                        return album;
+                    }
+                }
+            }
+
+        }
+        return null;
+    }
+
+    public Track findTrack(String entityId) {
+        if (listofTracks !=null) {
+            for (Track track : listofTracks) {
+                if (track != null){
+                    if (Objects.equals(entityId, track.getId())) {
+                        return track;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public Artist findArtist(String entityId) {
+        if (listofArtists !=null) {
+
+            for (Artist artist : listofArtists) {
+                if (artist != null){
+                    if (Objects.equals(entityId, artist.getId())) {
+                        return artist;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public String getEntityName(UserComment userComment) {
+        switch (userComment.getEntityType()) {
+            case "ALBUM":
+                Album album = findAlbum(userComment.getEntityId());
+                if (album != null) {
+                    return album.getName();
+                }
+            case "TRACK":
+                Track track = findTrack(userComment.getEntityId());
+                if (track != null) {
+                    return track.getName();
+                }
+            case "ARTIST":
+                Artist artist = findArtist(userComment.getEntityId());
+                if (artist != null) {
+                    return artist.getName();
+                }
+        }
+        return "qwe";
+    }
+
+
+    public String getImageUrl(UserComment userComment) {
+        switch (userComment.getEntityType()) {
+            case "ALBUM":
+                Album album = findAlbum(userComment.getEntityId());
+                if (album != null) {
+                    return album.getImageUrl();
+                }
+            case "TRACK":
+                Track track = findTrack(userComment.getEntityId());
+                if (track != null) {
+                    return track.getImageUrl();
+                }
+            case "ARTIST":
+                Artist artist = findArtist(userComment.getEntityId());
+                if (artist != null) {
+                    return artist.getImageUrl();
+                }
+        }
+        return "";
+    }
+
+
+    public String getArtists(UserComment userComment) {
+        switch (userComment.getEntityType()) {
+            case "ALBUM":
+                Album album = findAlbum(userComment.getEntityId());
+                if (album != null) {
+                    return album.getArtistsListAsString();
+                }
+            case "TRACK":
+                Track track = findTrack(userComment.getEntityId());
+                if (track != null) {
+                    return track.getArtistsListAsString();
+                }
+        }
+        return "";
     }
 
     /*
