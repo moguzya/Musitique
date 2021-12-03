@@ -34,7 +34,8 @@ public class ExploreController implements Serializable {
     }
 
     public List<Album> getAlbums() {
-        albums = API_CONTROLLER.requestAlbumRecommendations();
+        API_CONTROLLER.requestRecommendations();
+        albums = API_CONTROLLER.getRecommendedAlbums();
         return albums;
     }
 
@@ -43,7 +44,8 @@ public class ExploreController implements Serializable {
     }
 
     public List<Artist> getArtists() {
-        artists = API_CONTROLLER.requestArtistRecommendations();
+        API_CONTROLLER.requestRecommendations();
+        artists = API_CONTROLLER.getRecommendedArtists();
         return artists;
     }
 
@@ -52,7 +54,8 @@ public class ExploreController implements Serializable {
     }
 
     public List<Track> getTracks() {
-        tracks = API_CONTROLLER.requestTrackRecommendations();
+        API_CONTROLLER.requestRecommendations();
+        tracks = API_CONTROLLER.getRecommendedTracks();
         return tracks;
     }
 

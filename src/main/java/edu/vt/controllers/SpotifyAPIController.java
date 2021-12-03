@@ -302,7 +302,7 @@ public class SpotifyAPIController implements Serializable {
                 JSONArray albumArray = new JSONObject(response.body()).getJSONObject("albums").getJSONArray("items");
 
                 for (int i = 0; i < albumArray.length(); i++) {
-                    Album a = new Album(albumArray.getJSONObject(0).toString());
+                    Album a = new Album(albumArray.getJSONObject(i).toString());
                     albums.add(a);
                 }
                 return albums;

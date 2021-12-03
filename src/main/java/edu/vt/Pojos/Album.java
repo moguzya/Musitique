@@ -37,9 +37,7 @@ public class Album {
         this.releaseDate = body.optString("release_date", "");
 
         JSONArray artistsArray = body.getJSONArray("artists");
-        JSONArray tracksArray = body.getJSONObject("tracks").getJSONArray("items");
         this.artists = new ArrayList();
-        this.tracks = new ArrayList();
 
         String artistsAsString = "";
         for (int i = 0; i < artistsArray.length()-1; i++) {
@@ -48,13 +46,18 @@ public class Album {
         artistsAsString += artistsArray.getJSONObject(artistsArray.length()-1).optString("id");
         this.artists = API_CONTROLLER.requestSeveralArtists(artistsAsString);
 
-        String tracksAsString = "";
-        for (int i = 0; i < tracksArray.length()-1; i++) {
-            tracksAsString += tracksArray.getJSONObject(i).optString("id") + ",";
-        }
-        tracksAsString += tracksArray.getJSONObject(tracksArray.length()-1).optString("id");
+        if (body.has("tracks")) {
+            JSONArray tracksArray = body.getJSONObject("tracks").getJSONArray("items");
+            this.tracks = new ArrayList();
 
-        this.tracks = API_CONTROLLER.requestSeveralTracks(tracksAsString);
+            String tracksAsString = "";
+            for (int i = 0; i < tracksArray.length()-1; i++) {
+                tracksAsString += tracksArray.getJSONObject(i).optString("id") + ",";
+            }
+            tracksAsString += tracksArray.getJSONObject(tracksArray.length()-1).optString("id");
+
+            this.tracks = API_CONTROLLER.requestSeveralTracks(tracksAsString);
+        }
     }
 
     public Album(JSONObject object) {
@@ -164,5 +167,12 @@ public class Album {
 
     public void setTracks(List<Track> tracks) {
         this.tracks = tracks;
+    }
+
+
+    public String getTracksCountAsString() {
+        if (totalTracks > 2)
+            return totalTracks + " Tracks in Album";
+        return "Only " + totalTracks + " Track in Album";
     }
 }
