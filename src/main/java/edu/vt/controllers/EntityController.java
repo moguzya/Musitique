@@ -33,7 +33,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static edu.vt.globals.Constants.API_CONTROLLER;
 
 /*
 ---------------------------------------------------------------------------

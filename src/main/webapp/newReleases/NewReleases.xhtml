@@ -28,13 +28,10 @@
 
                     <p:dataGrid  value="#{releaseController.listOfNewReleases}"
                                 var="aRelease"
-                                rows="9"
-                                paginator="true"
-                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                pageLinks="5"
+                                rows="25"
                                 gridIcon="pi pi-th-large" listIcon="pi pi-bars"
-                                style="background: none;width:100%">
-
+                                style="background: none;width:100%"
+                                styleClass="customClass">
                         <f:facet name="header" style="background: none;">
                             <h:outputText value="New Releases"/>
                         </f:facet>

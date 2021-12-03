@@ -17,15 +17,12 @@
         <div align="center">
             <h:form id="NewReleasesForm">
                 <div class="tableBackgroundDiv">
-                    <p:dataView value="#{searchController.getAlbums()}"
+                    <p:dataGrid value="#{searchController.getAlbums()}"
                                 var="anAlbum"
-                                rows="3"
-                                paginator="true"
-                                layout="grid"
-                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                pageLinks="5"
+                                rows="25"
                                 gridIcon="pi pi-th-large" listIcon="pi pi-bars"
-                                style="width:100%">
+                                style="background: none;width:100%"
+                                styleClass="customClass">
 
                         <f:facet name="header">
                             <h:outputText value="Albums"/>
@@ -40,28 +37,15 @@
                                 </h:panelGrid>
                             </p:panel>
                         </p:dataViewGridItem>
-
-                        <p:dataViewListItem>
-                            <p:panel style="text-align:left; width:100%" >
-                                <h:panelGrid columns="3" style="width:100%">
-                                    <ui:include src="/musitiqueTemplates/albumCardTemplate.xhtml">
-                                        <ui:param name="album" value="#{anAlbum}"/>
-                                    </ui:include>
-                                </h:panelGrid>
-                            </p:panel>
-                        </p:dataViewListItem>
-                    </p:dataView>
+                    </p:dataGrid>
 
 
-                    <p:dataView value="#{searchController.getArtists()}"
+                    <p:dataGrid value="#{searchController.getArtists()}"
                                 var="anArtist"
-                                rows="3"
-                                paginator="true"
-                                layout="grid"
-                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                pageLinks="5"
+                                rows="25"
                                 gridIcon="pi pi-th-large" listIcon="pi pi-bars"
-                                style="width:100%">
+                                style="background: none;width:100%"
+                                styleClass="customClass">
 
                         <f:facet name="header">
                             <h:outputText value="Artists"/>
@@ -76,28 +60,15 @@
                                 </h:panelGrid>
                             </p:panel>
                         </p:dataViewGridItem>
-
-                        <p:dataViewListItem>
-                            <p:panel style="text-align:left; width:100%" >
-                                <h:panelGrid columns="3" style="width:100%">
-                                    <ui:include src="/musitiqueTemplates/artistCardTemplate.xhtml">
-                                        <ui:param name="artist" value="#{anArtist}"/>
-                                    </ui:include>
-                                </h:panelGrid>
-                            </p:panel>
-                        </p:dataViewListItem>
-                    </p:dataView>
+                    </p:dataGrid>
 
 
-                    <p:dataView value="#{searchController.getTracks()}"
+                    <p:dataGrid value="#{searchController.getTracks()}"
                                 var="aTrack"
-                                rows="3"
-                                paginator="true"
-                                layout="grid"
-                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                pageLinks="5"
+                                rows="25"
                                 gridIcon="pi pi-th-large" listIcon="pi pi-bars"
-                                style="width:100%">
+                                style="background: none;width:100%"
+                                styleClass="customClass">
 
                         <f:facet name="header">
                             <h:outputText value="Tracks"/>
@@ -113,16 +84,7 @@
                             </p:panel>
                         </p:dataViewGridItem>
 
-                        <p:dataViewListItem>
-                            <p:panel style="text-align:left; width:100%" >
-                                <h:panelGrid columns="3" style="width:100%">
-                                    <ui:include src="/musitiqueTemplates/trackCardTemplate.xhtml">
-                                        <ui:param name="track" value="#{aTrack}"/>
-                                    </ui:include>
-                                </h:panelGrid>
-                            </p:panel>
-                        </p:dataViewListItem>
-                    </p:dataView>
+                    </p:dataGrid>
                 </div>
             </h:form>
         </div>

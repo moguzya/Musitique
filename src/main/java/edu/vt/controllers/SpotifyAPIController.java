@@ -72,6 +72,7 @@ public class SpotifyAPIController implements Serializable {
     private List<Album> searchedAlbums;
     private List<Artist> searchedArtists;
     private List<Track> searchedTracks;
+    private String searchedText;
 
     /*
     ================
@@ -208,7 +209,7 @@ public class SpotifyAPIController implements Serializable {
 
                 for (int i = 0; i < artistArray.length(); i++) {
                     if (artistArray.get(i).toString() != "null") {
-                        Artist a = new Artist(artistArray.getJSONObject(0).toString());
+                        Artist a = new Artist(artistArray.getJSONObject(i).toString());
                         artists.add(a);
                     }
                 }
@@ -271,7 +272,7 @@ public class SpotifyAPIController implements Serializable {
 
                 for (int i = 0; i < trackArray.length(); i++) {
                     if (trackArray.get(i).toString() != "null") {
-                        Track a = new Track(trackArray.getJSONObject(0).toString(), subcall);
+                        Track a = new Track(trackArray.getJSONObject(i).toString(), subcall);
                         tracks.add(a);
                     }
                 }
@@ -292,7 +293,7 @@ public class SpotifyAPIController implements Serializable {
 
     public List<Album> requestNewReleases() {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.spotify.com/v1/browse/new-releases?country=US&limit=50&offset=0"))
+                .uri(URI.create("https://api.spotify.com/v1/browse/new-releases?country=US&limit=24&offset=0"))
                 .timeout(Duration.ofMinutes(1))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + accessToken)
@@ -324,11 +325,7 @@ public class SpotifyAPIController implements Serializable {
         return null;
     }
 
-    public void requestRecommendations() {
-        UserGenresController gc = new UserGenresController();
-        UserFavoriteArtistController fc = new UserFavoriteArtistController();
-        List<UserGenre> favoriteGenres = gc.getListOfUserGenres();
-        List<UserFavoriteArtist> favoriteArtists = fc.getListOfFavoriteArtists();
+    public Boolean requestRecommendations(List<UserGenre> favoriteGenres, List<UserFavoriteArtist> favoriteArtists) {
         String queryGenre = favoriteGenres.stream().
                 map(i -> String.valueOf(i.getGenre())).
                 collect(Collectors.joining(","));
@@ -337,7 +334,7 @@ public class SpotifyAPIController implements Serializable {
                 collect(Collectors.joining(","));
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.spotify.com/v1/recommendations?limit=50&seed_artists=" + queryArtist + "&seed_genres=" + queryGenre))
+                .uri(URI.create("https://api.spotify.com/v1/recommendations?limit=24&seed_artists=" + queryArtist + "&seed_genres=" + queryGenre))
                 .timeout(Duration.ofMinutes(1))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + accessToken)
@@ -364,18 +361,25 @@ public class SpotifyAPIController implements Serializable {
                 setRecommendedTracks(tracks);
             } else if (response.statusCode() == 401) {
                 requestToken();
-                requestRecommendations();
+                return requestRecommendations(favoriteGenres, favoriteArtists);
             } else if (response.statusCode() == 429) {
                 System.out.println("rate limit");
             }
         } catch (IOException | InterruptedException e) {
             System.out.println(e);
         }
+        return true;
     }
 
-    public void requestSearch(String query) {
+    public boolean requestSearch() {
+        if (searchedText.length() == 0) {
+            searchedAlbums = new ArrayList<>();
+            searchedArtists = new ArrayList<>();
+            searchedTracks = new ArrayList<>();
+            return false;
+        }
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.spotify.com/v1/search?q=" + query + "&type=track,artist,album&limit=50&market=US"))
+                .uri(URI.create("https://api.spotify.com/v1/search?q=" + searchedText + "&type=track,artist,album&limit=24&market=US"))
                 .timeout(Duration.ofMinutes(1))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + accessToken)
@@ -405,25 +409,33 @@ public class SpotifyAPIController implements Serializable {
                 for (int i = 0; i < artistsArray.length(); i++) {
                     artists.add(new Artist(artistsArray.getJSONObject(i).toString()));
                 }
-
                 setSearchedAlbums(albums);
                 setSearchedArtists(artists);
                 setSearchedTracks(tracks);
             } else if (response.statusCode() == 401) {
                 requestToken();
-                requestRecommendations();
+                return requestSearch();
             } else if (response.statusCode() == 429) {
                 System.out.println("rate limit");
             }
         } catch (IOException | InterruptedException e) {
             System.out.println(e);
         }
+        return true;
     }
 
 
     /*
         Getters & Setters
      */
+
+    public String getSearchedText() {
+        return searchedText;
+    }
+
+    public void setSearchedText(String searchedText) {
+        this.searchedText = searchedText;
+    }
 
     public List<Album> getRecommendedAlbums() {
         return recommendedAlbums;

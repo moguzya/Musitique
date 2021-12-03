@@ -157,7 +157,7 @@ public class Album {
 
 
     public String getTracksCountAsString() {
-        if (totalTracks > 2)
+        if (totalTracks > 1)
             return totalTracks + " Tracks in Album";
         return "Only " + totalTracks + " Track in Album";
     }

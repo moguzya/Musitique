@@ -19,7 +19,6 @@
             <h:commandLink action="#{entityController.toArtistPage(artist)}" value="#{artist.name} "/>
         </ui:repeat>
         <h:commandLink action="#{entityController.toArtistPage(track.getAlbum())}" value="#{track.getAlbum().name} "/>
-        <h:outputText value="#{track.getTracksCountAsString()}" style="float:left"/>
         <h:outputText value="#{track.durationMs}" style="float:left"/>
     </h:panelGrid>
 

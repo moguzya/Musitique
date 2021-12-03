@@ -14,7 +14,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static edu.vt.globals.Constants.API_CONTROLLER;
 
 @Named("exploreController")
 @SessionScoped
@@ -23,13 +22,14 @@ public class ExploreController implements Serializable {
     private List<Artist> artists;
     private List<Track> tracks;
 
-    public String explore() {
-        API_CONTROLLER.requestRecommendations();
+    public String explore(Boolean searched, List<Album> albums, List<Artist> artists, List<Track> tracks) {
+        this.albums = albums;
+        this.artists = artists;
+        this.tracks = tracks;
         return "/newReleases/Explore.xhtml";
     }
 
     public List<Album> getAlbums() {
-        albums = API_CONTROLLER.getRecommendedAlbums();
         return albums;
     }
 
@@ -38,7 +38,6 @@ public class ExploreController implements Serializable {
     }
 
     public List<Artist> getArtists() {
-        artists = API_CONTROLLER.getRecommendedArtists();
         return artists;
     }
 
@@ -47,7 +46,6 @@ public class ExploreController implements Serializable {
     }
 
     public List<Track> getTracks() {
-        tracks = API_CONTROLLER.getRecommendedTracks();
         return tracks;
     }
 

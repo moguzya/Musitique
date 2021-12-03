@@ -10,7 +10,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-import static edu.vt.globals.Constants.API_CONTROLLER;
 
 @Named("releaseController")
 @SessionScoped
@@ -18,14 +17,16 @@ public class ReleaseController implements Serializable {
     private List<Album> listOfNewReleases;
     private Album selected;
 
+    public String newReleases(List<Album> listOfNewReleases) {
+        this.listOfNewReleases = listOfNewReleases;
+        return "/newReleases/NewReleases.xhtml";
+    }
+
     public void unselect() {
         selected = null;
     }
 
     public List<Album> getListOfNewReleases() {
-        if (listOfNewReleases == null) {
-            listOfNewReleases = API_CONTROLLER.requestNewReleases();
-        }
         return listOfNewReleases;
     }
 

@@ -151,7 +151,7 @@ public class UserRating implements Serializable {
             case "TRACK":
                 return entityController.getSelectedTrack().getName();
             case "ARTIST":
-                return entityController.getSelectedTrack().getName();
+                return entityController.getSelectedArtist().getName();
         }
         return "NOT FOUND";
     }
