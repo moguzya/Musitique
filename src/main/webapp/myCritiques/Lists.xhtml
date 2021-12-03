@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Created by Osman Balci on 2021.7.15
+  - Copyright © 2021 Osman Balci. All rights reserved.
+  -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<link rel="stylesheet" href="https://unpkg.com/primeflex@3.1.0/primeflex.css"/>
+
+<!-- This page is constructed based on the siteTemplate -->
+<ui:composition template="/musitiqueTemplates/siteTemplate.xhtml">
+
+    <ui:define name="title">
+        <!-- Set the page title -->
+        <h:outputText value="My Critiques"/>
+    </ui:define>
+
+    <!-- Create the content for this page below -->
+    <ui:define name="editableContent">
+        <h:form>
+            <h1 style="color:white"> #{userController.selected.firstName}&nbsp;#{userController.selected.lastName}'s Critique History </h1>
+            <p:tabView>
+                <p:tab title="My Comments">
+                    <ui:insert name="commentsList">
+                        <ui:include src="CommentsList.xhtml"/>
+                    </ui:insert>
+                </p:tab>
+                <p:tab title="My Ratings">
+                    <ui:insert name="raitingsList">
+                        <ui:include src="RaitingsLists.xhtml"/>
+                    </ui:insert>
+                </p:tab>
+
+            </p:tabView>
+        </h:form>
+
+
+    </ui:define>
+</ui:composition>
+</html>
