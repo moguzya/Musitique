@@ -9,6 +9,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 import edu.vt.EntityType;
+import edu.vt.Pojos.Album;
+import edu.vt.Pojos.Artist;
+import edu.vt.Pojos.Track;
 import edu.vt.controllers.EntityController;
 
 /*
@@ -65,6 +68,10 @@ public class UserComment implements Serializable {
     @NotNull
     @Column(name = "date")
     private LocalDateTime date;
+
+
+
+
 
     public UserComment() {
     }
@@ -146,43 +153,76 @@ public class UserComment implements Serializable {
         this.entityType = entityType;
     }
 
-    public String getEntityName(){
-        EntityController entityController = new EntityController();
 
-        switch (entityType) {
-            case "ALBUM":
-                return entityController.getSelectedAlbum().getName();
-            case "TRACK":
-                return entityController.getSelectedTrack().getName();
-            case "ARTIST":
-                return entityController.getSelectedTrack().getName();
-        }
-        return "NOT FOUND";
-    }
-
-    public String getEntityArtists(){
-        EntityController entityController = new EntityController();
-
-        switch (entityType) {
-            case "ALBUM":
-                return entityController.getSelectedAlbum().getArtistsListAsString();
-            case "TRACK":
-                return entityController.getSelectedTrack().getArtistsListAsString();
-        }
-        return "NOT FOUND";
-    }
-
-    public String getEntityImageUrl(){
-        EntityController entityController = new EntityController();
-
-        switch (entityType) {
-            case "ALBUM":
-                return entityController.getSelectedAlbum().getImageUrl();
-            case "TRACK":
-                return entityController.getSelectedTrack().getImageUrl();
-            case "ARTIST":
-                return entityController.getSelectedTrack().getImageUrl();
-        }
-        return "NOT FOUND";
-    }
+    //Fields used for display purposes only
+//
+//    private Track track;
+//    private Album album;
+//    private Artist artist;
+//
+//    public Track getTrack() {
+//        return track;
+//    }
+//
+//    public void setTrack(Track track) {
+//        this.track = track;
+//    }
+//
+//    public Album getAlbum() {
+//        return album;
+//    }
+//
+//    public void setAlbum(Album album) {
+//        this.album = album;
+//    }
+//
+//    public Artist getArtist() {
+//        return artist;
+//    }
+//
+//    public void setArtist(Artist artist) {
+//        this.artist = artist;
+//    }
+//
+//    public String getEntityName(){
+//        EntityController entityController = new EntityController();
+//
+//        switch (entityType) {
+//            case "ALBUM":
+//                return album.getName();
+//            case "TRACK":
+//                return track.getName();
+//            case "ARTIST":
+//                return artist.getName();
+//        }
+//        return "NOT FOUND";
+//    }
+//
+//    public String getEntityArtists(){
+//        EntityController entityController = new EntityController();
+//
+//        switch (entityType) {
+//            case "ALBUM":
+//                return album.getArtistsListAsString();
+//            case "TRACK":
+//                return track.getArtistsListAsString();
+//            case "ARTIST":
+//                return "N/A";
+//        }
+//        return "NOT FOUND";
+//    }
+//
+//    public String getEntityImageUrl(){
+//        EntityController entityController = new EntityController();
+//
+//        switch (entityType) {
+//            case "ALBUM":
+//                return album.getImageUrl();
+//            case "TRACK":
+//                return track.getImageUrl();
+//            case "ARTIST":
+//                return artist.getImageUrl();
+//        }
+//        return "NOT FOUND";
+//    }
 }

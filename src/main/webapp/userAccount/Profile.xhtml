@@ -30,6 +30,7 @@
         <h1 style="color:white"> #{userController.selected.firstName}&nbsp;#{userController.selected.lastName}'s Account Profile </h1>
 
         <h:form id="UserProfileForm">
+            #{userGenresController.listOfUserGenres}
             <!--
             The table below has 1 row and 2 columns.
             Left column contains the vertical navigation menu.
@@ -77,12 +78,18 @@
 
                 </p:panelGrid>
 
-                <p:selectManyMenu id="advanced" value="#{userGenresController.listOfUserGenres}"
-                                  var="c" filter="true" filterMatchMode="contains" showCheckbox="true" styleClass="manymenu-advanced">
-                    <f:selectItems value="#{userGenresController.genres}" var="country" itemLabel="#{UserGenre.genre}"
-                                   itemValue="#{UserGenre}"/>
+                <!--                <p:selectManyMenu id="advanced" value="#{userGenresController.listOfUserGenres}"-->
+                <p:selectManyCheckbox id="grid" value="#{userGenresController.listOfUserGenreNames}" layout="grid" columns="3" styleClass="grid-checkbox">
 
-                </p:selectManyMenu>
+                    <f:selectItems  value="#{userGenresController.genres}" var="userGenre" itemLabel="#{userGenre.genre}" itemValue="#{userGenre.genre}"/>
+
+                </p:selectManyCheckbox>
+                <!--                </p:selectManyMenu>-->
+
+
+                <p:commandButton id="genreAddButon" value="Genre Save" icon="fas fa-trash-alt" styleClass="rounded-button"
+                                 actionListener="#{userGenresController.update(userGenresController.listOfUserGenreNames)}"
+                                 update="grid,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"/>
 
                             <p:panelGrid columns="1">
 

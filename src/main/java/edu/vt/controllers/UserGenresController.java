@@ -97,6 +97,7 @@ public class UserGenresController implements Serializable {
 
             // Obtain only those videos from the database that belong to the signed-in user
             listOfUserGenres = userGenreFacade.findUserGenresByUserPrimaryKey(primaryKey);
+
         }
         return listOfUserGenres;
     }
@@ -121,7 +122,8 @@ public class UserGenresController implements Serializable {
         for (int i = 0; i < Constants.GENRES.size(); i++) {
             genres.add(new UserGenre(Constants.GENRES.get(i),signedInUser));
         }
-        return new ArrayList<>(genres);
+        System.out.printf("-------------%s",genres);
+        return genres;
     }
 
 

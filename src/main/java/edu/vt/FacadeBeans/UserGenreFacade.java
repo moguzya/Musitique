@@ -48,5 +48,6 @@ public class UserGenreFacade extends AbstractFacade<UserGenre> {
         return entityManager.createNamedQuery("UserGenre.findByUserId")
                 .setParameter("userId", primaryKey)
                 .getResultList();
+
     }
 }

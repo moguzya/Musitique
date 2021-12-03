@@ -19,6 +19,9 @@ public class CommentFacade extends AbstractFacade<UserComment> {
     the entityManager instance with the persistence unitName identified below.
     ---------------------------------------------------------------------------------------------
      */
+
+
+
     @PersistenceContext(unitName = "MusitiquePU")
     private EntityManager entityManager;
 

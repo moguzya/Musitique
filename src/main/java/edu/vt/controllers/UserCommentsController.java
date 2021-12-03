@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,7 @@ public class UserCommentsController implements Serializable {
     private Track track;
     private Artist artist;
 
+    SpotifyAPIController spotifyAPIController = new SpotifyAPIController();
 
 
     /*
@@ -107,7 +109,44 @@ public class UserCommentsController implements Serializable {
 
             // Obtain only those videos from the database that belong to the signed-in user
             listofUserComments = commentFacade.findUserCommentByUserPrimaryKey(primaryKey);
+
+//            String AlbumsIds = "";
+//            String TracksIds = "";
+//            String ArtistsIds = "";
+//
+//            //move each entity type into seperate lists to that we can bulk get the data
+//            for (int i = 0; i < listofUserComments.size(); i++) {
+//                String currEntityType = listofUserComments.get(i).getEntityType();
+//                switch (currEntityType) {
+//                    case "ALBUM":
+//                        AlbumsIds += listofUserComments.get(i).getEntityId() + ",";
+//                    case "TRACK":
+//                        TracksIds += listofUserComments.get(i).getEntityId() + ",";
+//                    case "ARTIST":
+//                        ArtistsIds += listofUserComments.get(i).getEntityId() + ",";
+//                }
+//            }
+//
+//
+//            List<Album> listofAlbums = spotifyAPIController.requestSeveralAlbums(AlbumsIds);
+//            List<Track> listofTracks = spotifyAPIController.requestSeveralTracks(TracksIds);
+//            List<Artist> listofArtists = spotifyAPIController.requestSeveralArtists(ArtistsIds);
+//
+//            //Since order is maintianed I can just pull from each list in the same order
+//            String artistsAsString = "";
+//            for (int i = 0; i < listofUserComments.size(); i++) {
+//                String currEntityType = listofUserComments.get(i).getEntityType();
+//                switch (currEntityType) {
+//                    case "ALBUM":
+//                        listofUserComments.get(i).setAlbum(listofAlbums.remove(0));
+//                    case "TRACK":
+//                        listofUserComments.get(i).setTrack(listofTracks.remove(0));
+//                    case "ARTIST":
+//                        listofUserComments.get(i).setArtist(listofArtists.remove(0));
+//                }
+//            }
         }
+
         return listofUserComments;
     }
 
