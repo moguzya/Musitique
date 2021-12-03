@@ -45,7 +45,7 @@ public class UserCommentsController implements Serializable {
     List<Track> listofTracks;
     List<Artist> listofArtists;
 
-//    SpotifyAPIController spotifyAPIController = new SpotifyAPIController();
+    SpotifyAPIController spotifyAPIController = new SpotifyAPIController();
 
 
     /*
@@ -84,7 +84,7 @@ public class UserCommentsController implements Serializable {
     Return the List of User Comments that Belong to the Signed-In User
     ***************************************************************
      */
-    public List<UserComment> getListofUserComments(SpotifyPlayerController spotifyAPIController) {
+    public List<UserComment> getListofUserComments() {
 
         if (listofUserComments == null) {
             /*

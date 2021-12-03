@@ -224,3 +224,12 @@ body .ui-card{
     color: white;
     border: white solid 1px;
 }
+
+body .ui-dialog .ui-dialog-content{
+    background: #4e4373ed;
+
+}
+body .ui-dialog .ui-dialog-titlebar{
+    background: #4e4373ed;
+
+}

@@ -17,7 +17,7 @@
         |  for the user to view the selected movie's data.       |
         ==========================================================
         -->
-        <p:dialog id="CommentViewDlg" header="View Comment" widgetVar="CommentViewDialog"
+        <p:dialog id="CommentViewDlg" header="View Comment Info" widgetVar="CommentViewDialog"
                   modal="true" position="center" appendTo="@(body)"
                   showEffect="slide" hideEffect="fade" responsive="true" >
 
@@ -27,31 +27,36 @@
                 *   Artwork Image   *
                 *******************************
                 -->
-                <div align="center">
-                    <p:graphicImage url="#{userCommentsController.getImageUrl(userCommentsController.selected) }" width="92px"
-                                    style="float:left"/>                </div>
-                <br />
+
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2" 
+                    <p:panelGrid columns="1" columnClasses="panelGridColumn1, panelGridColumn2"
+                                 rendered="#{userCommentsController.selected != null}">
+                        <div align="center">
+
+                            <p:graphicImage url="#{userCommentsController.getImageUrl(userCommentsController.selected) }" width="92px"
+                                            style="float:left"/>                </div>
+                        <br />
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2"
                                  rendered="#{userCommentsController.selected != null}">
 
                         <h:outputText value="Name"/>
                         <h:outputText value="#{userCommentsController.getEntityName(userCommentsController.selected) }"/>
-                        
+
                         <h:outputLabel value="Type" />
                         <h:outputText value="#{userCommentsController.selected.entityType}"/>
 
                         <h:outputText value="Artist:"/>
                         <h:outputText value="#{userCommentsController.getArtists(userCommentsController.selected) }"/>
 
-                        <h:outputText value="Date Posted:"/>
-                        <h:outputText value="#{userCommentsController.selected.date}">
-                            <!-- 
-                            Date is stored in the database in the format YYYY-MM-DD so that it is sortable.
-                            For display purposes, we convert the database format to MM/DD/YYYY.
-                            -->
-                            <f:convertDateTime pattern="MM/dd/yyyy" />
-                        </h:outputText>
+<!--                        <h:outputText value="Date Posted:"/>-->
+<!--                        <h:outputText value="#{userCommentsController.selected.date}">-->
+<!--                            &lt;!&ndash;-->
+<!--                            Date is stored in the database in the format YYYY-MM-DD so that it is sortable.-->
+<!--                            For display purposes, we convert the database format to MM/DD/YYYY.-->
+<!--                            &ndash;&gt;-->
+<!--                            <f:convertDateTime pattern="MM/dd/yyyy" />-->
+<!--                        </h:outputText>-->
 
                         <h:outputText value="Comment:"/>
                         <h:outputText value="#{userCommentsController.selected.comment}"/>

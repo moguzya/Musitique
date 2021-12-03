@@ -16,7 +16,6 @@
 
 <!-- This page is constructed based on the siteTemplate -->
 <ui:composition>
-
             <!-- In case of JSF validation error, set 'selected' to null in movieController -->
             <c:if test="#{facesContext.validationFailed}">
                 ${userCommentsController.unselect()}
@@ -32,7 +31,7 @@
                 <h:form id="CommentsListForm">
                     <p:panel header="List of My Comments">
                         <p:dataTable id="datalistComment"
-                                     value="#{userCommentsController.listofUserComments(spotifyAPIController)}"
+                                     value="#{userCommentsController.listofUserComments}"
                                      var="aComments"
                                      widgetVar="commentsDataTable"
                                      selectionMode="single"
@@ -45,8 +44,8 @@
                                      rowsPerPageTemplate="5,10,15,20,30,40,50"
                                      emptyMessage="No comments found for the search query entered!">
 
-                            <p:ajax event="rowSelect" update="deleteButtonComment"/>
-                            <p:ajax event="rowUnselect" update="deleteButtonComment"/>
+                            <p:ajax event="rowSelect" update="viewButtonComment deleteButtonComment"/>
+                            <p:ajax event="rowUnselect" update="viewButtonComment deleteButtonComment"/>
 
                             <!--
                             *************************
@@ -140,7 +139,6 @@
                                 <h:outputText value="#{aComments.comment}"/>
                             </p:column>
 
-                            <br/><br/>
 
                             <!--
                             *************************
@@ -149,10 +147,11 @@
                             -->
                             <f:facet name="footer">
                                 <div align="center">
-<!--                                    <p:commandButton id="viewButtonComment" value="View" icon="fas fa-eye" styleClass="rounded-button"-->
-<!--                                                     update=":CommentViewForm" oncomplete="PF('CommentViewDialog').show()"-->
-<!--                                                     disabled="#{empty userCommentsController.selected}"/>-->
-<!--                                    &nbsp;-->
+
+                                    <p:commandButton id="viewButtonComment" value="View" icon="fas fa-eye" styleClass="rounded-button"
+                                                     update=":CommentViewDlg" oncomplete="PF('CommentViewDialog').show()"
+                                                     disabled="#{empty userCommentsController.selected}"/>
+                                    &nbsp;
 <!--                                    <p:commandButton id="editButton" value="Edit" icon="fas fa-edit" styleClass="rounded-button"-->
 <!--                                                     update=":MovieEditForm" oncomplete="PF('MovieEditDialog').show()"-->
 <!--                                                     disabled="#{empty userCommentsController.selected}"/>-->
@@ -165,7 +164,7 @@
                                                      disabled="#{empty userCommentsController.selected}">
 
                                         <p:confirm header="Deletion Confirmation"
-                                                   message="Are you sure you want to permanently delete the selected comment for #{userCommentsController.selected.entityName} from the database?"/>
+                                                   message="Are you sure you want to permanently delete the selected comment for #{userCommentsController.selected.comment} from the database?"/>
                                     </p:commandButton>
 
                                     <p:confirmDialog id="confirmDialogBoxComments" global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
@@ -176,20 +175,19 @@
                                         </div>
                                     </p:confirmDialog>
                                 </div>
+
+
                             </f:facet>
                         </p:dataTable>
                     </p:panel>
                 </h:form>
-
+                <!--
+                Clicking the View button displays the included
+                RatingView.xhtml file in a dialog window on top of this page.
+                -->
             </div>
 
-                    <!--                        <p:dataTable value="#{userCommentsController.listofUserComments}"-->
-                    <!--                                    var="aComments"-->
-                    <!--                                    style="width:100%; background: none;">-->
 
-                    <!--                        </p:dataTable>-->
-
-<!--    <ui:include src="/myCritiques/CommentsView.xhtml"/>-->
 
 </ui:composition>
 </html>
