@@ -1,6 +1,8 @@
 package edu.vt.Pojos;
 
+import edu.vt.controllers.util.JsfUtil;
 import org.primefaces.shaded.json.JSONArray;
+import org.primefaces.shaded.json.JSONException;
 import org.primefaces.shaded.json.JSONObject;
 
 import java.util.ArrayList;
@@ -20,12 +22,18 @@ public class Artist {
         this.id = body.optString("id", "");
         this.name = body.optString("name", "");
 
-        JSONArray genresArray = body.getJSONArray("genres");
-        this.genres = new ArrayList();
 
-        for (int i = 0; i < genresArray.length(); i++) {
-            this.genres.add(genresArray.optString(i, ""));
+        this.genres = new ArrayList();
+        try{
+            JSONArray genresArray = body.getJSONArray("genres");
+            for (int i = 0; i < genresArray.length(); i++) {
+                this.genres.add(genresArray.optString(i, ""));
+            }
         }
+        catch (JSONException ex){;
+            JsfUtil.addErrorMessage("JSONObject[\"genres\"] not found.");
+        }
+
 
         this.followers = body.optInt("followers", 0);
 

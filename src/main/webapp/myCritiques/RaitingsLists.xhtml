@@ -136,9 +136,11 @@
                     -->
                     <p:column headerText="Rating" sortBy="#{aRatings.rating}"
                               style="text-align: center; vertical-align: top">
-                        <p:rating value="#{aRatings.rating}">
-                            <p:ajax event="rate" listener="#{entityController.onRate}"/>
-                            <p:ajax event="cancel" listener="#{entityController.onUnrate}"/>
+                        <p:rating value="#{aRatings.rating}" readonly="true">
+
+<!--                            this requires a different method to be created in rating controller-->
+<!--                            <p:ajax event="rate" listener="#{entityController.onRate}"/>-->
+<!--                            <p:ajax event="cancel" listener="#{entityController.onUnrate}"/>-->
                         </p:rating>
                     </p:column>
 

@@ -24,20 +24,18 @@
 
     <!-- Create the content for this page below -->
     <ui:define name="editableContent">
-        <h:form>
-            <h1 style="color:white"> #{userController.selected.firstName}&nbsp;#{userController.selected.lastName}'s Critique History </h1>
-            <p:tabView>
-                <p:tab title="My Comments">
-                    <ui:insert name="commentsList">
-                        <ui:include src="CommentsList.xhtml"/>
-                    </ui:insert>
-                </p:tab>
-                <p:tab title="My Ratings">
-                        <ui:include src="RaitingsLists.xhtml"/>
-                </p:tab>
+        <h1 style="color:white"> #{userController.selected.firstName}&nbsp;#{userController.selected.lastName}'s Critique History </h1>
+        <p:tabView>
+            <p:tab title="My Comments">
+                <ui:insert name="commentsList">
+                    <ui:include src="CommentsList.xhtml"/>
+                </ui:insert>
+            </p:tab>
+            <p:tab title="My Ratings">
+                <ui:include src="RaitingsLists.xhtml"/>
+            </p:tab>
 
-            </p:tabView>
-        </h:form>
+        </p:tabView>
 
         <ui:include src="/myCritiques/CommentsView.xhtml"/>
         <ui:include src="/myCritiques/RatingView.xhtml"/>

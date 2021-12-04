@@ -10,8 +10,10 @@ import edu.vt.Pojos.Album;
 import edu.vt.Pojos.Artist;
 import edu.vt.Pojos.Results;
 import edu.vt.Pojos.Track;
+import edu.vt.controllers.util.JsfUtil;
 import edu.vt.globals.Constants;
 
+import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.IOException;
@@ -23,6 +25,8 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.primefaces.shaded.json.JSONArray;
@@ -108,7 +112,7 @@ public class SpotifyAPIController implements Serializable {
                     throw new NoSuchFieldException();
             }
         } catch (Exception e) {
-            System.out.println(e);
+            JsfUtil.addErrorMessage(e.toString());
         }
     }
 
@@ -130,10 +134,10 @@ public class SpotifyAPIController implements Serializable {
                 requestToken();
                 return requestAlbum(albumId);
             } else if (response.statusCode() == 429) {
-                System.out.println("rate limit");
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
             }
         } catch (IOException | InterruptedException e) {
-            System.out.println(e);
+            JsfUtil.addErrorMessage(e.toString());
         }
 
         return null;
@@ -164,11 +168,11 @@ public class SpotifyAPIController implements Serializable {
                 requestToken();
                 return requestSeveralAlbums(albumIds, subcall);
             } else if (response.statusCode() == 429) {
-                System.out.println("rate limit");
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
                 return new ArrayList();
             }
         } catch (IOException | InterruptedException e) {
-            System.out.println(e);
+            JsfUtil.addErrorMessage(e.toString());
             return new ArrayList();
         }
         return new ArrayList();
@@ -192,10 +196,10 @@ public class SpotifyAPIController implements Serializable {
                 requestToken();
                 return requestArtist(artistId);
             } else if (response.statusCode() == 429) {
-                System.out.println("rate limit");
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
             }
         } catch (IOException | InterruptedException e) {
-            System.out.println(e);
+            JsfUtil.addErrorMessage(e.toString());
         }
 
         return null;
@@ -227,12 +231,12 @@ public class SpotifyAPIController implements Serializable {
                 requestToken();
                 return requestSeveralArtists(artistIds);
             } else if (response.statusCode() == 429) {
-                System.out.println("rate limit");
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
                 return new ArrayList();
 
             }
         } catch (IOException | InterruptedException e) {
-            System.out.println(e);
+            JsfUtil.addErrorMessage(e.toString());
             return new ArrayList();
 
         }
@@ -258,10 +262,10 @@ public class SpotifyAPIController implements Serializable {
                 requestToken();
                 return requestTrack(trackId);
             } else if (response.statusCode() == 429) {
-                System.out.println("rate limit");
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
             }
         } catch (IOException | InterruptedException e) {
-            System.out.println(e);
+            JsfUtil.addErrorMessage(e.toString());
         }
 
         return null;
@@ -294,12 +298,12 @@ public class SpotifyAPIController implements Serializable {
                 requestToken();
                 return requestSeveralTracks(trackIds, subcall);
             } else if (response.statusCode() == 429) {
-                System.out.println("rate limit");
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
                 return new ArrayList();
 
             }
         } catch (IOException | InterruptedException e) {
-            System.out.println(e);
+            JsfUtil.addErrorMessage(e.toString());
             return new ArrayList();
 
         }
@@ -338,23 +342,25 @@ public class SpotifyAPIController implements Serializable {
                 requestToken();
                 return requestNewReleases();
             } else if (response.statusCode() == 429) {
-                System.out.println("rate limit");
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
                 return new ArrayList();
             }
         } catch (IOException | InterruptedException e) {
-            System.out.println(e);
+            JsfUtil.addErrorMessage(e.toString());
             return new ArrayList();
         }
         return new ArrayList();
     }
 
+
     public Results requestRecommendations(List<UserGenre> favoriteGenres, List<UserFavoriteArtist> favoriteArtists) {
         String queryGenre = favoriteGenres.stream().
                 map(i -> String.valueOf(i.getGenre())).
-                collect(Collectors.joining(","));
+                collect(Collectors.joining("%25"));
         String queryArtist = favoriteArtists.stream().
                 map(i -> String.valueOf(i.getEntityId())).
-                collect(Collectors.joining(","));
+                collect(Collectors.joining("%25"));
+
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spotify.com/v1/recommendations?limit=24&seed_artists=" + queryArtist + "&seed_genres=" + queryGenre))
@@ -392,11 +398,25 @@ public class SpotifyAPIController implements Serializable {
                 requestToken();
                 return requestRecommendations(favoriteGenres, favoriteArtists);
             } else if (response.statusCode() == 429) {
-                System.out.println("rate limit");
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
                 return new Results();
             }
-        } catch (IOException | InterruptedException e) {
-            System.out.println(e);
+
+        } catch (EJBException ex) {
+            String msg = "";
+            Throwable cause = ex.getCause();
+            if (cause != null) {
+                msg = cause.getLocalizedMessage();
+            }
+            if (msg.length() > 0) {
+                JsfUtil.addErrorMessage(msg);
+            } else {
+                JsfUtil.addErrorMessage(ex,"A Persistence Error Occurred!");
+            }
+            return new Results();
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JsfUtil.addErrorMessage(ex,"A Persistence Error Occurred!");
             return new Results();
         }
         return new Results();
@@ -445,11 +465,25 @@ public class SpotifyAPIController implements Serializable {
                     requestToken();
                     return requestSearch();
                 } else if (response.statusCode() == 429) {
-                    System.out.println("rate limit");
+                    JsfUtil.addErrorMessage("Api rate limit exceeded!");
                     return new Results();
                 }
-            } catch (IOException | InterruptedException e) {
-                System.out.println(e);
+
+            } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex,"A Persistence Error Occurred!");
+                }
+                return new Results();
+            } catch (Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ex,"A Persistence Error Occurred!");
                 return new Results();
             }
             return new Results();
