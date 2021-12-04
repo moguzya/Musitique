@@ -45,10 +45,10 @@
                     <h:outputText value="#{entityController.getSelectedArtist().getGenresListAsString()}"/>
                     <h:outputText value="Number of Followers: #{entityController.getSelectedArtist().followers}"/>
                 </p:panelGrid>
+            </h:form>
                 <ui:insert name="comments">
                     <ui:include src="/musitiqueTemplates/commentsTemplate.xhtml"/>
                 </ui:insert>
-            </h:form>
         </div>
     </ui:define>
 

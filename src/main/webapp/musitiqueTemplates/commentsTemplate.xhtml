@@ -8,20 +8,22 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:f="http://java.sun.com/jsf/core">
 <ui:composition>
     <div align="center">
-        <h:form>
+        <h:form id="commentForm">
             <p:panelGrid columns="2">
-            </p:panelGrid>
-            <h:outputText value="Average Rating:"/>
-            <p:rating id="avgRating" value="#{entityController.getAverageRating()}" readonly="true"/>
-            <c:if test="#{userController.isLoggedIn() == true}">
-                <h:outputText value="Your Rating:"/>
-                <p:rating value="#{entityController.getUserRating().rating}">
+                <h:outputText value="Average Rating:"/>
+                <p:rating id="avgRating" value="#{entityController.getAverageRating()}" readonly="true"/>
+                <h:outputText
+                        rendered="#{userController.isLoggedIn() == true}"
+                        value="Your Rating:"/>
+                <p:rating
+                        rendered="#{userController.isLoggedIn() == true}"
+                        value="#{entityController.getUserRating().rating}">
                     <p:ajax event="rate"
                             update="avgRating"
                             listener="#{entityController.onRate}"/>
                     <p:ajax event="cancel" listener="#{entityController.onUnrate()}"/>
                 </p:rating>
-            </c:if>
+            </p:panelGrid>
             <p:dataTable
                     id="commentsTable"
                     var="aComment"
@@ -50,19 +52,21 @@
                 </p:column>
             </p:dataTable>
 
-            <c:if test="#{userController.isLoggedIn() == true}">
-                <p:inputTextarea rows="5" cols="50" value="#{entityController.newCommentText}" counter="display"
-                                 maxlength="256"
-                                 counterTemplate="{0} characters remaining."/>
-                <br/>
-                <h:outputText id="display" class="p-d-block"/>
-                <br/>
-                <p:commandButton value="Post Comment" icon="fas fa-save" styleClass="rounded-button"
-                                 ajax="false" actionListener="#{entityController.postComment}"
-                                 update=":commentsTable,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
-                                 oncomplete="#{entityController.postComment}"/>
-
-            </c:if>
+            <p:inputTextarea rows="5" cols="50" value="#{entityController.newCommentText}" counter="display"
+                             rendered="#{userController.isLoggedIn() == true}"
+                             maxlength="256"
+                             counterTemplate="{0} characters remaining."/>
+            <br/>
+            <h:outputText
+                    rendered="#{userController.isLoggedIn() == true}"
+                    id="display" class="p-d-block"/>
+            <br/>
+            <p:commandButton id="postButton"
+                             value="Post Comment"
+                             icon="fas fa-save"
+                             styleClass="rounded-button"
+                             actionListener="#{entityController.postComment}"
+                             update="commentsTable,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"/>
 
 
             <p:confirmDialog id="confirmDialogBoxComments" global="true" showEffect="fade" hideEffect="fade"

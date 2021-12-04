@@ -23,10 +23,11 @@
                 <h:outputText value="#{entityController.getSelectedTrack().name}"/>
                 <h:outputText value="#{entityController.getSelectedTrack().artistsListAsString}" style="float:left"/>
                 <h:outputText value="#{entityController.getSelectedTrack().durationMs}" style="float:left"/>
-                <ui:insert name="comments">
-                    <ui:include src="/musitiqueTemplates/commentsTemplate.xhtml"/>
-                </ui:insert>
+
             </h:form>
+            <ui:insert name="comments">
+                <ui:include src="/musitiqueTemplates/commentsTemplate.xhtml"/>
+            </ui:insert>
         </div>
     </ui:define>
 

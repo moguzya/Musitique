@@ -86,8 +86,8 @@ public class EntityController implements Serializable {
 
     private UserComment selectedComment;
     private UserRating userRating;
-
     private List<UserComment> listOfComments;
+
     private EntityType selectedEntityType = EntityType.ALBUM;
     private String newCommentText;
     private Double averageEntityRating;
@@ -248,6 +248,12 @@ public class EntityController implements Serializable {
     public void setSelectedAlbum(Album selectedAlbum) {
         this.selectedAlbum = selectedAlbum;
         selectedEntityType = EntityType.ALBUM;
+        selectedComment=null;
+        listOfComments=null;
+        userRating=null;
+        newCommentText=null;
+        userRating=getUserRating();
+        listOfComments=getListOfComments();
         unselectArtist();
         unselectTrack();
     }
@@ -259,6 +265,13 @@ public class EntityController implements Serializable {
     public void setSelectedArtist(Artist selectedArtist) {
         this.selectedArtist = selectedArtist;
         selectedEntityType = EntityType.ARTIST;
+        selectedComment=null;
+        listOfComments=null;
+        userRating=null;
+        newCommentText=null;
+
+        userRating=getUserRating();
+        listOfComments=getListOfComments();
         unselectAlbum();
         unselectTrack();
     }
@@ -270,6 +283,13 @@ public class EntityController implements Serializable {
     public void setSelectedTrack(Track selectedTrack) {
         this.selectedTrack = selectedTrack;
         selectedEntityType = EntityType.TRACK;
+        selectedComment=null;
+        listOfComments=null;
+        userRating=null;
+        newCommentText=null;
+
+        userRating=getUserRating();
+        listOfComments=getListOfComments();
         unselectAlbum();
         unselectArtist();
     }
