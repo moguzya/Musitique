@@ -2,8 +2,6 @@ package edu.vt.FacadeBeans;
 
 import edu.vt.EntityBeans.User;
 import edu.vt.EntityBeans.UserFavoriteArtist;
-import edu.vt.NewReleases.ExploreController;
-import edu.vt.controllers.SpotifyAPIController;
 
 import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;

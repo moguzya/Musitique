@@ -240,6 +240,49 @@ public class SpotifyAPIController implements Serializable {
         return new ArrayList();
     }
 
+    public List<Artist> requestFavoriteArtists(List<UserFavoriteArtist> favoriteArtists) {
+        String queryArtist = favoriteArtists.stream().
+                map(i -> String.valueOf(i.getEntityId())).
+                collect(Collectors.joining(","));
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/artists?ids=" + queryArtist))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + accessToken)
+                .GET()
+                .build();
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                List<Artist> artists = new ArrayList();
+                JSONArray artistArray = new JSONObject(response.body()).getJSONArray("artists");
+
+                for (int i = 0; i < artistArray.length(); i++) {
+                    if (artistArray.get(i).toString() != "null") {
+                        Artist a = new Artist(artistArray.getJSONObject(i).toString());
+                        artists.add(a);
+                    }
+                }
+                return artists;
+            } else if (response.statusCode() == 401) {
+                requestToken();
+                return requestFavoriteArtists(favoriteArtists);
+            } else if (response.statusCode() == 429) {
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
+                return new ArrayList();
+
+            }
+        } catch (IOException | InterruptedException e) {
+            JsfUtil.addErrorMessage(e.toString());
+            return new ArrayList();
+
+        }
+
+        return new ArrayList();
+    }
+
     public Track requestTrack(String trackId) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spotify.com/v1/tracks/" + trackId))
@@ -381,13 +424,13 @@ public class SpotifyAPIController implements Serializable {
     }
 
 
-    public Results requestRecommendations(List<UserGenre> favoriteGenres, List<UserFavoriteArtist> favoriteArtists) {
+    public List<Track> requestRecommendations(List<UserGenre> favoriteGenres, List<UserFavoriteArtist> favoriteArtists) {
         String queryGenre = favoriteGenres.stream().
                 map(i -> String.valueOf(i.getGenre())).
-                collect(Collectors.joining("%25"));
+                collect(Collectors.joining(","));
         String queryArtist = favoriteArtists.stream().
                 map(i -> String.valueOf(i.getEntityId())).
-                collect(Collectors.joining("%25"));
+                collect(Collectors.joining(","));
 
 
         if (queryGenre.length() == 0 && queryArtist.length() == 0)
@@ -412,13 +455,13 @@ public class SpotifyAPIController implements Serializable {
                     tracks.add(new Track(recommendationArray.getJSONObject(i).toString(), false));
                 }
 
-                return new Results(tracks);
+                return tracks;
             } else if (response.statusCode() == 401) {
                 requestToken();
                 return requestRecommendations(favoriteGenres, favoriteArtists);
             } else if (response.statusCode() == 429) {
                 JsfUtil.addErrorMessage("Api rate limit exceeded!");
-                return new Results();
+                return new ArrayList<>();
             }
 
         } catch (EJBException ex) {
@@ -432,13 +475,13 @@ public class SpotifyAPIController implements Serializable {
             } else {
                 JsfUtil.addErrorMessage(ex,"A Persistence Error Occurred!");
             }
-            return new Results();
+            return new ArrayList<>();
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JsfUtil.addErrorMessage(ex,"A Persistence Error Occurred!");
-            return new Results();
+            return new ArrayList<>();
         }
-        return new Results();
+        return new ArrayList<>();
     }
 
     public Results requestSearch() {
@@ -446,7 +489,7 @@ public class SpotifyAPIController implements Serializable {
             return new Results();
         } else {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://api.spotify.com/v1/search?q=" + searchedText + "&type=track,artist,album&limit=24&market=US"))
+                    .uri(URI.create("https://api.spotify.com/v1/search?q=" + searchedText.replaceAll(" ", "%20") + "&type=track,artist,album&limit=24&market=US"))
                     .timeout(Duration.ofMinutes(1))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + accessToken)

@@ -31,12 +31,13 @@
                             <p:menuitem icon="fas fa-star-half-alt"
                                         outcome="/myCritiques/Lists.xhtml"
                                         value="My Critiques"/>
+                            <p:menuitem icon="fas fa-headphones-alt"
+                                        value="My Favorite Artists"
+                                        outcome="/newReleases/FavoriteArtists.xhtml"
+                                        />
                             <p:menuitem value="Explore"
                                         icon="fas fa-compass"
-                                        action="#{exploreController.explore(
-                                                    spotifyAPIController.requestRecommendations(
-                                                    userGenresController.listOfUserGenres,
-                                                    userFavoriteArtistController.listOfFavoriteArtists))}"/>
+                                        outcome="/newReleases/Explore.xhtml"/>
                         </c:if>
 
                         </p:menu>
