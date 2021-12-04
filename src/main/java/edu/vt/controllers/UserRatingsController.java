@@ -118,10 +118,8 @@ public class UserRatingsController implements Serializable {
             }
 
             listofAlbums = spotifyAPIController.requestSeveralAlbums(String.join(",", AlbumsIds),false);
-            System.out.println(listofAlbums);
             listofTracks = spotifyAPIController.requestSeveralTracks(String.join(",", TracksIds),false);
             listofArtists = spotifyAPIController.requestSeveralArtists(String.join(",", ArtistsIds));
-
         }
 
         return listofUserRatings;
@@ -160,7 +158,6 @@ public class UserRatingsController implements Serializable {
 
     public Artist findArtist(String entityId) {
         if (listofArtists !=null) {
-
             for (Artist artist : listofArtists) {
                 if (artist != null){
                     if (Objects.equals(entityId, artist.getId())) {

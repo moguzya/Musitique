@@ -1,6 +1,8 @@
 package edu.vt.Pojos;
 
+import edu.vt.controllers.util.JsfUtil;
 import org.primefaces.shaded.json.JSONArray;
+import org.primefaces.shaded.json.JSONException;
 import org.primefaces.shaded.json.JSONObject;
 
 import java.util.ArrayList;
@@ -21,7 +23,6 @@ public class Artist {
         this.name = body.optString("name", "");
 
 
-        // Return type for recommendations is weird
         if (body.has("genres")) {
             JSONArray genresArray = body.getJSONArray("genres");
             this.genres = new ArrayList();

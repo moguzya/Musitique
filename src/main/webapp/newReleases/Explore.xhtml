@@ -17,10 +17,9 @@
         <div align="center">
             <h:form id="NewReleasesForm">
                 <div class="tableBackgroundDiv">
-                    <p:dataView value="#{exploreController.getAlbums()}"
+                    <p:dataGrid value="#{exploreController.getAlbums()}"
                                 var="anAlbum"
                                 rows="25"
-                                gridIcon="pi pi-th-large" listIcon="pi pi-bars"
                                 style="background: none;width:100%"
                                 styleClass="customClass">
 
@@ -37,18 +36,14 @@
                                 </h:panelGrid>
                             </p:panel>
                         </p:dataViewGridItem>
-                    </p:dataView>
+                    </p:dataGrid>
 
 
-                    <p:dataView value="#{exploreController.getArtists()}"
+                    <p:dataGrid value="#{exploreController.getArtists()}"
                                 var="anArtist"
-                                rows="3"
-                                paginator="true"
-                                layout="grid"
-                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                pageLinks="5"
-                                gridIcon="pi pi-th-large" listIcon="pi pi-bars"
-                                style="width:100%">
+                                rows="25"
+                                style="background: none;width:100%"
+                                styleClass="customClass">
 
                         <f:facet name="header">
                             <h:outputText value="Artists"/>
@@ -64,13 +59,12 @@
                             </p:panel>
                         </p:dataViewGridItem>
 
-                    </p:dataView>
+                    </p:dataGrid>
 
 
-                    <p:dataView value="#{exploreController.getTracks()}"
+                    <p:dataGrid value="#{exploreController.getTracks()}"
                                 var="aTrack"
                                 rows="25"
-                                gridIcon="pi pi-th-large" listIcon="pi pi-bars"
                                 style="background: none;width:100%"
                                 styleClass="customClass">
 
@@ -87,7 +81,7 @@
                                 </h:panelGrid>
                             </p:panel>
                         </p:dataViewGridItem>
-                    </p:dataView>
+                    </p:dataGrid>
                 </div>
             </h:form>
         </div>

@@ -119,7 +119,6 @@ public class UserCommentsController implements Serializable {
             }
 
             listofAlbums = spotifyAPIController.requestSeveralAlbums(String.join(",", AlbumsIds),false);
-            System.out.println(listofAlbums);
             listofTracks = spotifyAPIController.requestSeveralTracks(String.join(",", TracksIds),false);
             listofArtists = spotifyAPIController.requestSeveralArtists(String.join(",", ArtistsIds));
 
@@ -196,11 +195,9 @@ public class UserCommentsController implements Serializable {
 
 
     public String getImageUrl(UserComment userComment) {
-        System.out.println(userComment.getEntityType());
         switch (userComment.getEntityType()) {
             case "ALBUM":
                 Album album = findAlbum(userComment.getEntityId());
-                System.out.println(album);
                 if (album != null) {
                     return album.getImageUrl();
                 }
@@ -212,9 +209,6 @@ public class UserCommentsController implements Serializable {
             case "ARTIST":
                 Artist artist = findArtist(userComment.getEntityId());
                 if (artist != null) {
-                    System.out.println(artist);
-                    System.out.println(artist.getImageUrl());
-
                     return artist.getImageUrl();
                 }
 

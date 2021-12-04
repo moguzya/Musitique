@@ -59,9 +59,6 @@ public class CommentFacade extends AbstractFacade<UserComment> {
     // Returns a list of object references of UserComment objects that belong to
     // the User object whose database Primary Key = primaryKey
     public List<UserComment> findUserCommentByUserPrimaryKey(Integer primaryKey) {
-
-        System.out.println(entityManager.createNamedQuery("UserComment.findByUserId")
-                .setParameter("userId", primaryKey));
         return entityManager.createNamedQuery("UserComment.findByUserId")
                 .setParameter("userId", primaryKey)
                 .getResultList();
