@@ -25,6 +25,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -71,12 +72,6 @@ public class SpotifyAPIController implements Serializable {
     */
     private static final HttpClient CLIENT = HttpClient.newHttpClient();
     private String accessToken;
-    private List<Album> recommendedAlbums;
-    private List<Artist> recommendedArtists;
-    private List<Track> recommendedTracks;
-    private List<Album> searchedAlbums;
-    private List<Artist> searchedArtists;
-    private List<Track> searchedTracks;
     private String searchedText;
 
     /*
@@ -150,11 +145,11 @@ public class SpotifyAPIController implements Serializable {
         try {
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
-                List<Album> albums = new ArrayList();
+                List<Album> albums = new ArrayList<>();
                 JSONArray albumArray = new JSONObject(response.body()).getJSONArray("albums");
 
                 for (int i = 0; i < albumArray.length(); i++) {
-                    if (albumArray.get(i).toString() != "null") {
+                    if (!Objects.equals(albumArray.get(i).toString(), "null")) {
                         Album a = new Album(albumArray.getJSONObject(i).toString(), subcall);
                         albums.add(a);
                     }
@@ -165,13 +160,13 @@ public class SpotifyAPIController implements Serializable {
                 return requestSeveralAlbums(albumIds, subcall);
             } else if (response.statusCode() == 429) {
                 JsfUtil.addErrorMessage("Api rate limit exceeded!");
-                return new ArrayList();
+                return new ArrayList<>();
             }
         } catch (IOException | InterruptedException e) {
             JsfUtil.addErrorMessage(e.toString());
-            return new ArrayList();
+            return new ArrayList<>();
         }
-        return new ArrayList();
+        return new ArrayList<>();
     }
 
     public Artist requestArtist(String artistId) {
@@ -213,11 +208,11 @@ public class SpotifyAPIController implements Serializable {
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
-                List<Artist> artists = new ArrayList();
+                List<Artist> artists = new ArrayList<>();
                 JSONArray artistArray = new JSONObject(response.body()).getJSONArray("artists");
 
                 for (int i = 0; i < artistArray.length(); i++) {
-                    if (artistArray.get(i).toString() != "null") {
+                    if (!Objects.equals(artistArray.get(i).toString(), "null")) {
                         Artist a = new Artist(artistArray.getJSONObject(i).toString());
                         artists.add(a);
                     }
@@ -228,16 +223,16 @@ public class SpotifyAPIController implements Serializable {
                 return requestSeveralArtists(artistIds);
             } else if (response.statusCode() == 429) {
                 JsfUtil.addErrorMessage("Api rate limit exceeded!");
-                return new ArrayList();
+                return new ArrayList<>();
 
             }
         } catch (IOException | InterruptedException e) {
             JsfUtil.addErrorMessage(e.toString());
-            return new ArrayList();
+            return new ArrayList<>();
 
         }
 
-        return new ArrayList();
+        return new ArrayList<>();
     }
 
     public List<Artist> requestFavoriteArtists(List<UserFavoriteArtist> favoriteArtists) {
@@ -256,11 +251,11 @@ public class SpotifyAPIController implements Serializable {
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
-                List<Artist> artists = new ArrayList();
+                List<Artist> artists = new ArrayList<>();
                 JSONArray artistArray = new JSONObject(response.body()).getJSONArray("artists");
 
                 for (int i = 0; i < artistArray.length(); i++) {
-                    if (artistArray.get(i).toString() != "null") {
+                    if (!Objects.equals(artistArray.get(i).toString(), "null")) {
                         Artist a = new Artist(artistArray.getJSONObject(i).toString());
                         artists.add(a);
                     }
@@ -271,16 +266,16 @@ public class SpotifyAPIController implements Serializable {
                 return requestFavoriteArtists(favoriteArtists);
             } else if (response.statusCode() == 429) {
                 JsfUtil.addErrorMessage("Api rate limit exceeded!");
-                return new ArrayList();
+                return new ArrayList<>();
 
             }
         } catch (IOException | InterruptedException e) {
             JsfUtil.addErrorMessage(e.toString());
-            return new ArrayList();
+            return new ArrayList<>();
 
         }
 
-        return new ArrayList();
+        return new ArrayList<>();
     }
 
     public Track requestTrack(String trackId) {
@@ -323,11 +318,11 @@ public class SpotifyAPIController implements Serializable {
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
-                List<Track> tracks = new ArrayList();
+                List<Track> tracks = new ArrayList<>();
                 JSONArray trackArray = new JSONObject(response.body()).getJSONArray("tracks");
 
                 for (int i = 0; i < trackArray.length(); i++) {
-                    if (trackArray.get(i).toString() != "null") {
+                    if (!Objects.equals(trackArray.get(i).toString(), "null")) {
                         Track a = new Track(trackArray.getJSONObject(i).toString(), subcall);
                         tracks.add(a);
                     }
@@ -338,21 +333,21 @@ public class SpotifyAPIController implements Serializable {
                 return requestSeveralTracks(trackIds, subcall);
             } else if (response.statusCode() == 429) {
                 JsfUtil.addErrorMessage("Api rate limit exceeded!");
-                return new ArrayList();
+                return new ArrayList<>();
 
             }
         } catch (IOException | InterruptedException e) {
             JsfUtil.addErrorMessage(e.toString());
-            return new ArrayList();
+            return new ArrayList<>();
 
         }
 
-        return new ArrayList();
+        return new ArrayList<>();
     }
 
     public List<Track> requestTopTracksFromArtist(String artistId) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.spotify.com/v1/artists/" + artistId + "/top-tracks"))
+                .uri(URI.create("https://api.spotify.com/v1/artists/" + artistId + "/top-tracks?market=US"))
                 .timeout(Duration.ofMinutes(1))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + accessToken)
@@ -363,10 +358,12 @@ public class SpotifyAPIController implements Serializable {
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
-                List<Track> tracks = new ArrayList();
+                List<Track> tracks = new ArrayList<>();
                 JSONArray tracksArray = new JSONObject(response.body()).getJSONArray("tracks");
 
-                for (int i = 0; i < tracksArray.length(); i++) {
+                int length = Math.min(tracksArray.length(), 6);
+
+                for (int i = 0; i < length; i++) {
                     Track t = new Track(tracksArray.getJSONObject(i).toString(), false);
                     tracks.add(t);
                 }
@@ -377,13 +374,13 @@ public class SpotifyAPIController implements Serializable {
                 return requestTopTracksFromArtist(artistId);
             } else if (response.statusCode() == 429) {
                 System.out.println("rate limit");
-                return new ArrayList();
+                return new ArrayList<>();
             }
         } catch (IOException | InterruptedException e) {
             System.out.println(e);
-            return new ArrayList();
+            return new ArrayList<>();
         }
-        return new ArrayList();
+        return new ArrayList<>();
     }
 
 
@@ -400,7 +397,7 @@ public class SpotifyAPIController implements Serializable {
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
-                List<Album> albums = new ArrayList();
+                List<Album> albums = new ArrayList<>();
                 JSONArray albumArray = new JSONObject(response.body()).getJSONObject("albums").getJSONArray("items");
 
                 for (int i = 0; i < albumArray.length(); i++) {
@@ -414,13 +411,13 @@ public class SpotifyAPIController implements Serializable {
                 return requestNewReleases();
             } else if (response.statusCode() == 429) {
                 JsfUtil.addErrorMessage("Api rate limit exceeded!");
-                return new ArrayList();
+                return new ArrayList<>();
             }
         } catch (IOException | InterruptedException e) {
             JsfUtil.addErrorMessage(e.toString());
-            return new ArrayList();
+            return new ArrayList<>();
         }
-        return new ArrayList();
+        return new ArrayList<>();
     }
 
 
@@ -485,9 +482,7 @@ public class SpotifyAPIController implements Serializable {
     }
 
     public Results requestSearch() {
-        if (searchedText.length() == 0) {
-            return new Results();
-        } else {
+        if (searchedText.length() != 0) {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://api.spotify.com/v1/search?q=" + searchedText.replaceAll(" ", "%20") + "&type=track,artist,album&limit=24&market=US"))
                     .timeout(Duration.ofMinutes(1))
@@ -538,27 +533,23 @@ public class SpotifyAPIController implements Serializable {
                 if (msg.length() > 0) {
                     JsfUtil.addErrorMessage(msg);
                 } else {
-                    JsfUtil.addErrorMessage(ex,"A Persistence Error Occurred!");
+                    JsfUtil.addErrorMessage(ex, "A Persistence Error Occurred!");
                 }
                 return new Results();
             } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex,"A Persistence Error Occurred!");
+                JsfUtil.addErrorMessage(ex, "A Persistence Error Occurred!");
                 return new Results();
             }
-            return new Results();
         }
+        return new Results();
     }
 
 
-    /*
-        Getters & Setters
-     */
-
+    /* Getters & Setters */
     public String getSearchedText() {
         return searchedText;
     }
-
     public void setSearchedText(String searchedText) {
         this.searchedText = searchedText;
     }

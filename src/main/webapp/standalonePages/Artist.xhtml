@@ -4,23 +4,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <ui:composition template="/musitiqueTemplates/siteTemplate.xhtml">
     <ui:define name="title">
-        <h:outputText value="#{entityController.getSelectedAlbum().name}"/>
+        <h:outputText value="#{entityController.getSelectedArtist().name}"/>
     </ui:define>
 
     <ui:define name="editableContent">
         <div align="center">
             <h:form id="ArtistForm">
-                <p:graphicImage url="#{entityController.getSelectedArtist().imageUrl}" width="20%"/>
                 <p:panelGrid columns="3">
-                    <c:if test="#{userController.isLoggedIn() == true}">
-                        <h:form>
-                            <div id="FavButton">
+                    <p:panel>
+                        <p:graphicImage url="#{entityController.getSelectedArtist().imageUrl}" width="100%"/>
+                        <c:if test="#{userController.isLoggedIn() == true}">
+                            <h:form style="position: relative; top: -32px; z-index: 1;">
                                 <p:commandButton icon="pi pi-heart"
                                                  rendered="#{entityController.isFavoriteArtist()}"
                                                  styleClass="rounded-button ui-button-help"
@@ -36,19 +35,51 @@
                                                  actionListener="#{userFavoriteArtistController.addFavorite(entityController.getSelectedArtist())}"
                                                  update=":FavButton,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
                                                  oncomplete="standalonePages/Artist.xhtml"/>
-                            </div>
-                        </h:form>
-                    </c:if>
-                </p:panelGrid>
-                <p:panelGrid columns="1">
-                    <h:outputText value="#{entityController.getSelectedArtist().name}"/>
-                    <h:outputText value="#{entityController.getSelectedArtist().getGenresListAsString()}"/>
-                    <h:outputText value="Number of Followers: #{entityController.getSelectedArtist().followers}"/>
+                            </h:form>
+                        </c:if>
+                    </p:panel>
+                    <p:panel>
+                        <h:outputText value="#{entityController.getSelectedArtist().name}"/>
+                        <br />
+                        <h:outputText value="#{entityController.getSelectedArtist().getGenresListAsString()}"/>
+                        <br />
+                        <h:outputText value="Number of Followers: #{entityController.getSelectedArtist().followers}"/>
+                        <br /><br />
+                        <h:outputText value="Average Rating:"/>
+                        <p:rating id="avgRating" value="#{entityController.getAverageRating()}" readonly="true"/>
+                        <h:outputText
+                                rendered="#{userController.isLoggedIn() == true}"
+                                value="Your Rating:"/>
+                        <p:rating
+                                rendered="#{userController.isLoggedIn() == true}"
+                                value="#{entityController.getUserRating().rating}">
+                            <p:ajax event="rate"
+                                    update="avgRating"
+                                    listener="#{entityController.onRate}"/>
+                            <p:ajax event="cancel" listener="#{entityController.onUnrate()}"/>
+                        </p:rating>
+                    </p:panel>
+                    <h:form id="ExploreForm">
+                        <p:dataGrid value="#{spotifyAPIController.requestTopTracksFromArtist(entityController.getSelectedArtist().id)}"
+                                    var="aTrack"
+                                    rows="25"
+                                    style="background: none; width:100%">
+                            <p:dataViewGridItem>
+                                <p:panel style="text-align:left">
+                                    <h:panelGrid columns="1" style="width:100%; margin-left:10px">
+                                        <ui:include src="/musitiqueTemplates/trackCardTemplate.xhtml">
+                                            <ui:param name="artist" value="#{aTrack}"/>
+                                        </ui:include>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:dataViewGridItem>
+                        </p:dataGrid>
+                    </h:form>
                 </p:panelGrid>
             </h:form>
-                <ui:insert name="comments">
-                    <ui:include src="/musitiqueTemplates/commentsTemplate.xhtml"/>
-                </ui:insert>
+            <ui:insert name="comments">
+                <ui:include src="/musitiqueTemplates/commentsTemplate.xhtml"/>
+            </ui:insert>
         </div>
     </ui:define>
 

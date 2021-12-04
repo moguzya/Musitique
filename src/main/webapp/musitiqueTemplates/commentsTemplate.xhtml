@@ -9,30 +9,15 @@
 <ui:composition>
     <div align="center">
         <h:form id="commentForm">
-            <p:panelGrid columns="2">
-                <h:outputText value="Average Rating:"/>
-                <p:rating id="avgRating" value="#{entityController.getAverageRating()}" readonly="true"/>
-                <h:outputText
-                        rendered="#{userController.isLoggedIn() == true}"
-                        value="Your Rating:"/>
-                <p:rating
-                        rendered="#{userController.isLoggedIn() == true}"
-                        value="#{entityController.getUserRating().rating}">
-                    <p:ajax event="rate"
-                            update="avgRating"
-                            listener="#{entityController.onRate}"/>
-                    <p:ajax event="cancel" listener="#{entityController.onUnrate()}"/>
-                </p:rating>
-            </p:panelGrid>
             <p:dataTable
                     id="commentsTable"
                     var="aComment"
                     value="#{entityController.getListOfComments()}"
                     selection="#{entityController.selectedComment}">
-                <f:facet name="header">
+                <f:facet name="header" align="center">
                     User Comments
                 </f:facet>
-                <p:column headerText="">
+                <p:column style="width: 10%;" headerText="">
                     <p:commandButton icon="pi pi-times"
                                      rendered="#{(userController.isLoggedIn() == true) and (userController.isOwner(aComment))}"
                                      styleClass="rounded-button ui-button-danger"
@@ -65,6 +50,7 @@
                              value="Post Comment"
                              icon="fas fa-save"
                              styleClass="rounded-button"
+                             rendered="#{userController.isLoggedIn() == true}"
                              actionListener="#{entityController.postComment}"
                              update="commentsTable,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"/>
 

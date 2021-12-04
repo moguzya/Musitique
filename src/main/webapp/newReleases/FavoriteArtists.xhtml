@@ -14,13 +14,12 @@
 
     <ui:define name="editableContent">
         <div align="center">
-            <h:form id="NewReleasesForm">
+            <h:form id="FavoriteArtistsForm">
                 <div class="tableBackgroundDiv">
                     <p:dataGrid value="#{spotifyAPIController.requestFavoriteArtists(userFavoriteArtistController.listOfFavoriteArtists)}"
                                 var="anArtist"
                                 rows="25"
-                                style="background: none;width:100%"
-                                styleClass="customClass">
+                                style="background: none;width:100%">
 
                         <f:facet name="header">
                             <h:outputText value="Artists"/>

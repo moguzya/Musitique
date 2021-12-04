@@ -22,21 +22,19 @@
             <f:viewAction action="#{releaseController.unselect()}" rendered="#{facesContext.postback}"/>
         </f:metadata>
 
-        <div align="center" style="background: none;">
-            <h:form id="NewReleasesForm"     style="background: none;">
-                <div class="tableBackgroundDiv" style="background: none;">
-
+        <div align="center">
+            <h:form id="NewReleasesForm">
+                <div class="tableBackgroundDiv">
                     <p:dataGrid  value="#{releaseController.listOfNewReleases}"
                                 var="aRelease"
                                 rows="25"
                                 gridIcon="pi pi-th-large" listIcon="pi pi-bars"
-                                style="background: none;width:100%"
-                                styleClass="customClass">
-                        <f:facet name="header" style="background: none;">
+                                style="background: none;width:100%">
+                        <f:facet name="header">
                             <h:outputText value="New Releases"/>
                         </f:facet>
 
-                        <p:dataViewGridItem style="background: none;">
+                        <p:dataViewGridItem>
                             <p:panel style="text-align:left">
                                 <h:panelGrid columns="3" style="width:100%; margin-left:10px">
                                     <ui:include src="/musitiqueTemplates/albumCardTemplate.xhtml">

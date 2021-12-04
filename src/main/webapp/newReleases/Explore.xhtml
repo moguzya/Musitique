@@ -15,30 +15,27 @@
     <ui:define name="editableContent">
         <div align="center">
             <h:form id="ExploreForm">
-                <div class="tableBackgroundDiv">
-                    <p:dataGrid value="#{spotifyAPIController.requestRecommendations(
-                                                    userGenresController.listOfUserGenres,
-                                                    userFavoriteArtistController.listOfFavoriteArtists)}"
-                                var="aTrack"
-                                rows="25"
-                                style="background: none;width:100%"
-                                styleClass="customClass">
+                <p:dataGrid value="#{spotifyAPIController.requestRecommendations(
+                                                userGenresController.listOfUserGenres,
+                                                userFavoriteArtistController.listOfFavoriteArtists)}"
+                            var="aTrack"
+                            rows="25"
+                            style="background: none;width:100%">
 
-                        <f:facet name="header">
-                            <h:outputText value="Tracks"/>
-                        </f:facet>
+                    <f:facet name="header">
+                        <h:outputText value="Tracks"/>
+                    </f:facet>
 
-                        <p:dataViewGridItem>
-                            <p:panel style="text-align:left">
-                                <h:panelGrid columns="3" style="width:100%; margin-left:10px">
-                                    <ui:include src="/musitiqueTemplates/trackCardTemplate.xhtml">
-                                        <ui:param name="track" value="#{aTrack}"/>
-                                    </ui:include>
-                                </h:panelGrid>
-                            </p:panel>
-                        </p:dataViewGridItem>
-                    </p:dataGrid>
-                </div>
+                    <p:dataViewGridItem>
+                        <p:panel style="text-align:left">
+                            <h:panelGrid columns="3" style="width:100%; margin-left:10px">
+                                <ui:include src="/musitiqueTemplates/trackCardTemplate.xhtml">
+                                    <ui:param name="track" value="#{aTrack}"/>
+                                </ui:include>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:dataViewGridItem>
+                </p:dataGrid>
             </h:form>
         </div>
     </ui:define>
