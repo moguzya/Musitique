@@ -75,10 +75,17 @@ public class SpotifyAPIController implements Serializable {
     private String searchedText;
 
     /*
-    ================
-    Instance Methods
-    ================
-    */
+    Constructor
+     */
+    public SpotifyAPIController() {
+        this.requestToken();
+    }
+
+    /*
+        ================
+        Instance Methods
+        ================
+        */
     public void requestToken() {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://accounts.spotify.com/api/token"))
