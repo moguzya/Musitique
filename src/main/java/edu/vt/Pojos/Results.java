@@ -20,6 +20,10 @@ public class Results {
         this.tracks = new ArrayList<>();
     }
 
+    public Results(List<Track> tracks) {
+        this.tracks = tracks;
+    }
+
     public List<Album> getAlbums() {
         return albums;
     }
