@@ -45,8 +45,8 @@
                              rowsPerPageTemplate="5,10,15,20,30,40,50"
                              emptyMessage="No comments found for the search query entered!">
 
-                    <p:ajax event="rowSelect" update="viewButtonRating deleteButtonRating"/>
-                    <p:ajax event="rowUnselect" update="viewButtonRating deleteButtonRating"/>
+                    <p:ajax event="rowSelect" update="viewButtonRating editButtonRating deleteButtonRating"/>
+                    <p:ajax event="rowUnselect" update="viewButtonRating editButtonRating deleteButtonRating"/>
 
                     <!--
                     *************************
@@ -158,11 +158,16 @@
                             <p:commandButton id="viewButtonRating" value="View" icon="fas fa-eye" styleClass="rounded-button"
                                              update=":RatingViewDlg" oncomplete="PF('RatingViewDialog').show()"
                                              disabled="#{empty userRatingsController.selected}"/>
+                            &nbsp;
+                            <p:commandButton id="editButtonRating" value="Edit" icon="fas fa-edit" styleClass="rounded-button"
+                                             update=":RatingEditDlg" oncomplete="PF('RatingEditDialog').show()"
+                                             disabled="#{empty userRatingsController.selected}"/>
                             <!--
                             ***************************************************
                             Display a Confirmation dialog for the DELETE button
                             ***************************************************
                             -->
+                            &nbsp;
                             <p:commandButton id="deleteButtonRating" value="Delete"
                                              icon="fas fa-trash-alt" styleClass="rounded-button"
                                              actionListener="#{userRatingsController.destroy}"

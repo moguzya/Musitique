@@ -32,13 +32,16 @@
                 </ui:insert>
             </p:tab>
             <p:tab title="My Ratings">
-                <ui:include src="RaitingsLists.xhtml"/>
+                <ui:include src="RaitingsList.xhtml"/>
             </p:tab>
 
         </p:tabView>
 
-        <ui:include src="/myCritiques/CommentsView.xhtml"/>
+        <ui:include src="/myCritiques/CommentView.xhtml"/>
         <ui:include src="/myCritiques/RatingView.xhtml"/>
+
+        <ui:include src="/myCritiques/CommentEdit.xhtml"/>
+        <ui:include src="/myCritiques/RatingEdit.xhtml"/>
 
     </ui:define>
 </ui:composition>
