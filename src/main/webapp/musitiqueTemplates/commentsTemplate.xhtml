@@ -5,48 +5,76 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:f="http://java.sun.com/jsf/core">
 <ui:composition>
     <div align="center">
         <h:form>
+            <p:panelGrid columns="2">
+            </p:panelGrid>
+            <h:outputText value="Average Rating:"/>
+            <p:rating id="avgRating" value="#{entityController.getAverageRating()}" readonly="true"/>
             <c:if test="#{userController.isLoggedIn() == true}">
+                <h:outputText value="Your Rating:"/>
                 <p:rating value="#{entityController.getUserRating().rating}">
-                    <p:ajax event="rate" listener="#{entityController.onRate}"/>
+                    <p:ajax event="rate"
+                            update="avgRating"
+                            listener="#{entityController.onRate}"/>
                     <p:ajax event="cancel" listener="#{entityController.onUnrate()}"/>
                 </p:rating>
             </c:if>
-            <h:outputText value="Comments"/>
             <p:dataTable
                     id="commentsTable"
                     var="aComment"
                     value="#{entityController.getListOfComments()}"
                     selection="#{entityController.selectedComment}">
-                <p:column rendered="#{(userController.isLoggedIn() == true) and (userController.isOwner(aComment))}">
+                <f:facet name="header">
+                    User Comments
+                </f:facet>
+                <p:column headerText="">
                     <p:commandButton icon="pi pi-times"
+                                     rendered="#{(userController.isLoggedIn() == true) and (userController.isOwner(aComment))}"
                                      styleClass="rounded-button ui-button-danger"
-                                     action="#{entityController.destroyComment(aComment)}"
-                                     ajax="false"
+                                     actionListener="#{entityController.destroyComment(aComment)}"
                                      update="commentsTable,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage">
+                        <p:confirm header="Deletion Confirmation"
+                                   message="Are you sure you want to permanently delete your comment from the database?"/>
                     </p:commandButton>
                 </p:column>
 
-                <p:column>
+                <p:column headerText="User">
                     <h:outputText value="#{aComment.userId.getUsername()}: #{aComment.comment}"/>
                 </p:column>
 
-                <p:column>
+                <p:column headerText="Date of Comment">
                     <h:outputText value="#{aComment.date}"/>
                 </p:column>
             </p:dataTable>
+
             <c:if test="#{userController.isLoggedIn() == true}">
-                <p:inputTextarea rows="5" value="#{entityController.newCommentText}" counter="display" maxlength="256"
+                <p:inputTextarea rows="5" cols="50" value="#{entityController.newCommentText}" counter="display"
+                                 maxlength="256"
                                  counterTemplate="{0} characters remaining."/>
+                <br/>
                 <h:outputText id="display" class="p-d-block"/>
+                <br/>
                 <p:commandButton value="Post Comment" icon="fas fa-save" styleClass="rounded-button"
                                  ajax="false" actionListener="#{entityController.postComment}"
                                  update=":commentsTable,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
                                  oncomplete="#{entityController.postComment}"/>
+
             </c:if>
+
+
+            <p:confirmDialog id="confirmDialogBoxComments" global="true" showEffect="fade" hideEffect="fade"
+                             responsive="true" width="350">
+                <div align="center">
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+                                     icon="fas fa-window-close"/>
+                    &nbsp;
+                    <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger"
+                                     icon="fas fa-check-square"/>
+                </div>
+            </p:confirmDialog>
         </h:form>
     </div>
 

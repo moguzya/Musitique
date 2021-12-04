@@ -29,7 +29,7 @@
                                  value="#{spotifyAPIController.searchedText}"/>
                     <p:menu style="width:100%">
                         <p:menuitem value="Search" icon="fas fa-search"
-                                    action="#{searchController.search(spotifyAPIController.requestSearch(),spotifyAPIController.getSearchedAlbums(),spotifyAPIController.getSearchedArtists(),spotifyAPIController.getSearchedTracks())}"/>
+                                    action="#{searchController.search(spotifyAPIController.requestSearch())}"/>
 
                         <p:menuitem value="New Releases" icon="fas fa-fire"
                                     action="#{releaseController.newReleases(spotifyAPIController.requestNewReleases())}"/>
@@ -43,10 +43,7 @@
                                         action="#{exploreController.explore(
                                                     spotifyAPIController.requestRecommendations(
                                                     userGenresController.listOfUserGenres,
-                                                    userFavoriteArtistController.listOfFavoriteArtists),
-                                                    spotifyAPIController.getRecommendedAlbums(),
-                                                    spotifyAPIController.getRecommendedArtists(),
-                                                    spotifyAPIController.getRecommendedTracks())}"/>
+                                                    userFavoriteArtistController.listOfFavoriteArtists))}"/>
                         </c:if>
 
                     </p:menu>

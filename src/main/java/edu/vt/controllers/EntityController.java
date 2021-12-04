@@ -317,6 +317,10 @@ public class EntityController implements Serializable {
         this.userRating = userRating;
     }
 
+    public long getAverageRating() {
+        return Math.round(ratingFacade.findAverageRatingByEntityId(getSelectedEntityId()));
+    }
+
     public List<UserComment> getListOfComments() {
         if (listOfComments == null) {
             listOfComments = commentFacade.findCommentsByEntityId(getSelectedEntityId());

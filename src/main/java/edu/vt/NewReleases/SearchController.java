@@ -2,6 +2,7 @@ package edu.vt.NewReleases;
 
 import edu.vt.Pojos.Album;
 import edu.vt.Pojos.Artist;
+import edu.vt.Pojos.Results;
 import edu.vt.Pojos.Track;
 
 import javax.annotation.PostConstruct;
@@ -19,10 +20,10 @@ public class SearchController implements Serializable {
     private List<Artist> artists;
     private List<Track> tracks;
 
-    public String search(Boolean searched, List<Album> albums, List<Artist> artists, List<Track> tracks) {
-        this.artists = artists;
-        this.tracks = tracks;
-        this.albums = albums;
+    public String search(Results results) {
+        this.albums = results.getAlbums();
+        this.artists = results.getArtists();
+        this.tracks = results.getTracks();
         return "/newReleases/SearchResults?faces-redirect=true";
     }
 

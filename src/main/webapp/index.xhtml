@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-    <ui:composition template="/musitiqueTemplates/siteTemplate.xhtml">
+<ui:composition template="/musitiqueTemplates/siteTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="Musitique"/>
+    </ui:define>
 
-        <ui:define name="editableContent">
+    <ui:define name="editableContent">
 
-            <h:form>
-                <p:commandButton value="Update iframe"
-                                 actionListener="#{spotifyPlayerController.updateURL('https://open.spotify.com/embed/track/70C4NyhjD5OZUMzvWZ3njJ?utm_source=generator')}" >
-                    <f:ajax render=":iframe-holder"/>
-                </p:commandButton>
-            </h:form>
-        </ui:define>
-    </ui:composition>
+    </ui:define>
+
+</ui:composition>
+<!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
 </html>
+

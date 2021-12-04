@@ -8,6 +8,7 @@ import edu.vt.EntityBeans.UserFavoriteArtist;
 import edu.vt.EntityBeans.UserGenre;
 import edu.vt.Pojos.Album;
 import edu.vt.Pojos.Artist;
+import edu.vt.Pojos.Results;
 import edu.vt.Pojos.Track;
 import edu.vt.globals.Constants;
 
@@ -65,6 +66,10 @@ public class SpotifyAPIController implements Serializable {
     ===============================
     */
     private static final HttpClient CLIENT = HttpClient.newHttpClient();
+    HttpRequest lastNewReleasesRequest;
+    List<Album> lastNewReleasesResult;
+    Results lastRecommendationsResult;
+    HttpRequest lastRecommendationsRequest;
     private String accessToken;
     private List<Album> recommendedAlbums;
     private List<Artist> recommendedArtists;
@@ -87,10 +92,8 @@ public class SpotifyAPIController implements Serializable {
                 .header("Authorization", "Basic " + Constants.CLIENT_AUTH)
                 .POST(HttpRequest.BodyPublishers.ofString("grant_type=client_credentials&json=true"))
                 .build();
-
         try {
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
-
             if (response.statusCode() == 200) {
                 JSONObject body = new JSONObject(response.body());
                 accessToken = body.optString("access_token", "");
@@ -137,7 +140,6 @@ public class SpotifyAPIController implements Serializable {
                 .header("Authorization", "Bearer " + accessToken)
                 .GET()
                 .build();
-
         try {
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
@@ -156,12 +158,13 @@ public class SpotifyAPIController implements Serializable {
                 return requestSeveralAlbums(albumIds, subcall);
             } else if (response.statusCode() == 429) {
                 System.out.println("rate limit");
+                return new ArrayList();
             }
         } catch (IOException | InterruptedException e) {
             System.out.println(e);
+            return new ArrayList();
         }
-
-        return null;
+        return new ArrayList();
     }
 
     public Artist requestArtist(String artistId) {
@@ -191,7 +194,6 @@ public class SpotifyAPIController implements Serializable {
         return null;
     }
 
-
     public List<Artist> requestSeveralArtists(String artistIds) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spotify.com/v1/artists?ids=" + artistIds))
@@ -219,12 +221,16 @@ public class SpotifyAPIController implements Serializable {
                 return requestSeveralArtists(artistIds);
             } else if (response.statusCode() == 429) {
                 System.out.println("rate limit");
+                return new ArrayList();
+
             }
         } catch (IOException | InterruptedException e) {
             System.out.println(e);
+            return new ArrayList();
+
         }
 
-        return null;
+        return new ArrayList();
     }
 
     public Track requestTrack(String trackId) {
@@ -282,14 +288,17 @@ public class SpotifyAPIController implements Serializable {
                 return requestSeveralTracks(trackIds, subcall);
             } else if (response.statusCode() == 429) {
                 System.out.println("rate limit");
+                return new ArrayList();
+
             }
         } catch (IOException | InterruptedException e) {
             System.out.println(e);
+            return new ArrayList();
+
         }
 
-        return null;
+        return new ArrayList();
     }
-
 
     public List<Album> requestNewReleases() {
         HttpRequest request = HttpRequest.newBuilder()
@@ -299,7 +308,12 @@ public class SpotifyAPIController implements Serializable {
                 .header("Authorization", "Bearer " + accessToken)
                 .GET()
                 .build();
-
+        if (request == null)
+            return new ArrayList<>();
+        if (request.equals(lastNewReleasesRequest)) {
+            return lastNewReleasesResult;
+        }
+        lastNewReleasesRequest = request;
         try {
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
@@ -311,21 +325,23 @@ public class SpotifyAPIController implements Serializable {
                     Album a = new Album(albumArray.getJSONObject(i).toString(), false);
                     albums.add(a);
                 }
-                return albums;
+                lastNewReleasesResult = albums;
+                return lastNewReleasesResult;
             } else if (response.statusCode() == 401) {
                 requestToken();
                 return requestNewReleases();
             } else if (response.statusCode() == 429) {
                 System.out.println("rate limit");
+                return new ArrayList();
             }
         } catch (IOException | InterruptedException e) {
             System.out.println(e);
+            return new ArrayList();
         }
-
-        return null;
+        return new ArrayList();
     }
 
-    public Boolean requestRecommendations(List<UserGenre> favoriteGenres, List<UserFavoriteArtist> favoriteArtists) {
+    public Results requestRecommendations(List<UserGenre> favoriteGenres, List<UserFavoriteArtist> favoriteArtists) {
         String queryGenre = favoriteGenres.stream().
                 map(i -> String.valueOf(i.getGenre())).
                 collect(Collectors.joining(","));
@@ -341,6 +357,11 @@ public class SpotifyAPIController implements Serializable {
                 .GET()
                 .build();
 
+        if (request.equals(lastRecommendationsRequest)) {
+            return lastRecommendationsResult;
+        }
+        lastRecommendationsRequest = request;
+
         try {
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
@@ -355,73 +376,77 @@ public class SpotifyAPIController implements Serializable {
                     artists.add(new Artist(recommendationArray.getJSONObject(i).getJSONArray("artists").get(0).toString()));
                     tracks.add(new Track(recommendationArray.getJSONObject(i).toString(), false));
                 }
-
                 setRecommendedAlbums(albums);
                 setRecommendedArtists(artists);
                 setRecommendedTracks(tracks);
+                lastRecommendationsResult = new Results(albums, artists, tracks);
+                return lastRecommendationsResult;
             } else if (response.statusCode() == 401) {
                 requestToken();
                 return requestRecommendations(favoriteGenres, favoriteArtists);
             } else if (response.statusCode() == 429) {
                 System.out.println("rate limit");
+                return new Results();
             }
         } catch (IOException | InterruptedException e) {
             System.out.println(e);
+            return new Results();
         }
-        return true;
+        return new Results();
     }
 
-    public boolean requestSearch() {
+    public Results requestSearch() {
         if (searchedText.length() == 0) {
-            searchedAlbums = new ArrayList<>();
-            searchedArtists = new ArrayList<>();
-            searchedTracks = new ArrayList<>();
-            return false;
-        }
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.spotify.com/v1/search?q=" + searchedText + "&type=track,artist,album&limit=24&market=US"))
-                .timeout(Duration.ofMinutes(1))
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + accessToken)
-                .GET()
-                .build();
+            return new Results();
+        } else {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://api.spotify.com/v1/search?q=" + searchedText + "&type=track,artist,album&limit=24&market=US"))
+                    .timeout(Duration.ofMinutes(1))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + accessToken)
+                    .GET()
+                    .build();
 
-        try {
-            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+            try {
+                HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
-            if (response.statusCode() == 200) {
-                JSONArray tracksArray = new JSONObject(response.body()).getJSONObject("tracks").getJSONArray("items");
-                JSONArray albumsArray = new JSONObject(response.body()).getJSONObject("albums").getJSONArray("items");
-                JSONArray artistsArray = new JSONObject(response.body()).getJSONObject("artists").getJSONArray("items");
+                if (response.statusCode() == 200) {
+                    JSONArray tracksArray = new JSONObject(response.body()).getJSONObject("tracks").getJSONArray("items");
+                    JSONArray albumsArray = new JSONObject(response.body()).getJSONObject("albums").getJSONArray("items");
+                    JSONArray artistsArray = new JSONObject(response.body()).getJSONObject("artists").getJSONArray("items");
 
-                List<Album> albums = new ArrayList<>();
-                List<Artist> artists = new ArrayList<>();
-                List<Track> tracks = new ArrayList<>();
+                    List<Album> albums = new ArrayList<>();
+                    List<Artist> artists = new ArrayList<>();
+                    List<Track> tracks = new ArrayList<>();
 
-                for (int i = 0; i < tracksArray.length(); i++) {
-                    tracks.add(new Track(tracksArray.getJSONObject(i).toString(), false));
+                    for (int i = 0; i < tracksArray.length(); i++) {
+                        tracks.add(new Track(tracksArray.getJSONObject(i).toString(), false));
+                    }
+
+                    for (int i = 0; i < albumsArray.length(); i++) {
+                        albums.add(new Album(albumsArray.getJSONObject(i).toString(), false));
+                    }
+
+                    for (int i = 0; i < artistsArray.length(); i++) {
+                        artists.add(new Artist(artistsArray.getJSONObject(i).toString()));
+                    }
+                    setSearchedAlbums(albums);
+                    setSearchedArtists(artists);
+                    setSearchedTracks(tracks);
+                    return new Results(albums, artists, tracks);
+                } else if (response.statusCode() == 401) {
+                    requestToken();
+                    return requestSearch();
+                } else if (response.statusCode() == 429) {
+                    System.out.println("rate limit");
+                    return new Results();
                 }
-
-                for (int i = 0; i < albumsArray.length(); i++) {
-                    albums.add(new Album(albumsArray.getJSONObject(i).toString(), false));
-                }
-
-                for (int i = 0; i < artistsArray.length(); i++) {
-                    artists.add(new Artist(artistsArray.getJSONObject(i).toString()));
-                }
-                setSearchedAlbums(albums);
-                setSearchedArtists(artists);
-                setSearchedTracks(tracks);
-            } else if (response.statusCode() == 401) {
-                requestToken();
-                return requestSearch();
-            } else if (response.statusCode() == 429) {
-                System.out.println("rate limit");
+            } catch (IOException | InterruptedException e) {
+                System.out.println(e);
+                return new Results();
             }
-        } catch (IOException | InterruptedException e) {
-            System.out.println(e);
+            return new Results();
         }
-        return true;
     }
 
 

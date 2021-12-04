@@ -49,17 +49,15 @@ public class Album {
             this.artists = API_CONTROLLER.requestSeveralArtists(artistsAsString);
         }
         this.tracks = new ArrayList();
-        if (body.has("tracks")) {
+        if (body.has("tracks") && !subcall) {
             JSONArray tracksArray = body.getJSONObject("tracks").getJSONArray("items");
-
 
             String tracksAsString = "";
             for (int i = 0; i < tracksArray.length() - 1; i++) {
                 tracksAsString += tracksArray.getJSONObject(i).optString("id") + ",";
             }
             tracksAsString += tracksArray.getJSONObject(tracksArray.length() - 1).optString("id");
-            if (!subcall)
-                this.tracks = API_CONTROLLER.requestSeveralTracks(tracksAsString, true);
+            this.tracks = API_CONTROLLER.requestSeveralTracks(tracksAsString, true);
         }
     }
 

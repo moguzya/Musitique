@@ -16,53 +16,46 @@
         <div align="center">
             <h:form id="AlbumForm">
                 <p:graphicImage url="#{entityController.getSelectedAlbum().imageUrl}" width="20%"/>
+                <br/>
                 <p:commandButton icon="fa fa-play fa-2x"
                                  actionListener='#{spotifyPlayerController.updateURL(entityController.getSelectedAlbum().embedUri)}'>
                     <f:ajax render=":iframe-holder"/>
                 </p:commandButton>
-                <h:outputText value="#{entityController.getSelectedAlbum().name}"/>
-                <ui:repeat var="artist" value="#{entityController.getSelectedAlbum().artists}" varStatus="status">
-                    <h:commandLink action="#{entityController.toArtistPage(artist)}" value="#{artist.name} "/>
-                </ui:repeat>
-                <h:outputText value="#{entityController.getSelectedAlbum().releaseDate}"/>
-                <h:outputText value="#{entityController.getSelectedAlbum().totalTracks}"/>
-                <p:dataView value="#{entityController.getSelectedAlbum().tracks}"
+                <p:panelGrid columns="1">
+                    <h:outputText value="Album Name: #{entityController.getSelectedAlbum().name}"/>
+                    <p:panel>
+                        <h:outputText value="Artists:"/>
+                        <br/>
+                        <ui:repeat var="artist" value="#{entityController.getSelectedAlbum().artists}" varStatus="status">
+                            <h:commandLink
+                                    action="#{entityController.toArtistPage(spotifyAPIController.requestArtist(artist.getId()))}">
+                                <p:graphicImage url="#{artist.imageUrl}" width="92px" style="float:left"/>
+                            </h:commandLink>
+                        </ui:repeat>
+                    </p:panel>
+                    <h:outputText value="Release Date: #{entityController.getSelectedAlbum().releaseDate}"/>
+                    <h:outputText value="Total Tracks: #{entityController.getSelectedAlbum().totalTracks}"/>
+                </p:panelGrid>
+                <p:dataGrid value="#{entityController.getSelectedAlbum().tracks}"
                             var="aTrack"
-                            rows="6"
-                            paginator="true"
-                            layout="grid"
-                            rowsPerPageTemplate="3,6,9,12,15,18,21,24"
-                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                            pageLinks="5"
+                            rows="25"
                             gridIcon="pi pi-th-large" listIcon="pi pi-bars"
-                            style="width:100%">
+                            style="background: none;width:100%"
+                            styleClass="customClass">
+                    <f:facet name="header" style="background: none;">
+                        <h:outputText value="Tracks"/>
+                    </f:facet>
 
-                    <p:dataViewGridItem>
+                    <p:dataViewGridItem style="background: none;">
                         <p:panel style="text-align:left">
-
-                            <h:panelGrid columns="3" style="width:100%">
-
+                            <h:panelGrid columns="3" style="width:100%; margin-left:10px">
                                 <ui:include src="/musitiqueTemplates/trackCardTemplate.xhtml">
-                                    <ui:param name="album" value="#{aTrack}"/>
+                                    <ui:param name="track" value="#{aTrack}"/>
                                 </ui:include>
-
                             </h:panelGrid>
                         </p:panel>
                     </p:dataViewGridItem>
-
-                    <p:dataViewListItem>
-                        <div align="center" style="width: 50%">
-                            <p:panel style="text-align:left">
-                                <h:panelGrid columns="3" style="width:100%">
-                                    <ui:include src="/musitiqueTemplates/trackCardTemplate.xhtml">
-                                        <ui:param name="album" value="#{aTrack}"/>
-                                    </ui:include>
-                                </h:panelGrid>
-                            </p:panel>
-                        </div>
-                    </p:dataViewListItem>
-
-                </p:dataView>
+                </p:dataGrid>
             </h:form>
             <ui:insert name="comments">
                 <ui:include src="/musitiqueTemplates/commentsTemplate.xhtml"/>

@@ -13,7 +13,7 @@
     </p:commandLink>
     <h:panelGrid style="width:100%; margin-left:10px">
         <f:facet name="header">
-            <h:commandLink action="#{entityController.toAlbumPage(album)}" value="#{album.name}"/>
+            <h:commandLink action="#{entityController.toAlbumPage(spotifyAPIController.requestAlbum(album.getId()))}" value="#{album.name}"/>
         </f:facet>
         <ui:repeat var="artist" value="#{album.artists}" varStatus="status">
             <h:commandLink action="#{entityController.toArtistPage(artist)}" value="#{artist.name} "/>

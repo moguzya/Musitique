@@ -4,6 +4,7 @@ import edu.vt.FacadeBeans.RatingFacade;
 import edu.vt.FacadeBeans.UserGenreFacade;
 import edu.vt.Pojos.Album;
 import edu.vt.Pojos.Artist;
+import edu.vt.Pojos.Results;
 import edu.vt.Pojos.Track;
 
 import javax.annotation.PostConstruct;
@@ -22,10 +23,10 @@ public class ExploreController implements Serializable {
     private List<Artist> artists;
     private List<Track> tracks;
 
-    public String explore(Boolean searched, List<Album> albums, List<Artist> artists, List<Track> tracks) {
-        this.albums = albums;
-        this.artists = artists;
-        this.tracks = tracks;
+    public String explore(Results results) {
+        this.albums = results.getAlbums();
+        this.artists = results.getArtists();
+        this.tracks = results.getTracks();
         return "/newReleases/Explore.xhtml";
     }
 
