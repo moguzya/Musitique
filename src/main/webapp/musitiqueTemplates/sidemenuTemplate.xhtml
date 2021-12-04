@@ -5,34 +5,27 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-<ui:composition>
-    <div class="side-menu-div">
-        <!--            <f:facet name="footer">-->
-        <div class="side-menu-bottom">
-
+    <ui:composition>
+        <div class="side-menu-div">
             <div align="center">
                 <a href="${pageContext.request.contextPath}/Musitique/">
                     <p:graphicImage cache="false" styleClass="siteLogo"
                                     value="#{resource['images:musitiqueLogo.png']}"/>
                 </a>
-                &nbsp;
             </div>
-        </div>
-        <!--            </f:facet>-->
-        <h:form class="side-menu-main">
-            <p:panel>
-                <div class="side-menu-main">
-                    <p:inputText style="width:100%" id="search"
-                                 type="text" placeholder="Search"
-                                 value="#{spotifyAPIController.searchedText}"/>
-                    <p:menu style="width:100%">
-                        <p:menuitem value="Search" icon="fas fa-search"
-                                    action="#{searchController.search(spotifyAPIController.requestSearch())}"/>
+            <h:form>
+                <p:panel>
+                    <div>
+                        <p:inputText style="width:100%" id="search"
+                                     type="text" placeholder="Search"
+                                     value="#{spotifyAPIController.searchedText}"/>
+                        <p:menu style="width:100%">
+                            <p:menuitem value="Search" icon="fas fa-search"
+                                        action="#{searchController.search(spotifyAPIController.requestSearch())}"/>
 
-                        <p:menuitem value="New Releases" icon="fas fa-fire"
-                                    action="#{releaseController.newReleases(spotifyAPIController.requestNewReleases())}"/>
+                            <p:menuitem value="New Releases" icon="fas fa-fire"
+                                        action="#{releaseController.newReleases(spotifyAPIController.requestNewReleases())}"/>
 
                         <c:if test="#{userController.isLoggedIn() == true}">
                             <p:menuitem icon="fas fa-star-half-alt"
@@ -46,45 +39,42 @@
                                                     userFavoriteArtistController.listOfFavoriteArtists))}"/>
                         </c:if>
 
-                    </p:menu>
+                        </p:menu>
+                    </div>
+                </p:panel>
+            </h:form>
+
+            <h:panelGroup id="iframe-holder" layout="block">
+                <iframe src="#{spotifyPlayerController.embedURL}" width="100%" height="100%"
+                        frameborder="0" allowtransparency="true" allow="encrypted-media">
+                    NOT SUPPORTED ON THIS BROWSER
+                </iframe>
+            </h:panelGroup>
+
+            <h:form>
+                <p:tooltip/>
+                <div class="speeddial-circle-demo">
+                    <p:speedDial radius="120" direction="up-right" type="quarter-circle" hideIcon="false"
+                                 buttonStyleClass="ui-button-warning profile-button">
+                        <!-- Menu Options IF No User is Signed In -->
+                        <c:if test="#{userController.isLoggedIn() == false}">
+                            <p:menuitem icon="fas fa-sign-in-alt" outcome="/SignIn" title="Sign In"/>
+                            <p:menuitem icon="fas fa-user-plus" outcome="/userAccount/CreateAccount"
+                                        title="Create Account"/>
+                        </c:if>
+                        <!-- Menu Options IF a User is Signed In -->
+                        <c:if test="#{userController.isLoggedIn() == true}">
+                            <p:menuitem icon="fas fa-id-badge" action="/userAccount/Profile" title="My Profile"/>
+                            <p:menuitem icon="fas fa-edit" action="/userAccount/EditAccount" title="Edit Account"/>
+                            <p:menuitem icon="fas fa-camera" action="/userPhoto/ChangePhoto" title="Change Photo"/>
+                            <p:menuitem icon="fas fa-key" action="/userPasswordChange/EnterUsername"
+                                        title="Change Password"/>
+                            <p:menuitem icon="fas fa-sign-out-alt" action="#{userController.logout()}"
+                                        title="Sign Out"/>
+                        </c:if>
+                    </p:speedDial>
                 </div>
-            </p:panel>
-        </h:form>
-
-        <h:panelGroup id="iframe-holder" layout="block">
-            <iframe src="#{spotifyPlayerController.embedURL}" width="100%" height="100%"
-                    frameborder="0" allowtransparency="true" allow="encrypted-media">
-                NOT SUPPORTED ON THIS BROWSER
-            </iframe>
-        </h:panelGroup>
-
-        <!--        <div class="side-menu-bottom">-->
-        <h:form>
-            <p:tooltip/>
-            <div class="speeddial-circle-demo">
-                <p:speedDial radius="120" direction="up-right" type="quarter-circle" hideIcon="false"
-                             buttonStyleClass="ui-button-warning profile-button">
-                    <!-- Menu Options IF No User is Signed In -->
-                    <c:if test="#{userController.isLoggedIn() == false}">
-                        <p:menuitem icon="fas fa-sign-in-alt" outcome="/SignIn" title="Sign In"/>
-                        <p:menuitem icon="fas fa-user-plus" outcome="/userAccount/CreateAccount"
-                                    title="Create Account"/>
-                    </c:if>
-                    <!-- Menu Options IF a User is Signed In -->
-                    <c:if test="#{userController.isLoggedIn() == true}">
-                        <p:menuitem icon="fas fa-id-badge" action="/userAccount/Profile" title="My Profile"/>
-                        <p:menuitem icon="fas fa-edit" action="/userAccount/EditAccount" title="Edit Account"/>
-                        <p:menuitem icon="fas fa-camera" action="/userPhoto/ChangePhoto" title="Change Photo"/>
-                        <p:menuitem icon="fas fa-key" action="/userPasswordChange/EnterUsername"
-                                    title="Change Password"/>
-                        <p:menuitem icon="fas fa-sign-out-alt" action="#{userController.logout()}"
-                                    title="Sign Out"/>
-                    </c:if>
-                </p:speedDial>
-            </div>
-        </h:form>
-        <!--        </div>     </h:form>-->
-        <!--        </div>-->
-    </div>
-</ui:composition>
+            </h:form>
+        </div>
+    </ui:composition>
 </html>
