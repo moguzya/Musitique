@@ -5,7 +5,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core">
 <ui:composition>
     <div align="center">
         <h:form id="commentForm">
@@ -21,8 +22,9 @@
                     <p:commandButton icon="pi pi-times"
                                      rendered="#{(userController.isLoggedIn() == true) and (userController.isOwner(aComment))}"
                                      styleClass="rounded-button ui-button-danger"
-                                     actionListener="#{entityController.destroyComment(aComment)}"
                                      update="commentsTable,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage">
+                        <f:actionListener binding="#{entityController.destroyComment(aComment)}"/>
+                        <f:actionListener binding="#{userCommentsController.clearListofUserComments()}"/>
                         <p:confirm header="Deletion Confirmation"
                                    message="Are you sure you want to permanently delete your comment from the database?"/>
                     </p:commandButton>
@@ -51,10 +53,10 @@
                              icon="fas fa-save"
                              styleClass="rounded-button"
                              rendered="#{userController.isLoggedIn() == true}"
-                             actionListener="#{entityController.postComment}"
-                             update="commentsTable,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"/>
-
-
+                             update="commentsTable,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage">
+                <f:actionListener binding="#{entityController.postComment()}"/>
+                <f:actionListener binding="#{userCommentsController.clearListofUserComments()}"/>
+            </p:commandButton>
             <p:confirmDialog id="confirmDialogBoxComments" global="true" showEffect="fade" hideEffect="fade"
                              responsive="true" width="350">
                 <div align="center">

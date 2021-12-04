@@ -129,6 +129,10 @@ public class UserRatingsController implements Serializable {
         this.listofUserRatings = listofUserRatings;
     }
 
+    public void clearListofUserRatings(){
+        this.listofUserRatings = null;
+    }
+
     public Album findAlbum(String entityId) {
         if (listofAlbums !=null) {
             for (Album album : listofAlbums) {

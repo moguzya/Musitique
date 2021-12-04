@@ -131,6 +131,10 @@ public class UserCommentsController implements Serializable {
         this.listofUserComments = listofUserComments;
     }
 
+    public void clearListofUserComments() {
+        this.listofUserComments = null;
+    }
+
     public Album findAlbum(String entityId) {
         if (listofAlbums !=null) {
             for (Album album : listofAlbums) {
