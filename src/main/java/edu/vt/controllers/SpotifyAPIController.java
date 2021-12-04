@@ -135,6 +135,7 @@ public class SpotifyAPIController implements Serializable {
     }
 
     public List<Album> requestSeveralAlbums(String albumIds, Boolean subcall) {
+        System.out.println("I called Albums");
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spotify.com/v1/albums?ids=" + albumIds))
                 .timeout(Duration.ofMinutes(1))
@@ -197,6 +198,8 @@ public class SpotifyAPIController implements Serializable {
     }
 
     public List<Artist> requestSeveralArtists(String artistIds) {
+        System.out.println("I called Artists");
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spotify.com/v1/artists?ids=" + artistIds))
                 .timeout(Duration.ofMinutes(1))
@@ -306,6 +309,8 @@ public class SpotifyAPIController implements Serializable {
     }
 
     public List<Track> requestSeveralTracks(String trackIds, Boolean subcall) {
+        System.out.println("I called Tracks");
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spotify.com/v1/tracks?ids=" + trackIds))
                 .timeout(Duration.ofMinutes(1))

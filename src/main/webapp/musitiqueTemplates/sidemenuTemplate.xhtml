@@ -56,15 +56,18 @@
                 <p:tooltip/>
                 <div class="speeddial-circle-demo">
                     <p:speedDial radius="120" direction="up-right" type="quarter-circle" hideIcon="false"
-                                 buttonStyleClass="ui-button-warning profile-button">
+                                 buttonStyleClass="ui-button-warning profile-button" >
+
                         <!-- Menu Options IF No User is Signed In -->
                         <c:if test="#{userController.isLoggedIn() == false}">
+
                             <p:menuitem icon="fas fa-sign-in-alt" outcome="/SignIn" title="Sign In"/>
                             <p:menuitem icon="fas fa-user-plus" outcome="/userAccount/CreateAccount"
                                         title="Create Account"/>
                         </c:if>
                         <!-- Menu Options IF a User is Signed In -->
                         <c:if test="#{userController.isLoggedIn() == true}">
+
                             <p:menuitem icon="fas fa-id-badge" action="/userAccount/Profile" title="My Profile"/>
                             <p:menuitem icon="fas fa-edit" action="/userAccount/EditAccount" title="Edit Account"/>
                             <p:menuitem icon="fas fa-camera" action="/userPhoto/ChangePhoto" title="Change Photo"/>
@@ -74,6 +77,7 @@
                                         title="Sign Out"/>
                         </c:if>
                     </p:speedDial>
+
                 </div>
             </h:form>
         </div>

@@ -651,10 +651,15 @@ public class UserController implements Serializable {
         The database primary key of the signed-in User object was put into the SessionMap
         in the initializeSessionMap() method in LoginManager upon user's sign in.
          */
+        System.out.println(!isLoggedIn());
+        if (!isLoggedIn()){
+            return Constants.PHOTOS_URI + "loginImage.png";
+        }
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         Integer primaryKey = (Integer) sessionMap.get("user_id");
 
         List<UserPhoto> photoList = userPhotoFacade.findPhotosByUserPrimaryKey(primaryKey);
+
 
         if (photoList.isEmpty()) {
             // No user photo exists. Return defaultUserPhoto.png.

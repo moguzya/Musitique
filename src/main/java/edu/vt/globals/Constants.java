@@ -39,7 +39,8 @@ public final class Constants {
     //---------------
 
     // Windows
-    public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/jmcon/DocRoot/MusitiqueUserPhotoStorage/";
+//    public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/jmcon/DocRoot/MusitiqueUserPhotoStorage/";
+    public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/vibhav/DocRoot/MusitiqueUserPhotoStorage/";
 
     //--------------------------------
     // To run on your AWS EC2 instance
