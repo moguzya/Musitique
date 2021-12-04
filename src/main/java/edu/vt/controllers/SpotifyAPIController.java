@@ -66,10 +66,6 @@ public class SpotifyAPIController implements Serializable {
     ===============================
     */
     private static final HttpClient CLIENT = HttpClient.newHttpClient();
-    HttpRequest lastNewReleasesRequest;
-    List<Album> lastNewReleasesResult;
-    Results lastRecommendationsResult;
-    HttpRequest lastRecommendationsRequest;
     private String accessToken;
     private List<Album> recommendedAlbums;
     private List<Artist> recommendedArtists;
@@ -307,6 +303,43 @@ public class SpotifyAPIController implements Serializable {
         return new ArrayList();
     }
 
+    public List<Track> requestTopTracksFromArtist(String artistId) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/artists/" + artistId + "/top-tracks"))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + accessToken)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                List<Track> tracks = new ArrayList();
+                JSONArray tracksArray = new JSONObject(response.body()).getJSONArray("tracks");
+
+                for (int i = 0; i < tracksArray.length(); i++) {
+                    Track t = new Track(tracksArray.getJSONObject(i).toString(), false);
+                    tracks.add(t);
+                }
+
+                return tracks;
+            } else if (response.statusCode() == 401) {
+                requestToken();
+                return requestTopTracksFromArtist(artistId);
+            } else if (response.statusCode() == 429) {
+                System.out.println("rate limit");
+                return new ArrayList();
+            }
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e);
+            return new ArrayList();
+        }
+        return new ArrayList();
+    }
+
+
     public List<Album> requestNewReleases() {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spotify.com/v1/browse/new-releases?country=US&limit=24&offset=0"))
@@ -315,12 +348,7 @@ public class SpotifyAPIController implements Serializable {
                 .header("Authorization", "Bearer " + accessToken)
                 .GET()
                 .build();
-        if (request == null)
-            return new ArrayList<>();
-        if (request.equals(lastNewReleasesRequest)) {
-            return lastNewReleasesResult;
-        }
-        lastNewReleasesRequest = request;
+
         try {
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
@@ -332,8 +360,8 @@ public class SpotifyAPIController implements Serializable {
                     Album a = new Album(albumArray.getJSONObject(i).toString(), false);
                     albums.add(a);
                 }
-                lastNewReleasesResult = albums;
-                return lastNewReleasesResult;
+
+                return albums;
             } else if (response.statusCode() == 401) {
                 requestToken();
                 return requestNewReleases();
@@ -356,6 +384,9 @@ public class SpotifyAPIController implements Serializable {
                 map(i -> String.valueOf(i.getEntityId())).
                 collect(Collectors.joining(","));
 
+        if (queryGenre.length() == 0 && queryArtist.length() == 0)
+            queryGenre = "rock";
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spotify.com/v1/recommendations?limit=24&seed_artists=" + queryArtist + "&seed_genres=" + queryGenre))
                 .timeout(Duration.ofMinutes(1))
@@ -364,30 +395,18 @@ public class SpotifyAPIController implements Serializable {
                 .GET()
                 .build();
 
-        if (request.equals(lastRecommendationsRequest)) {
-            return lastRecommendationsResult;
-        }
-        lastRecommendationsRequest = request;
-
         try {
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
                 JSONArray recommendationArray = new JSONObject(response.body()).getJSONArray("tracks");
-                List<Album> albums = new ArrayList<>();
-                List<Artist> artists = new ArrayList<>();
                 List<Track> tracks = new ArrayList<>();
 
                 for (int i = 0; i < recommendationArray.length(); i++) {
-                    albums.add(new Album(recommendationArray.getJSONObject(i).getJSONObject("album").toString(), false));
-                    artists.add(new Artist(recommendationArray.getJSONObject(i).getJSONArray("artists").get(0).toString()));
                     tracks.add(new Track(recommendationArray.getJSONObject(i).toString(), false));
                 }
-                setRecommendedAlbums(albums);
-                setRecommendedArtists(artists);
-                setRecommendedTracks(tracks);
-                lastRecommendationsResult = new Results(albums, artists, tracks);
-                return lastRecommendationsResult;
+
+                return new Results(tracks);
             } else if (response.statusCode() == 401) {
                 requestToken();
                 return requestRecommendations(favoriteGenres, favoriteArtists);
@@ -437,9 +456,7 @@ public class SpotifyAPIController implements Serializable {
                     for (int i = 0; i < artistsArray.length(); i++) {
                         artists.add(new Artist(artistsArray.getJSONObject(i).toString()));
                     }
-                    setSearchedAlbums(albums);
-                    setSearchedArtists(artists);
-                    setSearchedTracks(tracks);
+
                     return new Results(albums, artists, tracks);
                 } else if (response.statusCode() == 401) {
                     requestToken();
@@ -467,53 +484,5 @@ public class SpotifyAPIController implements Serializable {
 
     public void setSearchedText(String searchedText) {
         this.searchedText = searchedText;
-    }
-
-    public List<Album> getRecommendedAlbums() {
-        return recommendedAlbums;
-    }
-
-    public void setRecommendedAlbums(List<Album> recommendedAlbums) {
-        this.recommendedAlbums = recommendedAlbums;
-    }
-
-    public List<Artist> getRecommendedArtists() {
-        return recommendedArtists;
-    }
-
-    public void setRecommendedArtists(List<Artist> recommendedArtists) {
-        this.recommendedArtists = recommendedArtists;
-    }
-
-    public List<Track> getRecommendedTracks() {
-        return recommendedTracks;
-    }
-
-    public void setRecommendedTracks(List<Track> recommendedTracks) {
-        this.recommendedTracks = recommendedTracks;
-    }
-
-    public List<Album> getSearchedAlbums() {
-        return searchedAlbums;
-    }
-
-    public void setSearchedAlbums(List<Album> searchedAlbums) {
-        this.searchedAlbums = searchedAlbums;
-    }
-
-    public List<Artist> getSearchedArtists() {
-        return searchedArtists;
-    }
-
-    public void setSearchedArtists(List<Artist> searchedArtists) {
-        this.searchedArtists = searchedArtists;
-    }
-
-    public List<Track> getSearchedTracks() {
-        return searchedTracks;
-    }
-
-    public void setSearchedTracks(List<Track> searchedTracks) {
-        this.searchedTracks = searchedTracks;
     }
 }
