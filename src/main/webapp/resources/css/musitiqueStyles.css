@@ -31,7 +31,9 @@ body {
 .speeddial-circle-demo .pi-plus{
     display: none;
 }
-
+.ui-speeddial-action{
+    color: white !important;
+}
 #iframe-holder {
     margin: 0.3rem;
 }
@@ -162,6 +164,27 @@ body .ui-datatable .ui-paginator.ui-paginator-top{
     background: none !important;
     border: solid 1px #121640 !important;
 }
+ui-datagrid-header ui-widget-header{
+    background: none !important;
+    border: solid 1px #121640 !important;
+    color: white;
+}
+body .ui-datagrid .ui-datagrid-header, body .ui-datagrid .ui-datagrid-footer{
+    background: none !important;
+    border: solid 1px #121640 !important;
+    color: white;
+    font-size: 25px;
+}
+
+.ui-datatable .ui-datatable-data tr.ui-state-hover.accept td {
+    color: black !important;
+    background-color: #DCEDC8 !important;
+}
+body .ui-datagrid .ui-datagrid-content{
+    background: none !important;
+    border: solid 1px #121640 !important;
+    color: white;
+}
 body .ui-datatable .ui-datatable-footer{
     background: none !important;
     border: solid 1px #121640 !important;
@@ -198,4 +221,7 @@ body .ui-dialog .ui-dialog-content{
 body .ui-dialog .ui-dialog-titlebar{
     background: #4e4373ed;
 
+}
+a{
+    color: #2a11db;
 }
