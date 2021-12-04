@@ -13,15 +13,15 @@
 <ui:composition>
     <!--
     ==========================================================
-    |  Clicking the VIEW button displays this Dialog window  |
-    |  for the user to view the selected movie's data.       |
+    |  Clicking the Edit button displays this Dialog window  |
+    |  for the user to Edit the selected movie's data.       |
     ==========================================================
     -->
-    <p:dialog id="RatingViewDlg" header="View Comment Info" widgetVar="RatingViewDialog"
+    <p:dialog id="RatingEditDlg" header="Edit Rating Info" widgetVar="RatingEditDialog"
               modal="true" position="center" appendTo="@(body)"
               showEffect="slide" hideEffect="fade" responsive="true" >
 
-        <h:form id="RatingViewForm" class="ui-datatable-data">
+        <h:form id="RatingEditForm" class="ui-datatable-data">
             #{userRatingsController.selected}
             #{userRatingsController.selected.entityId}
 
@@ -63,7 +63,10 @@
 <!--                                    </h:outputText>-->
 
                                     <h:outputText value="Rating:"/>
-                                    <p:rating value="#{userRatingsController.selected.rating}" readonly="true"/>
+                                    <p:rating value="#{userRatingsController.selected.rating}">
+                                        <p:ajax event="rate" listener="#{entityController.onRate}"/>
+                                        <p:ajax event="cancel" listener="#{entityController.onUnrate}"/>
+                                    </p:rating>
 
                                 </p:panelGrid>
                             </h:panelGroup>
@@ -71,9 +74,15 @@
             <h:panelGroup>
                 <br />
                 <div align="center">
-                    <!-- CLOSE button -->
-                    <p:commandButton value="Close" icon="fas fa-window-close" styleClass="ui-button-outlined"
-                                     onclick="PF('RatingViewDialog').hide()" />
+                    <!-- SAVE button -->
+                    <p:commandButton value="Save" icon="fas fa-save" styleClass="rounded-button"
+                                     ajax="false" actionListener="#{userRatingsController.update}"
+                                     update="display,:RatingEditForm:datalist,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
+                                     oncomplete="handleSubmit(args, 'RatingEditDialog');"/>
+                    &nbsp;
+                    <!-- CANCEL button -->
+                    <p:commandButton value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined"
+                                     immediate="true" onclick="PF('RatingEditDialog').hide()" />
                 </div>
             </h:panelGroup>
 
