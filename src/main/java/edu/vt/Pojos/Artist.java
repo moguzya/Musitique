@@ -23,24 +23,23 @@ public class Artist {
         this.name = body.optString("name", "");
 
 
-        this.genres = new ArrayList();
-        try{
+        if (body.has("genres")) {
             JSONArray genresArray = body.getJSONArray("genres");
+            this.genres = new ArrayList();
+
             for (int i = 0; i < genresArray.length(); i++) {
                 this.genres.add(genresArray.optString(i, ""));
             }
-        }
-        catch (JSONException ex){;
-            JsfUtil.addErrorMessage("JSONObject[\"genres\"] not found.");
-        }
 
+            this.followers = body.optInt("followers", 0);
 
-        this.followers = body.optInt("followers", 0);
-
-        if (body.getJSONArray("images").length() > 0)
-            this.imageUrl = body.getJSONArray("images").getJSONObject(0).optString("url", "");
-        else
+            if (body.getJSONArray("images").length() > 0)
+                this.imageUrl = body.getJSONArray("images").getJSONObject(0).optString("url", "");
+            else
+                this.imageUrl = "https://i.imgur.com/7dUML1G.png";
+        } else {
             this.imageUrl = "https://i.imgur.com/7dUML1G.png";
+        }
     }
 
     public Artist(String id, String name, Integer followers, String imageUrl, List<String> genres) {
