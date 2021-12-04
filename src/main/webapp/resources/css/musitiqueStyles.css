@@ -42,6 +42,10 @@ body {
     background-image: url("#{userController.userPhoto()}") !important;
     background-size:contain !important;
 }
+.profile-button2{
+    background-image: url("#{resource['images:musitiqueLogo.png']}") !important;
+    background-size:contain !important;
+}
 
 .sideMenuSplitter {
     background-color: #121640;

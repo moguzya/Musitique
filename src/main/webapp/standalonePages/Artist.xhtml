@@ -53,12 +53,13 @@
                                 value="Your Rating:"/>
                         <p:rating
                                 rendered="#{userController.isLoggedIn() == true}"
-                                value="#{entityController.getUserRating().rating}">
+                                value="#{entityController.getUserRating().rating}"
+                        valueChangeListener="#{userRatingsController.clearListofUserRatings()}">
                             <p:ajax event="rate"
                                     update="avgRating"
-                                    listener="#{entityController.onRate"/>
-                            <p:ajax event="rate"
-                                    listener="#{userRatingsController.clearListofUserRatings()}"/>
+                                    listener="#{entityController.onRate}"/>
+<!--                            <p:ajax event="rate"-->
+<!--                                    listener="#{userRatingsController.clearListofUserRatings()}"/>-->
 
                             <p:ajax event="cancel" update="avgRating" listener="#{entityController.onUnrate()}"/>
                             <p:ajax event="cancel"
