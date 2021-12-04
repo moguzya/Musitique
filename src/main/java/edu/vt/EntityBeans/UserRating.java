@@ -142,43 +142,5 @@ public class UserRating implements Serializable {
         this.entityType = entityType;
     }
 
-    public String getEntityName() {
-        EntityController entityController = new EntityController();
 
-        switch (entityType) {
-            case "ALBUM":
-                return entityController.getSelectedAlbum().getName();
-            case "TRACK":
-                return entityController.getSelectedTrack().getName();
-            case "ARTIST":
-                return entityController.getSelectedArtist().getName();
-        }
-        return "NOT FOUND";
-    }
-
-    public String getEntityArtists() {
-        EntityController entityController = new EntityController();
-
-        switch (entityType) {
-            case "ALBUM":
-                return entityController.getSelectedAlbum().getArtistsListAsString();
-            case "TRACK":
-                return entityController.getSelectedTrack().getArtistsListAsString();
-        }
-        return "NOT FOUND";
-    }
-
-    public String getEntityImageUrl() {
-        EntityController entityController = new EntityController();
-
-        switch (entityType) {
-            case "ALBUM":
-                return entityController.getSelectedAlbum().getImageUrl();
-            case "TRACK":
-                return entityController.getSelectedTrack().getImageUrl();
-            case "ARTIST":
-                return entityController.getSelectedTrack().getImageUrl();
-        }
-        return "NOT FOUND";
-    }
 }

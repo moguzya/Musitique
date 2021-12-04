@@ -25,7 +25,7 @@
                                         action="#{searchController.search(spotifyAPIController.requestSearch())}"/>
 
                             <p:menuitem value="New Releases" icon="fas fa-fire"
-                                        action="#{releaseController.newReleases(spotifyAPIController.requestNewReleases())}"/>
+                                        outcome="#{releaseController.newReleases(spotifyAPIController.requestNewReleases())}"/>
 
                         <c:if test="#{userController.isLoggedIn() == true}">
                             <p:menuitem icon="fas fa-star-half-alt"
