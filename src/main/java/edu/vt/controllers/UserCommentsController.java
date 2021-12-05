@@ -360,7 +360,7 @@ public class UserCommentsController implements Serializable {
 
     /*
         *************************************
-        UPDATE Selected Movie in the Database
+        UPDATE Selected Comment in the Database
         *************************************
          */
     public void update() {
@@ -377,7 +377,7 @@ public class UserCommentsController implements Serializable {
 
     /*
     ***************************************
-    DELETE Selected Movie from the Database
+    DELETE Selected Comment from the Database
     ***************************************
      */
     public void destroy() {

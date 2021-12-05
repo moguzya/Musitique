@@ -359,7 +359,7 @@ public class UserRatingsController implements Serializable {
 
     /*
     *************************************
-    UPDATE Selected Movie in the Database
+    UPDATE Selected Rating in the Database
     *************************************
      */
     public void update() {
@@ -376,7 +376,7 @@ public class UserRatingsController implements Serializable {
 
     /*
       ***************************************
-      DELETE Selected Movie from the Database
+      DELETE Selected Rating from the Database
       ***************************************
        */
     public void destroy() {

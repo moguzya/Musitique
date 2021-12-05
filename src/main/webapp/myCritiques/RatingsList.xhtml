@@ -17,12 +17,12 @@
 <!-- This page is constructed based on the siteTemplate -->
 <ui:composition>
     <!-- Create the content for this page below -->
-    <!-- In case of JSF validation error, set 'selected' to null in movieController -->
+    <!-- In case of JSF validation error, set 'selected' to null in ratingController -->
     <c:if test="#{facesContext.validationFailed}">
         ${userRatingsController.unselect()}
     </c:if>
 
-    <!-- Set 'selected' to null in movieController when the user refreshes / reloads this JSF page -->
+    <!-- Set 'selected' to null in ratingController when the user refreshes / reloads this JSF page -->
     <f:metadata>
         <f:viewAction action="#{userRatingsController.unselect()}"
                       rendered="#{facesContext.postback}"/>
