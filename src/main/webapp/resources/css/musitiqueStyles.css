@@ -26,6 +26,34 @@ body {
 }
 
 
+/*------------- Index Page -------------*/
+#sliderIndex{
+    padding-top: 10px;
+}
+
+.ui-carousel{
+    display: inline-grid !important;
+}
+.ui-carousel-items-content{
+    min-height: 560px;
+}
+
+.ui-carousel *{
+    color: white;
+}
+
+body .ui-carousel .ui-carousel-content .ui-carousel-prev, body .ui-carousel .ui-carousel-content .ui-carousel-next{
+    background: #edf4f447;
+    color: #000;
+}
+.product-item .product-item-content{
+    height: 560px;
+    min-height: 560px;
+    border-radius: 25px;
+    background: #7BAD214F;
+    border: none !important;
+}
+
 
 /*------------- Links in datagrid -------------*/
 .ui-datagrid-data a{

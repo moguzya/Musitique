@@ -100,7 +100,6 @@ public class EntityController implements Serializable {
     private String newCommentText;
     private Double averageEntityRating;
 
-    private List<Track> artistTopTracks;
     /*
 
     ================
@@ -109,44 +108,65 @@ public class EntityController implements Serializable {
     */
 
     public String toAlbumPage(Album selectedAlbum) {
-        selectedAlbum = requestAlbum(selectedAlbum.getId());
+        this.selectedAlbum = requestAlbum(selectedAlbum.getId());
 
         List<String> artistIds = new ArrayList<>();
-        for (Artist artist : selectedAlbum.getArtists()) {
+        for (Artist artist : this.selectedAlbum.getArtists()) {
             artistIds.add(artist.getId());
         }
-        selectedAlbum.setArtists(requestSeveralArtists(String.join(",", artistIds)));
+        this.selectedAlbum.setArtists(requestSeveralArtists(String.join(",", artistIds)));
 
         List<String> trackIds = new ArrayList<>();
-        for (Track track : selectedAlbum.getTracks()) {
+        for (Track track : this.selectedAlbum.getTracks()) {
             trackIds.add(track.getId());
         }
-        selectedAlbum.setTracks(requestSeveralTracks(String.join(",", trackIds)));
+        this.selectedAlbum.setTracks(requestSeveralTracks(String.join(",", trackIds)));
 
-        setSelectedAlbum(selectedAlbum);
+        userRating = getUserRating();
+        listOfComments = getListOfComments();
 
         return "/standalonePages/Album?faces-redirect=true";
     }
 
     public String toArtistPage(Artist selectedArtist) {
-        selectedArtist = requestArtist(selectedArtist.getId());
-        setSelectedArtist(selectedArtist);
-        artistTopTracks = requestTopTracksFromArtist(selectedArtist.getId());
+        unselectAlbum();
+        unselectTrack();
+        selectedEntityType = EntityType.ARTIST;
+
+        selectedComment = null;
+        listOfComments = null;
+        userRating = null;
+        newCommentText = null;
+
+        this.selectedArtist = requestArtist(selectedArtist.getId());
+        this.selectedArtist.setArtistTopTracks(requestTopTracksFromArtist(this.selectedArtist.getId()));
+
+        userRating = getUserRating();
+        listOfComments = getListOfComments();
         return "/standalonePages/Artist?faces-redirect=true";
     }
 
     public String toTrackPage(Track selectedTrack) {
-        selectedTrack = requestTrack(selectedTrack.getId());
-        setSelectedTrack(selectedTrack);
+        unselectAlbum();
+        unselectArtist();
+        selectedEntityType = EntityType.TRACK;
+        this.selectedTrack = requestTrack(selectedTrack.getId());
 
-        selectedTrack.setAlbum(requestAlbum(selectedTrack.getAlbum().getId()));
+        selectedComment = null;
+        listOfComments = null;
+        userRating = null;
+        newCommentText = null;
+
+        this.selectedTrack.setAlbum(requestAlbum(this.selectedTrack.getAlbum().getId()));
 
         List<String> artistIds = new ArrayList<>();
-        for (Artist artist : selectedTrack.getArtists()) {
+        for (Artist artist : this.selectedTrack.getArtists()) {
             artistIds.add(artist.getId());
         }
-        selectedTrack.setArtists(requestSeveralArtists(String.join(",", artistIds)));
+        this.selectedTrack.setArtists(requestSeveralArtists(String.join(",", artistIds)));
 
+        userRating = getUserRating();
+        listOfComments = getListOfComments();
         return "/standalonePages/Track?faces-redirect=true";
     }
 
@@ -308,16 +328,6 @@ public class EntityController implements Serializable {
 
     public void setUserFavoriteArtistFacade(UserFavoriteArtistFacade userFavoriteArtistFacade) {
         this.userFavoriteArtistFacade = userFavoriteArtistFacade;
-    }
-
-    public List<Track> getArtistTopTracks() {
-        if (artistTopTracks == null)
-            artistTopTracks = requestTopTracksFromArtist(selectedArtist.getId());
-        return artistTopTracks;
-    }
-
-    public void setArtistTopTracks(List<Track> artistTopTracks) {
-        this.artistTopTracks = artistTopTracks;
     }
 
     public void createComment(UserComment comment) {
@@ -530,16 +540,6 @@ public class EntityController implements Serializable {
 
     public void setSelectedArtist(Artist selectedArtist) {
         this.selectedArtist = selectedArtist;
-        selectedEntityType = EntityType.ARTIST;
-        selectedComment = null;
-        listOfComments = null;
-        userRating = null;
-        newCommentText = null;
-
-        userRating = getUserRating();
-        listOfComments = getListOfComments();
-        unselectAlbum();
-        unselectTrack();
     }
 
     public Track getSelectedTrack() {
@@ -548,16 +548,6 @@ public class EntityController implements Serializable {
 
     public void setSelectedTrack(Track selectedTrack) {
         this.selectedTrack = selectedTrack;
-        selectedEntityType = EntityType.TRACK;
-        selectedComment = null;
-        listOfComments = null;
-        userRating = null;
-        newCommentText = null;
-
-        userRating = getUserRating();
-        listOfComments = getListOfComments();
-        unselectAlbum();
-        unselectArtist();
     }
 
     public String getNewCommentText() {
