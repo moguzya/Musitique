@@ -16,10 +16,10 @@
         <div align="center">
             <h:form id="FavoriteArtistsForm">
                 <div class="tableBackgroundDiv">
-                    <p:dataGrid value="#{userFavoriteArtistController.favoriteArtists}"
+                    <p:dataGrid value="#{userFavoriteArtistController.getFavoriteArtists()}"
                                 var="anArtist"
                                 rows="25"
-                                style="background: none;width:100%">
+                                style="background: none; width:100%">
 
                         <f:facet name="header">
                             <h:outputText value="Artists"/>

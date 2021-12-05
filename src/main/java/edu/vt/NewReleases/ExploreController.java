@@ -35,12 +35,14 @@ import static edu.vt.globals.Constants.CLIENT;
 @Named("exploreController")
 @SessionScoped
 public class ExploreController implements Serializable {
-    List<UserGenre> favoriteGenres;
-    List<UserFavoriteArtist> favoriteArtists;
+
     @EJB
     private UserGenreFacade userGenreFacade;
     @EJB
     private UserFavoriteArtistFacade userFavoriteArtistFacade;
+
+    private List<UserGenre> favoriteGenres;
+    private List<UserFavoriteArtist> favoriteArtists;
     private List<Track> tracks;
 
     public List<Track> getTracks() {
