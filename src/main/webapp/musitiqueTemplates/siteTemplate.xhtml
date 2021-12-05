@@ -31,9 +31,15 @@
                 </ui:insert>
             </p:splitterPanel>
             <p:splitterPanel size="85" minSize="80" styleClass="p-d-flex p-ai-center p-jc-center mainContentSplitter">
-                <div  style="height: calc(50% - 0.5px); width:100%; display: table;">
+                <div style="height: calc(100% - 170px); width:100%; display: table;">
                     <ui:insert name="editableContent">
                         <ui:include src="contentTemplate.xhtml"/>
+                    </ui:insert>
+                </div>
+
+                <div id="footer">
+                    <ui:insert name="footer" >
+                        <ui:include src="footerTemplate.xhtml" />
                     </ui:insert>
                 </div>
             </p:splitterPanel>
@@ -43,6 +49,5 @@
     <ui:insert name="growlMessages">
         <ui:include src="growlMessages.xhtml"/>
     </ui:insert>
-
 </h:body>
 </html>

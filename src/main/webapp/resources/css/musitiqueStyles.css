@@ -19,10 +19,24 @@ body {
     display: inline-block;
     overflow: auto;
 }
-.content-container{
-    width: 80%;
-    height: calc(100% - 0.5px);;
-    display: table-cell;
+
+#footer {
+    position: relative;
+    min-height: 170px;
+    max-height: 170px;
+    width: 100%;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: #121640;
+    color: white;
+}
+
+#footer a:link, #footer a:visited {
+    color: white;
+    font-weight: bold;
+    background-color: transparent;
+    text-decoration: underline;
 }
 
 
@@ -66,11 +80,7 @@ body .ui-carousel .ui-carousel-content .ui-carousel-prev, body .ui-carousel .ui-
 .dataView{
     background: none !important;
 }
-/* ui-datagrid-header ui-widget-header{
-    background: none !important;
-    border: solid 1px #121640 !important;
-    color: white;
-}  */
+
 body .ui-datagrid .ui-datagrid-header, body .ui-datagrid .ui-datagrid-footer{
     background: none !important;
     border: solid 1px #121640 !important;
