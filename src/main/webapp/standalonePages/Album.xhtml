@@ -17,10 +17,9 @@
             <h:form id="AlbumForm">
                 <p:graphicImage url="#{entityController.getSelectedAlbum().imageUrl}" width="20%"/>
                 <br/>
-                <p:commandButton icon="fa fa-play fa-2x"
-                                 actionListener='#{spotifyPlayerController.updateURL(entityController.getSelectedAlbum().embedUri)}'>
-                    <f:ajax render=":iframe-holder"/>
-                </p:commandButton>
+                <ui:include src="/musitiqueTemplates/playButtonTemplate.xhtml">
+                    <ui:param name="entity" value="#{entityController.getSelectedAlbum()}"/>
+                </ui:include>
                 <p:panelGrid columns="1">
                     <h:outputText value="Album Name: #{entityController.getSelectedAlbum().name}"/>
                     <p:panel>

@@ -23,10 +23,9 @@
                 style="float:left"/>
     </h:panelGrid>
 
-    <p:commandButton icon="fa fa-play fa-2x"
-                     actionListener='#{spotifyPlayerController.updateURL(album.getEmbedUri())}'>
-        <f:ajax render=":iframe-holder"/>
-    </p:commandButton>
+    <ui:include src="/musitiqueTemplates/playButtonTemplate.xhtml">
+        <ui:param name="entity" value="#{album}"/>
+    </ui:include>
 </ui:composition>
 
 </html>

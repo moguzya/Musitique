@@ -22,10 +22,9 @@
         <h:outputText value="#{track.durationMs}" style="float:left"/>
     </h:panelGrid>
 
-    <p:commandButton icon="fa fa-play fa-2x"
-                     actionListener='#{spotifyPlayerController.updateURL(track.getEmbedUri())}'>
-        <f:ajax render=":iframe-holder"/>
-    </p:commandButton>
+    <ui:include src="/musitiqueTemplates/playButtonTemplate.xhtml">
+        <ui:param name="entity" value="#{track}"/>
+    </ui:include>
 </ui:composition>
 
 </html>
