@@ -62,8 +62,8 @@ public class UserController implements Serializable {
 
     private User selected;
 
-    private List<UserComment> listofUserComments = null;
-    private List<UserRating> listofUserRatings = null;
+    private List<UserComment> listOfUserComments = null;
+    private List<UserRating> listOfUserRatings = null;
 
 
     /*
@@ -104,9 +104,9 @@ public class UserController implements Serializable {
     Return the List of User Comments that Belong to the Signed-In User
     ***************************************************************
      */
-    public List<UserComment> getListofUserComments() {
+    public List<UserComment> getListOfUserComments() {
 
-        if (listofUserComments == null) {
+        if (listOfUserComments == null) {
             /*
             'user', the object reference of the signed-in user, was put into the SessionMap
             in the initializeSessionMap() method in LoginManager upon user's sign in.
@@ -118,18 +118,18 @@ public class UserController implements Serializable {
             Integer primaryKey = signedInUser.getId();
 
             // Obtain only those videos from the database that belong to the signed-in user
-            listofUserComments = commentFacade.findUserCommentByUserPrimaryKey(primaryKey);
+            listOfUserComments = commentFacade.findUserCommentByUserPrimaryKey(primaryKey);
         }
-        return listofUserComments;
+        return listOfUserComments;
     }
 
-    public void setListofUserComments(List<UserComment> listofUserComments) {
-        this.listofUserComments = listofUserComments;
+    public void setlistOfUserComments(List<UserComment> listOfUserComments) {
+        this.listOfUserComments = listOfUserComments;
     }
 
     public List<UserRating> getListOfUserRatings() {
 
-        if (listofUserRatings == null) {
+        if (listOfUserRatings == null) {
             /*
             'user', the object reference of the signed-in user, was put into the SessionMap
             in the initializeSessionMap() method in LoginManager upon user's sign in.
@@ -141,13 +141,13 @@ public class UserController implements Serializable {
             Integer primaryKey = signedInUser.getId();
 
             // Obtain only those videos from the database that belong to the signed-in user
-            listofUserRatings = ratingFacade.findUserRatingByUserPrimaryKey(primaryKey);
+            listOfUserRatings = ratingFacade.findUserRatingByUserPrimaryKey(primaryKey);
         }
-        return listofUserRatings;
+        return listOfUserRatings;
     }
 
-    public void setListOfUserRatings(List<UserRating> listofUserRatings) {
-        this.listofUserRatings = listofUserRatings;
+    public void setListOfUserRatings(List<UserRating> listOfUserRatings) {
+        this.listOfUserRatings = listOfUserRatings;
     }
 
     public String getUsername() {
@@ -651,7 +651,6 @@ public class UserController implements Serializable {
         The database primary key of the signed-in User object was put into the SessionMap
         in the initializeSessionMap() method in LoginManager upon user's sign in.
          */
-        System.out.println(!isLoggedIn());
         if (!isLoggedIn()){
             return Constants.PHOTOS_URI + "loginImage.png";
         }

@@ -4,8 +4,18 @@
  */
 package edu.vt.globals;
 
+import edu.vt.controllers.util.JsfUtil;
+import org.primefaces.shaded.json.JSONObject;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import java.net.URI;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+
+import static edu.vt.globals.Constants.CLIENT;
+import static edu.vt.globals.Constants.ACCESS_TOKEN;
 
 /*
 This class is created to provide Convenience Class Methods (typed with the "static" keyword")
@@ -68,6 +78,28 @@ public final class Methods {
                 break;
             default:
                 System.out.print("Message Type is Out of Range!");
+        }
+    }
+
+    public static void requestToken() {
+        System.out.println("I called requestToken");
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://accounts.spotify.com/api/token"))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .header("Authorization", "Basic " + Constants.CLIENT_AUTH)
+                .POST(HttpRequest.BodyPublishers.ofString("grant_type=client_credentials&json=true"))
+                .build();
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                JSONObject body = new JSONObject(response.body());
+                ACCESS_TOKEN = body.optString("access_token", "");
+                if (ACCESS_TOKEN.equals(""))
+                    throw new NoSuchFieldException();
+            }
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e.toString());
         }
     }
 

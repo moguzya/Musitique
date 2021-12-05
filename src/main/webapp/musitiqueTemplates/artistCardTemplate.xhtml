@@ -13,7 +13,7 @@
     </p:commandLink>
     <h:panelGrid style="width:100%; margin-left:10px">
         <f:facet name="header">
-            <h:commandLink action="#{entityController.toArtistPage(spotifyAPIController.requestArtist(artist.getId()))}" value="#{artist.name}"/>
+            <h:commandLink action="#{entityController.toArtistPage(artist.getId())}" value="#{artist.name}"/>
         </f:facet>
         <h:outputText value="Number of Followers: #{artist.followers}"/>
     </h:panelGrid>

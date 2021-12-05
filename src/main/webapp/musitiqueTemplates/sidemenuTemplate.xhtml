@@ -19,13 +19,13 @@
                     <div>
                         <p:inputText style="width:100%" id="search"
                                      type="text" placeholder="Search"
-                                     value="#{spotifyAPIController.searchedText}"/>
+                                     value="#{searchController.searchedText}"/>
                         <p:menu style="width:100%">
                             <p:menuitem value="Search" icon="fas fa-search"
-                                        action="#{searchController.search(spotifyAPIController.requestSearch())}"/>
+                                        action="/newReleases/SearchResults?faces-redirect=true"/>
 
                             <p:menuitem value="New Releases" icon="fas fa-fire"
-                                        outcome="#{releaseController.newReleases(spotifyAPIController.requestNewReleases())}"/>
+                                        outcome="/newReleases/NewReleases.xhtml?faces-redirect=true"/>
 
                         <c:if test="#{userController.isLoggedIn() == true}">
                             <p:menuitem icon="fas fa-star-half-alt"

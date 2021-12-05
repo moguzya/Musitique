@@ -1,14 +1,21 @@
 package edu.vt.Pojos;
 
+import edu.vt.controllers.util.JsfUtil;
+import edu.vt.globals.Methods;
 import org.primefaces.shaded.json.JSONArray;
 import org.primefaces.shaded.json.JSONObject;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static edu.vt.globals.Constants.API_CONTROLLER;
-import static edu.vt.globals.Constants.EMBED_URI;
+import static edu.vt.globals.Constants.*;
+import static edu.vt.globals.Constants.CLIENT;
 
 public class Track {
 
@@ -20,7 +27,7 @@ public class Track {
     private Boolean explicit;
     private String imageUrl;
 
-    public Track(String json, Boolean subcall) {
+    public Track(String json) {
         JSONObject body = new JSONObject(json);
         this.id = body.optString("id", "");
         this.name = body.optString("name", "");
@@ -29,16 +36,11 @@ public class Track {
         this.album = new Album(album);
 
         JSONArray artistsArray = body.getJSONArray("artists");
-
-        StringBuilder artistsAsString = new StringBuilder();
         for (int i = 0; i < artistsArray.length() - 1; i++) {
-            artistsAsString.append(artistsArray.getJSONObject(i).optString("id")).append(",");
+            Artist artist = new Artist();
+            artist.setId(artistsArray.getJSONObject(i).optString("id"));
+            artist.setName(artistsArray.getJSONObject(i).optString("name"));
         }
-        artistsAsString.append(artistsArray.getJSONObject(artistsArray.length() - 1).optString("id"));
-
-        this.artists = new ArrayList();
-        if (!subcall)
-            this.artists = API_CONTROLLER.requestSeveralArtists(artistsAsString.toString());
 
         this.durationMs = body.optInt("duration_ms", 0);
         this.explicit = body.optBoolean("explicit", false);

@@ -2,15 +2,23 @@ package edu.vt.Pojos;
 
 import edu.vt.EntityBeans.UserComment;
 import edu.vt.EntityBeans.UserRating;
+import edu.vt.controllers.util.JsfUtil;
+import edu.vt.globals.Methods;
 import org.primefaces.shaded.json.JSONArray;
 import org.primefaces.shaded.json.JSONObject;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
-import static edu.vt.globals.Constants.API_CONTROLLER;
-import static edu.vt.globals.Constants.EMBED_URI;
+import static edu.vt.globals.Constants.*;
+import static edu.vt.globals.Constants.CLIENT;
 
 public class Album {
     private String id;
@@ -24,7 +32,7 @@ public class Album {
     private List<UserComment> comments;
     private List<UserRating> ratings;
 
-    public Album(String json, Boolean subcall) {
+    public Album(String json) {
         JSONObject body = new JSONObject(json);
         this.id = body.optString("id", "");
         this.albumType = body.optString("album_type", "");
@@ -40,24 +48,10 @@ public class Album {
         this.artists = new ArrayList();
 
 
-        String artistsAsString = "";
         for (int i = 0; i < artistsArray.length() - 1; i++) {
-            artistsAsString += artistsArray.getJSONObject(i).optString("id") + ",";
-        }
-        artistsAsString += artistsArray.getJSONObject(artistsArray.length() - 1).optString("id");
-        if (!subcall) {
-            this.artists = API_CONTROLLER.requestSeveralArtists(artistsAsString);
-        }
-        this.tracks = new ArrayList();
-        if (body.has("tracks") && !subcall) {
-            JSONArray tracksArray = body.getJSONObject("tracks").getJSONArray("items");
-
-            String tracksAsString = "";
-            for (int i = 0; i < tracksArray.length() - 1; i++) {
-                tracksAsString += tracksArray.getJSONObject(i).optString("id") + ",";
-            }
-            tracksAsString += tracksArray.getJSONObject(tracksArray.length() - 1).optString("id");
-            this.tracks = API_CONTROLLER.requestSeveralTracks(tracksAsString, true);
+            Artist artist = new Artist();
+            artist.setId(artistsArray.getJSONObject(i).optString("id"));
+            artist.setName(artistsArray.getJSONObject(i).optString("name"));
         }
     }
 
@@ -152,7 +146,6 @@ public class Album {
     public void setTracks(List<Track> tracks) {
         this.tracks = tracks;
     }
-
 
     public String getTracksCountAsString() {
         if (totalTracks > 1)

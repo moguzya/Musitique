@@ -15,9 +15,7 @@
     <ui:define name="editableContent">
         <div align="center">
             <h:form id="ExploreForm">
-                <p:dataGrid value="#{spotifyAPIController.requestRecommendations(
-                                                userGenresController.listOfUserGenres,
-                                                userFavoriteArtistController.listOfFavoriteArtists)}"
+                <p:dataGrid value="#{exploreController.requestRecommendations()}"
                             var="aTrack"
                             rows="25"
                             style="background: none;width:100%">

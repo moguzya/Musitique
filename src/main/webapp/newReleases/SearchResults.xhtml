@@ -9,10 +9,14 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <ui:composition template="/musitiqueTemplates/siteTemplate.xhtml">
+
+    <f:metadata>
+        <f:viewAction action="#{searchController.requestSearch()}" rendered="#{facesContext.postback}"/>
+    </f:metadata>
+
     <ui:define name="title">
         <h:outputText value="New Releases"/>
     </ui:define>
-
     <ui:define name="editableContent">
         <div align="center">
             <h:form id="NewReleasesForm">

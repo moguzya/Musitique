@@ -28,7 +28,7 @@
                         <br/>
                         <ui:repeat var="artist" value="#{entityController.getSelectedAlbum().artists}" varStatus="status">
                             <h:commandLink
-                                    action="#{entityController.toArtistPage(spotifyAPIController.requestArtist(artist.getId()))}">
+                                    action="#{entityController.toArtistPage(artist)}">
                                 <p:graphicImage url="#{artist.imageUrl}" width="92px" style="float:left"/>
                             </h:commandLink>
                         </ui:repeat>

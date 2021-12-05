@@ -24,7 +24,7 @@
                                      styleClass="rounded-button ui-button-danger"
                                      update="commentsTable,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage">
                         <f:actionListener binding="#{entityController.destroyComment(aComment)}"/>
-                        <f:actionListener binding="#{userCommentsController.clearListofUserComments()}"/>
+                        <f:actionListener binding="#{userCommentsController.clearListOfUserComments()}"/>
                         <p:confirm header="Deletion Confirmation"
                                    message="Are you sure you want to permanently delete your comment from the database?"/>
                     </p:commandButton>
@@ -55,7 +55,7 @@
                              rendered="#{userController.isLoggedIn() == true}"
                              update="commentsTable,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage">
                 <f:actionListener binding="#{entityController.postComment()}"/>
-                <f:actionListener binding="#{userCommentsController.clearListofUserComments()}"/>
+                <f:actionListener binding="#{userCommentsController.clearListOfUserComments()}"/>
             </p:commandButton>
             <p:confirmDialog id="confirmDialogBoxComments" global="true" showEffect="fade" hideEffect="fade"
                              responsive="true" width="350">

@@ -14,13 +14,6 @@
     </ui:define>
 
     <ui:define name="editableContent">
-        <c:if test="#{facesContext.validationFailed}">
-            ${releaseController.unselect()}
-        </c:if>
-
-        <f:metadata>
-            <f:viewAction action="#{releaseController.unselect()}" rendered="#{facesContext.postback}"/>
-        </f:metadata>
 
         <div align="center">
             <h:form id="NewReleasesForm">

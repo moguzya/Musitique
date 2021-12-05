@@ -14,13 +14,20 @@ import edu.vt.Pojos.Track;
 import edu.vt.controllers.util.JsfUtil;
 import edu.vt.globals.Methods;
 import edu.vt.controllers.util.JsfUtil.PersistAction;
+import org.primefaces.shaded.json.JSONArray;
+import org.primefaces.shaded.json.JSONObject;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.URI;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,26 +35,24 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static edu.vt.globals.Constants.ACCESS_TOKEN;
+import static edu.vt.globals.Constants.CLIENT;
+
 @Named("userCommentsController")
 @SessionScoped
 public class UserCommentsController implements Serializable {
+    List<Album> listOfAlbums;
+    List<Track> listOfTracks;
+    List<Artist> listOfArtists;
+    
     /*
     ===============================
     Instance Variables (Properties)
     ===============================
      */
     private UserComment selected;
-    private List<UserComment> listofUserComments = null;
+    private List<UserComment> listOfUserComments = null;
     private EntityController entityController;
-
-
-    List<Album> listofAlbums;
-    List<Track> listofTracks;
-    List<Artist> listofArtists;
-
-    SpotifyAPIController spotifyAPIController = new SpotifyAPIController();
-
-
     /*
     The @EJB annotation directs the EJB Container Manager to inject (store) the object reference of the
     UserFacade bean into the instance variable 'userFacade' after it is instantiated at runtime.
@@ -62,6 +67,10 @@ public class UserCommentsController implements Serializable {
     @EJB
     private CommentFacade commentFacade;
 
+    public UserComment getSelected() {
+        return selected;
+    }
+
     /*
     =========================
     Getter and Setter Methods
@@ -69,10 +78,6 @@ public class UserCommentsController implements Serializable {
      */
     public void setSelected(UserComment selected) {
         this.selected = selected;
-    }
-
-    public UserComment getSelected() {
-        return selected;
     }
 
     public void unselect() {
@@ -84,75 +89,188 @@ public class UserCommentsController implements Serializable {
     Return the List of User Comments that Belong to the Signed-In User
     ***************************************************************
      */
-    public List<UserComment> getListofUserComments() {
+    public List<UserComment> getListOfUserComments() {
 
-        if (listofUserComments == null) {
-            /*
-            'user', the object reference of the signed-in user, was put into the SessionMap
-            in the initializeSessionMap() method in LoginManager upon user's sign in.
-             */
-//            Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-//            User signedInUser = (User) sessionMap.get("user");
-//
-//            // Obtain the database primary key of the signedInUser object
-//            Integer primaryKey = signedInUser.getId();
-                Integer primaryKey = 1;
+        if (listOfUserComments == null) {
+            Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+            User signedInUser = (User) sessionMap.get("user");
+
+            // Obtain the database primary key of the signedInUser object
+            Integer primaryKey = signedInUser.getId();
 
             // Obtain only those videos from the database that belong to the signed-in user
-            listofUserComments = commentFacade.findUserCommentByUserPrimaryKey(primaryKey);
+            listOfUserComments = commentFacade.findUserCommentByUserPrimaryKey(primaryKey);
 
             List<String> AlbumsIds = new ArrayList<>();
-            List<String> TracksIds = new ArrayList<>();
             List<String> ArtistsIds = new ArrayList<>();
+            List<String> TracksIds = new ArrayList<>();
 
             //move each entity type into seperate lists to that we can bulk get the data
-            for (UserComment listofUserComment : listofUserComments) {
-                String currEntityType = listofUserComment.getEntityType();
+            for (UserComment listOfUserComment : listOfUserComments) {
+                String currEntityType = listOfUserComment.getEntityType();
                 switch (currEntityType) {
                     case "ALBUM":
-                        AlbumsIds.add(listofUserComment.getEntityId());
-                    case "TRACK":
-                        TracksIds.add(listofUserComment.getEntityId());
+                        AlbumsIds.add(listOfUserComment.getEntityId());
                     case "ARTIST":
-                        ArtistsIds.add(listofUserComment.getEntityId());
+                        ArtistsIds.add(listOfUserComment.getEntityId());
+                    case "TRACK":
+                        TracksIds.add(listOfUserComment.getEntityId());
                 }
             }
+            if (!(String.join(",", AlbumsIds).equals("")))
+                listOfAlbums = requestSeveralAlbums(String.join(",", AlbumsIds));
+            if (!(String.join(",", ArtistsIds).equals("")))
+                listOfArtists = requestSeveralArtists(String.join(",", ArtistsIds));
+            if (!(String.join(",", TracksIds).equals("")))
+                listOfTracks = requestSeveralTracks(String.join(",", TracksIds));
+        }
+        return listOfUserComments;
+    }
 
-            listofAlbums = spotifyAPIController.requestSeveralAlbums(String.join(",", AlbumsIds),false);
-            listofTracks = spotifyAPIController.requestSeveralTracks(String.join(",", TracksIds),false);
-            listofArtists = spotifyAPIController.requestSeveralArtists(String.join(",", ArtistsIds));
+    public void setListOfUserComments(List<UserComment> listOfUserComments) {
+        this.listOfUserComments = listOfUserComments;
+    }
+
+    public List<Album> requestSeveralAlbums(String albumIds) {
+        System.out.println("I called requestSeveralAlbums in comments");
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/albums?ids=" + albumIds))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + ACCESS_TOKEN)
+                .GET()
+                .build();
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                List<Album> albums = new ArrayList<>();
+                JSONArray albumArray = new JSONObject(response.body()).getJSONArray("albums");
+
+                for (int i = 0; i < albumArray.length(); i++) {
+                    if (!Objects.equals(albumArray.get(i).toString(), "null")) {
+                        Album a = new Album(albumArray.getJSONObject(i).toString());
+                        albums.add(a);
+                    }
+                }
+                return albums;
+            } else if (response.statusCode() == 401) {
+                Methods.requestToken();
+                return requestSeveralAlbums(albumIds);
+            } else if (response.statusCode() == 429) {
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
+                return new ArrayList<>();
+            }
+        } catch (IOException | InterruptedException e) {
+            JsfUtil.addErrorMessage(e.toString());
+            return new ArrayList<>();
+        }
+        return new ArrayList<>();
+    }
+
+    public List<Artist> requestSeveralArtists(String artistIds) {
+        System.out.println("I called requestSeveralArtists in comments");
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/artists?ids=" + artistIds))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + ACCESS_TOKEN)
+                .GET()
+                .build();
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                List<Artist> artists = new ArrayList<>();
+                JSONArray artistArray = new JSONObject(response.body()).getJSONArray("artists");
+
+                for (int i = 0; i < artistArray.length(); i++) {
+                    if (!Objects.equals(artistArray.get(i).toString(), "null")) {
+                        Artist a = new Artist(artistArray.getJSONObject(i).toString());
+                        artists.add(a);
+                    }
+                }
+                return artists;
+            } else if (response.statusCode() == 401) {
+                Methods.requestToken();
+                return requestSeveralArtists(artistIds);
+            } else if (response.statusCode() == 429) {
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
+                return new ArrayList<>();
+
+            }
+        } catch (IOException | InterruptedException e) {
+            JsfUtil.addErrorMessage(e.toString());
+            return new ArrayList<>();
 
         }
 
-        return listofUserComments;
+        return new ArrayList<>();
     }
 
-    public void setListofUserComments(List<UserComment> listofUserComments) {
-        this.listofUserComments = listofUserComments;
+    public List<Track> requestSeveralTracks(String trackIds) {
+        System.out.println("I called requestSeveralTracks in comments");
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/tracks?ids=" + trackIds))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + ACCESS_TOKEN)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                List<Track> tracks = new ArrayList<>();
+                JSONArray trackArray = new JSONObject(response.body()).getJSONArray("tracks");
+
+                for (int i = 0; i < trackArray.length(); i++) {
+                    if (!Objects.equals(trackArray.get(i).toString(), "null")) {
+                        Track a = new Track(trackArray.getJSONObject(i).toString());
+                        tracks.add(a);
+                    }
+                }
+                return tracks;
+            } else if (response.statusCode() == 401) {
+                Methods.requestToken();
+                return requestSeveralTracks(trackIds);
+            } else if (response.statusCode() == 429) {
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
+                return new ArrayList<>();
+
+            }
+        } catch (IOException | InterruptedException e) {
+            JsfUtil.addErrorMessage(e.toString());
+            return new ArrayList<>();
+
+        }
+
+        return new ArrayList<>();
     }
 
-    public void clearListofUserComments() {
-        this.listofUserComments = null;
+    public void clearListOfUserComments() {
+        this.listOfUserComments = null;
     }
 
     public Album findAlbum(String entityId) {
-        if (listofAlbums !=null) {
-            for (Album album : listofAlbums) {
-                if (album != null){
+        if (listOfAlbums != null) {
+            for (Album album : listOfAlbums) {
+                if (album != null) {
                     if (Objects.equals(entityId, album.getId())) {
                         return album;
                     }
                 }
             }
-
         }
         return null;
     }
 
     public Track findTrack(String entityId) {
-        if (listofTracks !=null) {
-            for (Track track : listofTracks) {
-                if (track != null){
+        if (listOfTracks != null) {
+            for (Track track : listOfTracks) {
+                if (track != null) {
                     if (Objects.equals(entityId, track.getId())) {
                         return track;
                     }
@@ -163,10 +281,10 @@ public class UserCommentsController implements Serializable {
     }
 
     public Artist findArtist(String entityId) {
-        if (listofArtists !=null) {
+        if (listOfArtists != null) {
 
-            for (Artist artist : listofArtists) {
-                if (artist != null){
+            for (Artist artist : listOfArtists) {
+                if (artist != null) {
                     if (Objects.equals(entityId, artist.getId())) {
                         return artist;
                     }
@@ -197,7 +315,6 @@ public class UserCommentsController implements Serializable {
         return "qwe";
     }
 
-
     public String getImageUrl(UserComment userComment) {
         switch (userComment.getEntityType()) {
             case "ALBUM":
@@ -219,7 +336,6 @@ public class UserCommentsController implements Serializable {
         }
         return "";
     }
-
 
     public String getArtists(UserComment userComment) {
         switch (userComment.getEntityType()) {
@@ -250,12 +366,12 @@ public class UserCommentsController implements Serializable {
     public void update() {
         Methods.preserveMessages();
 
-        persist(PersistAction.UPDATE,"Comment was Successfully Updated!");
+        persist(PersistAction.UPDATE, "Comment was Successfully Updated!");
 
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The UPDATE operation is successfully performed.
             selected = null;        // Remove selection
-            listofUserComments = null;    // Invalidate listOfMovies to trigger re-query.
+            listOfUserComments = null;    // Invalidate listOfMovies to trigger re-query.
         }
     }
 
@@ -267,12 +383,12 @@ public class UserCommentsController implements Serializable {
     public void destroy() {
         Methods.preserveMessages();
 
-        persist(PersistAction.DELETE,"Comment was Successfully Deleted!");
+        persist(PersistAction.DELETE, "Comment was Successfully Deleted!");
 
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The DELETE operation is successfully performed.
             selected = null;        // Remove selection
-            listofUserComments = null;    // Invalidate listOfMovies to trigger re-query.
+            listOfUserComments = null;    // Invalidate listOfMovies to trigger re-query.
         }
     }
 
@@ -281,8 +397,9 @@ public class UserCommentsController implements Serializable {
      *   Perform CREATE, UPDATE (EDIT), and DELETE (DESTROY, REMOVE) Operations in the Database   *
      **********************************************************************************************
      */
+
     /**
-     * @param persistAction refers to CREATE, UPDATE (Edit) or DELETE action
+     * @param persistAction  refers to CREATE, UPDATE (Edit) or DELETE action
      * @param successMessage displayed to inform the user about the result
      */
     private void persist(PersistAction persistAction, String successMessage) {
@@ -322,11 +439,11 @@ public class UserCommentsController implements Serializable {
                 if (msg.length() > 0) {
                     JsfUtil.addErrorMessage(msg);
                 } else {
-                    JsfUtil.addErrorMessage(ex,"A persistence error occurred.");
+                    JsfUtil.addErrorMessage(ex, "A persistence error occurred.");
                 }
             } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex,"A persistence error occurred.");
+                JsfUtil.addErrorMessage(ex, "A persistence error occurred.");
             }
         }
     }

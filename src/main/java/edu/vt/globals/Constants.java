@@ -4,8 +4,8 @@
  */
 package edu.vt.globals;
 
-import edu.vt.controllers.SpotifyAPIController;
 
+import java.net.http.HttpClient;
 import java.util.Arrays;
 import java.util.List;
 
@@ -109,10 +109,10 @@ public final class Constants {
         "What is your mother's maiden name?",
         "What was your favorite place to visit as a child?"
     };
-
+    public static final HttpClient CLIENT = HttpClient.newHttpClient();
+    public static String ACCESS_TOKEN;
     public static final String EMBED_URI = "https://open.spotify.com/embed/";
 
-    public static final SpotifyAPIController API_CONTROLLER = new SpotifyAPIController();
     public static final String CLIENT_AUTH = "NzM5YjE5NTU2OGJmNGZkNTg5MzBiMmUxZjU4YjU4NDA6MmI0ZTk4MWI0OTFkNGRhZmJiOGE3OGY2NTU3MjA0MjM=";
 
     public static final List<String> GENRES = Arrays.asList("acoustic",

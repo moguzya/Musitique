@@ -16,7 +16,7 @@
         <div align="center">
             <h:form id="FavoriteArtistsForm">
                 <div class="tableBackgroundDiv">
-                    <p:dataGrid value="#{spotifyAPIController.requestFavoriteArtists(userFavoriteArtistController.listOfFavoriteArtists)}"
+                    <p:dataGrid value="#{userFavoriteArtistController.favoriteArtists}"
                                 var="anArtist"
                                 rows="25"
                                 style="background: none;width:100%">

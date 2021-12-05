@@ -4,7 +4,7 @@
  */
 package edu.vt.controllers;
 
-import edu.vt.controllers.SpotifyAPIController;
+
 import edu.vt.EntityBeans.User;
 import edu.vt.EntityBeans.UserComment;
 import edu.vt.EntityBeans.UserRating;
@@ -20,18 +20,29 @@ import edu.vt.globals.Methods;
 import org.primefaces.event.RateEvent;
 import edu.vt.EntityBeans.UserFavoriteArtist;
 import edu.vt.FacadeBeans.UserFavoriteArtistFacade;
+import org.primefaces.shaded.json.JSONArray;
+import org.primefaces.shaded.json.JSONObject;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.URI;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static edu.vt.globals.Constants.ACCESS_TOKEN;
+import static edu.vt.globals.Constants.CLIENT;
 
 
 /*
@@ -92,6 +103,7 @@ public class EntityController implements Serializable {
     private String newCommentText;
     private Double averageEntityRating;
 
+    private List<Track> artistTopTracks;
     /*
     ================
     Instance Methods
@@ -99,16 +111,19 @@ public class EntityController implements Serializable {
     */
 
     public String toAlbumPage(Album selectedAlbum) {
+        selectedAlbum = requestAlbum(selectedAlbum.getId());
         setSelectedAlbum(selectedAlbum);
         return "/standalonePages/Album?faces-redirect=true";
     }
 
     public String toArtistPage(Artist selectedArtist) {
+        selectedArtist = requestArtist(selectedArtist.getId());
         setSelectedArtist(selectedArtist);
         return "/standalonePages/Artist?faces-redirect=true";
     }
 
     public String toTrackPage(Track selectedTrack) {
+        selectedTrack = requestTrack(selectedTrack.getId());
         setSelectedTrack(selectedTrack);
         return "/standalonePages/Track?faces-redirect=true";
     }
@@ -141,6 +156,65 @@ public class EntityController implements Serializable {
     CREATE a New Comment in the Database
     ************************************
      */
+
+    public List<Track> requestTopTracksFromArtist(String artistId) {
+        System.out.println("I called requestTopTracksFromArtist");
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/artists/" + artistId + "/top-tracks?market=US"))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + ACCESS_TOKEN)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                List<Track> tracks = new ArrayList<>();
+                JSONArray tracksArray = new JSONObject(response.body()).getJSONArray("tracks");
+
+                int length = Math.min(tracksArray.length(), 6);
+
+                for (int i = 0; i < length; i++) {
+                    Track t = new Track(tracksArray.getJSONObject(i).toString());
+                    tracks.add(t);
+                }
+
+                return tracks;
+            } else if (response.statusCode() == 401) {
+                Methods.requestToken();
+                return requestTopTracksFromArtist(artistId);
+            } else if (response.statusCode() == 429) {
+                System.out.println("rate limit");
+                return new ArrayList<>();
+            }
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e);
+            return new ArrayList<>();
+        }
+        return new ArrayList<>();
+    }
+
+    public UserFavoriteArtistFacade getUserFavoriteArtistFacade() {
+        return userFavoriteArtistFacade;
+    }
+
+    public void setUserFavoriteArtistFacade(UserFavoriteArtistFacade userFavoriteArtistFacade) {
+        this.userFavoriteArtistFacade = userFavoriteArtistFacade;
+    }
+
+    public List<Track> getArtistTopTracks() {
+        if(artistTopTracks == null)
+            artistTopTracks = requestTopTracksFromArtist(selectedArtist.getId());
+        return artistTopTracks;
+    }
+
+    public void setArtistTopTracks(List<Track> artistTopTracks) {
+        this.artistTopTracks = artistTopTracks;
+    }
+
     public void createComment(UserComment comment) {
         selectedComment = comment;
         Methods.preserveMessages();
@@ -212,6 +286,93 @@ public class EntityController implements Serializable {
         return (User) sessionMap.get("user");
     }
 
+    public Album requestAlbum(String albumId) {
+        System.out.println("I called requestAlbum");
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/albums/" + albumId))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + ACCESS_TOKEN)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                return new Album(response.body());
+            } else if (response.statusCode() == 401) {
+                Methods.requestToken();
+                return requestAlbum(albumId);
+            } else if (response.statusCode() == 429) {
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
+            }
+        } catch (IOException | InterruptedException e) {
+            JsfUtil.addErrorMessage(e.toString());
+        }
+
+        return null;
+    }
+
+    public Artist requestArtist(String artistId) {
+        System.out.println("I called requestArtist");
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/artists/" + artistId))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + ACCESS_TOKEN)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                return new Artist(response.body());
+            } else if (response.statusCode() == 401) {
+                Methods.requestToken();
+                return requestArtist(artistId);
+            } else if (response.statusCode() == 429) {
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
+            }
+        } catch (IOException | InterruptedException e) {
+            JsfUtil.addErrorMessage(e.toString());
+        }
+
+        return null;
+    }
+
+    public Track requestTrack(String trackId) {
+        System.out.println("I called requestTrack");
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/tracks/" + trackId))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + ACCESS_TOKEN)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                return new Track(response.body());
+            } else if (response.statusCode() == 401) {
+                Methods.requestToken();
+                return requestTrack(trackId);
+            } else if (response.statusCode() == 429) {
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
+            }
+        } catch (IOException | InterruptedException e) {
+            JsfUtil.addErrorMessage(e.toString());
+        }
+
+        return null;
+    }
+
     public List<UserFavoriteArtist> getListOfFavoriteArtists() {
         /*
         'user', the object reference of the signed-in user, was put into the SessionMap
@@ -248,12 +409,12 @@ public class EntityController implements Serializable {
     public void setSelectedAlbum(Album selectedAlbum) {
         this.selectedAlbum = selectedAlbum;
         selectedEntityType = EntityType.ALBUM;
-        selectedComment=null;
-        listOfComments=null;
-        userRating=null;
-        newCommentText=null;
-        userRating=getUserRating();
-        listOfComments=getListOfComments();
+        selectedComment = null;
+        listOfComments = null;
+        userRating = null;
+        newCommentText = null;
+        userRating = getUserRating();
+        listOfComments = getListOfComments();
         unselectArtist();
         unselectTrack();
     }
@@ -265,13 +426,13 @@ public class EntityController implements Serializable {
     public void setSelectedArtist(Artist selectedArtist) {
         this.selectedArtist = selectedArtist;
         selectedEntityType = EntityType.ARTIST;
-        selectedComment=null;
-        listOfComments=null;
-        userRating=null;
-        newCommentText=null;
+        selectedComment = null;
+        listOfComments = null;
+        userRating = null;
+        newCommentText = null;
 
-        userRating=getUserRating();
-        listOfComments=getListOfComments();
+        userRating = getUserRating();
+        listOfComments = getListOfComments();
         unselectAlbum();
         unselectTrack();
     }
@@ -283,13 +444,13 @@ public class EntityController implements Serializable {
     public void setSelectedTrack(Track selectedTrack) {
         this.selectedTrack = selectedTrack;
         selectedEntityType = EntityType.TRACK;
-        selectedComment=null;
-        listOfComments=null;
-        userRating=null;
-        newCommentText=null;
+        selectedComment = null;
+        listOfComments = null;
+        userRating = null;
+        newCommentText = null;
 
-        userRating=getUserRating();
-        listOfComments=getListOfComments();
+        userRating = getUserRating();
+        listOfComments = getListOfComments();
         unselectAlbum();
         unselectArtist();
     }

@@ -9,6 +9,8 @@ import edu.vt.controllers.util.JsfUtil;
 import edu.vt.controllers.util.JsfUtil.PersistAction;
 import edu.vt.globals.Constants;
 import edu.vt.globals.Methods;
+import org.primefaces.shaded.json.JSONArray;
+import org.primefaces.shaded.json.JSONObject;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -16,16 +18,28 @@ import javax.el.MethodExpression;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.URI;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import static edu.vt.globals.Constants.ACCESS_TOKEN;
+import static edu.vt.globals.Constants.CLIENT;
 
 @Named("userFavoriteArtistController")
 @SessionScoped
 
 public class UserFavoriteArtistController implements Serializable {
+    List<Artist> favoriteArtists;
     /*
     ===============================
     Instance Variables (Properties)
@@ -50,13 +64,10 @@ public class UserFavoriteArtistController implements Serializable {
     Return the List of UserFavoriteArtist that Belong to the Signed-In User
     ***************************************************************
      */
-    public List<UserFavoriteArtist> getListOfFavoriteArtists() {
+    public List<UserFavoriteArtist> getListOfUserFavoriteArtists() {
 
         if (listOfUserFavoriteArtists == null) {
-            /*
-            'user', the object reference of the signed-in user, was put into the SessionMap
-            in the initializeSessionMap() method in LoginManager upon user's sign in.
-             */
+
             Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
             User signedInUser = (User) sessionMap.get("user");
 
@@ -68,10 +79,82 @@ public class UserFavoriteArtistController implements Serializable {
         return listOfUserFavoriteArtists;
     }
 
+    public void requestFavoriteArtists() {
+        System.out.println("I called requestFavoriteArtists");
 
+        String queryArtist = getListOfUserFavoriteArtists().stream().
+                map(i -> String.valueOf(i.getEntityId())).
+                collect(Collectors.joining(","));
 
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/artists?ids=" + queryArtist))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + ACCESS_TOKEN)
+                .GET()
+                .build();
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
-    /*
+            if (response.statusCode() == 200) {
+                List<Artist> artists = new ArrayList<>();
+                JSONArray artistArray = new JSONObject(response.body()).getJSONArray("artists");
+
+                for (int i = 0; i < artistArray.length(); i++) {
+                    if (!Objects.equals(artistArray.get(i).toString(), "null")) {
+                        Artist a = new Artist(artistArray.getJSONObject(i).toString());
+                        artists.add(a);
+                    }
+                }
+                favoriteArtists = artists;
+            } else if (response.statusCode() == 401) {
+                Methods.requestToken();
+                requestFavoriteArtists();
+                return;
+            } else if (response.statusCode() == 429) {
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
+                favoriteArtists = new ArrayList<>();
+                return;
+            }
+        } catch (IOException | InterruptedException e) {
+            JsfUtil.addErrorMessage(e.toString());
+            favoriteArtists = new ArrayList<>();
+            return;
+        }
+        favoriteArtists = new ArrayList<>();
+        return;
+    }
+
+    public List<Artist> getFavoriteArtists() {
+        if (favoriteArtists == null)
+            requestFavoriteArtists();
+        return favoriteArtists;
+    }
+
+    public void setFavoriteArtists(List<Artist> favoriteArtists) {
+        this.favoriteArtists = favoriteArtists;
+    }
+
+    public void setListOfUserFavoriteArtists(List<UserFavoriteArtist> listOfUserFavoriteArtists) {
+        this.listOfUserFavoriteArtists = listOfUserFavoriteArtists;
+    }
+
+    public UserFavoriteArtist getSelected() {
+        return selected;
+    }
+
+    public void setSelected(UserFavoriteArtist selected) {
+        this.selected = selected;
+    }
+
+    public UserFavoriteArtistFacade getUserFavoriteArtistFacade() {
+        return userFavoriteArtistFacade;
+    }
+
+    public void setUserFavoriteArtistFacade(UserFavoriteArtistFacade userFavoriteArtistFacade) {
+        this.userFavoriteArtistFacade = userFavoriteArtistFacade;
+    }
+/*
     ================
     Instance Methods
     ================
@@ -84,7 +167,7 @@ public class UserFavoriteArtistController implements Serializable {
 
     public Boolean isFavoriteArtist(Artist artist) {
         for (UserFavoriteArtist favoriteArtist :
-                getListOfFavoriteArtists()) {
+                getListOfUserFavoriteArtists()) {
             if (favoriteArtist.getEntityId() == artist.getId()) {
                 selected = favoriteArtist;
                 return true;
@@ -165,7 +248,7 @@ public class UserFavoriteArtistController implements Serializable {
 
     public void destroy(Artist artist) {
         if (selected == null) {
-            List<UserFavoriteArtist> favs = getListOfFavoriteArtists();
+            List<UserFavoriteArtist> favs = getListOfUserFavoriteArtists();
             for (UserFavoriteArtist fav : favs) {
                 if (fav.getEntityId().equals(artist.getId())) {
                     selected = fav;
