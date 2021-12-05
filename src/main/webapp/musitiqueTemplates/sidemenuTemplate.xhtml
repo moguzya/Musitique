@@ -68,10 +68,10 @@
                         <!-- Menu Options IF a User is Signed In -->
                         <c:if test="#{userController.isLoggedIn() == true}">
 
-                            <p:menuitem icon="fas fa-id-badge" action="/userAccount/Profile" title="My Profile"/>
-                            <p:menuitem icon="fas fa-edit" action="/userAccount/EditAccount" title="Edit Account"/>
-                            <p:menuitem icon="fas fa-camera" action="/userPhoto/ChangePhoto" title="Change Photo"/>
-                            <p:menuitem icon="fas fa-key" action="/userPasswordChange/EnterUsername"
+                            <p:menuitem icon="fas fa-id-badge" outcome="/userAccount/Profile" title="My Profile"/>
+                            <p:menuitem icon="fas fa-edit" outcome="/userAccount/EditAccount" title="Edit Account"/>
+                            <p:menuitem icon="fas fa-camera" outcome="/userPhoto/ChangePhoto" title="Change Photo"/>
+                            <p:menuitem icon="fas fa-key" outcome="/userPasswordChange/EnterUsername"
                                         title="Change Password"/>
                             <p:menuitem icon="fas fa-sign-out-alt" action="#{userController.logout()}"
                                         title="Sign Out"/>

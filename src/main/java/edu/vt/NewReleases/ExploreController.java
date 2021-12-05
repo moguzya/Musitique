@@ -37,14 +37,12 @@ import static edu.vt.globals.Constants.CLIENT;
 @Named("exploreController")
 @SessionScoped
 public class ExploreController implements Serializable {
-    @EJB
-    private UserGenreFacade userGenreFacade;
-
-    @EJB
-    private UserFavoriteArtistFacade userFavoriteArtistFacade;
-
     List<UserGenre> favoriteGenres;
     List<UserFavoriteArtist> favoriteArtists;
+    @EJB
+    private UserGenreFacade userGenreFacade;
+    @EJB
+    private UserFavoriteArtistFacade userFavoriteArtistFacade;
     private List<Track> tracks;
 
     public List<Track> getTracks() {
@@ -59,20 +57,18 @@ public class ExploreController implements Serializable {
 
     public List<UserGenre> getFavoriteGenres() {
 
-        if (favoriteGenres == null) {
             /*
             'user', the object reference of the signed-in user, was put into the SessionMap
             in the initializeSessionMap() method in LoginManager upon user's sign in.
              */
-            Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-            User signedInUser = (User) sessionMap.get("user");
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        User signedInUser = (User) sessionMap.get("user");
 
-            // Obtain the database primary key of the signedInUser object
-            Integer primaryKey = signedInUser.getId();
+        // Obtain the database primary key of the signedInUser object
+        Integer primaryKey = signedInUser.getId();
 
-            favoriteGenres = userGenreFacade.findUserGenresByUserPrimaryKey(primaryKey);
+        favoriteGenres = userGenreFacade.findUserGenresByUserPrimaryKey(primaryKey);
 
-        }
         return favoriteGenres;
     }
 
@@ -81,16 +77,14 @@ public class ExploreController implements Serializable {
     }
 
     public List<UserFavoriteArtist> getFavoriteArtists() {
-        if (favoriteArtists == null) {
 
-            Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-            User signedInUser = (User) sessionMap.get("user");
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        User signedInUser = (User) sessionMap.get("user");
 
-            // Obtain the database primary key of the signedInUser object
-            Integer primaryKey = signedInUser.getId();
+        // Obtain the database primary key of the signedInUser object
+        Integer primaryKey = signedInUser.getId();
 
-            favoriteArtists = userFavoriteArtistFacade.findUserFavoriteArtistsByUserPrimaryKey(primaryKey);
-        }
+        favoriteArtists = userFavoriteArtistFacade.findUserFavoriteArtistsByUserPrimaryKey(primaryKey);
         return favoriteArtists;
     }
 
