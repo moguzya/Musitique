@@ -5,8 +5,6 @@ import edu.vt.EntityBeans.UserFavoriteArtist;
 import edu.vt.EntityBeans.UserGenre;
 import edu.vt.FacadeBeans.UserFavoriteArtistFacade;
 import edu.vt.FacadeBeans.UserGenreFacade;
-import edu.vt.Pojos.Album;
-import edu.vt.Pojos.Artist;
 import edu.vt.Pojos.Track;
 import edu.vt.controllers.util.JsfUtil;
 import edu.vt.globals.Methods;

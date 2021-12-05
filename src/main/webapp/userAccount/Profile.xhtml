@@ -123,13 +123,11 @@
                         </f:facet>
 
 
-                        <!--                <p:selectManyMenu id="advanced" value="#{userGenresController.listOfUserGenres}"-->
                         <p:selectManyCheckbox id="grid" value="#{userGenresController.listOfUserGenreNames}" layout="grid" columns="5" styleClass="grid-checkbox">
 
                             <f:selectItems  value="#{userGenresController.genres}" var="userGenre" itemLabel="#{userGenre.genre}" itemValue="#{userGenre.genre}"/>
 
                         </p:selectManyCheckbox>
-                        <!--                </p:selectManyMenu>-->
 
                         &nbsp;
 
@@ -145,49 +143,6 @@
 
                 </div>
             </div>
-
-
-
-
-<!--                                &lt;!&ndash;-->
-<!--                                ================================-->
-<!--                                |      EDIT PROFILE Link       |-->
-<!--                                ================================-->
-<!--                                &ndash;&gt;-->
-<!--                                <h:link outcome="/userAccount/EditAccount">-->
-<!--                                    <i class="fas fa-edit"/>&nbsp;Edit Profile-->
-<!--                                </h:link>-->
-
-<!--                                &lt;!&ndash;-->
-<!--                                ================================-->
-<!--                                |      CHANGE PHOTO Link       |-->
-<!--                                ================================-->
-<!--                                &ndash;&gt;-->
-<!--                                <h:link outcome="/userPhoto/ChangePhoto">-->
-<!--                                    <i class="fas fa-camera"/>&nbsp;Change Photo-->
-<!--                                </h:link>-->
-
-<!--                                &lt;!&ndash;-->
-<!--                                ================================-->
-<!--                                |     CHANGE PASSWORD Link     |-->
-<!--                                ================================-->
-<!--                                &ndash;&gt;-->
-<!--                                <h:link outcome="/userPasswordChange/EnterUsername">-->
-<!--                                    <i class="fas fa-key"/>&nbsp;Change Password-->
-<!--                                </h:link>-->
-
-<!--                                &lt;!&ndash;-->
-<!--                                =====================   ===========-->
-<!--                                |      DELETE ACCOUNT Link     |-->
-<!--                                ================================-->
-<!--                                &ndash;&gt;-->
-
-                                <!-- ****************** Delete Account Begin **************************** -->
-                                <!--
-                                When the user selects YES on the confirmDialogBox, SecurityQuestionDialog included below is
-                                displayed, and the form with id SecurityQuestionForm in the SecurityQuestionDialog is updated.
-                                -->
-
             <br/>
 
 

@@ -53,15 +53,6 @@
                                     <h:outputText value="Artist:"/>
                                     <h:outputText value="#{userRatingsController.getArtists(userRatingsController.selected) }"/>
 
-<!--                                    <h:outputText value="Date Posted:"/>-->
-<!--                                    <h:outputText value="#{userRatingsController.selected.date}">-->
-<!--                                        &lt;!&ndash;-->
-<!--                                        Date is stored in the database in the format YYYY-MM-DD so that it is sortable.-->
-<!--                                        For display purposes, we convert the database format to MM/DD/YYYY.-->
-<!--                                        &ndash;&gt;-->
-<!--                                        <f:convertDateTime pattern="MM/dd/yyyy" />-->
-<!--                                    </h:outputText>-->
-
                                     <h:outputText value="Rating:"/>
                                     <p:rating value="#{userRatingsController.selected.rating}" readonly="true"/>
 
