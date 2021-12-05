@@ -1,6 +1,5 @@
 /*
- * Created by Mehmet Oguz Yardimci
- * Copyright © 2021 Mehmet Oguz Yardimci. All rights reserved.
+All rights reserved.
  */
 package edu.vt.controllers;
 
@@ -8,7 +7,7 @@ package edu.vt.controllers;
 import edu.vt.EntityBeans.User;
 import edu.vt.EntityBeans.UserComment;
 import edu.vt.EntityBeans.UserRating;
-import edu.vt.EntityType;
+import edu.vt.Pojos.EntityType;
 import edu.vt.Pojos.Album;
 import edu.vt.FacadeBeans.CommentFacade;
 import edu.vt.FacadeBeans.RatingFacade;

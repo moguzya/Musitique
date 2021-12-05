@@ -2,14 +2,12 @@ package edu.vt.NewReleases;
 
 import edu.vt.Pojos.Album;
 import edu.vt.Pojos.Artist;
-import edu.vt.Pojos.Results;
 import edu.vt.Pojos.Track;
 import edu.vt.controllers.util.JsfUtil;
 import edu.vt.globals.Methods;
 import org.primefaces.shaded.json.JSONArray;
 import org.primefaces.shaded.json.JSONObject;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;

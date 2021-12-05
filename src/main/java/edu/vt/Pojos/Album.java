@@ -2,6 +2,7 @@ package edu.vt.Pojos;
 
 import edu.vt.EntityBeans.UserComment;
 import edu.vt.EntityBeans.UserRating;
+import edu.vt.NewReleases.SearchController;
 import edu.vt.controllers.util.JsfUtil;
 import edu.vt.globals.Methods;
 import org.primefaces.shaded.json.JSONArray;
@@ -30,8 +31,6 @@ public class Album {
     private String releaseDate;
     private List<Artist> artists;
     private List<Track> tracks;
-    private List<UserComment> comments;
-    private List<UserRating> ratings;
 
     public Album(String json) {
         JSONObject body = new JSONObject(json);

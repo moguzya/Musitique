@@ -1,4 +1,4 @@
-package edu.vt;
+package edu.vt.Pojos;
 public enum EntityType {
     TRACK{
         public String toString() {

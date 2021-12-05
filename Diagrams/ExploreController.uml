@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>edu.vt.controllers.EntityController</OriginalElement>
+  <nodes>
+    <node x="303.0" y="119.85636561479869">edu.vt.NewReleases.ExploreController</node>
+    <node x="66.924374319913" y="466.4450489662677">edu.vt.Pojos.Artist</node>
+    <node x="-191.99347116430897" y="499.4450489662677">edu.vt.EntityBeans.UserFavoriteArtist</node>
+    <node x="-181.82100108813927" y="242.55495103373232">edu.vt.EntityBeans.UserGenre</node>
+    <node x="356.84221980413497" y="466.4450489662677">edu.vt.Pojos.Album</node>
+    <node x="-213.99347116430903" y="393.0">edu.vt.FacadeBeans.UserFavoriteArtistFacade</node>
+    <node x="599.7600652883569" y="477.4450489662677">edu.vt.Pojos.Track</node>
+    <node x="-226.32100108813927" y="136.10990206746465">edu.vt.FacadeBeans.UserGenreFacade</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="edu.vt.NewReleases.ExploreController" target="edu.vt.FacadeBeans.UserGenreFacade" relationship="DEPENDENCY">
+      <point x="-157.0" y="-42.74646354733403" />
+      <point x="103.0" y="-15.0" />
+    </edge>
+    <edge source="edu.vt.NewReleases.ExploreController" target="edu.vt.EntityBeans.UserFavoriteArtist" relationship="TO_MANY">
+      <point x="15.0" y="71.0" />
+      <point x="475.0" y="435.0" />
+      <point x="26.506528835690972" y="435.0" />
+      <point x="26.506528835690972" y="548.4450489662677" />
+      <point x="82.0" y="0.0" />
+    </edge>
+    <edge source="edu.vt.Pojos.Track" target="edu.vt.Pojos.Album" relationship="TO_ONE">
+      <point x="-75.0" y="29.999951033732373" />
+      <point x="74.0" y="29.999951033732373" />
+    </edge>
+    <edge source="edu.vt.NewReleases.ExploreController" target="edu.vt.EntityBeans.UserGenre" relationship="DEPENDENCY">
+      <point x="-30.0" y="71.0" />
+      <point x="430.0" y="291.5549510337323" />
+      <point x="58.5" y="0.0" />
+    </edge>
+    <edge source="edu.vt.NewReleases.ExploreController" target="edu.vt.FacadeBeans.UserFavoriteArtistFacade" relationship="DEPENDENCY">
+      <point x="0.0" y="71.0" />
+      <point x="460.0" y="420.0" />
+      <point x="104.0" y="0.0" />
+    </edge>
+    <edge source="edu.vt.Pojos.Artist" target="edu.vt.Pojos.Track" relationship="TO_MANY">
+      <point x="0.0" y="82.0" />
+      <point x="164.424374319913" y="691.9450489662677" />
+      <point x="674.76" y="691.9450489662677" />
+      <point x="-6.528835695007729E-5" y="93.0" />
+    </edge>
+    <edge source="edu.vt.Pojos.Track" target="edu.vt.Pojos.Artist" relationship="TO_MANY">
+      <point x="29.99993471164305" y="93.0" />
+      <point x="704.76" y="752.5" />
+      <point x="134.424" y="752.5" />
+      <point x="-30.000374319912993" y="82.0" />
+    </edge>
+    <edge source="edu.vt.Pojos.Album" target="edu.vt.Pojos.Track" relationship="TO_MANY">
+      <point x="74.0" y="14.999951033732373" />
+      <point x="-75.0" y="14.999951033732373" />
+    </edge>
+    <edge source="edu.vt.Pojos.Track" target="edu.vt.Pojos.Album" relationship="CREATE">
+      <point x="-75.0" y="44.99995103373237" />
+      <point x="74.0" y="44.99995103373237" />
+    </edge>
+    <edge source="edu.vt.Pojos.Artist" target="edu.vt.Pojos.Track" relationship="DEPENDENCY">
+      <point x="-15.000374319912993" y="82.0" />
+      <point x="149.424" y="737.5" />
+      <point x="689.76" y="737.5" />
+      <point x="14.99993471164305" y="93.0" />
+    </edge>
+    <edge source="edu.vt.Pojos.Album" target="edu.vt.Pojos.Track" relationship="CREATE">
+      <point x="73.99978019586501" y="-4.8966267627292837E-5" />
+      <point x="-75.00006528835695" y="-4.8966267627292837E-5" />
+    </edge>
+    <edge source="edu.vt.Pojos.Album" target="edu.vt.Pojos.Artist" relationship="CREATE">
+      <point x="-74.0" y="-37.00004896626763" />
+      <point x="97.5" y="-15.000048966267627" />
+    </edge>
+    <edge source="edu.vt.NewReleases.ExploreController" target="edu.vt.FacadeBeans.UserGenreFacade" relationship="TO_ONE">
+      <point x="-157.0" y="-27.74646354733403" />
+      <point x="103.0" y="0.0" />
+    </edge>
+    <edge source="edu.vt.NewReleases.ExploreController" target="edu.vt.Pojos.Track" relationship="TO_MANY">
+      <point x="149.5" y="71.0" />
+      <point x="-65.26006528835694" y="-93.0" />
+    </edge>
+    <edge source="edu.vt.NewReleases.ExploreController" target="edu.vt.FacadeBeans.UserFavoriteArtistFacade" relationship="TO_ONE">
+      <point x="-15.0" y="71.0" />
+      <point x="445.0" y="405.0" />
+      <point x="104.0" y="-15.0" />
+    </edge>
+    <edge source="edu.vt.NewReleases.ExploreController" target="edu.vt.EntityBeans.UserFavoriteArtist" relationship="DEPENDENCY">
+      <point x="157.0" y="-15.0" />
+      <point x="767.2600652883569" y="175.85636561479868" />
+      <point x="767.2600652883569" y="782.5" />
+      <point x="-109.99347116430897" y="782.5" />
+      <point x="0.0" y="49.0" />
+    </edge>
+    <edge source="edu.vt.NewReleases.ExploreController" target="edu.vt.EntityBeans.UserGenre" relationship="TO_MANY">
+      <point x="-157.0" y="63.5" />
+      <point x="58.5" y="-37.19858541893365" />
+    </edge>
+    <edge source="edu.vt.Pojos.Album" target="edu.vt.Pojos.Artist" relationship="TO_MANY">
+      <point x="-74.0" y="14.999951033732373" />
+      <point x="97.5" y="36.99995103373237" />
+    </edge>
+    <edge source="edu.vt.FacadeBeans.UserGenreFacade" target="edu.vt.EntityBeans.UserGenre" relationship="DEPENDENCY">
+      <point x="1.0881392711326043E-6" y="27.00009793253537" />
+      <point x="1.0881392711326043E-6" y="-48.999951033732316" />
+    </edge>
+    <edge source="edu.vt.FacadeBeans.UserFavoriteArtistFacade" target="edu.vt.EntityBeans.UserFavoriteArtist" relationship="DEPENDENCY">
+      <point x="5.6843418860808015E-14" y="27.0" />
+      <point x="0.0" y="-49.0" />
+    </edge>
+    <edge source="edu.vt.NewReleases.ExploreController" target="edu.vt.Pojos.Track" relationship="CREATE">
+      <point x="157.0" y="0.0" />
+      <point x="674.7600652883569" y="190.85636561479868" />
+      <point x="0.0" y="-93.0" />
+    </edge>
+    <edge source="edu.vt.Pojos.Track" target="edu.vt.Pojos.Artist" relationship="CREATE">
+      <point x="44.99993471164305" y="93.0" />
+      <point x="719.76" y="767.5" />
+      <point x="119.424" y="767.5" />
+      <point x="-45.00037431991299" y="82.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.8084795321637427" showDependencies="true" x="270.49999999999983" y="450.99999999999994" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>edu.vt.controllers.UserController</OriginalElement>
+  <nodes>
+    <node x="1017.0" y="-867.0">edu.vt.FacadeBeans.RatingFacade</node>
+    <node x="439.5" y="-1203.0">edu.vt.EntityBeans.UserPhoto</node>
+    <node x="439.5" y="-526.5408052230687">edu.vt.managers.PasswordResetManager</node>
+    <node x="1221.5" y="-1225.0">edu.vt.EntityBeans.UserRating</node>
+    <node x="649.0" y="-1157.5">javax.persistence.EntityManager</node>
+    <node x="1201.5" y="-1781.0">edu.vt.EntityBeans.User</node>
+    <node x="53.5" y="-516.5016322089227">edu.vt.managers.LoginManager</node>
+    <node x="777.0" y="-867.0">edu.vt.FacadeBeans.CommentFacade</node>
+    <node x="-107.95810663764962" y="-966.0">edu.vt.globals.Password</node>
+    <node x="537.0" y="-867.0">edu.vt.FacadeBeans.UserPhotoFacade</node>
+    <node x="214.0209466811752" y="-867.0">edu.vt.FacadeBeans.UserFacade</node>
+    <node x="1021.5" y="-1225.0">edu.vt.EntityBeans.UserComment</node>
+    <node x="1125.5" y="-725.5016322089227">edu.vt.controllers.UserController</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="edu.vt.FacadeBeans.RatingFacade" target="javax.persistence.EntityManager" relationship="TO_ONE">
+      <point x="-15.0" y="-27.0" />
+      <point x="1105.0" y="-905.0" />
+      <point x="735.0" y="-905.0" />
+      <point x="15.0" y="14.5" />
+    </edge>
+    <edge source="edu.vt.EntityBeans.UserPhoto" target="edu.vt.EntityBeans.User" relationship="DEPENDENCY">
+      <point x="15.0" y="-60.0" />
+      <point x="535.0" y="-1600.0" />
+      <point x="-98.5" y="0.0" />
+    </edge>
+    <edge source="edu.vt.EntityBeans.UserComment" target="edu.vt.EntityBeans.User" relationship="DEPENDENCY">
+      <point x="-15.0" y="-82.0" />
+      <point x="1085.0" y="-1570.0" />
+      <point x="-98.5" y="30.0" />
+    </edge>
+    <edge source="edu.vt.controllers.UserController" target="edu.vt.FacadeBeans.RatingFacade" relationship="DEPENDENCY">
+      <point x="-127.0" y="-258.0" />
+      <point x="1133.0" y="-665.5" />
+      <point x="13.0" y="27.0" />
+    </edge>
+    <edge source="edu.vt.managers.PasswordResetManager" target="edu.vt.FacadeBeans.UserFacade" relationship="TO_ONE">
+      <point x="-112.0" y="0.0" />
+      <point x="302.0209466811752" y="-455.5408052230687" />
+      <point x="-15.0" y="27.0" />
+    </edge>
+    <edge source="edu.vt.managers.LoginManager" target="edu.vt.globals.Password" relationship="DEPENDENCY">
+      <point x="-50.45810663764962" y="-49.0" />
+      <point x="89.54189336235038" y="-511.5" />
+      <point x="95.0" y="126.0" />
+    </edge>
+    <edge source="edu.vt.FacadeBeans.UserPhotoFacade" target="javax.persistence.EntityManager" relationship="DEPENDENCY">
+      <point x="65.0" y="-27.0" />
+      <point x="-15.0" y="14.5" />
+    </edge>
+    <edge source="edu.vt.controllers.UserController" target="edu.vt.EntityBeans.User" relationship="TO_ONE">
+      <point x="134.5" y="0.0" />
+      <point x="1416.0" y="-467.50163220892273" />
+      <point x="1416.0" y="-1585.0" />
+      <point x="98.5" y="15.0" />
+    </edge>
+    <edge source="edu.vt.controllers.UserController" target="edu.vt.EntityBeans.UserPhoto" relationship="DEPENDENCY">
+      <point x="-134.5" y="-121.53917301414594" />
+      <point x="519.5" y="-589.0408052230687" />
+      <point x="-0.5" y="60.0" />
+    </edge>
+    <edge source="edu.vt.EntityBeans.UserComment" target="edu.vt.EntityBeans.User" relationship="TO_ONE">
+      <point x="0.0" y="-82.0" />
+      <point x="1100.0" y="-1555.0" />
+      <point x="-98.5" y="45.0" />
+    </edge>
+    <edge source="edu.vt.controllers.UserController" target="edu.vt.FacadeBeans.UserFacade" relationship="TO_ONE">
+      <point x="-134.5" y="118.5" />
+      <point x="287.0209466811752" y="-349.00163220892273" />
+      <point x="-30.0" y="27.0" />
+    </edge>
+    <edge source="edu.vt.FacadeBeans.UserPhotoFacade" target="javax.persistence.EntityManager" relationship="TO_ONE">
+      <point x="16.5" y="-27.0" />
+      <point x="-63.5" y="14.5" />
+    </edge>
+    <edge source="edu.vt.controllers.UserController" target="edu.vt.EntityBeans.UserComment" relationship="TO_MANY">
+      <point x="0.0" y="-258.0" />
+      <point x="1260.0" y="-958.5" />
+      <point x="1105.0" y="-958.5" />
+      <point x="5.0" y="82.0" />
+    </edge>
+    <edge source="edu.vt.EntityBeans.UserRating" target="edu.vt.EntityBeans.User" relationship="DEPENDENCY">
+      <point x="-15.0" y="-82.0" />
+      <point x="-15.0" y="181.0" />
+    </edge>
+    <edge source="edu.vt.controllers.UserController" target="edu.vt.FacadeBeans.RatingFacade" relationship="TO_ONE">
+      <point x="-112.0" y="-258.0" />
+      <point x="1148.0" y="-665.5" />
+      <point x="28.0" y="27.0" />
+    </edge>
+    <edge source="edu.vt.FacadeBeans.CommentFacade" target="javax.persistence.EntityManager" relationship="TO_ONE">
+      <point x="-95.5" y="-27.0" />
+      <point x="64.5" y="14.5" />
+    </edge>
+    <edge source="edu.vt.FacadeBeans.UserFacade" target="edu.vt.EntityBeans.User" relationship="DEPENDENCY">
+      <point x="-30.0" y="-27.0" />
+      <point x="287.0209466811752" y="-1630.0" />
+      <point x="-98.5" y="-30.0" />
+    </edge>
+    <edge source="edu.vt.FacadeBeans.CommentFacade" target="javax.persistence.EntityManager" relationship="DEPENDENCY">
+      <point x="-30.0" y="-27.0" />
+      <point x="850.0" y="-1143.0" />
+      <point x="71.0" y="0.0" />
+    </edge>
+    <edge source="edu.vt.controllers.UserController" target="edu.vt.EntityBeans.UserComment" relationship="DEPENDENCY">
+      <point x="55.0" y="-258.0" />
+      <point x="1315.0" y="-1013.5" />
+      <point x="1120.0" y="-1013.5" />
+      <point x="20.0" y="82.0" />
+    </edge>
+    <edge source="edu.vt.FacadeBeans.RatingFacade" target="edu.vt.EntityBeans.User" relationship="DEPENDENCY">
+      <point x="0.0" y="-27.0" />
+      <point x="1120.0" y="-935.0" />
+      <point x="975.5" y="-935.0" />
+      <point x="975.5" y="-1585.0" />
+      <point x="-98.5" y="15.0" />
+    </edge>
+    <edge source="edu.vt.managers.PasswordResetManager" target="edu.vt.FacadeBeans.UserFacade" relationship="DEPENDENCY">
+      <point x="-112.0" y="-15.0" />
+      <point x="317.0209466811752" y="-470.5408052230687" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="edu.vt.controllers.UserController" target="edu.vt.FacadeBeans.UserPhotoFacade" relationship="DEPENDENCY">
+      <point x="-134.5" y="-106.53917301414594" />
+      <point x="711.0" y="-574.0408052230687" />
+      <point x="71.0" y="27.0" />
+    </edge>
+    <edge source="edu.vt.controllers.UserController" target="edu.vt.EntityBeans.User" relationship="CREATE">
+      <point x="134.5" y="30.0" />
+      <point x="1461.0" y="-437.50163220892273" />
+      <point x="1461.0" y="-1600.0" />
+      <point x="98.5" y="0.0" />
+    </edge>
+    <edge source="edu.vt.managers.PasswordResetManager" target="edu.vt.globals.Password" relationship="DEPENDENCY">
+      <point x="-112.0" y="66.5" />
+      <point x="21.0" y="-389.0408052230687" />
+      <point x="21.0" y="-840.0" />
+      <point x="-102.5" y="0.0" />
+    </edge>
+    <edge source="edu.vt.managers.LoginManager" target="edu.vt.FacadeBeans.UserFacade" relationship="TO_ONE">
+      <point x="15.0" y="-49.0" />
+      <point x="155.0" y="-855.0" />
+      <point x="-103.0" y="-15.0" />
+    </edge>
+    <edge source="edu.vt.managers.LoginManager" target="edu.vt.EntityBeans.User" relationship="DEPENDENCY">
+      <point x="0.0" y="-49.0" />
+      <point x="140.0" y="-1645.0" />
+      <point x="-98.5" y="-45.0" />
+    </edge>
+    <edge source="edu.vt.controllers.UserController" target="edu.vt.FacadeBeans.UserPhotoFacade" relationship="TO_ONE">
+      <point x="-134.5" y="-91.53917301414594" />
+      <point x="696.0" y="-559.0408052230687" />
+      <point x="56.0" y="27.0" />
+    </edge>
+    <edge source="edu.vt.FacadeBeans.UserFacade" target="javax.persistence.EntityManager" relationship="DEPENDENCY">
+      <point x="0.0" y="-27.0" />
+      <point x="317.0209466811752" y="-1242.5" />
+      <point x="720.0" y="-1242.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="edu.vt.managers.LoginManager" target="edu.vt.FacadeBeans.UserFacade" relationship="DEPENDENCY">
+      <point x="81.52094668117519" y="-49.0" />
+      <point x="-95.5" y="27.0" />
+    </edge>
+    <edge source="edu.vt.EntityBeans.UserRating" target="edu.vt.EntityBeans.User" relationship="TO_ONE">
+      <point x="0.0" y="-82.0" />
+      <point x="0.0" y="181.0" />
+    </edge>
+    <edge source="edu.vt.FacadeBeans.UserPhotoFacade" target="edu.vt.EntityBeans.UserPhoto" relationship="DEPENDENCY">
+      <point x="-95.5" y="-27.0" />
+      <point x="24.5" y="60.0" />
+    </edge>
+    <edge source="edu.vt.controllers.UserController" target="edu.vt.EntityBeans.UserRating" relationship="DEPENDENCY">
+      <point x="100.0" y="-258.0" />
+      <point x="60.0" y="82.0" />
+    </edge>
+    <edge source="edu.vt.controllers.UserController" target="edu.vt.FacadeBeans.CommentFacade" relationship="DEPENDENCY">
+      <point x="-134.5" y="60.0" />
+      <point x="850.0" y="-407.50163220892273" />
+      <point x="-30.0" y="27.0" />
+    </edge>
+    <edge source="edu.vt.FacadeBeans.RatingFacade" target="edu.vt.EntityBeans.UserRating" relationship="CREATE">
+      <point x="103.0" y="0.0" />
+      <point x="1300.0" y="-840.0" />
+      <point x="0.0" y="82.0" />
+    </edge>
+    <edge source="edu.vt.FacadeBeans.CommentFacade" target="edu.vt.EntityBeans.UserComment" relationship="DEPENDENCY">
+      <point x="-15.0" y="-27.0" />
+      <point x="865.0" y="-1175.0" />
+      <point x="-78.5" y="-32.0" />
+    </edge>
+    <edge source="edu.vt.controllers.UserController" target="edu.vt.FacadeBeans.CommentFacade" relationship="TO_ONE">
+      <point x="-134.5" y="45.0" />
+      <point x="865.0" y="-422.50163220892273" />
+      <point x="-15.0" y="27.0" />
+    </edge>
+    <edge source="edu.vt.controllers.UserController" target="edu.vt.EntityBeans.UserRating" relationship="TO_MANY">
+      <point x="115.0" y="-258.0" />
+      <point x="75.0" y="82.0" />
+    </edge>
+    <edge source="edu.vt.controllers.UserController" target="edu.vt.FacadeBeans.UserFacade" relationship="DEPENDENCY">
+      <point x="-134.5" y="-76.53917301414594" />
+      <point x="332.0209466811752" y="-544.0408052230687" />
+      <point x="15.0" y="27.0" />
+    </edge>
+    <edge source="edu.vt.controllers.UserController" target="edu.vt.globals.Password" relationship="DEPENDENCY">
+      <point x="-134.5" y="88.5" />
+      <point x="6.0" y="-379.00163220892273" />
+      <point x="6.0" y="-855.0" />
+      <point x="-102.5" y="-15.0" />
+    </edge>
+    <edge source="edu.vt.FacadeBeans.UserFacade" target="javax.persistence.EntityManager" relationship="TO_ONE">
+      <point x="-15.0" y="-27.0" />
+      <point x="302.0209466811752" y="-1272.5" />
+      <point x="735.0" y="-1272.5" />
+      <point x="15.0" y="-14.5" />
+    </edge>
+    <edge source="edu.vt.managers.PasswordResetManager" target="edu.vt.EntityBeans.User" relationship="DEPENDENCY">
+      <point x="0.0" y="71.0" />
+      <point x="551.5" y="-364.00163220892273" />
+      <point x="-125.45810663764962" y="-364.00163220892273" />
+      <point x="-125.45810663764962" y="-1660.0" />
+      <point x="-98.5" y="-60.0" />
+    </edge>
+    <edge source="edu.vt.EntityBeans.UserPhoto" target="edu.vt.EntityBeans.User" relationship="TO_ONE">
+      <point x="0.0" y="-60.0" />
+      <point x="520.0" y="-1615.0" />
+      <point x="-98.5" y="-15.0" />
+    </edge>
+    <edge source="edu.vt.FacadeBeans.RatingFacade" target="javax.persistence.EntityManager" relationship="DEPENDENCY">
+      <point x="-30.0" y="-27.0" />
+      <point x="1090.0" y="-890.0" />
+      <point x="720.0" y="-890.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.5772613065326633" showDependencies="true" x="671.0" y="-995.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

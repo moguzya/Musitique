@@ -1,15 +1,13 @@
 package edu.vt.FacadeBeans;
 
 import edu.vt.EntityBeans.User;
-import edu.vt.EntityBeans.UserComment;
 import edu.vt.EntityBeans.UserRating;
-import edu.vt.EntityType;
+import edu.vt.Pojos.EntityType;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 
 // @Stateless annotation implies that the conversational state with the client shall not be maintained.
