@@ -14,6 +14,7 @@ public class Artist {
     private List<String> genres;
     private Integer followers;
     private String imageUrl;
+    private List<Track> artistTopTracks;
 
     public Artist() {
     }
@@ -65,6 +66,14 @@ public class Artist {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Track> getArtistTopTracks() {
+        return artistTopTracks;
+    }
+
+    public void setArtistTopTracks(List<Track> artistTopTracks) {
+        this.artistTopTracks = artistTopTracks;
     }
 
     public List<String> getGenres() {
