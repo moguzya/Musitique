@@ -36,7 +36,7 @@ public class SearchController implements Serializable {
     private String searchedText = "";
 
     public void requestSearch() {
-        if (searchedText.length() != 0) {
+        if ((searchedText!= null) && (searchedText.length() != 0)) {
             tracks = new ArrayList<>();
             artists = new ArrayList<>();
             albums = new ArrayList<>();

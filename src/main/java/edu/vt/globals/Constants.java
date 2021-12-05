@@ -38,21 +38,20 @@ public final class Constants {
     // To run locally
     //---------------
 
-    // Windows
-//    public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/jmcon/DocRoot/MusitiqueUserPhotoStorage/";
-    public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/vibhav/DocRoot/MusitiqueUserPhotoStorage/";
+    //    public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/jmcon/DocRoot/MusitiqueUserPhotoStorage/";
 
     //--------------------------------
     // To run on your AWS EC2 instance
     //--------------------------------
-//    public static final String PHOTOS_ABSOLUTE_PATH = "/opt/wildfly/DocRoot/CloudStorage/MusitiqueUserPhotoStorage/";
+    public static final String PHOTOS_ABSOLUTE_PATH = "/opt/wildfly/DocRoot/CS5704-Team9-FileStorage";
+
 
     /*
     RUN THE FOLLOWING TO ADD PATH TO WILDFLY
-    /subsystem=undertow/configuration=handler/file=MusitiquePhotosDirHandler/:add(cache-buffer-size=1024,cache-buffers=1024,directory-listing=true,follow-symlink=true,path=C:/Users/vibha/OneDrive/School/MSC/Fall 2021/CS5704/Projects/DocRoot/MusitiqueUserPhotoStorage/)
+    /subsystem=undertow/configuration=handler/file=MusitiquePhotosDirHandler/:add(cache-buffer-size=1024,cache-buffers=1024,directory-listing=true,follow-symlink=true,path=/opt/wildfly/DocRoot/CS5704-Team9-FileStorage/)
 
-     /subsystem=undertow/server=default-server/host=default-host/location=\/musitiquePhotos/:add(handler=MusitiquePhotosDirHandler)
-     */
+    /subsystem=undertow/server=default-server/host=default-host/location=\/musitiquePhotos/:add(handler=MusitiquePhotosDirHandler)
+    */
 
 
     /*
@@ -60,8 +59,7 @@ public final class Constants {
     |   For displaying external files to the user in an XHTML page, we use the Undertow subsystem.  |
     =================================================================================================
      We configured WildFly Undertow subsystem so that
-     http://localhost:8080/files/f  displays file f from /Users/Balci/DocRoot/CloudStorage/FileStorage/
-     http://localhost:8080/photos/p displays file p from /Users/Balci/DocRoot/CloudStorage/PhotoStorage/
+     http://localhost:8080/musitiquePhotos/p displays file p from /DocRoot/CS5704-Team9-FileStorage/
      */
 
     //---------------
@@ -72,7 +70,7 @@ public final class Constants {
     //-----------------------------------------------------
     // To run on your AWS EC2 instance with your IP address
     //-----------------------------------------------------
-//    public static final String PHOTOS_URI = "http://54.92.194.218:8080/musitiquePhotos/";
+    //    public static final String PHOTOS_URI = "http://54.92.194.218:8080/musitiquePhotos/";
 
     /* 
     =============================================
