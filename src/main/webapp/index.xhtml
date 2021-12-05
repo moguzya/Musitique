@@ -28,6 +28,23 @@
             }
         </style>
         <h:form>
+            <p:card style="margin: 20px 10px">
+                <h3 align="center" class="p-mb-1">Musitique</h3>
+                <br/>
+                <p class="p-mt-0 p-mb-3">
+                    The Musitique web application gives listeners a platform to interact with their Spotify music
+                    in a new way. Spotify is a succinct music player with a unique recommendation system; however,
+                    it lacks listener interaction. With Musitique, listeners can comment on their favorite tracks
+                    and respond to other listener’s comments. Additionally Musitique deobfuscates the recommendation
+                    system and puts it in the listener’s hands. To accomplish this, Musitique allows listeners to
+                    browse new releases and search for unique music using Spotify’s API which the listeners can
+                    then use to define favorite artists and genre preferences. The listener can then explore
+                    recommendations based on those predefined preferences to deepen their musical repertoire.
+                    Finally, listeners can rate tracks on a five point star system; relative to Spotify's binary
+                    rating system Musitique’s 5-star system creates greater nuance to listener’s preferences.
+                </p>
+            </p:card>
+
             <div id="sliderIndex" class="card">
                 <p:carousel value="#{carouselController.listOfNewReleases}" var="aRelease" circular="true"
                             autoplayInterval="5000"

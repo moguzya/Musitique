@@ -44,6 +44,10 @@ body {
 #sliderIndex{
     padding-top: 10px;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
 }
 
 
@@ -149,8 +153,9 @@ body .ui-panelgrid .ui-panelgrid-cell{
     background: none;
     color: white;
 }
+
 body .ui-card{
-    width: 100% !important;
+    width: 98% !important;
     background: none;
     color: white;
 }
