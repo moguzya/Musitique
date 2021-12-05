@@ -26,7 +26,7 @@
 }
 
 .profile-button{
-    background-image: url("http://localhost:8080/musitiquePhotos/loginImage.png") !important;
+    background-image: url("#{userController.userPhoto()}") !important;
     background-size:contain !important;
 }
 
