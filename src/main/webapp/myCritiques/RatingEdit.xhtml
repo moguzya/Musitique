@@ -22,46 +22,40 @@
               showEffect="slide" hideEffect="fade" responsive="true" >
 
         <h:form id="RatingEditForm" class="ui-datatable-data">
-            #{userRatingsController.selected}
-            #{userRatingsController.selected.entityId}
 
-            <!--
-            *******************************
-            *   Artwork Image   *
-            *******************************
-            -->
+            <h:panelGroup id="display" style="color:black !important;">
+                <div align="center">
+                    <!--
+                    *******************************
+                    *   Artwork Image   *
+                    *******************************
+                    -->
 
-                            <h:panelGroup id="display" style="color:black !important;">
-                                <p:panelGrid columns="1" columnClasses="panelGridColumn1, panelGridColumn2"
-                                             rendered="#{userRatingsController.selected != null}">
-                                    <div align="center">
-
-                                        <p:graphicImage url="#{userRatingsController.getImageUrl(userRatingsController.selected) }" width="92px"
-                                                        style="float:left"/>                </div>
-                                    <br />
-                                </p:panelGrid>
-                                <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2"
-                                             rendered="#{userRatingsController.selected != null}">
+                    <p:graphicImage rendered="#{userRatingsController.selected != null}" url="#{userRatingsController.getImageUrl(userRatingsController.selected) }"
+                                    width="120px" styleClass="scalableImage"/>
+                    <br />
+                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2"
+                                 rendered="#{userRatingsController.selected != null}">
 
 
-                                    <h:outputText value="Name"/>
-                                    <h:outputText value="#{userRatingsController.getEntityName(userRatingsController.selected) }"/>
+                        <h:outputText value="Name"/>
+                        <h:outputText value="#{userRatingsController.getEntityName(userRatingsController.selected) }"/>
 
-                                    <h:outputLabel value="Type" />
-                                    <h:outputText value="#{userRatingsController.selected.entityType}"/>
+                        <h:outputLabel value="Type" />
+                        <h:outputText value="#{userRatingsController.selected.entityType}"/>
 
-                                    <h:outputText value="Artist:"/>
-                                    <h:outputText value="#{userRatingsController.getArtists(userRatingsController.selected) }"/>
+                        <h:outputText value="Artist:"/>
+                        <h:outputText value="#{userRatingsController.getArtists(userRatingsController.selected) }"/>
 
-                                    <h:outputText value="Rating:"/>
-                                    <p:rating value="#{userRatingsController.selected.rating}">
-                                        <p:ajax event="rate" listener="#{entityController.onRate}"/>
-                                        <p:ajax event="cancel" listener="#{entityController.onUnrate}"/>
-                                    </p:rating>
+                        <h:outputText value="Rating:"/>
+                        <p:rating value="#{userRatingsController.selected.rating}">
+                            <p:ajax event="rate" listener="#{entityController.onRate}"/>
+                            <p:ajax event="cancel" listener="#{entityController.onUnrate}"/>
+                        </p:rating>
 
-                                </p:panelGrid>
-                            </h:panelGroup>
-
+                    </p:panelGrid>
+                </div>
+            </h:panelGroup>
             <h:panelGroup>
                 <br />
                 <div align="center">

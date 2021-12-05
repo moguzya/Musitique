@@ -34,7 +34,6 @@ public class UserPhotoController implements Serializable {
     Instance Variables (Properties)
     ===============================
      */
-    private String filename;
     private UploadedFile file;
 
     /*
@@ -49,13 +48,6 @@ public class UserPhotoController implements Serializable {
     Getter and Setter Methods
     =========================
      */
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
 
     public UploadedFile getFile() {
         return file;
@@ -69,104 +61,7 @@ public class UserPhotoController implements Serializable {
     ================
     Instance Methods
     ================
-
-    *********************
-    Return Captured Photo
-    *********************
      */
-    public String capturedPhoto() {
-        return Constants.PHOTOS_URI + filename;
-    }
-
-    /*
-    *************************
-    Handle User Photo Capture
-    *************************
-     */
-    public void onCapture(CaptureEvent captureEvent) {
-        
-        // Obtain the object reference of the signed-in User object
-        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        User signedInUser = (User) sessionMap.get("user");
-        
-        /*
-        We use the filename "userPrimaryKey_tempFile" to store the signed-in
-        user's photo captured with the web camera. Using the same file for multiple
-        users would create file locking issues, which increase complexity.
-         */
-        filename = signedInUser.getId() + "_tempFile";
-
-        String absolutePathOfFilename = Constants.PHOTOS_ABSOLUTE_PATH + filename;
-
-        // Create a new File object with absolute path of 'filename'
-        File capturedPhotoTemporaryFile = new File(absolutePathOfFilename);
-
-        // The class FileImageOutputStream enables writing its output directly to a File 
-        FileImageOutputStream imageOutput;
-
-        try {
-            // Obtain the captured photo image data as a stream of bytes
-            byte[] capturedPhotoImageData = captureEvent.getData();
-
-            // Instantiate a new FileImageOutputStream object for the temporary file
-            imageOutput = new FileImageOutputStream(capturedPhotoTemporaryFile);
-
-            // Write the capturedPhotoImageData byte stream into the temporary file
-            imageOutput.write(capturedPhotoImageData, 0, capturedPhotoImageData.length);
-
-            // Close the temporary file
-            imageOutput.close();
-
-        } catch (IOException ex) {
-            Methods.showMessage("Fatal Error",
-                    "Unable to write captured photo image!",
-                    "See: " + ex.getMessage());
-            return;
-        }
-
-        // Delete signed-in user's uploaded photo file, its thumbnail file, and its database record.
-        deletePhoto();
-
-        // Construct a new Photo object with PNG file extension and user's object reference
-        UserPhoto newPhoto = new UserPhoto("png", signedInUser);
-
-        // Create a record for the new Photo object in the database
-        userPhotoFacade.create(newPhoto);
-
-        // Obtain the object reference of the first and only Photo object of the
-        // user whose primary key is signedInUser.getId()
-        UserPhoto photo = userPhotoFacade.findPhotosByUserPrimaryKey(signedInUser.getId()).get(0);
-
-        try {
-            // Create a new File object for temporary file using its absolute filepath
-            File photoTempFile = new File(absolutePathOfFilename);
-
-            // Convert the captured photo stored in the temporary file into an inputStream
-            InputStream inputStream = new FileInputStream(photoTempFile);
-
-            // Write the captured photo's input stream of bytes under the photo object's
-            // filename using the inputStreamToFile method given below
-            File capturedPhotoFile = inputStreamToFile(inputStream, photo.getPhotoFilename());
-
-            // Create and save the thumbnail version of the captured photo file
-            saveThumbnail(capturedPhotoFile, photo);
-
-        } catch (IOException ex) {
-            Methods.showMessage("Fatal Error",
-                    "Unable to convert temp file into input stream!",
-                    "See: " + ex.getMessage());
-        }
-    }
-
-    /*
-    =============================
-    Remove Captured Photo to Redo
-    =============================
-     */
-    public String redo() {
-        filename = "";
-        return "/userPhoto/ChangePhoto?faces-redirect=true";
-    }
 
     /*
     ************************

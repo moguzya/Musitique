@@ -20,83 +20,10 @@
         <!-- Create the content for this page below -->
         <ui:define name="editableContent"> 
 
-            <div align="center" style="width:90%; margin:0 auto;">
+            <div align="center" style="width:90%; margin:0 auto; color: white;">
                 <h1>Profile Photo</h1>
                 <br/>
-                <h1>Either Take Your Photo or Upload an Existing One</h1>
-                <br/>
-                <!-- 
-                ======================================================
-                Capture User's Photo by Using User's Computer's Camera
-                ======================================================
-                *** CLEAR Web Browser's CACHE to see the Captured Photo on other Web Pages ***
-                After user's photo is captured, it is immediately stored in CloudStorage/PhotoStorage/tempFile.
-                To see the captured photo on another page, web browser's cache must be cleared.
-                Refreshing the page will not help and will still show the cached earlier photo.
-                -->
-                <fieldset>
-                    <p class="titleSmall">Position yourself and click Capture to take your photo using your computer's camera</p>
-                    <h:form id="TakePhoto">      
-                        <table border="0" align="center" cellpadding="5" cellspacing="0">
-                            <tr>
-                                <!--
-                                ***********************************************************
-                                Row 1 Column 1: Capture Photo with User's Computer's Camera
-                                ***********************************************************
-                                -->
-                                <td>
-                                    <p:photoCam widgetVar="photoCam" listener="#{userPhotoController.onCapture}" update="capturedPhoto" />
-                                </td>
-                                <!--
-                                ********************************************************************
-                                Row 1 Column 2: Store Captured Photo in tmp_file and Display it Here
-                                ********************************************************************
-                                -->
-                                <td>
-                                    <p:outputPanel id="capturedPhoto">
-                                        <!-- Display the captured photo in a circle if it exists (rendered) -->
-                                        <p:graphicImage value="#{userPhotoController.capturedPhoto()}" cache="false"
-                                                        rendered="#{not empty userPhotoController.filename}" class="profilePhoto" />
-                                    </p:outputPanel>
-                                </td>
-                            </tr>
-                            <tr>
-                                <!--
-                                ************************************************************
-                                Row 2 Columns 1 & 2 Merged: Display Capture and Redo Buttons
-                                ************************************************************
-                                -->
-                                <td colspan="2" align="center">
-                                    <!--
-                                    ================================
-                                    |        CAPTURE Button        |
-                                    ================================
-                                    -->
-                                    <!-- type="button" implies no form submission -->
-                                    <p:commandButton type="button" value="Capture" icon="fas fa-camera" styleClass="rounded-button"
-                                                     onclick="PF('photoCam').capture()" />
-                                    &nbsp;
-                                    <!--
-                                    ================================
-                                    |          REDO Button         |
-                                    ================================
-                                    -->
-                                    <!-- Default is type="submit" that implies form submission -->
-                                    <p:commandButton id="redo" value="Redo" icon="fas fa-redo" styleClass="rounded-button"
-                                                     ajax="false" action="#{userPhotoController.redo()}" />
-                                    &nbsp;
-                                    <!--
-                                    ================================
-                                    |          DONE Button         |
-                                    ================================
-                                    -->
-                                    <p:button outcome="/userAccount/Profile" value="Done"
-                                              icon="fas fa-check-circle" styleClass="ui-button-outlined" />
-                                </td>
-                            </tr>
-                        </table>
-                    </h:form>
-                </fieldset>
+                <h1>Upload an Existing One</h1>
                 <br/>
                 <!-- 
                 ================================================================
