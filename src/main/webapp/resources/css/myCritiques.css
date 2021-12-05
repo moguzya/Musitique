@@ -1,0 +1,54 @@
+/*my critiques Pages*/
+.ui-panel .ui-panel-content, .ui-panel .ui-panel-content {
+    border: None !important;
+    background: None !important;
+    color: white !important;
+}
+.ui-tabs .ui-tabs-panels{
+    background: none !important;
+}
+
+.ui-paginator-current, .ui-paginator-prev,
+.ui-paginator-next, .ui-paginator-last{
+    background: none !important;
+    color: white !important;
+}
+
+.ui-dataview-header, .ui-dataview-header, .ui-paginator,
+.ui-paginator-bottom, .ui-dataview-header, .ui-datatable-footer,
+.ui-datatable-header{
+    background: none !important;
+    color: white !important;
+    border: solid 1px #121640 !important;
+}
+
+/* Clear all filter button*/
+.editableContentCritques .ui-button.ui-button-outlined{
+    background-color: white !important;
+    color: white !important;
+}
+
+.ui-datatable-data *, .ui-paginator-page{
+    color: white !important ;
+}
+
+.ui-paginator-page.ui-state-active{
+    background: #5252bd !important;
+}
+
+.ui-datatable thead th, .ui-datatable-data > tr,.ui-datatable-data tr > td {
+    background: none !important;
+    border: solid 1px #121640 !important;
+    color: white !important;
+}
+
+/*Table tile*/
+body .ui-panel .ui-panel-titlebar{
+    display: none;
+}
+
+/*Pop up dialogs*/
+body .ui-dialog .ui-dialog-content, .ui-dialog .ui-dialog-titlebar{
+    background: #4e4373ed;
+
+}
