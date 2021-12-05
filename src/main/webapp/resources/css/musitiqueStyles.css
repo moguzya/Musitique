@@ -29,13 +29,16 @@ body {
 /*------------- Index Page -------------*/
 #sliderIndex{
     padding-top: 10px;
+    text-align: center;
 }
+
 
 .ui-carousel{
     display: inline-grid !important;
 }
 .ui-carousel-items-content{
     min-height: 560px;
+    max-width: 1700px;
 }
 
 .ui-carousel *{
