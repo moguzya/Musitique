@@ -12,7 +12,7 @@ import javax.persistence.EntityManager;
 public abstract class AbstractFacade<T> {
 
     // An instance variable pointing to an entity class of type T
-    private Class<T> entityClass;
+    private final Class<T> entityClass;
 
     /*
     The following concrete facade classes inherit from this AbstractFacade class:

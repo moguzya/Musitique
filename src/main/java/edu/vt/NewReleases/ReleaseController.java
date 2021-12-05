@@ -1,9 +1,7 @@
 package edu.vt.NewReleases;
 
 import edu.vt.Pojos.Album;
-import edu.vt.Pojos.Artist;
 import edu.vt.controllers.util.JsfUtil;
-import edu.vt.globals.Constants;
 import edu.vt.globals.Methods;
 import org.primefaces.shaded.json.JSONArray;
 import org.primefaces.shaded.json.JSONObject;
@@ -11,13 +9,11 @@ import org.primefaces.shaded.json.JSONObject;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URI;
-import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 

@@ -5,8 +5,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <ui:composition template="/musitiqueTemplates/siteTemplate.xhtml">
     <ui:define name="title">
@@ -58,9 +57,6 @@
                             <p:ajax event="rate"
                                     update="avgRating"
                                     listener="#{entityController.onRate}"/>
-<!--                            <p:ajax event="rate"-->
-<!--                                    listener="#{userRatingsController.clearListOfUserRatings()}"/>-->
-
                             <p:ajax event="cancel" update="avgRating" listener="#{entityController.onUnrate()}"/>
                             <p:ajax event="cancel"
                                     listener="#{userRatingsController.clearListOfUserRatings()}"/>
