@@ -70,7 +70,7 @@ public final class Constants {
     //-----------------------------------------------------
     // To run on your AWS EC2 instance with your IP address
     //-----------------------------------------------------
-        public static final String PHOTOS_URI = "http://34.203.199.88:8080//musitiquePhotos/";
+        public static final String PHOTOS_URI = "http://34.203.199.88:8080/musitiquePhotos/";
 
     /* 
     =============================================
