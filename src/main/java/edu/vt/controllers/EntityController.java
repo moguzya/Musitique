@@ -34,10 +34,7 @@ import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -105,6 +102,7 @@ public class EntityController implements Serializable {
 
     private List<Track> artistTopTracks;
     /*
+
     ================
     Instance Methods
     ================
@@ -112,20 +110,127 @@ public class EntityController implements Serializable {
 
     public String toAlbumPage(Album selectedAlbum) {
         selectedAlbum = requestAlbum(selectedAlbum.getId());
+
+        List<String> artistIds = new ArrayList<>();
+        for (Artist artist : selectedAlbum.getArtists()) {
+            artistIds.add(artist.getId());
+        }
+        selectedAlbum.setArtists(requestSeveralArtists(String.join(",", artistIds)));
+
+        List<String> trackIds = new ArrayList<>();
+        for (Track track : selectedAlbum.getTracks()) {
+            trackIds.add(track.getId());
+        }
+        selectedAlbum.setTracks(requestSeveralTracks(String.join(",", trackIds)));
+
         setSelectedAlbum(selectedAlbum);
+
         return "/standalonePages/Album?faces-redirect=true";
     }
 
     public String toArtistPage(Artist selectedArtist) {
         selectedArtist = requestArtist(selectedArtist.getId());
         setSelectedArtist(selectedArtist);
+
         return "/standalonePages/Artist?faces-redirect=true";
     }
 
     public String toTrackPage(Track selectedTrack) {
         selectedTrack = requestTrack(selectedTrack.getId());
         setSelectedTrack(selectedTrack);
+
+        selectedTrack.setAlbum(requestAlbum(selectedTrack.getAlbum().getId()));
+
+        List<String> artistIds = new ArrayList<>();
+        for (Artist artist : selectedTrack.getArtists()) {
+            artistIds.add(artist.getId());
+        }
+        selectedTrack.setArtists(requestSeveralArtists(String.join(",", artistIds)));
+
         return "/standalonePages/Track?faces-redirect=true";
+    }
+
+    public List<Artist> requestSeveralArtists(String artistIds) {
+        System.out.println("I called requestSeveralArtists in ratings");
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/artists?ids=" + artistIds))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + ACCESS_TOKEN)
+                .GET()
+                .build();
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                List<Artist> artists = new ArrayList<>();
+                JSONArray artistArray = new JSONObject(response.body()).getJSONArray("artists");
+
+                for (int i = 0; i < artistArray.length(); i++) {
+                    if (!Objects.equals(artistArray.get(i).toString(), "null")) {
+                        Artist a = new Artist(artistArray.getJSONObject(i).toString());
+                        artists.add(a);
+                    }
+                }
+                return artists;
+            } else if (response.statusCode() == 401) {
+                Methods.requestToken();
+                return requestSeveralArtists(artistIds);
+            } else if (response.statusCode() == 429) {
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
+                return new ArrayList<>();
+
+            }
+        } catch (IOException | InterruptedException e) {
+            JsfUtil.addErrorMessage(e.toString());
+            return new ArrayList<>();
+
+        }
+
+        return new ArrayList<>();
+    }
+
+    public List<Track> requestSeveralTracks(String trackIds) {
+        System.out.println("I called requestSeveralTracks in ratings");
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.spotify.com/v1/tracks?ids=" + trackIds))
+                .timeout(Duration.ofMinutes(1))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + ACCESS_TOKEN)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                List<Track> tracks = new ArrayList<>();
+                JSONArray trackArray = new JSONObject(response.body()).getJSONArray("tracks");
+
+                for (int i = 0; i < trackArray.length(); i++) {
+                    if (!Objects.equals(trackArray.get(i).toString(), "null")) {
+                        Track a = new Track(trackArray.getJSONObject(i).toString());
+                        tracks.add(a);
+                    }
+                }
+                return tracks;
+            } else if (response.statusCode() == 401) {
+                Methods.requestToken();
+                return requestSeveralTracks(trackIds);
+            } else if (response.statusCode() == 429) {
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
+                return new ArrayList<>();
+
+            }
+        } catch (IOException | InterruptedException e) {
+            JsfUtil.addErrorMessage(e.toString());
+            return new ArrayList<>();
+
+        }
+
+        return new ArrayList<>();
     }
 
     public void unselectAlbum() {
@@ -206,7 +311,7 @@ public class EntityController implements Serializable {
     }
 
     public List<Track> getArtistTopTracks() {
-        if(artistTopTracks == null)
+        if (artistTopTracks == null)
             artistTopTracks = requestTopTracksFromArtist(selectedArtist.getId());
         return artistTopTracks;
     }

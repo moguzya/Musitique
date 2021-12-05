@@ -27,6 +27,9 @@ public class Track {
     private Boolean explicit;
     private String imageUrl;
 
+    public Track() {
+    }
+
     public Track(String json) {
         JSONObject body = new JSONObject(json);
         this.id = body.optString("id", "");
@@ -35,11 +38,14 @@ public class Track {
         JSONObject album = body.getJSONObject("album");
         this.album = new Album(album);
 
+
+        artists=new ArrayList<>();
         JSONArray artistsArray = body.getJSONArray("artists");
         for (int i = 0; i < artistsArray.length() - 1; i++) {
             Artist artist = new Artist();
             artist.setId(artistsArray.getJSONObject(i).optString("id"));
             artist.setName(artistsArray.getJSONObject(i).optString("name"));
+            artists.add(artist);
         }
 
         this.durationMs = body.optInt("duration_ms", 0);

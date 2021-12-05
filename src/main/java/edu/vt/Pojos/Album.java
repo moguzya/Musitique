@@ -45,13 +45,24 @@ public class Album {
         this.releaseDate = body.optString("release_date", "");
 
         JSONArray artistsArray = body.getJSONArray("artists");
+
         this.artists = new ArrayList();
-
-
-        for (int i = 0; i < artistsArray.length() - 1; i++) {
+        for (int i = 0; i < artistsArray.length(); i++) {
             Artist artist = new Artist();
             artist.setId(artistsArray.getJSONObject(i).optString("id"));
             artist.setName(artistsArray.getJSONObject(i).optString("name"));
+            artists.add(artist);
+        }
+        if (body.has("tracks")) {
+            JSONArray tracksArray = body.getJSONObject("tracks").getJSONArray("items");
+            this.tracks = new ArrayList();
+
+            for (int i = 0; i < tracksArray.length() ; i++) {
+                Track track = new Track();
+                track.setId(tracksArray.getJSONObject(i).optString("id"));
+                track.setName(tracksArray.getJSONObject(i).optString("name"));
+                tracks.add(track);
+            }
         }
     }
 
