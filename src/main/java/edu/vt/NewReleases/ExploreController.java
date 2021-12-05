@@ -99,21 +99,16 @@ public class ExploreController implements Serializable {
     }
 
     public List<Track> requestRecommendations() {
-        System.out.println("I called requestRecommendations");
-
-        String queryGenre = getFavoriteGenres().stream().
+        int length = getFavoriteGenres().size() > 5 ? 4 : getFavoriteGenres().size();
+        String queryGenre = getFavoriteGenres().subList(0, length).stream().
                 map(i -> String.valueOf(i.getGenre())).
                 collect(Collectors.joining(","));
-        String queryArtist = getFavoriteArtists().stream().
-                map(i -> String.valueOf(i.getEntityId())).
-                collect(Collectors.joining(","));
 
-
-        if (queryGenre.length() == 0 && queryArtist.length() == 0)
+        if (queryGenre.length() == 0)
             queryGenre = "rock";
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.spotify.com/v1/recommendations?limit=24&seed_artists=" + queryArtist + "&seed_genres=" + queryGenre))
+                .uri(URI.create("https://api.spotify.com/v1/recommendations?limit=24&seed_genres=" + queryGenre))
                 .timeout(Duration.ofMinutes(1))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + ACCESS_TOKEN)
