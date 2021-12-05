@@ -65,12 +65,12 @@ public final class Constants {
     //---------------
     // To run locally
     //---------------
-    public static final String PHOTOS_URI = "http://localhost:8080/musitiquePhotos/";
+//    public static final String PHOTOS_URI = "http://localhost:8080/musitiquePhotos/";
 
     //-----------------------------------------------------
     // To run on your AWS EC2 instance with your IP address
     //-----------------------------------------------------
-    //    public static final String PHOTOS_URI = "http://54.92.194.218:8080/musitiquePhotos/";
+        public static final String PHOTOS_URI = "http://34.203.199.88:8080//musitiquePhotos/";
 
     /* 
     =============================================

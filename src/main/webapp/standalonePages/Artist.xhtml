@@ -15,7 +15,7 @@
     <ui:define name="editableContent">
         <div align="center">
             <h:form id="ArtistForm">
-                <p:panelGrid columns="3">
+                <p:panelGrid columns="1">
                     <p:panel>
                         <p:graphicImage url="#{entityController.getSelectedArtist().imageUrl}" width="100%"/>
                         <c:if test="#{userController.isLoggedIn() == true}">
@@ -62,28 +62,26 @@
                                     listener="#{userRatingsController.clearListOfUserRatings()}"/>
                         </p:rating>
                     </p:panel>
-                    <h:form id="ExploreForm">
-                        <p:dataGrid value="#{entityController.selectedArtist.artistTopTracks}"
-                                    var="aTrack"
-                                    rows="25"
-                                    gridIcon="pi pi-th-large" listIcon="pi pi-bars"
-                                    style="background: none;width:100%">
-                            <f:facet name="header" style="background: none;">
-                                <h:outputText value="Top Tracks"/>
-                            </f:facet>
-
-                            <p:dataViewGridItem style="background: none;">
-                                <p:panel style="text-align:left">
-                                    <h:panelGrid columns="3" style="width:100%; margin-left:10px">
-                                        <ui:include src="/musitiqueTemplates/trackCardTemplate.xhtml">
-                                            <ui:param name="track" value="#{aTrack}"/>
-                                        </ui:include>
-                                    </h:panelGrid>
-                                </p:panel>
-                            </p:dataViewGridItem>
-                        </p:dataGrid>
-                    </h:form>
                 </p:panelGrid>
+                <p:dataGrid value="#{entityController.selectedArtist.artistTopTracks}"
+                            var="aTrack"
+                            rows="25"
+                            gridIcon="pi pi-th-large" listIcon="pi pi-bars"
+                            style="background: none;width:100%">
+                    <f:facet name="header" style="background: none;">
+                        <h:outputText value="Top Tracks"/>
+                    </f:facet>
+
+                    <p:dataViewGridItem style="background: none;">
+                        <p:panel style="text-align:left">
+                            <h:panelGrid columns="3" style="width:100%; margin-left:10px">
+                                <ui:include src="/musitiqueTemplates/trackCardTemplate.xhtml">
+                                    <ui:param name="track" value="#{aTrack}"/>
+                                </ui:include>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:dataViewGridItem>
+                </p:dataGrid>
             </h:form>
             <ui:insert name="comments">
                 <ui:include src="/musitiqueTemplates/commentsTemplate.xhtml"/>
