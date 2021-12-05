@@ -8,6 +8,11 @@
       xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/musitiqueTemplates/siteTemplate.xhtml">
+
+    <f:metadata>
+        <f:viewAction action="#{exploreController.requestRecommendations()}" rendered="#{facesContext.postback}"/>
+    </f:metadata>
+
     <ui:define name="title">
         <h:outputText value="Explore"/>
     </ui:define>
@@ -15,7 +20,7 @@
     <ui:define name="editableContent">
         <div align="center">
             <h:form id="ExploreForm">
-                <p:dataGrid value="#{exploreController.requestRecommendations()}"
+                <p:dataGrid value="#{exploreController.getTracks()}"
                             var="aTrack"
                             rows="25"
                             style="background: none;width:100%">

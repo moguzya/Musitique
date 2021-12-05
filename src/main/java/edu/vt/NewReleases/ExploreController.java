@@ -45,7 +45,7 @@ public class ExploreController implements Serializable {
 
     public List<Track> getTracks() {
         if (tracks == null)
-            tracks = requestRecommendations();
+            requestRecommendations();
         return tracks;
     }
 
@@ -90,7 +90,7 @@ public class ExploreController implements Serializable {
         this.favoriteArtists = favoriteArtists;
     }
 
-    public List<Track> requestRecommendations() {
+    public void requestRecommendations() {
         int length = getFavoriteGenres().size() > 5 ? 4 : getFavoriteGenres().size();
         String queryGenre = getFavoriteGenres().subList(0, length).stream().
                 map(i -> String.valueOf(i.getGenre())).
@@ -112,19 +112,20 @@ public class ExploreController implements Serializable {
 
             if (response.statusCode() == 200) {
                 JSONArray recommendationArray = new JSONObject(response.body()).getJSONArray("tracks");
-                List<Track> tracks = new ArrayList<>();
+                tracks = new ArrayList<>();
 
                 for (int i = 0; i < recommendationArray.length(); i++) {
                     tracks.add(new Track(recommendationArray.getJSONObject(i).toString()));
                 }
-
-                return tracks;
+                return;
             } else if (response.statusCode() == 401) {
                 Methods.requestToken();
-                return requestRecommendations();
+                requestRecommendations();
+                return;
             } else if (response.statusCode() == 429) {
                 JsfUtil.addErrorMessage("Api rate limit exceeded!");
-                return new ArrayList<>();
+                tracks = new ArrayList<>();
+                return;
             }
 
         } catch (EJBException ex) {
@@ -138,12 +139,15 @@ public class ExploreController implements Serializable {
             } else {
                 JsfUtil.addErrorMessage(ex, "A Persistence Error Occurred!");
             }
-            return new ArrayList<>();
+            tracks = new ArrayList<>();
+            return;
         } catch (Exception ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             JsfUtil.addErrorMessage(ex, "A Persistence Error Occurred!");
-            return new ArrayList<>();
+            tracks = new ArrayList<>();
+            return;
         }
-        return new ArrayList<>();
+        tracks = new ArrayList<>();
+        return;
     }
 }
