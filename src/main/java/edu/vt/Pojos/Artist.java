@@ -1,25 +1,11 @@
 package edu.vt.Pojos;
 
-import edu.vt.EntityBeans.UserFavoriteArtist;
-import edu.vt.controllers.util.JsfUtil;
-import edu.vt.globals.Methods;
 import org.primefaces.shaded.json.JSONArray;
-import org.primefaces.shaded.json.JSONException;
 import org.primefaces.shaded.json.JSONObject;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import static edu.vt.globals.Constants.ACCESS_TOKEN;
-import static edu.vt.globals.Constants.CLIENT;
 
 public class Artist {
 

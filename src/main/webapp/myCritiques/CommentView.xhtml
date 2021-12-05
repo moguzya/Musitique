@@ -49,15 +49,6 @@
                         <h:outputText value="Artist:"/>
                         <h:outputText value="#{userCommentsController.getArtists(userCommentsController.selected) }"/>
 
-<!--                        <h:outputText value="Date Posted:"/>-->
-<!--                        <h:outputText value="#{userCommentsController.selected.date}">-->
-<!--                            &lt;!&ndash;-->
-<!--                            Date is stored in the database in the format YYYY-MM-DD so that it is sortable.-->
-<!--                            For display purposes, we convert the database format to MM/DD/YYYY.-->
-<!--                            &ndash;&gt;-->
-<!--                            <f:convertDateTime pattern="MM/dd/yyyy" />-->
-<!--                        </h:outputText>-->
-
                         <h:outputText value="Comment:"/>
                         <h:outputText value="#{userCommentsController.selected.comment}"/>
 
