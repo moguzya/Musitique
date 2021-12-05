@@ -23,9 +23,9 @@
 }
 
 /* Clear all filter button*/
-.editableContentCritques .ui-button.ui-button-outlined{
+.critquesTabs .ui-button.ui-button-outlined{
     background-color: white !important;
-    color: white !important;
+    border-radius: 5px;
 }
 
 .ui-datatable-data *, .ui-paginator-page{

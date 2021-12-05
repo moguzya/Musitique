@@ -29,7 +29,7 @@ body {
 
 /*------------- Links in datagrid -------------*/
 .ui-datagrid-data a{
-    color: #2a11db;
+    color: white;
 }
 
 .dataView{
@@ -52,11 +52,58 @@ body .ui-datagrid .ui-datagrid-content{
     border: solid 1px #121640 !important;
     color: white;
 }
+.ui-datagrid-data .ui-widget-content{
+    height: 200px;
+    text-align: left;
+    margin: auto;
+    vertical-align: middle !important;
+    border-radius: 25px;
+    background: #7BAD214F;
+}
 
-
+.ui-datagrid-data .ui-widget-content div{
+    display: table-cell;
+    vertical-align: middle;
+}
 
 
 /*------------- Profile Page -------------*/
+#UserProfileForm{
+    text-align: center
+}
+
+#UserProfileForm .ui-panelgrid .ui-panelgrid-cell{
+    border: none;
+}
+
+#UserProfileForm\:mainProfileInfo{
+    text-align: left;
+    margin: auto;
+    vertical-align: middle !important;
+    border-radius: 25px;
+    background: #7BAD214F;
+
+}
+
+#UserProfileForm\:genrePrefs{
+    text-align: left;
+    margin: auto;
+    vertical-align: middle !important;
+    border-radius: 25px;
+    background: #7BAD214F;
+    text-align: center;
+    width: 860px !important;
+    border: none !important;
+}
+
+#UserProfileForm\:grid{
+    text-align: left !important;
+}
+
+#EditAccountProfileForm{
+    color: white !important;
+}
+
 body .ui-panelgrid .ui-panelgrid-cell{
     background: none;
     color: white;
@@ -65,6 +112,4 @@ body .ui-card{
     width: 100% !important;
     background: none;
     color: white;
-    border: white solid 1px;
 }
-
