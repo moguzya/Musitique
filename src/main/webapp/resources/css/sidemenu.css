@@ -1,0 +1,43 @@
+/*------------- Side Menu -------------*/
+.side-menu-div {
+    padding-top: 1rem;
+}
+
+.siteLogo{
+    width: 50%;
+    border-color: mediumpurple;
+    border-radius: 100px;
+    border: solid;
+}
+
+.speeddial-circle-demo .ui-speeddial-quarter-circle.ui-speeddial-direction-up-right {
+    left: 0.5rem;
+    bottom: 0.5rem;
+}
+
+.speeddial-circle-demo .pi-plus{
+    display: none;
+}
+.ui-speeddial-action{
+    color: white !important;
+}
+#iframe-holder {
+    margin: 0.3rem;
+}
+
+.profile-button{
+    background-image: url("http://localhost:8080/musitiquePhotos/loginImage.png") !important;
+    background-size:contain !important;
+}
+
+.sideMenuSplitter {
+    background-color: #121640;
+}
+
+/* Body/UI */
+body .ui-splitter .ui-splitter-gutter{
+    background: #034586;
+}
+.ui-panel-content{
+    background: none !important;
+}
