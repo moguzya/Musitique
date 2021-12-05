@@ -29,31 +29,37 @@
                 -->
 
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="1" columnClasses="panelGridColumn1, panelGridColumn2"
-                                 rendered="#{userCommentsController.selected != null}">
-                        <div align="center">
-
-                            <p:graphicImage url="#{userCommentsController.getImageUrl(userCommentsController.selected) }" width="92px"
-                                            style="float:left"/>                </div>
+                    <div align="center">
+                        <p:graphicImage rendered="#{userCommentsController.selected != null}" url="#{userCommentsController.getImageUrl(userCommentsController.selected) }"
+                                        width="120px" styleClass="scalableImage"/>
                         <br />
-                    </p:panelGrid>
-                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2"
-                                 rendered="#{userCommentsController.selected != null}">
+                        <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2"
+                                     rendered="#{userCommentsController.selected != null}">
 
-                        <h:outputText value="Name"/>
-                        <h:outputText value="#{userCommentsController.getEntityName(userCommentsController.selected) }"/>
+                            <h:outputText value="Name"/>
+                            <h:outputText value="#{userCommentsController.getEntityName(userCommentsController.selected) }"/>
 
-                        <h:outputLabel value="Type" />
-                        <h:outputText value="#{userCommentsController.selected.entityType}"/>
+                            <h:outputLabel value="Type" />
+                            <h:outputText value="#{userCommentsController.selected.entityType}"/>
 
-                        <h:outputText value="Artist:"/>
-                        <h:outputText value="#{userCommentsController.getArtists(userCommentsController.selected) }"/>
+                            <h:outputText value="Artist:"/>
+                            <h:outputText value="#{userCommentsController.getArtists(userCommentsController.selected) }"/>
 
+                            <h:outputText value="Date Published:" escape="false" />
+                            <h:outputText value="#{userCommentsController.selected.date}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm" />
+                            </h:outputText>
 
-                        <h:outputText value="Comment:"/>
-                        <h:inputText value="#{userCommentsController.selected.comment}"/>
-
-                    </p:panelGrid>
+                            <h:outputText value="Comment:"/>
+                            <h:panelGroup>
+                                <p:inputTextarea style="color: black!important;" rows="5" cols="30" counter="displayCount" maxlength="256"
+                                                 counterTemplate="{0} characters remaining." autoResize="false"
+                                                 value="#{userCommentsController.selected.comment}"/>
+                                &nbsp;
+                                <h:outputText id="displayCount" class="p-d-block" />
+                            </h:panelGroup>
+                        </p:panelGrid>
+                    </div>
                 </h:panelGroup>
                 
                 <h:panelGroup>
