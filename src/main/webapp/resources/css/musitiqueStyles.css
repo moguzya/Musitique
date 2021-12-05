@@ -159,3 +159,13 @@ body .ui-card{
     background: none;
     color: white;
 }
+
+/*
+Proportionately scale image to show on mobile devices and smaller browser windows.
+Scale the image downward, but do not enlarge it beyond the width size of 500px.
+*/
+.scalableImage {
+    max-width: 100%;
+    height: auto;
+    border: none;
+}

@@ -7,71 +7,51 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-<ui:composition>
-    <!--
-    ==========================================================
-    |  Clicking the VIEW button displays this Dialog window  |
-    |  for the user to view the selected movie's data.       |
-    ==========================================================
-    -->
-    <p:dialog id="RatingViewDlg" header="View Comment Info" widgetVar="RatingViewDialog"
-              modal="true" position="center" appendTo="@(body)"
-              showEffect="slide" hideEffect="fade" responsive="true" >
+    <ui:composition>
+        <!--
+        ==========================================================
+        |  Clicking the VIEW button displays this Dialog window  |
+        |  for the user to view the selected movie's data.       |
+        ==========================================================
+        -->
+        <p:dialog id="RatingViewDlg" header="View Comment Info" widgetVar="RatingViewDialog"
+                  modal="true" position="center" appendTo="@(body)"
+                  showEffect="slide" hideEffect="fade" responsive="true" >
+            <h:form id="RatingViewForm" class="ui-datatable-data">
+                <h:panelGroup id="display" style="color:black !important;">
+                    <div align="center">
+                        <p:graphicImage rendered="#{userRatingsController.selected != null}" url="#{userRatingsController.getImageUrl(userRatingsController.selected) }"
+                                        width="120px" styleClass="scalableImage"/>
+                        <br />
+                        <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2"
+                                     rendered="#{userRatingsController.selected != null}">
 
-        <h:form id="RatingViewForm" class="ui-datatable-data">
-            #{userRatingsController.selected}
-            #{userRatingsController.selected.entityId}
+                            <h:outputText value="Name"/>
+                            <h:outputText value="#{userRatingsController.getEntityName(userRatingsController.selected) }"/>
 
-            <!--
-            *******************************
-            *   Artwork Image   *
-            *******************************
-            -->
+                            <h:outputLabel value="Type" />
+                            <h:outputText value="#{userRatingsController.selected.entityType}"/>
 
-                            <h:panelGroup id="display" style="color:black !important;">
-                                <p:panelGrid columns="1" columnClasses="panelGridColumn1, panelGridColumn2"
-                                             rendered="#{userRatingsController.selected != null}">
-                                    <div align="center">
+                            <h:outputText value="Artist:"/>
+                            <h:outputText value="#{userRatingsController.getArtists(userRatingsController.selected) }"/>
 
-                                        <p:graphicImage url="#{userRatingsController.getImageUrl(userRatingsController.selected) }" width="92px"
-                                                        style="float:left"/>                </div>
-                                    <br />
-                                </p:panelGrid>
-                                <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2"
-                                             rendered="#{userRatingsController.selected != null}">
+                            <h:outputText value="Rating:"/>
+                            <p:rating value="#{userRatingsController.selected.rating}" readonly="true"/>
 
-
-                                    <h:outputText value="Name"/>
-                                    <h:outputText value="#{userRatingsController.getEntityName(userRatingsController.selected) }"/>
-
-                                    <h:outputLabel value="Type" />
-                                    <h:outputText value="#{userRatingsController.selected.entityType}"/>
-
-                                    <h:outputText value="Artist:"/>
-                                    <h:outputText value="#{userRatingsController.getArtists(userRatingsController.selected) }"/>
-
-                                    <h:outputText value="Rating:"/>
-                                    <p:rating value="#{userRatingsController.selected.rating}" readonly="true"/>
-
-                                </p:panelGrid>
-                            </h:panelGroup>
-
-            <h:panelGroup>
-                <br />
-                <div align="center">
-                    <!-- CLOSE button -->
-                    <p:commandButton value="Close" icon="fas fa-window-close" styleClass="ui-button-outlined"
-                                     onclick="PF('RatingViewDialog').hide()" />
-                </div>
-            </h:panelGroup>
-
-        </h:form>
-
-    </p:dialog>
-
-
-</ui:composition>
+                        </p:panelGrid>
+                    </div>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <br />
+                    <div align="center">
+                        <!-- CLOSE button -->
+                        <p:commandButton value="Close" icon="fas fa-window-close" styleClass="ui-button-outlined"
+                                         onclick="PF('RatingViewDialog').hide()" />
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
 </html>
