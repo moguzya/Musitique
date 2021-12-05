@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static edu.vt.globals.Constants.*;
 import static edu.vt.globals.Constants.CLIENT;
@@ -125,6 +126,12 @@ public class Album {
 
     public List<Artist> getArtists() {
         return artists;
+    }
+
+    public String getArtistNames()
+    {
+        return artists.stream().map(p -> String.valueOf(p.getName()))
+                .collect(Collectors.joining(", "));
     }
 
     public void setArtists(List<Artist> artists) {
