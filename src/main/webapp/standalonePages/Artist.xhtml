@@ -19,9 +19,10 @@
                     <p:panel>
                         <p:graphicImage url="#{entityController.getSelectedArtist().imageUrl}" width="100%"/>
                         <c:if test="#{userController.isLoggedIn() == true}">
-                            <h:form style="position: relative; top: -32px; z-index: 1;">
+                            <h:form>
                                 <p:commandButton icon="pi pi-heart"
                                                  rendered="#{entityController.isFavoriteArtist()}"
+                                                 style="position: relative; left: -20px; top: -20px; z-index: 1;"
                                                  styleClass="rounded-button ui-button-help"
                                                  ajax="false"
                                                  actionListener="#{userFavoriteArtistController.destroy(entityController.getSelectedArtist())}"
@@ -29,6 +30,7 @@
                                                  oncomplete="standalonePages/Artist.xhtml"/>
 
                                 <p:commandButton icon="pi pi-heart"
+                                                 style="position: relative; left: -20px; top: -20px; z-index: 1;"
                                                  styleClass="rounded-button ui-button-help ui-button-outlined"
                                                  rendered="#{!entityController.isFavoriteArtist()}"
                                                  ajax="false"
