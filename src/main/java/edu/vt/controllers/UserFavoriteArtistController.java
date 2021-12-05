@@ -39,25 +39,13 @@ import static edu.vt.globals.Constants.CLIENT;
 @SessionScoped
 
 public class UserFavoriteArtistController implements Serializable {
-    List<Artist> favoriteArtists;
-    /*
-    ===============================
-    Instance Variables (Properties)
-    ===============================
-     */
+    private List<Artist> favoriteArtists;
     private List<UserFavoriteArtist> listOfUserFavoriteArtists = null;
     private UserFavoriteArtist selected;
 
     @EJB
     private UserFavoriteArtistFacade userFavoriteArtistFacade;
 
-    public UserFavoriteArtistController() {
-    }
-/*
-    =========================
-    Getter and Setter Methods
-    =========================
-     */
 
     /*
     ***************************************************************
@@ -80,8 +68,6 @@ public class UserFavoriteArtistController implements Serializable {
     }
 
     public void requestFavoriteArtists() {
-        System.out.println("I called requestFavoriteArtists");
-
         String queryArtist = getListOfUserFavoriteArtists().stream().
                 map(i -> String.valueOf(i.getEntityId())).
                 collect(Collectors.joining(","));
@@ -107,6 +93,7 @@ public class UserFavoriteArtistController implements Serializable {
                     }
                 }
                 favoriteArtists = artists;
+                return;
             } else if (response.statusCode() == 401) {
                 Methods.requestToken();
                 requestFavoriteArtists();
