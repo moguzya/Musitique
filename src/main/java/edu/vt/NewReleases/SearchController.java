@@ -36,12 +36,10 @@ public class SearchController implements Serializable {
     private String searchedText;
 
     public void requestSearch() {
-
         if (searchedText.length() != 0) {
             tracks = new ArrayList<>();
             artists = new ArrayList<>();
             albums = new ArrayList<>();
-
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://api.spotify.com/v1/search?q=" + searchedText.replaceAll(" ", "%20") + "&type=track,artist,album&limit=24&market=US"))
                     .timeout(Duration.ofMinutes(1))
@@ -49,7 +47,6 @@ public class SearchController implements Serializable {
                     .header("Authorization", "Bearer " + ACCESS_TOKEN)
                     .GET()
                     .build();
-
             try {
                 HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
@@ -97,6 +94,13 @@ public class SearchController implements Serializable {
                 JsfUtil.addErrorMessage(ex, "A Persistence Error Occurred!");
                 return;
             }
+        }
+        else
+        {
+            tracks = new ArrayList<>();
+            artists = new ArrayList<>();
+            albums = new ArrayList<>();
+            return;
         }
         JsfUtil.addErrorMessage("Unexpected error occurred!");
         return;
