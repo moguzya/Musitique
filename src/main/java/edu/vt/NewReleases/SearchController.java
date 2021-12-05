@@ -33,7 +33,7 @@ public class SearchController implements Serializable {
     private List<Album> albums;
     private List<Artist> artists;
     private List<Track> tracks;
-    private String searchedText;
+    private String searchedText = "";
 
     public void requestSearch() {
         if (searchedText.length() != 0) {
