@@ -131,7 +131,7 @@ public class EntityController implements Serializable {
     public String toArtistPage(Artist selectedArtist) {
         selectedArtist = requestArtist(selectedArtist.getId());
         setSelectedArtist(selectedArtist);
-
+        artistTopTracks = requestTopTracksFromArtist(selectedArtist.getId());
         return "/standalonePages/Artist?faces-redirect=true";
     }
 
