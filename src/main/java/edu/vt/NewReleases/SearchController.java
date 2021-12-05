@@ -36,9 +36,12 @@ public class SearchController implements Serializable {
     private String searchedText;
 
     public void requestSearch() {
-        System.out.println("I called requestSearch");
 
         if (searchedText.length() != 0) {
+            tracks = new ArrayList<>();
+            artists = new ArrayList<>();
+            albums = new ArrayList<>();
+
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://api.spotify.com/v1/search?q=" + searchedText.replaceAll(" ", "%20") + "&type=track,artist,album&limit=24&market=US"))
                     .timeout(Duration.ofMinutes(1))
@@ -66,6 +69,7 @@ public class SearchController implements Serializable {
                     for (int i = 0; i < artistsArray.length(); i++) {
                         artists.add(new Artist(artistsArray.getJSONObject(i).toString()));
                     }
+
                     return;
                 } else if (response.statusCode() == 401) {
                     Methods.requestToken();
