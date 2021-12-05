@@ -9,9 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:p="http://primefaces.org/ui">
 <link rel="stylesheet" href="https://unpkg.com/primeflex@3.1.0/primeflex.css"/>
 
 <!-- This page is constructed based on the siteTemplate -->
@@ -24,7 +22,7 @@
 
     <!-- Create the content for this page below -->
     <ui:define name="editableContent">
-        <h1 style="color:white"> #{userController.selected.firstName}&nbsp;#{userController.selected.lastName}'s Critique History </h1>
+        <h1 align="center" style="color:white"> #{userController.selected.firstName}&nbsp;#{userController.selected.lastName}'s Critique History </h1>
         <p:tabView styleClass="critquesTabs">
             <p:tab title="My Comments">
                 <ui:insert name="commentsList">
@@ -35,9 +33,7 @@
                 <ui:insert name="commentsList">
                     <ui:include src="RatingsList.xhtml"/>
                 </ui:insert>
-
             </p:tab>
-
         </p:tabView>
 
         <ui:include src="/myCritiques/CommentView.xhtml"/>
