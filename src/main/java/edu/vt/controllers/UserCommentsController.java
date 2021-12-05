@@ -7,7 +7,6 @@ package edu.vt.controllers;
 import edu.vt.EntityBeans.User;
 import edu.vt.EntityBeans.UserComment;
 import edu.vt.FacadeBeans.CommentFacade;
-import edu.vt.FacadeBeans.UserFacade;
 import edu.vt.Pojos.Album;
 import edu.vt.Pojos.Artist;
 import edu.vt.Pojos.Track;
@@ -52,13 +51,6 @@ public class UserCommentsController implements Serializable {
      */
     private UserComment selected;
     private List<UserComment> listOfUserComments = null;
-    private EntityController entityController;
-    /*
-    The @EJB annotation directs the EJB Container Manager to inject (store) the object reference of the
-    UserFacade bean into the instance variable 'userFacade' after it is instantiated at runtime.
-     */
-    @EJB
-    private UserFacade userFacade;
 
     /*
     The @EJB annotation directs the EJB Container Manager to inject (store) the object reference of the
@@ -132,7 +124,6 @@ public class UserCommentsController implements Serializable {
     }
 
     public List<Album> requestSeveralAlbums(String albumIds) {
-        System.out.println("I called requestSeveralAlbums in comments");
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spotify.com/v1/albums?ids=" + albumIds))
                 .timeout(Duration.ofMinutes(1))
@@ -168,8 +159,6 @@ public class UserCommentsController implements Serializable {
     }
 
     public List<Artist> requestSeveralArtists(String artistIds) {
-        System.out.println("I called requestSeveralArtists in comments");
-
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spotify.com/v1/artists?ids=" + artistIds))
                 .timeout(Duration.ofMinutes(1))
@@ -209,8 +198,6 @@ public class UserCommentsController implements Serializable {
     }
 
     public List<Track> requestSeveralTracks(String trackIds) {
-        System.out.println("I called requestSeveralTracks in comments");
-
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spotify.com/v1/tracks?ids=" + trackIds))
                 .timeout(Duration.ofMinutes(1))
@@ -359,10 +346,10 @@ public class UserCommentsController implements Serializable {
     }
 
     /*
-        *************************************
-        UPDATE Selected Comment in the Database
-        *************************************
-         */
+    *************************************
+    UPDATE Selected Comment in the Database
+    *************************************
+     */
     public void update() {
         Methods.preserveMessages();
 

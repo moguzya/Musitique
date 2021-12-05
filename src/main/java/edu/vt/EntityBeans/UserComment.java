@@ -6,13 +6,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Date;
-import edu.vt.EntityType;
-import edu.vt.Pojos.Album;
-import edu.vt.Pojos.Artist;
-import edu.vt.Pojos.Track;
-import edu.vt.controllers.EntityController;
 
 /*
 The @Entity annotation designates this class as a JPA Entity POJO class
@@ -22,7 +18,6 @@ representing the UserComment table in the database.
 @Entity
 
 @Table(name = "UserComment")
-
 
 @NamedQueries({
     /*
@@ -67,11 +62,7 @@ public class UserComment implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "date")
-    private LocalDateTime date;
-
-
-
-
+    private Date date;
 
     public UserComment() {
     }
@@ -81,7 +72,7 @@ public class UserComment implements Serializable {
         this.entityId = entityId;
         this.entityType = entityType.toString();
         this.comment = comment;
-        this.date = LocalDateTime.now();
+        this.date = new Date().from(Instant.now());
     }
 
     @Override
@@ -137,11 +128,11 @@ public class UserComment implements Serializable {
         this.comment = comment;
     }
 
-    public LocalDateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

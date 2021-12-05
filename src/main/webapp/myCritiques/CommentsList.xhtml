@@ -16,176 +16,170 @@
 
 <!-- This page is constructed based on the siteTemplate -->
 <ui:composition>
-            <!-- In case of JSF validation error, set 'selected' to null in movieController -->
-            <c:if test="#{facesContext.validationFailed}">
-                ${userCommentsController.unselect()}
-            </c:if>
+    <!-- In case of JSF validation error, set 'selected' to null in commentController -->
+    <c:if test="#{facesContext.validationFailed}">
+        ${userCommentsController.unselect()}
+    </c:if>
 
-            <!-- Set 'selected' to null in movieController when the user refreshes / reloads this JSF page -->
-            <f:metadata>
-                <f:viewAction action="#{userCommentsController.unselect()}"
-                              rendered="#{facesContext.postback}"/>
-            </f:metadata>
+    <!-- Set 'selected' to null in commentController when the user refreshes / reloads this JSF page -->
+    <f:metadata>
+        <f:viewAction action="#{userCommentsController.unselect()}"
+                      rendered="#{facesContext.postback}"/>
+    </f:metadata>
 
-            <div align="center">
-                <h:form id="CommentsListForm">
-                    <p:panel header="List of My Comments">
-                        <p:dataTable id="datalistComment"
-                                     value="#{userCommentsController.listOfUserComments}"
-                                     var="aComments"
-                                     widgetVar="commentsDataTable"
-                                     selectionMode="single"
-                                     selection="#{userCommentsController.selected}"
-                                     reflow="true"
-                                     showGridlines="true"
-                                     paginator="true"
-                                     rowKey="#{aComments.id}"
-                                     rows="5"
-                                     rowsPerPageTemplate="5,10,15,20,30,40,50"
-                                     emptyMessage="No comments found for the search query entered!">
+    <div align="center">
+        <h:form id="CommentsListForm">
+            <p:panel header="List of My Comments">
+                <p:dataTable id="datalistComment"
+                             value="#{userCommentsController.listOfUserComments}"
+                             var="aComments"
+                             widgetVar="commentsDataTable"
+                             selectionMode="single"
+                             selection="#{userCommentsController.selected}"
+                             reflow="true"
+                             showGridlines="true"
+                             paginator="true"
+                             rowKey="#{aComments.id}"
+                             rows="5"
+                             rowsPerPageTemplate="5,10,15,20,30,40,50"
+                             emptyMessage="No comments found for the search query entered!">
 
-                            <p:ajax event="rowSelect" update="viewButtonComment editButtonComment deleteButtonComment"/>
-                            <p:ajax event="rowUnselect" update="viewButtonComment editButtonComment deleteButtonComment"/>
+                    <p:ajax event="rowSelect" update="viewButtonComment editButtonComment deleteButtonComment"/>
+                    <p:ajax event="rowUnselect" update="viewButtonComment editButtonComment deleteButtonComment"/>
 
-                            <!--
-                            *************************
-                            *   Data Table Header   *
-                            *************************
-                            -->
-                            <f:facet name="header">
+                    <!--
+                    *************************
+                    *   Data Table Header   *
+                    *************************
+                    -->
+                    <f:facet name="header">
+                        <div align="center">
+                            <p:inputText id="globalFilter"
+                                         onkeyup="PF('commentsDataTable').filter()"
+                                         filterMatchMode="contains"
+                                         style="width: 250px"
+                                         placeholder="Enter Global Search Query"/>
+                            &nbsp;
+                            <p:commandButton type="button" value="Clear All Filters"
+                                             styleClass="ui-button-outlined"
+                                             icon="fas fa-undo"
+                                             onclick="PF('commentsDataTable').clearFilters()"/>
+                        </div>
+                    </f:facet>
+
+                    <!--
+                    *******************************
+                    *   Artwork Image   *
+                    *******************************
+                    -->
+                    <p:column headerText="Artwork"
+                              style="width: 80px; text-align: center; vertical-align: top">
+                        <p:graphicImage url="#{userCommentsController.getImageUrl(aComments) }" width="92px"
+                                        style="float:left"/>
+                    </p:column>
+
+
+                    <!--
+                    ********************
+                    *      Type      *
+                    ********************
+                    -->
+                    <p:column headerText="Type" sortBy="#{aComments.entityType}"
+                              filterBy="#{aComments.entityType}" filterMatchMode="contains"
+                              style="width: 150px; text-align: center; vertical-align: top">
+                        <h:outputText value="#{aComments.entityType}" style="float:left"/>
+
+                    </p:column>
+
+                    <!--
+                    ********************
+                    *      Name      *
+                    ********************
+                    -->
+                    <p:column headerText="Name" sortBy="#{userCommentsController.getEntityName(aComments)}"
+                              filterBy="#{userCommentsController.getEntityName(aComments)}" filterMatchMode="contains"
+                              style="width: 150px; text-align: center; vertical-align: top">
+                        <h:outputText value="#{userCommentsController.getEntityName(aComments)}" style="float:left"/>
+                    </p:column>
+
+                    <!--
+                    ********************
+                    *      Artists      *
+                    ********************
+                    -->
+                    <p:column headerText="Artist" sortBy="#{userCommentsController.getArtists(aComments)}"
+                              filterBy="#{userCommentsController.getArtists(aComments)}" filterMatchMode="contains"
+                              style="width: 150px; text-align: center; vertical-align: top">
+                        <h:outputText value="#{userCommentsController.getArtists(aComments)}" style="float:left"/>
+                    </p:column>
+
+                    <!--
+                    ********************
+                    *   Release Date   *
+                    ********************
+                    -->
+                    <p:column headerText="Date Posted" sortBy="#{aComments.date}"
+                              filterBy="#{aComments.date}" filterMatchMode="contains"
+                              style="width: 150px; text-align: center; vertical-align: top">
+                        <h:outputText value="#{aComments.date}" style="float:left">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm" />
+                        </h:outputText>
+                    </p:column>
+
+                    <!--
+                    *******************
+                    *   Director(s)   *
+                    *******************
+                    -->
+                    <p:column headerText="Comment" sortBy="#{aComments.comment}"
+                              filterBy="#{aComments.comment}" filterMatchMode="contains"
+                              style="text-align: center; vertical-align: top">
+                        <h:outputText value="#{aComments.comment}"/>
+                    </p:column>
+
+
+                    <!--
+                    *************************
+                    *   Data Table Footer   *
+                    *************************
+                    -->
+                    <f:facet name="footer">
+                        <div align="center">
+
+                            <p:commandButton id="viewButtonComment" value="View" icon="fas fa-eye" styleClass="rounded-button"
+                                             update=":CommentViewDlg" oncomplete="PF('CommentViewDialog').show()"
+                                             disabled="#{empty userCommentsController.selected}"/>
+                            &nbsp;
+                            <p:commandButton id="editButtonComment" value="Edit" icon="fas fa-edit" styleClass="rounded-button"
+                                             update=":CommentEditDlg" oncomplete="PF('CommentEditDialog').show()"
+                                             disabled="#{empty userCommentsController.selected}"/>
+
+                            &nbsp;
+
+                            <p:commandButton id="deleteButtonComment" value="Delete"
+                                             icon="fas fa-trash-alt" styleClass="rounded-button"
+                                             actionListener="#{userCommentsController.destroy}"
+                                             update="datalistComment,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
+                                             disabled="#{empty userCommentsController.selected}">
+
+                                <p:confirm header="Deletion Confirmation"
+                                           message="Are you sure you want to permanently delete the selected comment for #{userCommentsController.selected.comment} from the database?"/>
+                            </p:commandButton>
+
+                            <p:confirmDialog id="confirmDialogBoxComments" global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
                                 <div align="center">
-                                    <p:inputText id="globalFilter"
-                                                 onkeyup="PF('commentsDataTable').filter()"
-                                                 filterMatchMode="contains"
-                                                 style="width: 250px"
-                                                 placeholder="Enter Global Search Query"/>
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fas fa-window-close" />
                                     &nbsp;
-                                    <p:commandButton type="button" value="Clear All Filters"
-                                                     styleClass="ui-button-outlined"
-                                                     icon="fas fa-undo"
-                                                     onclick="PF('commentsDataTable').clearFilters()"/>
+                                    <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger" icon="fas fa-check-square" />
                                 </div>
-                            </f:facet>
-
-                            <!--
-                            *******************************
-                            *   Artwork Image   *
-                            *******************************
-                            -->
-                            <p:column headerText="Artwork"
-                                      style="width: 80px; text-align: center; vertical-align: top">
-                                <p:graphicImage url="#{userCommentsController.getImageUrl(aComments) }" width="92px"
-                                                style="float:left"/>
-                            </p:column>
+                            </p:confirmDialog>
+                        </div>
 
 
-                            <!--
-                            ********************
-                            *      Type      *
-                            ********************
-                            -->
-                            <p:column headerText="Type" sortBy="#{aComments.entityType}"
-                                      filterBy="#{aComments.entityType}" filterMatchMode="contains"
-                                      style="width: 150px; text-align: center; vertical-align: top">
-                                <h:outputText value="#{aComments.entityType}" style="float:left"/>
-
-                            </p:column>
-
-                            <!--
-                            ********************
-                            *      Name      *
-                            ********************
-                            -->
-                            <p:column headerText="Name" sortBy="#{userCommentsController.getEntityName(aComments)}"
-                                      filterBy="#{userCommentsController.getEntityName(aComments)}" filterMatchMode="contains"
-                                      style="width: 150px; text-align: center; vertical-align: top">
-                                <h:outputText value="#{userCommentsController.getEntityName(aComments)}" style="float:left"/>
-                            </p:column>
-
-                            <!--
-                            ********************
-                            *      Artists      *
-                            ********************
-                            -->
-                            <p:column headerText="Artist" sortBy="#{userCommentsController.getArtists(aComments)}"
-                                      filterBy="#{userCommentsController.getArtists(aComments)}" filterMatchMode="contains"
-                                      style="width: 150px; text-align: center; vertical-align: top">
-                                <h:outputText value="#{userCommentsController.getArtists(aComments)}" style="float:left"/>
-                            </p:column>
-
-                            <!--
-                            ********************
-                            *   Release Date   *
-                            ********************
-                            -->
-                            <p:column headerText="Date Posted" sortBy="#{aComments.date}"
-                                      filterBy="#{aComments.date}" filterMatchMode="contains"
-                                      style="width: 150px; text-align: center; vertical-align: top">
-                                <h:outputText value="#{aComments.date}" style="float:left"/>
-
-                            </p:column>
-
-                            <!--
-                            *******************
-                            *   Director(s)   *
-                            *******************
-                            -->
-                            <p:column headerText="Comment" sortBy="#{aComments.comment}"
-                                      filterBy="#{aComments.comment}" filterMatchMode="contains"
-                                      style="text-align: center; vertical-align: top">
-                                <h:outputText value="#{aComments.comment}"/>
-                            </p:column>
-
-
-                            <!--
-                            *************************
-                            *   Data Table Footer   *
-                            *************************
-                            -->
-                            <f:facet name="footer">
-                                <div align="center">
-
-                                    <p:commandButton id="viewButtonComment" value="View" icon="fas fa-eye" styleClass="rounded-button"
-                                                     update=":CommentViewDlg" oncomplete="PF('CommentViewDialog').show()"
-                                                     disabled="#{empty userCommentsController.selected}"/>
-                                    &nbsp;
-                                    <p:commandButton id="editButtonComment" value="Edit" icon="fas fa-edit" styleClass="rounded-button"
-                                                     update=":CommentEditDlg" oncomplete="PF('CommentEditDialog').show()"
-                                                     disabled="#{empty userCommentsController.selected}"/>
-
-                                    &nbsp;
-
-                                    <p:commandButton id="deleteButtonComment" value="Delete"
-                                                     icon="fas fa-trash-alt" styleClass="rounded-button"
-                                                     actionListener="#{userCommentsController.destroy}"
-                                                     update="datalistComment,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
-                                                     disabled="#{empty userCommentsController.selected}">
-
-                                        <p:confirm header="Deletion Confirmation"
-                                                   message="Are you sure you want to permanently delete the selected comment for #{userCommentsController.selected.comment} from the database?"/>
-                                    </p:commandButton>
-
-                                    <p:confirmDialog id="confirmDialogBoxComments" global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
-                                        <div align="center">
-                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fas fa-window-close" />
-                                            &nbsp;
-                                            <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger" icon="fas fa-check-square" />
-                                        </div>
-                                    </p:confirmDialog>
-                                </div>
-
-
-                            </f:facet>
-                        </p:dataTable>
-                    </p:panel>
-                </h:form>
-                <!--
-                Clicking the View button displays the included
-                RatingView.xhtml file in a dialog window on top of this page.
-                -->
-            </div>
-
-
-
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </div>
 </ui:composition>
 </html>

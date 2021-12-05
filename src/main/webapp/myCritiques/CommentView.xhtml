@@ -7,7 +7,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition>
         <!--
@@ -39,6 +40,11 @@
 
                             <h:outputText value="Comment:"/>
                             <h:outputText value="#{userCommentsController.selected.comment}"/>
+
+                            <h:outputText value="Date Published:" escape="false" />
+                            <h:outputText value="#{userCommentsController.selected.date}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm" />
+                            </h:outputText>
                         </p:panelGrid>
                     </div>
                 </h:panelGroup>

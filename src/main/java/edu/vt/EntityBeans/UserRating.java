@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -60,7 +61,8 @@ public class UserRating implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "date")
-    private LocalDateTime date;
+    private Date date;
+
     public UserRating() {
         rating = 0;
     }
@@ -69,7 +71,7 @@ public class UserRating implements Serializable {
         this.userId = userId;
         this.entityId = entityId;
         this.rating = rating;
-        this.date = LocalDateTime.now();
+        this.date = new Date().from(Instant.now());
         this.entityType = entityType.toString();
     }
 
@@ -126,11 +128,11 @@ public class UserRating implements Serializable {
         this.rating = rating;
     }
 
-    public LocalDateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
