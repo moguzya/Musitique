@@ -56,7 +56,7 @@ body .ui-panel .ui-panel-titlebar{
 }
 
 /*Pop up dialogs*/
-body .ui-dialog .ui-dialog-content, .ui-dialog .ui-dialog-titlebar{
+body .ui-dialog .ui-dialog-content, .ui-dialog .ui-dialog-titlebar,.ui-dialog .ui-dialog-footer{
     background: #61844DF0 !important;
     color: white !important;
 }
