@@ -176,7 +176,8 @@ public class UserGenresController implements Serializable {
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         User signedInUser = (User) sessionMap.get("user");
 
-        persist(PersistAction.CREATE,"Favorite genres are set.");
+        System.out.println("-------------");
+
         for (String genreName: listOfUserGenres2 )
         {
             UserGenre userGenreNew = new UserGenre(genreName,signedInUser);
@@ -190,10 +191,7 @@ public class UserGenresController implements Serializable {
                 userGenreFacade.remove(genre);
             }
         }
-
-        Methods.preserveMessages();
-
-        persist(PersistAction.UPDATE,"User Genre was successfully updated.");
+        JsfUtil.addSuccessMessage("User Genres was Successfully Updated!");
 
         if (!JsfUtil.isValidationFailed()) {
             // No JSF validation error. The UPDATE operation is successfully performed.

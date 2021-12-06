@@ -124,9 +124,8 @@
 
 
                         <p:selectManyCheckbox id="grid" value="#{userGenresController.listOfUserGenreNames}" layout="grid" columns="5" styleClass="grid-checkbox">
-
+                            <f:validator validatorId="genreMaxValidator" />
                             <f:selectItems  value="#{userGenresController.genres}" var="userGenre" itemLabel="#{userGenre.genre}" itemValue="#{userGenre.genre}"/>
-
                         </p:selectManyCheckbox>
 
                         &nbsp;
