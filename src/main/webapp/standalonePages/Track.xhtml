@@ -4,43 +4,61 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/musitiqueTemplates/siteTemplate.xhtml">
     <ui:define name="title">
-        <h:outputText value="#{entityController.getSelectedAlbum().name}"/>
+        <h:outputText value="#{entityController.getSelectedTrack().name}"/>
     </ui:define>
 
     <ui:define name="editableContent">
         <div align="center">
             <h:form id="TrackForm">
-                <p:graphicImage url="#{entityController.getSelectedTrack().imageUrl}" width="20%"/>
-                <ui:include src="/musitiqueTemplates/playButtonTemplate.xhtml">
-                    <ui:param name="entity" value="#{entityController.getSelectedTrack()}"/>
-                </ui:include>
-                <h:outputText value="#{entityController.getSelectedTrack().name}"/>
-                <h:outputText value="#{entityController.getSelectedTrack().artistsListAsString}" style="float:left"/>
-                <h:outputText value="#{entityController.getSelectedTrack().getDurationAsString()}" style="float:left"/>
-                <br/>
-                <br/>
-                <h:outputText value="Average Rating:"/>
-                <p:rating id="avgRating" value="#{entityController.getAverageRating()}" readonly="true"/>
-                <h:outputText
-                        rendered="#{userController.isLoggedIn() == true}"
-                        value="Your Rating:"/>
-                <p:rating
-                        rendered="#{userController.isLoggedIn() == true}"
-                        value="#{entityController.getUserRating().rating}"
-                        valueChangeListener="#{userRatingsController.clearListOfUserRatings()}">
-                    <p:ajax event="rate"
-                            update="avgRating"
-                            listener="#{entityController.onRate}"/>
-                    <p:ajax event="cancel" update="avgRating" listener="#{entityController.onUnrate()}"/>
-                    <p:ajax event="cancel"
-                            listener="#{userRatingsController.clearListOfUserRatings()}"/>
-                </p:rating>
+                <p:panelGrid columns="1">
+                    <p:panel>
+                        <p:graphicImage url="#{entityController.getSelectedTrack().imageUrl}" width="100%"/>
+                        <ui:include src="/musitiqueTemplates/playButtonTemplate.xhtml">
+                            <ui:param  name="entity" value="#{entityController.getSelectedTrack()}"/>
+                        </ui:include>
+                    </p:panel>
+                    <p:panel>
+                        <h:outputText style="font-weight: bold;" value="Track: #{entityController.getSelectedTrack().name}"/>
+                        <br />
+                        <h:outputText value="Explicit: #{entityController.getSelectedTrack().explicit}"/>
+                        <br />
+                        <h:outputText value="Song Duration: #{entityController.getSelectedTrack().durationAsString}"/>
+                        <br /><br />
+                        <h:outputText value="Average Rating:"/>
+                        <p:rating id="avgRating" value="#{entityController.getAverageRating()}" readonly="true"/>
+                        <h:outputText
+                                rendered="#{userController.isLoggedIn() == true}"
+                                value="Your Rating:"/>
+                        <p:rating
+                                rendered="#{userController.isLoggedIn() == true}"
+                                value="#{entityController.getUserRating().rating}"
+                                valueChangeListener="#{userRatingsController.clearListOfUserRatings()}">
+                            <p:ajax event="rate"
+                                    update="avgRating"
+                                    listener="#{entityController.onRate}"/>
+                            <p:ajax event="cancel" update="avgRating" listener="#{entityController.onUnrate()}"/>
+                            <p:ajax event="cancel"
+                                    listener="#{userRatingsController.clearListOfUserRatings()}"/>
+                        </p:rating>
+                    </p:panel>
+                    <p:panel>
+                        <h:outputText value="Artists on Track:"/>
+                        <br/>
+                        <ui:repeat var="artist" value="#{entityController.getSelectedTrack().artists}"
+                                   varStatus="status">
+                            <h:commandLink
+                                    action="#{entityController.toArtistPage(artist)}">
+                                <p:graphicImage url="#{artist.imageUrl}" width="92px" style="float:left"/>
+                            </h:commandLink>
+                        </ui:repeat>
+                    </p:panel>
+                </p:panelGrid>
             </h:form>
+            <br/>
             <ui:insert name="comments">
                 <ui:include src="/musitiqueTemplates/commentsTemplate.xhtml"/>
             </ui:insert>

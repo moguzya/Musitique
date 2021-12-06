@@ -15,15 +15,36 @@
     <ui:define name="editableContent">
         <div align="center">
             <h:form id="AlbumForm">
-                <p:graphicImage url="#{entityController.getSelectedAlbum().imageUrl}" width="20%"/>
-                <br/>
-                <ui:include src="/musitiqueTemplates/playButtonTemplate.xhtml">
-                    <ui:param name="entity" value="#{entityController.getSelectedAlbum()}"/>
-                </ui:include>
                 <p:panelGrid columns="1">
-                    <h:outputText value="Album Name: #{entityController.getSelectedAlbum().name}"/>
                     <p:panel>
-                        <h:outputText value="Artists:"/>
+                        <p:graphicImage url="#{entityController.getSelectedAlbum().imageUrl}" width="100%"/>
+                    </p:panel>
+                    <p:panel>
+                        <h:outputText style="font-weight: bold;" value="Album: #{entityController.getSelectedAlbum().name}"/>
+                        <br />
+                        <h:outputText value="Release Date: #{entityController.getSelectedAlbum().releaseDate}"/>
+                        <br />
+                        <h:outputText value="Total Tracks: #{entityController.getSelectedAlbum().totalTracks}"/>
+                        <br /><br />
+                        <h:outputText value="Average Rating:"/>
+                        <p:rating id="avgRating" value="#{entityController.getAverageRating()}" readonly="true"/>
+                        <h:outputText
+                                rendered="#{userController.isLoggedIn() == true}"
+                                value="Your Rating:"/>
+                        <p:rating
+                                rendered="#{userController.isLoggedIn() == true}"
+                                value="#{entityController.getUserRating().rating}"
+                                valueChangeListener="#{userRatingsController.clearListOfUserRatings()}">
+                            <p:ajax event="rate"
+                                    update="avgRating"
+                                    listener="#{entityController.onRate}"/>
+                            <p:ajax event="cancel" update="avgRating" listener="#{entityController.onUnrate()}"/>
+                            <p:ajax event="cancel"
+                                    listener="#{userRatingsController.clearListOfUserRatings()}"/>
+                        </p:rating>
+                    </p:panel>
+                    <p:panel>
+                        <h:outputText value="Artists on Album:"/>
                         <br/>
                         <ui:repeat var="artist" value="#{entityController.getSelectedAlbum().artists}"
                                    varStatus="status">
@@ -33,27 +54,8 @@
                             </h:commandLink>
                         </ui:repeat>
                     </p:panel>
-                    <h:outputText value="Release Date: #{entityController.getSelectedAlbum().releaseDate}"/>
-                    <h:outputText value="Total Tracks: #{entityController.getSelectedAlbum().totalTracks}"/>
-                    <br/>
-                    <br/>
-                    <h:outputText value="Average Rating:"/>
-                    <p:rating id="avgRating" value="#{entityController.getAverageRating()}" readonly="true"/>
-                    <h:outputText
-                            rendered="#{userController.isLoggedIn() == true}"
-                            value="Your Rating:"/>
-                    <p:rating
-                            rendered="#{userController.isLoggedIn() == true}"
-                            value="#{entityController.getUserRating().rating}"
-                            valueChangeListener="#{userRatingsController.clearListOfUserRatings()}">
-                        <p:ajax event="rate"
-                                update="avgRating"
-                                listener="#{entityController.onRate}"/>
-                        <p:ajax event="cancel" update="avgRating" listener="#{entityController.onUnrate()}"/>
-                        <p:ajax event="cancel"
-                                listener="#{userRatingsController.clearListOfUserRatings()}"/>
-                    </p:rating>
                 </p:panelGrid>
+                <br/>
                 <p:dataGrid value="#{entityController.getSelectedAlbum().tracks}"
                             var="aTrack"
                             rows="25"
@@ -74,6 +76,7 @@
                     </p:dataViewGridItem>
                 </p:dataGrid>
             </h:form>
+            <br/>
             <ui:insert name="comments">
                 <ui:include src="/musitiqueTemplates/commentsTemplate.xhtml"/>
             </ui:insert>

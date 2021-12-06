@@ -5,7 +5,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition template="/musitiqueTemplates/siteTemplate.xhtml">
     <ui:define name="title">
@@ -22,7 +23,7 @@
                             <h:form>
                                 <p:commandButton icon="pi pi-heart"
                                                  rendered="#{entityController.isFavoriteArtist()}"
-                                                 style="position: relative; left: -20px; top: -20px; z-index: 1;"
+                                                 style="position: relative; float: right; right: -20px; top: -20px; z-index: 1;"
                                                  styleClass="rounded-button ui-button-help"
                                                  ajax="false"
                                                  actionListener="#{userFavoriteArtistController.destroy(entityController.getSelectedArtist())}"
@@ -30,7 +31,7 @@
                                                  oncomplete="standalonePages/Artist.xhtml"/>
 
                                 <p:commandButton icon="pi pi-heart"
-                                                 style="position: relative; left: -20px; top: -20px; z-index: 1;"
+                                                 style="position: relative; float: right; right: -20px; top: -20px; z-index: 1;"
                                                  styleClass="rounded-button ui-button-help ui-button-outlined"
                                                  rendered="#{!entityController.isFavoriteArtist()}"
                                                  ajax="false"
@@ -41,9 +42,9 @@
                         </c:if>
                     </p:panel>
                     <p:panel>
-                        <h:outputText value="#{entityController.getSelectedArtist().name}"/>
+                        <h:outputText style="font-weight: bold;" value="Artist: #{entityController.getSelectedArtist().name}"/>
                         <br />
-                        <h:outputText value="#{entityController.getSelectedArtist().getGenresListAsString()}"/>
+                        <h:outputText value="Genres: #{entityController.getSelectedArtist().getGenresListAsString()}"/>
                         <br />
                         <h:outputText value="Number of Followers: #{entityController.getSelectedArtist().followers}"/>
                         <br /><br />
@@ -65,6 +66,7 @@
                         </p:rating>
                     </p:panel>
                 </p:panelGrid>
+                <br/>
                 <p:dataGrid value="#{entityController.selectedArtist.artistTopTracks}"
                             var="aTrack"
                             rows="25"
@@ -85,6 +87,7 @@
                     </p:dataViewGridItem>
                 </p:dataGrid>
             </h:form>
+            <br/>
             <ui:insert name="comments">
                 <ui:include src="/musitiqueTemplates/commentsTemplate.xhtml"/>
             </ui:insert>

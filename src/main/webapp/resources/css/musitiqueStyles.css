@@ -87,14 +87,14 @@ body .ui-carousel .ui-carousel-content .ui-carousel-prev, body .ui-carousel .ui-
 
 body .ui-datagrid .ui-datagrid-header, body .ui-datagrid .ui-datagrid-footer{
     background: none !important;
-    border: solid 1px #121640 !important;
+    border: solid 1px white !important;
     color: white;
     font-size: 25px;
 }
 
 body .ui-datagrid .ui-datagrid-content{
     background: none !important;
-    border: solid 1px #121640 !important;
+    border: solid 1px white !important;
     color: white;
 }
 .ui-datagrid-data .ui-widget-content{
@@ -168,4 +168,17 @@ Scale the image downward, but do not enlarge it beyond the width size of 500px.
     max-width: 100%;
     height: auto;
     border: none;
+}
+
+/* For Track Page */
+#TrackForm\:j_idt41 {
+    position: relative;
+    float: right;
+    top: -43px;
+    z-index: 1;
+}
+
+/* Rating star */
+body .ui-rating .ui-rating-star a::before {
+    color: white;
 }
