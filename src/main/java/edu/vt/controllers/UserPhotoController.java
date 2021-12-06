@@ -76,7 +76,7 @@ public class UserPhotoController implements Serializable {
         Methods.preserveMessages();
 
         // Check if a file is selected
-        if (file.getSize() == 0) {
+        if ((file == null) || (file.getSize() == 0)) {
             Methods.showMessage("Information", "No File Selected!",
                     "You need to choose a file first before clicking Upload.");
             return "";
