@@ -133,7 +133,11 @@ All rights reserved.
 
 
                         <div style="margin: auto; width: 50%;">
-                            <p:commandButton id="genreAddButon" value="Genre Save" icon="fas fa-trash-alt" styleClass="rounded-button"
+                            <p:commandButton id="genreClearButon" value="Clear Genres" icon="fas fa-eraser" styleClass="rounded-button"
+                                             actionListener="#{userGenresController.clear()}"
+                                             update="grid,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"/>
+                            &nbsp;
+                            <p:commandButton id="genreAddButon" value="Genre Save" icon="fas fa-save" styleClass="rounded-button"
                                              actionListener="#{userGenresController.update(userGenresController.listOfUserGenreNames)}"
                                              update="grid,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"/>
                         </div>

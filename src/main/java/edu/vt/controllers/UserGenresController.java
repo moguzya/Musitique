@@ -171,6 +171,17 @@ public class UserGenresController implements Serializable {
         }
     }
 
+    public void clear() {
+        //DELETE all selected genres
+        for (UserGenre genre: listOfUserGenres )
+        {
+            userGenreFacade.remove(genre);
+        }
+
+        JsfUtil.addSuccessMessage("User Genres was Successfully Cleared!");
+        listOfUserGenres = null;    // Invalidate listOfUserGenres to trigger re-query.
+        listOfUserGenreNames = null;
+    }
 
     public void update(List<String> listOfUserGenres2) {
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
