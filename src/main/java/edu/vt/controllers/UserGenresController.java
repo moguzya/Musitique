@@ -176,8 +176,6 @@ public class UserGenresController implements Serializable {
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         User signedInUser = (User) sessionMap.get("user");
 
-        System.out.println("-------------");
-
         for (String genreName: listOfUserGenres2 )
         {
             UserGenre userGenreNew = new UserGenre(genreName,signedInUser);

@@ -30,6 +30,7 @@
     <div align="center">
         <h:form id="CommentsListForm">
             <p:panel header="List of My Comments">
+                <!--@elvariable id="aComments" type="edu.vt.EntityBeans.UserComment"-->
                 <p:dataTable id="datalistComment"
                              value="#{userCommentsController.listOfUserComments}"
                              var="aComments"
@@ -44,8 +45,8 @@
                              rowsPerPageTemplate="5,10,15,20,30,40,50"
                              emptyMessage="No comments found for the search query entered!">
 
-                    <p:ajax event="rowSelect" update="viewButtonComment editButtonComment deleteButtonComment"/>
-                    <p:ajax event="rowUnselect" update="viewButtonComment editButtonComment deleteButtonComment"/>
+                    <p:ajax event="rowSelect" update="viewButtonComment gotoButtonComment editButtonComment deleteButtonComment"/>
+                    <p:ajax event="rowUnselect" update="viewButtonComment gotoButtonComment editButtonComment deleteButtonComment"/>
 
                     <!--
                     *************************
@@ -150,12 +151,14 @@
                                              update=":CommentViewDlg" oncomplete="PF('CommentViewDialog').show()"
                                              disabled="#{empty userCommentsController.selected}"/>
                             &nbsp;
+                            <p:commandButton id="gotoButtonComment" value="Go To" icon="fas fa-eye" styleClass="rounded-button"
+                                             action="#{entityController.toSelectedEntityPage(userCommentsController.selected.entityId, userCommentsController.selected.entityType)}"
+                                             disabled="#{empty userCommentsController.selected}"/>
+                            &nbsp;
                             <p:commandButton id="editButtonComment" value="Edit" icon="fas fa-edit" styleClass="rounded-button"
                                              update=":CommentEditDlg" oncomplete="PF('CommentEditDialog').show()"
                                              disabled="#{empty userCommentsController.selected}"/>
-
                             &nbsp;
-
                             <p:commandButton id="deleteButtonComment" value="Delete"
                                              icon="fas fa-trash-alt" styleClass="rounded-button"
                                              actionListener="#{userCommentsController.destroy}"

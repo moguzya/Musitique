@@ -75,6 +75,10 @@ public class Album {
         this.releaseDate = object.optString("release_date", "");
     }
 
+    public Album() {
+
+    }
+
     public String getId() {
         return id;
     }

@@ -106,6 +106,28 @@ public class EntityController implements Serializable {
     ================
     */
 
+    public String toSelectedEntityPage(String entityId, String entityType)
+    {
+        switch (entityType) {
+            case "ALBUM": {
+                Album album=new Album();
+                album.setId(entityId);
+                return toAlbumPage(album);
+            }
+            case "ARTIST": {
+                Artist artist=new Artist();
+                artist.setId(entityId);
+                return toArtistPage(artist);
+            }
+            case "TRACK": {
+                Track track=new Track();
+                track.setId(entityId);
+                return toTrackPage(track);
+            }
+        }
+        return "";
+    }
+
     public String toAlbumPage(Album selectedAlbum) {
         this.selectedAlbum = requestAlbum(selectedAlbum.getId());
 
@@ -311,13 +333,14 @@ public class EntityController implements Serializable {
                 Methods.requestToken();
                 return requestTopTracksFromArtist(artistId);
             } else if (response.statusCode() == 429) {
-                System.out.println("rate limit");
+                JsfUtil.addErrorMessage("Api rate limit exceeded!");
                 return new ArrayList<>();
             }
         } catch (IOException | InterruptedException e) {
-            System.out.println(e);
+            JsfUtil.addErrorMessage(e.getMessage());
             return new ArrayList<>();
         }
+        JsfUtil.addErrorMessage("Unexpected error occurred!");
         return new ArrayList<>();
     }
 

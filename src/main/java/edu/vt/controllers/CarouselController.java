@@ -26,17 +26,8 @@ import static edu.vt.globals.Constants.CLIENT;
 @ViewScoped
 public class CarouselController implements Serializable {
 
-
-    private List<ResponsiveOption> responsiveOptions;
     List<Album> listOfNewReleases;
-    @PostConstruct
-    public void init() {
-        requestNewReleases();
-        responsiveOptions = new ArrayList<>();
-        responsiveOptions.add(new ResponsiveOption("1024px", 3, 3));
-        responsiveOptions.add(new ResponsiveOption("768px", 2, 2));
-        responsiveOptions.add(new ResponsiveOption("560px", 1, 1));
-    }
+
     public List<Album> getListOfNewReleases() {
         if(listOfNewReleases==null)
             requestNewReleases();
@@ -88,13 +79,5 @@ public class CarouselController implements Serializable {
 
     public void setListOfNewReleases(List<Album> listOfNewReleases) {
         this.listOfNewReleases = listOfNewReleases;
-    }
-
-    public List<ResponsiveOption> getResponsiveOptions() {
-        return responsiveOptions;
-    }
-
-    public void setResponsiveOptions(List<ResponsiveOption> responsiveOptions) {
-        this.responsiveOptions = responsiveOptions;
     }
 }
