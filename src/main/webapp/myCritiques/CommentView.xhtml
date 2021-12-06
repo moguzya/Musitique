@@ -38,13 +38,15 @@
                             <h:outputText value="Artist:"/>
                             <h:outputText value="#{userCommentsController.getArtists(userCommentsController.selected) }"/>
 
-                            <h:outputText value="Comment:"/>
-                            <h:outputText value="#{userCommentsController.selected.comment}"/>
-
                             <h:outputText value="Date Published:" escape="false" />
                             <h:outputText value="#{userCommentsController.selected.date}">
                                 <f:convertDateTime pattern="MM/dd/yyyy HH:mm" />
                             </h:outputText>
+                            
+                            <h:outputText value="Comment:"/>
+                            <h:outputText value="#{userCommentsController.selected.comment}"/>
+
+
                         </p:panelGrid>
                     </div>
                 </h:panelGroup>
