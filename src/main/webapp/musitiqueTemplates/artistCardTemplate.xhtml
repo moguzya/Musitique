@@ -17,7 +17,7 @@
         <f:facet name="header">
             <h:commandLink action="#{entityController.toArtistPage(artist)}" value="#{artist.name}"/>
         </f:facet>
-        <h:outputText value="Number of Followers: #{artist.followers}"/>
+        <h:outputText value="Number of Followers: #{artist.getFollowersAsString()}"/>
     </h:panelGrid>
 </ui:composition>
 

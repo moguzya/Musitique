@@ -3,6 +3,7 @@ package edu.vt.Pojos;
 import org.primefaces.shaded.json.JSONArray;
 import org.primefaces.shaded.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -33,7 +34,7 @@ public class Artist {
                 this.genres.add(genresArray.optString(i, ""));
             }
 
-            this.followers = body.optInt("followers", 0);
+            this.followers = body.getJSONObject("followers").optInt("total", 0);
 
             if (body.getJSONArray("images").length() > 0)
                 this.imageUrl = body.getJSONArray("images").getJSONObject(0).optString("url", "");
@@ -88,6 +89,10 @@ public class Artist {
         return followers;
     }
 
+    public String getFollowersAsString() {
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        return formatter.format(followers);
+    }
     public void setFollowers(Integer followers) {
         this.followers = followers;
     }

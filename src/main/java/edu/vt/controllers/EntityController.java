@@ -106,21 +106,21 @@ public class EntityController implements Serializable {
     ================
     */
 
-    public String toSelectedEntityPage(String entityId, String entityType)
-    {
+    public String toSelectedEntityPage(String entityId, String entityType) {
+
         switch (entityType) {
             case "ALBUM": {
-                Album album=new Album();
+                Album album = new Album();
                 album.setId(entityId);
                 return toAlbumPage(album);
             }
             case "ARTIST": {
-                Artist artist=new Artist();
+                Artist artist = new Artist();
                 artist.setId(entityId);
                 return toArtistPage(artist);
             }
             case "TRACK": {
-                Track track=new Track();
+                Track track = new Track();
                 track.setId(entityId);
                 return toTrackPage(track);
             }
@@ -350,6 +350,8 @@ public class EntityController implements Serializable {
         persistComment(PersistAction.CREATE, "Comment was Successfully Created!");
         if (!JsfUtil.isValidationFailed()) {
             listOfComments = null;  // Invalidate listOfComments to trigger re-query.
+            selectedComment = null;
+            newCommentText = null;
         }
     }
 
@@ -573,6 +575,8 @@ public class EntityController implements Serializable {
     }
 
     public String getNewCommentText() {
+        if (newCommentText == null)
+            newCommentText = "";
         return newCommentText;
     }
 

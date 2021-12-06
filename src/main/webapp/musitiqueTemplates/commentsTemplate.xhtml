@@ -44,7 +44,7 @@
             <h:panelGroup rendered="#{userController.isLoggedIn() == true}">
                 <p:inputTextarea style="color: black!important;" rows="5" cols="30" counter="displayCount" maxlength="256"
                                  counterTemplate="{0} characters remaining." autoResize="false"
-                                 value="#{userCommentsController.selected.comment}"/>
+                                 value="#{entityController.newCommentText}"/>
                 <br/>
                 <h:outputText id="displayCount" class="p-d-block" style="color: white" />
             </h:panelGroup>

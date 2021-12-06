@@ -238,6 +238,7 @@ public class UserCommentsController implements Serializable {
     }
 
     public void clearListOfUserComments() {
+        this.selected = null;
         this.listOfUserComments = null;
     }
 
