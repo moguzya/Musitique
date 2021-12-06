@@ -129,6 +129,15 @@ public class EntityController implements Serializable {
     }
 
     public String toAlbumPage(Album selectedAlbum) {
+        unselectArtist();
+        unselectTrack();
+        selectedEntityType = EntityType.ALBUM;
+
+        selectedComment = null;
+        listOfComments = null;
+        userRating = null;
+        newCommentText = null;
+
         this.selectedAlbum = requestAlbum(selectedAlbum.getId());
 
         List<String> artistIds = new ArrayList<>();
@@ -286,23 +295,6 @@ public class EntityController implements Serializable {
         selectedTrack = null;
     }
 
-    /*
-    An enum is a special Java type used to define a group of constants.
-    The constants CREATE, DELETE and UPDATE are defined as follows in JsfUtil.java
-
-            public enum PersistAction {
-                CREATE,
-                DELETE,
-                UPDATE
-            }
-     */
-
-    /*
-    ************************************
-    CREATE a New Comment in the Database
-    ************************************
-     */
-
     public List<Track> requestTopTracksFromArtist(String artistId) {
         System.out.println("I called requestTopTracksFromArtist");
 
@@ -360,6 +352,23 @@ public class EntityController implements Serializable {
             listOfComments = null;  // Invalidate listOfComments to trigger re-query.
         }
     }
+
+    /*
+    An enum is a special Java type used to define a group of constants.
+    The constants CREATE, DELETE and UPDATE are defined as follows in JsfUtil.java
+
+            public enum PersistAction {
+                CREATE,
+                DELETE,
+                UPDATE
+            }
+     */
+
+    /*
+    ************************************
+    CREATE a New Comment in the Database
+    ************************************
+     */
 
     public void createRating(UserRating rating) {
         userRating = rating;
@@ -545,15 +554,6 @@ public class EntityController implements Serializable {
 
     public void setSelectedAlbum(Album selectedAlbum) {
         this.selectedAlbum = selectedAlbum;
-        selectedEntityType = EntityType.ALBUM;
-        selectedComment = null;
-        listOfComments = null;
-        userRating = null;
-        newCommentText = null;
-        userRating = getUserRating();
-        listOfComments = getListOfComments();
-        unselectArtist();
-        unselectTrack();
     }
 
     public Artist getSelectedArtist() {
