@@ -25,7 +25,8 @@
                     <p:panel>
                         <h:outputText value="Artists:"/>
                         <br/>
-                        <ui:repeat var="artist" value="#{entityController.getSelectedAlbum().artists}" varStatus="status">
+                        <ui:repeat var="artist" value="#{entityController.getSelectedAlbum().artists}"
+                                   varStatus="status">
                             <h:commandLink
                                     action="#{entityController.toArtistPage(artist)}">
                                 <p:graphicImage url="#{artist.imageUrl}" width="92px" style="float:left"/>
@@ -34,6 +35,24 @@
                     </p:panel>
                     <h:outputText value="Release Date: #{entityController.getSelectedAlbum().releaseDate}"/>
                     <h:outputText value="Total Tracks: #{entityController.getSelectedAlbum().totalTracks}"/>
+                    <br/>
+                    <br/>
+                    <h:outputText value="Average Rating:"/>
+                    <p:rating id="avgRating" value="#{entityController.getAverageRating()}" readonly="true"/>
+                    <h:outputText
+                            rendered="#{userController.isLoggedIn() == true}"
+                            value="Your Rating:"/>
+                    <p:rating
+                            rendered="#{userController.isLoggedIn() == true}"
+                            value="#{entityController.getUserRating().rating}"
+                            valueChangeListener="#{userRatingsController.clearListOfUserRatings()}">
+                        <p:ajax event="rate"
+                                update="avgRating"
+                                listener="#{entityController.onRate}"/>
+                        <p:ajax event="cancel" update="avgRating" listener="#{entityController.onUnrate()}"/>
+                        <p:ajax event="cancel"
+                                listener="#{userRatingsController.clearListOfUserRatings()}"/>
+                    </p:rating>
                 </p:panelGrid>
                 <p:dataGrid value="#{entityController.getSelectedAlbum().tracks}"
                             var="aTrack"
