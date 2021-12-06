@@ -39,7 +39,7 @@ public class Track {
         this.album = new Album(album);
 
 
-        artists=new ArrayList<>();
+        artists = new ArrayList<>();
         JSONArray artistsArray = body.getJSONArray("artists");
         for (int i = 0; i < artistsArray.length() - 1; i++) {
             Artist artist = new Artist();
@@ -94,6 +94,12 @@ public class Track {
 
     public void setDurationMs(Integer durationMs) {
         this.durationMs = durationMs;
+    }
+
+    public String getDurationAsString() {
+        Integer minutes = durationMs / 60000;
+        Integer seconds = (durationMs / 1000)%60;
+        return minutes.toString() + ":" + seconds;
     }
 
     public Boolean getExplicit() {

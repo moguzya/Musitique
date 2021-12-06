@@ -21,7 +21,7 @@
                 </ui:include>
                 <h:outputText value="#{entityController.getSelectedTrack().name}"/>
                 <h:outputText value="#{entityController.getSelectedTrack().artistsListAsString}" style="float:left"/>
-                <h:outputText value="#{entityController.getSelectedTrack().durationMs}" style="float:left"/>
+                <h:outputText value="#{entityController.getSelectedTrack().getDurationAsString()}" style="float:left"/>
 
             </h:form>
             <ui:insert name="comments">
