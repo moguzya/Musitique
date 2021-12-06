@@ -1,13 +1,11 @@
 package edu.vt.EntityBeans;
-
-import edu.vt.EntityType;
+import edu.vt.Pojos.EntityType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /*
