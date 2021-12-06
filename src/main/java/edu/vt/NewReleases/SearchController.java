@@ -34,6 +34,9 @@ public class SearchController implements Serializable {
     private String searchedText = "";
 
     public void requestSearch() {
+        System.out.println("I called requestSearch");
+        System.out.println("searchedText is "+searchedText);
+
         if ((searchedText!= null) && (searchedText.length() != 0)) {
             tracks = new ArrayList<>();
             artists = new ArrayList<>();
@@ -46,7 +49,10 @@ public class SearchController implements Serializable {
                     .GET()
                     .build();
             try {
+                System.out.println(request);
+
                 HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+                System.out.println(response.body());
 
                 if (response.statusCode() == 200) {
                     JSONArray tracksArray = new JSONObject(response.body()).getJSONObject("tracks").getJSONArray("items");
