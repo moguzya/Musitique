@@ -13,6 +13,13 @@
             <p:dataTable
                     id="commentsTable"
                     var="aComment"
+                    rows="5"
+                    reflow="true"
+                    showGridlines="true"
+                    paginator="true"
+                    rowKey="#{aComments.id}"
+                    rowsPerPageTemplate="5,10,15,20,30,40,50"
+                    emptyMessage="No comments found!"
                     value="#{entityController.getListOfComments()}"
                     selection="#{entityController.selectedComment}">
                 <div align="center">
@@ -20,7 +27,7 @@
                         User Comments
                     </f:facet>
                 </div>
-                <p:column style="width: 10%;" headerText="">
+                <p:column headerText="" style="width: 5%;">
                     <p:commandButton icon="pi pi-times"
                                      rendered="#{(userController.isLoggedIn() == true) and (userController.isOwner(aComment))}"
                                      styleClass="rounded-button ui-button-danger"
@@ -32,13 +39,21 @@
                     </p:commandButton>
                 </p:column>
 
-                <p:column headerText="User">
-                    <h:outputText value="#{aComment.userId.getUsername()}: #{aComment.comment}"/>
+                <p:column headerText="User" sortBy="#{aComment.userId.getUsername()}" style="width: 20%;"
+                          filterBy="#{aComment.userId.getUsername()}" filterMatchMode="contains">
+                    <h:outputText value="#{aComment.userId.getUsername()}"/>
                 </p:column>
 
-                <p:column headerText="Date of Comment">
+                <p:column headerText="Date of Comment" sortBy="#{aComment.date}" style="width: 200px;">
                     <h:outputText value="#{aComment.date}"/>
                 </p:column>
+
+                <p:column headerText="Comment" sortBy="#{aComment.comment}"
+                          filterBy="#{aComment.comment}" filterMatchMode="contains">
+                    <h:outputText value="#{aComment.comment}"/>
+                </p:column>
+
+
             </p:dataTable>
             <br/>
             <h:panelGroup rendered="#{userController.isLoggedIn() == true}">
