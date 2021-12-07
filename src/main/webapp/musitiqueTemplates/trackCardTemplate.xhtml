@@ -21,16 +21,32 @@
         <p:graphicImage url="#{track.imageUrl}" width="92px" style="float:left"/>
     </p:commandLink>
     <h:panelGrid style="width:100%; margin-left:10px">
-        <f:facet name="header">
-            <h:commandLink action="#{entityController.toTrackPage(track)}" value="#{track.name}"/>
-        </f:facet>
+        <h:panelGrid columns="2" style="width:100%; margin-left:10px">
+            <i class="fas fa-music"/>
+            <h:commandLink style="margin-right:20px;font-weight: bold;text-align: -internal-center;"
+                           action="#{entityController.toTrackPage(track)}"
+                           value="#{track.name}"/>
+        </h:panelGrid>
         <ui:repeat var="artist" value="#{track.artists}" varStatus="status">
-            <h:commandLink action="#{entityController.toArtistPage(artist)}" value="#{artist.name} "/>
+            <h:panelGrid columns="2">
+                <i class="fas fa-user"/>
+                <h:commandLink action="#{entityController.toArtistPage(artist)}"
+                               value="#{artist.name} "/>
+            </h:panelGrid>
         </ui:repeat>
-        <h:commandLink action="#{entityController.toAlbumPage(track.getAlbum())}" value="#{track.getAlbum().name} "/>
-        <h:outputText value="#{track.getDurationAsString()}" style="float:left"/>
-    </h:panelGrid>
+        <h:panelGrid columns="2" style="width:100%; margin-left:10px">
 
+            <i class="fas fa-compact-disc"/>
+            <h:commandLink style="margin-right:20px;"
+                           action="#{entityController.toAlbumPage(track.getAlbum())}"
+                           value="#{track.getAlbum().name} "/>
+
+            <i class="fas fa-hourglass-half"/>
+            <h:outputText style="margin-right:20px;float:left"
+                          value="#{track.getDurationAsString()}"/>
+
+        </h:panelGrid>
+    </h:panelGrid>
     <ui:include src="/musitiqueTemplates/playButtonTemplate.xhtml">
         <ui:param name="entity" value="#{track}"/>
     </ui:include>
