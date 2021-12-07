@@ -1,11 +1,9 @@
 /*
- ******************************************************************************
- * Created by CrackStation.net on 2018.12.03
- * Copyright © 2018 CrackStation.net. Free reuse with citation of source.
- * Website: https://crackstation.net/hashing-security.htm
- * Code Provided At GitHub:
- * https://github.com/defuse/password-hashing/blob/master/PasswordStorage.java
- ******************************************************************************
+ * Copyright (c) 2021. Musitique App was developed by Mehmet Oguz Yardimci, Vibhavi Peiris, and Joseph Conwell as CS5704 Software Engineering course assignment.
+ *
+ * https://www.linkedin.com/in/oguzyardimci/
+ * https://www.linkedin.com/in/vibhavipeiris/?originalSubdomain=ca
+ * https://conwell.info/
  */
 package edu.vt.globals;
 

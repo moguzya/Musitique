@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2021. Musitique App was developed by Mehmet Oguz Yardimci, Vibhavi Peiris, and Joseph Conwell as CS5704 Software Engineering course assignment.
+ *
+ * https://www.linkedin.com/in/oguzyardimci/
+ * https://www.linkedin.com/in/vibhavipeiris/?originalSubdomain=ca
+ * https://conwell.info/
+ */
+
 package edu.vt.controllers;
 
 import edu.vt.EntityBeans.User;
@@ -16,7 +24,6 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionListener;
 import javax.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
@@ -91,7 +98,7 @@ public class UserRatingsController implements Serializable {
             // Obtain the database primary key of the signedInUser object
             Integer primaryKey = signedInUser.getId();
 
-            // Obtain only those videos from the database that belong to the signed-in user
+            // Obtain only those ratings from the database that belong to the signed-in user
             listOfUserRatings = ratingFacade.findUserRatingByUserPrimaryKey(primaryKey);
 
             Set<String> AlbumsIds = new HashSet<>();

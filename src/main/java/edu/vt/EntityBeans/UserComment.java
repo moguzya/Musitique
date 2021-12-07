@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2021. Musitique App was developed by Mehmet Oguz Yardimci, Vibhavi Peiris, and Joseph Conwell as CS5704 Software Engineering course assignment.
+ *
+ * https://www.linkedin.com/in/oguzyardimci/
+ * https://www.linkedin.com/in/vibhavipeiris/?originalSubdomain=ca
+ * https://conwell.info/
+ */
+
 package edu.vt.EntityBeans;
 import edu.vt.Pojos.EntityType;
 

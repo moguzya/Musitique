@@ -1,6 +1,9 @@
 /*
- * Created by Osman Balci on 2021.7.15
- * Copyright © 2021 Osman Balci. All rights reserved.
+ * Copyright (c) 2021. Musitique App was developed by Mehmet Oguz Yardimci, Vibhavi Peiris, and Joseph Conwell as CS5704 Software Engineering course assignment.
+ *
+ * https://www.linkedin.com/in/oguzyardimci/
+ * https://www.linkedin.com/in/vibhavipeiris/?originalSubdomain=ca
+ * https://conwell.info/
  */
 package edu.vt.controllers;
 
