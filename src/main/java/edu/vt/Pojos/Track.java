@@ -9,8 +9,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -97,9 +100,13 @@ public class Track {
     }
 
     public String getDurationAsString() {
-        Integer minutes = durationMs / 60000;
-        Integer seconds = (durationMs / 1000)%60;
-        return minutes.toString() + ":" + seconds;
+
+        DateFormat simple = new SimpleDateFormat("mm:ss");
+        Date result = new Date(durationMs);
+        return simple.format(result);
+//        Integer minutes = durationMs / 60000;
+//        Integer seconds = (durationMs / 1000)%60;
+//        return minutes.toString() + ":" + seconds;
     }
 
     public Boolean getExplicit() {

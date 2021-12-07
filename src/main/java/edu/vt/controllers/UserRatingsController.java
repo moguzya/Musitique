@@ -123,14 +123,14 @@ public class UserRatingsController implements Serializable {
 
             if (!ArtistsIds.isEmpty()) {
                 listOfArtists=new ArrayList<>();
-                for (int i = 0; i < ArtistsIds.size(); i = i + 100) {
+                for (int i = 0; i < ArtistsIds.size(); i = i + 20) {
                     listOfArtists.addAll(requestSeveralArtists(ArtistsIds.stream().skip(i).limit(20).collect(Collectors.joining(","))));
 
                 }
             }
             if (!TracksIds.isEmpty()) {
                 listOfTracks=new ArrayList<>();
-                for (int i = 0; i < TracksIds.size(); i = i + 100) {
+                for (int i = 0; i < TracksIds.size(); i = i + 20) {
                     listOfTracks.addAll(requestSeveralTracks(TracksIds.stream().skip(i).limit(20).collect(Collectors.joining(","))));
                 }
             }
