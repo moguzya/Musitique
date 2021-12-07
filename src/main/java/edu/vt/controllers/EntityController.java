@@ -36,6 +36,7 @@ import java.time.Duration;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static edu.vt.globals.Constants.ACCESS_TOKEN;
 import static edu.vt.globals.Constants.CLIENT;
@@ -144,13 +145,27 @@ public class EntityController implements Serializable {
         for (Artist artist : this.selectedAlbum.getArtists()) {
             artistIds.add(artist.getId());
         }
-        this.selectedAlbum.setArtists(requestSeveralArtists(String.join(",", artistIds)));
+
+        if (!artistIds.isEmpty()) {
+            List<Artist> artists = new ArrayList<>();
+            for (int i = 0; i < artistIds.size(); i = i + 20) {
+                artists.addAll(requestSeveralArtists(artistIds.stream().skip(i).limit(20).collect(Collectors.joining(","))));
+            }
+            this.selectedAlbum.setArtists(artists);
+        }
 
         List<String> trackIds = new ArrayList<>();
         for (Track track : this.selectedAlbum.getTracks()) {
             trackIds.add(track.getId());
         }
-        this.selectedAlbum.setTracks(requestSeveralTracks(String.join(",", trackIds)));
+
+        if (!trackIds.isEmpty()) {
+            List<Track> tracks = new ArrayList<>();
+            for (int i = 0; i < trackIds.size(); i = i + 20) {
+                tracks.addAll(requestSeveralTracks(trackIds.stream().skip(i).limit(20).collect(Collectors.joining(","))));
+            }
+            this.selectedAlbum.setTracks(tracks);
+        }
 
         userRating = getUserRating();
         listOfComments = getListOfComments();
@@ -193,7 +208,14 @@ public class EntityController implements Serializable {
         for (Artist artist : this.selectedTrack.getArtists()) {
             artistIds.add(artist.getId());
         }
-        this.selectedTrack.setArtists(requestSeveralArtists(String.join(",", artistIds)));
+
+        if (!artistIds.isEmpty()) {
+            List<Artist> artists = new ArrayList<>();
+            for (int i = 0; i < artistIds.size(); i = i + 20) {
+                artists.addAll(requestSeveralArtists(artistIds.stream().skip(i).limit(20).collect(Collectors.joining(","))));
+            }
+            this.selectedTrack.setArtists(artists);
+        }
 
         userRating = getUserRating();
         listOfComments = getListOfComments();

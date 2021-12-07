@@ -28,12 +28,10 @@ import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static edu.vt.globals.Constants.ACCESS_TOKEN;
 import static edu.vt.globals.Constants.CLIENT;
@@ -100,9 +98,9 @@ public class UserRatingsController implements Serializable {
             // Obtain only those videos from the database that belong to the signed-in user
             listOfUserRatings = ratingFacade.findUserRatingByUserPrimaryKey(primaryKey);
 
-            List<String> AlbumsIds = new ArrayList<>();
-            List<String> ArtistsIds = new ArrayList<>();
-            List<String> TracksIds = new ArrayList<>();
+            Set<String> AlbumsIds = new HashSet<>();
+            Set<String> ArtistsIds = new HashSet<>();
+            Set<String> TracksIds = new HashSet<>();
 
             //move each entity type into seperate lists to that we can bulk get the data
             for (UserRating listOfUserRating : listOfUserRatings) {
@@ -116,12 +114,26 @@ public class UserRatingsController implements Serializable {
                 }
             }
 
-            if (!(String.join(",", AlbumsIds).equals("")))
-                listOfAlbums = requestSeveralAlbums(String.join(",", AlbumsIds));
-            if (!(String.join(",", ArtistsIds).equals("")))
-                listOfArtists = requestSeveralArtists(String.join(",", ArtistsIds));
-            if (!(String.join(",", TracksIds).equals("")))
-                listOfTracks = requestSeveralTracks(String.join(",", TracksIds));
+            if (!AlbumsIds.isEmpty()) {
+                listOfAlbums=new ArrayList<>();
+                for (int i = 0; i < AlbumsIds.size(); i = i + 20) {
+                    listOfAlbums.addAll(requestSeveralAlbums(AlbumsIds.stream().skip(i).limit(20).collect(Collectors.joining(","))));
+                }
+            }
+
+            if (!ArtistsIds.isEmpty()) {
+                listOfArtists=new ArrayList<>();
+                for (int i = 0; i < ArtistsIds.size(); i = i + 100) {
+                    listOfArtists.addAll(requestSeveralArtists(ArtistsIds.stream().skip(i).limit(20).collect(Collectors.joining(","))));
+
+                }
+            }
+            if (!TracksIds.isEmpty()) {
+                listOfTracks=new ArrayList<>();
+                for (int i = 0; i < TracksIds.size(); i = i + 100) {
+                    listOfTracks.addAll(requestSeveralTracks(TracksIds.stream().skip(i).limit(20).collect(Collectors.joining(","))));
+                }
+            }
         }
 
         return listOfUserRatings;

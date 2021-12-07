@@ -41,7 +41,7 @@ public class CommentFacade extends AbstractFacade<UserComment> {
     }
 
     public List<UserComment> findCommentsByEntityId(String entityId) {
-        return getEntityManager().createQuery("SELECT c FROM UserComment c WHERE c.entityId = :entityId")
+        return getEntityManager().createQuery("SELECT c FROM UserComment c WHERE c.entityId = :entityId ORDER BY c.date")
                 .setParameter("entityId", entityId)
                 .getResultList();
     }
