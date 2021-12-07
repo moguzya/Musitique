@@ -1,6 +1,3 @@
-/*
-All rights reserved.
- */
 package edu.vt.validators;
 
 import javax.faces.application.FacesMessage;

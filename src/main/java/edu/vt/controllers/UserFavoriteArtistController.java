@@ -14,7 +14,6 @@ import org.primefaces.shaded.json.JSONObject;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.el.MethodExpression;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;

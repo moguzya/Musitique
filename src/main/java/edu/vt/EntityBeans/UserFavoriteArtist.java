@@ -1,13 +1,9 @@
 package edu.vt.EntityBeans;
 
-import edu.vt.controllers.EntityController;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 /*
 The @Entity annotation designates this class as a JPA Entity POJO class

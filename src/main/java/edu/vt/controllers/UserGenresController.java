@@ -1,4 +1,3 @@
-
 package edu.vt.controllers;
 
 import edu.vt.EntityBeans.User;

@@ -1,7 +1,3 @@
-/*
- * Created by Osman Balci on 2021.7.15
- * Copyright © 2021 Osman Balci. All rights reserved.
- */
 package edu.vt.controllers;
 
 import edu.vt.EntityBeans.User;

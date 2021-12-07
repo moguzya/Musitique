@@ -1,24 +1,16 @@
 package edu.vt.Pojos;
 
-import edu.vt.controllers.util.JsfUtil;
-import edu.vt.globals.Methods;
 import org.primefaces.shaded.json.JSONArray;
 import org.primefaces.shaded.json.JSONObject;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import static edu.vt.globals.Constants.*;
-import static edu.vt.globals.Constants.CLIENT;
 
 public class Track {
 

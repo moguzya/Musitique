@@ -1,6 +1,3 @@
-/*
-All rights reserved.
- */
 package edu.vt.controllers;
 
 import edu.vt.EntityBeans.User;
@@ -9,14 +6,12 @@ import edu.vt.FacadeBeans.UserPhotoFacade;
 import edu.vt.globals.Constants;
 import edu.vt.globals.Methods;
 import org.imgscalr.Scalr;
-import org.primefaces.event.CaptureEvent;
 import org.primefaces.model.file.UploadedFile;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageOutputStream;
 import javax.inject.Named;
 import java.awt.image.BufferedImage;
 import java.io.*;

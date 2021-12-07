@@ -1,6 +1,4 @@
-/*
-All rights reserved.
- */
+
 package edu.vt.FacadeBeans;
 
 import edu.vt.EntityBeans.UserPhoto;

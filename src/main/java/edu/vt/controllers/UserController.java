@@ -1,6 +1,4 @@
-/*
-All rights reserved.
- */
+
 package edu.vt.controllers;
 
 import edu.vt.EntityBeans.User;

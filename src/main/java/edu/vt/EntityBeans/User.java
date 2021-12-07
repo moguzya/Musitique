@@ -1,6 +1,3 @@
-/*
-All rights reserved.
- */
 package edu.vt.EntityBeans;
 
 import java.io.Serializable;
