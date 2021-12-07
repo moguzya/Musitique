@@ -25,12 +25,14 @@
             <i class="fas fa-compact-disc"/>
             <h:commandLink style="margin-right:20px;" action="#{entityController.toAlbumPage(album)}" value="#{album.name}"/>
         </f:facet>
-
-        <ui:repeat var="artist" value="#{album.artists}" varStatus="status">
-            <h:panelGrid columns="2">
-                <i class="fas fa-user"/><h:commandLink style="margin-right:20px;" action="#{entityController.toArtistPage(artist)}" value="#{artist.name} "/>
-            </h:panelGrid>
-        </ui:repeat>
+        <p:panel class= "artistTableInAlbumCard">
+            <ui:repeat var="artist" value="#{album.artists}" varStatus="status"  rendered="#{album.artists.size()>0}">
+                <h:panelGrid columns="2">
+                    <i class="fas fa-user"/><h:commandLink style="margin-right:20px;" action="#{entityController.toArtistPage(artist)}" value="#{artist.name} "/>
+                </h:panelGrid>
+            </ui:repeat>
+            <h:outputText rendered="#{album.artists.size()==0}" value="No Artist Information Found."/>
+        </p:panel>
         <h:outputText
                 value="#{album.getTracksCountAsString()}"
                 style="float:left"/>
