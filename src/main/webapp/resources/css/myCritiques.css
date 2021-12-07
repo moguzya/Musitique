@@ -68,3 +68,7 @@ body .ui-dialog .ui-dialog-content, .ui-dialog .ui-dialog-titlebar,.ui-dialog .u
     background: #61844DF0 !important;
     color: white !important;
 }
+
+.ui-datagrid-column{
+    width: 33%;
+}
