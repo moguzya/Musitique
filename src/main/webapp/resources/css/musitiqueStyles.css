@@ -186,7 +186,39 @@ Scale the image downward, but do not enlarge it beyond the width size of 500px.
     z-index: 1;
 }
 
+.artistTableInTrackCard{
+    display: inline-block !important;
+    overflow: auto;
+    height: 40px !important;
+    background: none !important;
+    width: 90% !important;
+}
+
+.artistTableInTrackCard div{
+    height: 100% !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    padding-left: 10px !important;
+}
+
 /* Rating star */
 body .ui-rating .ui-rating-star a::before {
     color: white;
+}
+
+/* For Album Page */
+.artistTableInAlbumCard{
+    display: inline-block !important;
+    overflow: auto;
+    max-height: 60px !important;
+    background: none !important;
+    height: 100% !important;
+    width: 90% !important;
+}
+.artistTableInAlbumCard div{
+    height: 100% !important;
+    padding: 0px !important;
+}
+.artistTableInAlbumCard div div{
+    padding: 0px !important;
 }
