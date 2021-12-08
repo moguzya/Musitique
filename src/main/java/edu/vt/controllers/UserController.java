@@ -596,7 +596,7 @@ public class UserController implements Serializable {
         }
 
         // Execute the logout() method given below
-        logout();
+        logout("/index.xhtml");
     }
 
     /*
@@ -604,7 +604,7 @@ public class UserController implements Serializable {
     Logout User and Redirect to Show the Home Page
     **********************************************
      */
-    public void logout() {
+    public void logout(String subPath) {
 
         // Clear the signed-in User's session map
         Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
@@ -631,9 +631,8 @@ public class UserController implements Serializable {
             getRequestContextPath() returns the URI of the webapp directory of the application.
             Obtain the URI of the index (home) page to redirect to.
              */
-            String redirectPageURI = externalContext.getRequestContextPath() + "/index.xhtml";
+            String redirectPageURI = externalContext.getRequestContextPath() + subPath;
 
-            // Redirect to show the index (home) page
             externalContext.redirect(redirectPageURI);
 
             /*
