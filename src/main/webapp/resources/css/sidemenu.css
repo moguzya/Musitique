@@ -31,11 +31,12 @@
 }
 #iframe-holder {
     margin: 0.3rem;
+    height: 80px !important;
 }
 
 .profile-button{
     background-image: url("#{userController.userPhoto()}") !important;
-    background-size:contain !important;
+    background-size:60px !important;
 }
 body .ui-speeddial-button.ui-button.ui-button-icon-only:hover{
     border: green 2px solid;
