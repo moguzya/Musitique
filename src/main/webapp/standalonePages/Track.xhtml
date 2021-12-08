@@ -21,15 +21,15 @@
 
     <ui:define name="editableContent">
         <div align="center">
-            <h:form id="TrackForm">
+            <h:form id="TrackForm" styleClass="TrackFormClass">
                 <p:panelGrid columns="1">
                     <p:panel>
-                        <p:graphicImage url="#{entityController.getSelectedTrack().imageUrl}" width="100%"/>
                         <ui:include src="/musitiqueTemplates/playButtonTemplate.xhtml">
                             <ui:param  name="entity" value="#{entityController.getSelectedTrack()}"/>
                         </ui:include>
                     </p:panel>
                     <p:panel>
+                        <br />
                         <h:outputText style="font-weight: bold;" value="Track: #{entityController.getSelectedTrack().name}"/>
                         <br />
                         <h:outputText value="Explicit: #{entityController.getSelectedTrack().explicit}"/>

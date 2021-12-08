@@ -72,9 +72,14 @@
 
                     <div class="product-item">
                         <div class="product-item-content">
-                            <div class="p-mb-3">
-                                <p:graphicImage url="#{aRelease.imageUrl}"
-                                                styleClass="product-image"/>
+<!--                            <div class="p-mb-3">-->
+<!--                                <p:graphicImage url="#{aRelease.imageUrl}"-->
+<!--                                                styleClass="product-image"/>-->
+<!--                            </div>-->
+                            <div class="p-mt-3">
+                                <ui:include src="/musitiqueTemplates/playButtonTemplate.xhtml">
+                                    <ui:param name="entity" value="#{aRelease}"/>
+                                </ui:include>
                             </div>
                             <div>
                                 <h4 class="p-mb-1">#{aRelease.name}</h4>
@@ -83,11 +88,7 @@
                                 <h6 class="p-mt-0 p-mb-3">
                                     <h:outputText value="#{aRelease.albumType}"/>
                                 </h6>
-                                <div class="p-mt-5">
-                                    <ui:include src="/musitiqueTemplates/playButtonTemplate.xhtml">
-                                        <ui:param name="entity" value="#{aRelease}"/>
-                                    </ui:include>
-                                </div>
+
                             </div>
                         </div>
                     </div>
