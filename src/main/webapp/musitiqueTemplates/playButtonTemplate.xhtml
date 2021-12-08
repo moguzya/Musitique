@@ -17,6 +17,7 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 <ui:composition>
     <p:commandButton icon="fa fa-play fa-2x"
+                     style="float:right"
                      actionListener="#{spotifyPlayerController.updateURL(entity.getEmbedUri())}"
                      update=":iframe-holder">
         <f:ajax render=":iframe-holder"/>
