@@ -17,9 +17,9 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 <ui:composition>
     <!--@elvariable id="track" type="edu.vt.Pojos.Track"-->
-    <p:commandLink>
-        <p:graphicImage url="#{track.imageUrl}" width="92px" style="float:left"/>
-    </p:commandLink>
+    <ui:include src="/musitiqueTemplates/playButtonTemplate.xhtml">
+        <ui:param name="entity" value="#{track}"/>
+    </ui:include>
     <h:panelGrid style="width:100%; margin-left:10px">
         <h:panelGrid columns="2" style="width:100%; margin-left:10px">
             <i class="fas fa-music"/>
@@ -50,9 +50,7 @@
 
         </h:panelGrid>
     </h:panelGrid>
-    <ui:include src="/musitiqueTemplates/playButtonTemplate.xhtml">
-        <ui:param name="entity" value="#{track}"/>
-    </ui:include>
+
 </ui:composition>
 
 </html>

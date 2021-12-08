@@ -25,7 +25,8 @@ body {
     background:    -moz-linear-gradient(#64887a, #584483);
     background:         linear-gradient(#64887a, #584483);
     display: inline-block;
-    overflow: auto;
+    overflow-y: auto;
+
 }
 
 #footer {
@@ -168,6 +169,8 @@ body .ui-card{
     color: white;
 }
 
+
+
 /*
 Proportionately scale image to show on mobile devices and smaller browser windows.
 Scale the image downward, but do not enlarge it beyond the width size of 500px.
@@ -221,4 +224,54 @@ body .ui-rating .ui-rating-star a::before {
 }
 .artistTableInAlbumCard div div{
     padding: 0px !important;
+}
+
+
+
+/* Spotify Play Button*/
+.spotifyPlayButton .ui-icon{
+    font-size: 20px !important;
+}
+
+.spotifyPlayButton{
+    float:right;
+    width: 100px !important;
+    height: 100px;
+    background-size: contain !important;
+}
+
+/*Spotify Play button for index slider*/
+.product-item .spotifyPlayButton{
+    float: inherit;
+    background-size: contain !important;
+    background-repeat: no-repeat;
+    width: 60% !important;
+    height: 0 !important;
+    padding-top: 59.9%;
+}
+
+.product-item .spotifyPlayButton .ui-icon{
+    font-size: 30px !important;
+    top:45% !important;
+    left: 50% !important;
+}
+
+/*Spotify Play button for Track Page*/
+.TrackFormClass .spotifyPlayButton{
+    float: inherit;
+    background-size: contain !important;
+    background-repeat: no-repeat;
+    width: 100% !important;
+    height: 0 !important;
+    padding-top: 99.5%;
+}
+
+.TrackFormClass .spotifyPlayButton .ui-icon{
+    font-size: 50px !important;
+    top:45% !important;
+    left: 50% !important;
+}
+
+.infoCardPanel{
+    min-width: 350px !important;
 }

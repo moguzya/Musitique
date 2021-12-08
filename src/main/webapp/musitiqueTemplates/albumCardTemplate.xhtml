@@ -17,9 +17,12 @@
 
 <ui:composition>
     <!--@elvariable id="album" type="edu.vt.Pojos.Album"-->
-    <p:commandLink>
-        <p:graphicImage url="#{album.imageUrl}" width="92px" style="float:left"/>
-    </p:commandLink>
+<!--    <p:commandLink>-->
+<!--        <p:graphicImage url="#{album.imageUrl}" width="92px" style="float:left"/>-->
+<!--    </p:commandLink>-->
+    <ui:include src="/musitiqueTemplates/playButtonTemplate.xhtml">
+        <ui:param name="entity" value="#{album}"/>
+    </ui:include>
     <h:panelGrid style="width:100%; margin-left:10px">
         <f:facet name="header">
             <i class="fas fa-compact-disc"/>
@@ -38,9 +41,7 @@
                 style="float:left"/>
     </h:panelGrid>
 
-    <ui:include src="/musitiqueTemplates/playButtonTemplate.xhtml">
-        <ui:param name="entity" value="#{album}"/>
-    </ui:include>
+
 </ui:composition>
 
 </html>

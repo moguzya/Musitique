@@ -27,15 +27,16 @@
                 <div class="tableBackgroundDiv">
                     <p:dataGrid  value="#{releaseController.listOfNewReleases}"
                                 var="aRelease"
-                                rows="25"
+                                rows="24"
                                 gridIcon="pi pi-th-large" listIcon="pi pi-bars"
+                                 gridRowStyleClass="p-lg-6 p-xl-4" flex="true"
                                 style="background: none;width:100%">
                         <f:facet name="header">
                             <h:outputText value="New Releases"/>
                         </f:facet>
 
                         <p:dataViewGridItem>
-                            <p:panel style="text-align:left">
+                            <p:panel styleClass="infoCardPanel" style="text-align:left">
                                 <h:panelGrid columns="3" style="width:100%; margin-left:10px" >
                                     <ui:include src="/musitiqueTemplates/albumCardTemplate.xhtml">
                                         <ui:param name="album" value="#{aRelease}"/>
