@@ -324,7 +324,7 @@ public class EntityController implements Serializable {
     }
 
     public List<Track> requestTopTracksFromArtist(String artistId) {
-        System.out.println("I called requestTopTracksFromArtist");
+        System.out.println("I called requestTopTracksFromArtist  "+artistId);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.spotify.com/v1/artists/" + artistId + "/top-tracks?market=US"))
@@ -333,7 +333,6 @@ public class EntityController implements Serializable {
                 .header("Authorization", "Bearer " + ACCESS_TOKEN)
                 .GET()
                 .build();
-
         try {
             HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 

@@ -44,7 +44,7 @@ public class Track {
 
         artists = new ArrayList<>();
         JSONArray artistsArray = body.getJSONArray("artists");
-        for (int i = 0; i < artistsArray.length() - 1; i++) {
+        for (int i = 0; i < artistsArray.length(); i++) {
             Artist artist = new Artist();
             artist.setId(artistsArray.getJSONObject(i).optString("id"));
             artist.setName(artistsArray.getJSONObject(i).optString("name"));
@@ -104,9 +104,6 @@ public class Track {
         DateFormat simple = new SimpleDateFormat("mm:ss");
         Date result = new Date(durationMs);
         return simple.format(result);
-//        Integer minutes = durationMs / 60000;
-//        Integer seconds = (durationMs / 1000)%60;
-//        return minutes.toString() + ":" + seconds;
     }
 
     public Boolean getExplicit() {
