@@ -396,9 +396,6 @@ public class UserRatingsController implements Serializable {
       ***************************************
        */
     public void destroy() {
-        JsfUtil.addSuccessMessage("here");
-        JsfUtil.addSuccessMessage(selected.getEntityId());
-
         Methods.preserveMessages();
 
         persist(JsfUtil.PersistAction.DELETE, "Rating was Successfully Deleted!");
