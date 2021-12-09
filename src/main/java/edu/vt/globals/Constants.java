@@ -43,12 +43,12 @@ public final class Constants {
     // To run locally
     //---------------
 
-    public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/jmcon/DocRoot/CS5704-Team9-FileStorage/";
+    //    public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/jmcon/DocRoot/MusitiqueUserPhotoStorage/";
 
     //--------------------------------
     // To run on your AWS EC2 instance
     //--------------------------------
-//    public static final String PHOTOS_ABSOLUTE_PATH = "/opt/wildfly/DocRoot/CS5704-Team9-FileStorage";
+    public static final String PHOTOS_ABSOLUTE_PATH = "/opt/wildfly/DocRoot/CS5704-Team9-FileStorage";
 
 
     /*
@@ -75,7 +75,7 @@ public final class Constants {
     //-----------------------------------------------------
     // To run on your AWS EC2 instance with your IP address
     //-----------------------------------------------------
-    public static final String PHOTOS_URI = "http://34.203.199.88:8080/musitiquePhotos/";
+        public static final String PHOTOS_URI = "http://34.203.199.88:8080/musitiquePhotos/";
 
     /* 
     =============================================
@@ -90,10 +90,10 @@ public final class Constants {
      United States postal state abbreviations (codes)
      */
     public static final String[] STATES = {"AK", "AL", "AR", "AZ", "CA", "CO", "CT",
-            "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA",
-            "MD", "ME", "MH", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM",
-            "NV", "NY", "OH", "OK", "OR", "PA", "PR", "PW", "RI", "SC", "SD", "TN", "TX", "UT",
-            "VA", "VI", "VT", "WA", "WI", "WV", "WY"};
+        "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA",
+        "MD", "ME", "MH", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM",
+        "NV", "NY", "OH", "OK", "OR", "PA", "PR", "PW", "RI", "SC", "SD", "TN", "TX", "UT",
+        "VA", "VI", "VT", "WA", "WI", "WV", "WY"};
 
     /* 
      A security question is selected and answered by the user at the time of account creation.
@@ -101,20 +101,23 @@ public final class Constants {
      (a) resetting user's password, and (b) deleting user's account.
      */
     public static final String[] QUESTIONS = {
-            "In what city or town did your mother and father meet?",
-            "In what city or town were you born?",
-            "What did you want to be when you grew up?",
-            "What do you remember most from your childhood?",
-            "What is the name of the boy or girl that you first kissed?",
-            "What is the name of the first school you attended?",
-            "What is the name of your favorite childhood friend?",
-            "What is the name of your first pet?",
-            "What is your mother's maiden name?",
-            "What was your favorite place to visit as a child?"
+        "In what city or town did your mother and father meet?",
+        "In what city or town were you born?",
+        "What did you want to be when you grew up?",
+        "What do you remember most from your childhood?",
+        "What is the name of the boy or girl that you first kissed?",
+        "What is the name of the first school you attended?",
+        "What is the name of your favorite childhood friend?",
+        "What is the name of your first pet?",
+        "What is your mother's maiden name?",
+        "What was your favorite place to visit as a child?"
     };
     public static final HttpClient CLIENT = HttpClient.newHttpClient();
+    public static String ACCESS_TOKEN;
     public static final String EMBED_URI = "https://open.spotify.com/embed/";
+
     public static final String CLIENT_AUTH = "NzM5YjE5NTU2OGJmNGZkNTg5MzBiMmUxZjU4YjU4NDA6MmI0ZTk4MWI0OTFkNGRhZmJiOGE3OGY2NTU3MjA0MjM=";
+
     public static final List<String> GENRES = Arrays.asList("acoustic",
             "afrobeat",
             "alt-rock",
@@ -241,5 +244,4 @@ public final class Constants {
             "turkish",
             "work-out",
             "world-music");
-    public static String ACCESS_TOKEN;
 }
