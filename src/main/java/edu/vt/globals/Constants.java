@@ -43,12 +43,12 @@ public final class Constants {
     // To run locally
     //---------------
 
-    //    public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/jmcon/DocRoot/MusitiqueUserPhotoStorage/";
+        public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/jmcon/DocRoot/CS5704-Team9-FileStorage/";
 
     //--------------------------------
     // To run on your AWS EC2 instance
     //--------------------------------
-    public static final String PHOTOS_ABSOLUTE_PATH = "/opt/wildfly/DocRoot/CS5704-Team9-FileStorage";
+//    public static final String PHOTOS_ABSOLUTE_PATH = "/opt/wildfly/DocRoot/CS5704-Team9-FileStorage";
 
 
     /*
@@ -70,12 +70,12 @@ public final class Constants {
     //---------------
     // To run locally
     //---------------
-//    public static final String PHOTOS_URI = "http://localhost:8080/musitiquePhotos/";
+    public static final String PHOTOS_URI = "http://localhost:8080/musitiquePhotos/";
 
     //-----------------------------------------------------
     // To run on your AWS EC2 instance with your IP address
     //-----------------------------------------------------
-        public static final String PHOTOS_URI = "http://34.203.199.88:8080/musitiquePhotos/";
+//        public static final String PHOTOS_URI = "http://34.203.199.88:8080/musitiquePhotos/";
 
     /* 
     =============================================
